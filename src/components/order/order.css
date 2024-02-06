@@ -1,0 +1,19 @@
+/* .scrollbar::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+} */
+.scrollbar::-webkit-scrollbar {
+  height: 5px; /* Set the height of the scrollbar */
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background-color: #79747e; /* Set the color of the scrollbar handle */
+  border-radius: 4px; /* Set the border radius of the scrollbar handle */
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  background-color: #cac4d0; /* Set the color of the scrollbar track */
+  border-radius: 4px; /* Set the border radius of the scrollbar track */
+}
