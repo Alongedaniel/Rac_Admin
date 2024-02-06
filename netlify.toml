@@ -1,0 +1,5 @@
+baseurl = "/"
+title = "Rac Admin"
+author = "Rac"
+description = "A description of your site"
+languageCode = "en-us"
