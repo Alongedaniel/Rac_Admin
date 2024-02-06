@@ -1,5 +1,9 @@
-baseurl = "/"
-title = "Rac Admin"
-author = "Rac"
-description = "A description of your site"
-languageCode = "en-us"
+[build]
+  command = "CI='' npm run build"
+  publish = "/build"
+  base ="/"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
