@@ -1,30 +1,32 @@
 
 
 export function getNavbarTitle(currentPagePathname) {
-    if (currentPagePathname === "/admin") {
+    if (currentPagePathname === "/") {
       return "Dashboard";
-    } else if (currentPagePathname === "/admin/orders") {
+    } else if (currentPagePathname === "/users") {
+      return "Users";
+    } else if (currentPagePathname === "/orders") {
       return "Confirmed Orders";
-    } else if (currentPagePathname === "/admin/shipment") {
+    } else if (currentPagePathname === "/shipment") {
       return "Shipment";
-    } else if (currentPagePathname === "/admin/shop-for-me") {
+    } else if (currentPagePathname === "/shop-for-me") {
       return "Shop For Me";
-    } else if (currentPagePathname === "/admin/billing") {
+    } else if (currentPagePathname === "/billing") {
       return "Billing";
-    } else if (currentPagePathname === "/admin/blog") {
+    } else if (currentPagePathname === "/blog") {
       return "Blog";
-    } else if (currentPagePathname === "/admin/refer-a-friend") {
+    } else if (currentPagePathname === "/refer-a-friend") {
       return "Refer a Friend";
-    } else if (currentPagePathname === "/admin/get-a-quote") {
+    } else if (currentPagePathname === "/get-a-quote") {
       return "Get a Quote";
-    } else if (currentPagePathname === "/admin/settings") {
+    } else if (currentPagePathname === "/settings") {
       return "Settings";
-    } else if (currentPagePathname === "/admin/orders/requests") {
+    } else if (currentPagePathname === "/orders/requests") {
       return "Requested Orders";
-    } else if (currentPagePathname === "/admin/orders/drafts") {
+    } else if (currentPagePathname === "/orders/drafts") {
       return "Draft Orders";
     
-    } else if (currentPagePathname === "/admin/orders/create") {
+    } else if (currentPagePathname === "/orders/create") {
       return "Create New Orders";
     }
   }
