@@ -1,5 +1,5 @@
 [build]
-  command = "CI=vite build"
+  command = "vite build"
   publish = "/dist"
   base ="/"
 
