@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
-import Logo from "../../../assets/icons/logo";
+import Logo from "../../../assets/icons/Logo";
 
 const TwoFactorAuth = () => {
     const [step, setStep] = useState(1)

@@ -1,9 +1,14 @@
 [build]
-  command = "CI='' npm run build"
-  publish = "/build"
+  command = "CI=vite build"
+  publish = "/dist"
   base ="/"
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+[[headers]]
+  for = "/*.html"
+    [headers.values]
+      Cache-Control = "no-store"
