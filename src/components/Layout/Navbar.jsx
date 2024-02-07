@@ -4,6 +4,11 @@ import { getNavbarTitle } from "../../utils";
 import { CiBellOn } from "react-icons/ci";
 import { LuUser2 } from "react-icons/lu";
 import { useLocation } from "react-router-dom";
+import { Box, Typography } from "@mui/material";
+import BreadcrumbNavigation from "../BreadcrumbNavigation";
+import NotificationIcon from "../../assets/icons/NotificationIcon";
+import ProfileIcon from "../../assets/icons/ProfileIcon";
+import ArrowDown from "../../assets/icons/ArrowDown";
 
 function Navbar() {
   const location = useLocation();
@@ -18,13 +23,46 @@ function Navbar() {
 
   return (
     <>
-      <div className="p-[20px_40px] sticky top-0 z-20 bg-white flex items-center justify-between">
-        <h1 className="text-[22px] font-roboto">{navbarTitle}</h1>
-        <div className="flex items-center space-x-[20px]">
-          <CiBellOn className="text-[30px]" />
-          <LuUser2 className="text-[25px]" />
-        </div>
-      </div>
+      <Box
+        width="100%"
+        sx={{
+          px: "40px",
+          borderBottomLeftRadius: "30px",
+          borderBottomRightRadius: "30px",
+        }}
+        pt="25px"
+        bgcolor="#fff"
+      >
+        <Box
+          width="100%"
+          display="flex"
+          py="10px"
+          sx={{ justifyContent: "space-between", alignItems: "center" }}
+        >
+          <Box
+            px="10px"
+            display={"flex"}
+            sx={{ gap: "10px", flexDirection: "column" }}
+          >
+            <Typography fontSize="28px" color={"#060C2C"}>
+              {navbarTitle}
+            </Typography>
+            <BreadcrumbNavigation />
+          </Box>
+          <div className="flex items-center space-x-[30px]">
+            <Box position={"relative"}>
+              <NotificationIcon />
+              <Box width="10px" height="10px" bgcolor="#B3261E" position={'absolute'} sx={{ top: 0, right: 0, borderRadius: '100%'}}></Box>
+            </Box>
+            <Box display="flex">
+              <ProfileIcon />
+              <Box>
+                <ArrowDown />
+              </Box>
+            </Box>
+          </div>
+        </Box>
+      </Box>
     </>
   );
 }

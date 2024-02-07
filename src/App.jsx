@@ -15,6 +15,7 @@ import { ThemeProvider, createTheme } from "@mui/material";
 import '@fontsource/roboto'
 import TwoFactorAuth from "./components/Forms/Login/TwoFactorAuth";
 import SignupForm from "./components/Forms/Signup/SignupForm";
+import MainLayout from "./components/Layout/MainLayout";
 
 function App() {
   const themeOptions = {
@@ -41,11 +42,24 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={<Layout />}
+              element={
+                <MainLayout>
+                
+                  <Dashome />
+                
+              </MainLayout>
+              }
               // element={admin !== null ? <Layout /> : <Navigate to="/" />}
-            >
-              <Route path="" element={<Dashome />} />
-              <Route path="orders" element={<Orders />}>
+            />
+
+              <Route path="/shipment" element={<MainLayout></MainLayout>} />
+              <Route path="/blog" element={<MainLayout></MainLayout>} />
+              <Route path="/shop-for-me" element={<MainLayout></MainLayout>} />
+              <Route path="/payments" element={<MainLayout></MainLayout>} />
+              <Route path="/get-a-quote" element={<MainLayout></MainLayout>} />
+              <Route path="/settings" element={<MainLayout></MainLayout>} />
+              <Route path="/users" element={<MainLayout></MainLayout>} />
+              <Route path="/orders" element={<MainLayout><Orders /></MainLayout>}>
                 <Route path="" element={<Confirmed />} />
                 <Route path="create" element={<CreateOrders />} />
                 <Route path="requests" element={<OrderRequests />} />
@@ -53,7 +67,7 @@ function App() {
                 <Route path="order-detail" element={<OrderDetails />} />
                 <Route path="draft-detail" element={<DraftDetails />} />
               </Route>
-            </Route>
+            
 
             <Route
               path="/login"
@@ -62,7 +76,7 @@ function App() {
             <Route path="/sign-up" element={<SignupForm />} />
             <Route path="/reset-password" element={<Login />} />
             <Route path="/two-factor-auth" element={<TwoFactorAuth />} />
-          </Routes>
+            </Routes>
         </QueryClientProvider>
         <Toaster containerClassName="font-roboto" />
       </>
