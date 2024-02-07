@@ -14,6 +14,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider, createTheme } from "@mui/material";
 import '@fontsource/roboto'
 import TwoFactorAuth from "./components/Forms/Login/TwoFactorAuth";
+import SignupForm from "./components/Forms/Signup/SignupForm";
 
 function App() {
   const themeOptions = {
@@ -58,14 +59,9 @@ function App() {
               path="/login"
               element={admin !== null ? <Navigate to="/" /> : <Login />}
             />
-            <Route
-              path="/reset-password"
-              element={ <Login />}
-            />
-            <Route
-              path="/two-factor-auth"
-              element={ <TwoFactorAuth />}
-            />
+            <Route path="/sign-up" element={<SignupForm />} />
+            <Route path="/reset-password" element={<Login />} />
+            <Route path="/two-factor-auth" element={<TwoFactorAuth />} />
           </Routes>
         </QueryClientProvider>
         <Toaster containerClassName="font-roboto" />

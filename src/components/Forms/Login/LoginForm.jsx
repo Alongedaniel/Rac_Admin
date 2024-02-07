@@ -9,7 +9,7 @@ import PasswordInput from "../Inputs/PasswordInput";
 import toast from "react-hot-toast";
 import { useGetProducts } from "../../../utils/hooks/api/useGetProducts";
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
-import Logo from "../../../assets/icons/logo";
+import Logo from "../../../assets/icons/Logo";
 
 function LoginForm() {
   const dispatch = useDispatch();
@@ -53,11 +53,11 @@ function LoginForm() {
       </Box>
       <Box
         p={{ xs: "20px", sm: "30px" }}
-        mb={{ xs: "20px", sm: "30px" }}
+        mb={{ xs: "30px", sm: "40px" }}
         width="100%"
         maxWidth="600px"
-        height={{ xs: "300px", sm: "370px" }}
-        maxHeight="370px"
+        height={"fit-content"}
+        // maxHeight="370px"
         borderRadius="20px"
         bgcolor="#fff"
         sx={{
@@ -67,7 +67,11 @@ function LoginForm() {
           justifyContent: "space-between",
         }}
       >
-        <Typography fontSize="22px" color="#79747E">
+        <Typography
+          fontSize="22px"
+          color="#79747E"
+          mb={{ xs: "30px", sm: "60px" }}
+        >
           LOGIN
         </Typography>
         <Box
@@ -111,6 +115,7 @@ function LoginForm() {
           variant="contained"
           height="40px"
           sx={{
+            mt: { xs: "32px", sm: "48px" },
             width: { xs: "100%", sm: "fit-content" },
             fontSize: "14px",
             color: "#fff",
@@ -122,6 +127,7 @@ function LoginForm() {
               bgcolor: "#6750A4",
             },
           }}
+          onClick={() => navigate("/")}
         >
           Login to your account
         </Button>
@@ -135,6 +141,7 @@ function LoginForm() {
             fontSize="14px"
             color="#6750A4"
             sx={{ cursor: "pointer" }}
+            onClick={() => navigate("/sign-up")}
           >
             Sign up
           </Typography>
@@ -144,6 +151,7 @@ function LoginForm() {
           fontSize="14px"
           color="#6750A4"
           sx={{ cursor: "pointer" }}
+          onClick={() => navigate("/reset-password")}
         >
           Forgot your password?
         </Typography>
