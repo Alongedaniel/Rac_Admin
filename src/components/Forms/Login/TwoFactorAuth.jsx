@@ -1,10 +1,10 @@
-import React, {useState} from 'react'
+import React, { useState } from "react";
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import Logo from "../../../assets/icons/Logo";
 
 const TwoFactorAuth = () => {
-    const [step, setStep] = useState(1)
-    console.log(step)
+  const [step, setStep] = useState(1);
+  console.log(step);
   return (
     <Stack
       px="20px"
@@ -24,8 +24,8 @@ const TwoFactorAuth = () => {
         // mb={{ xs: "20px", sm: "30px" }}
         width="100%"
         maxWidth="600px"
-        height={{ xs: "500px", sm: "370px" }}
-        maxHeight={{ xs: "400px", sm: "360px" }}
+        height="fit-content"
+        // maxHeight={{ xs: "400px", sm: "360px" }}
         borderRadius="20px"
         bgcolor="#fff"
         sx={{
@@ -134,6 +134,6 @@ const TwoFactorAuth = () => {
       )}
     </Stack>
   );
-}
+};
 
-export default TwoFactorAuth
+export default TwoFactorAuth;

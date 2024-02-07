@@ -1,12 +1,22 @@
-import React, { useState } from 'react'
-import { Box, Button, Grid, Snackbar, Stack, TextField, Typography } from "@mui/material";
-import Logo from "../../../assets/icons/logo";
-import Tick from '../../../assets/icons/Tick';
-import CloseIcon from '../../../assets/icons/CloseIcon';
+import React, { useState } from "react";
+import {
+  Box,
+  Button,
+  Grid,
+  Snackbar,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+import Logo from "../../../assets/icons/Logo";
+import Tick from "../../../assets/icons/Tick";
+import CloseIcon from "../../../assets/icons/CloseIcon";
+import { useNavigate } from "react-router-dom";
 
 const ResetPasswordForm = () => {
-    const [step, setStep] = useState(1)
-    const [open, setOpen] = useState(false)
+  const [step, setStep] = useState(1);
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
   return (
     <Stack
       px="20px"
@@ -26,7 +36,7 @@ const ResetPasswordForm = () => {
         // mb={{ xs: "20px", sm: "30px" }}
         width="100%"
         maxWidth="600px"
-        height={{ xs: "fit-content", sm: "fit-content" }}
+        height={"fit-content"}
         // maxHeight="360px"
         borderRadius="20px"
         bgcolor="#fff"
@@ -87,7 +97,7 @@ const ResetPasswordForm = () => {
               fontSize="22px"
               color="#79747E"
               textAlign="center"
-              mb="10px"
+              mb={step === 2 ? { xs: "30px", sm: "60px" } : "10px"}
             >
               Reset your password
             </Typography>
@@ -223,7 +233,10 @@ const ResetPasswordForm = () => {
                 bgcolor: "#6750A4",
               },
             }}
-            onClick={() => setOpen(true)}
+            onClick={() => {
+              setOpen(true);
+              navigate("/login");
+            }}
           >
             Confirm
           </Button>
@@ -242,6 +255,7 @@ const ResetPasswordForm = () => {
               fontSize="14px"
               color="#6750A4"
               sx={{ cursor: "pointer" }}
+              onClick={() => navigate("/login")}
             >
               Back to login page
             </Typography>
@@ -252,13 +266,13 @@ const ResetPasswordForm = () => {
         open={open}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
-        autoHideDuration={3000}
+        autoHideDuration={6000}
         onClose={() => setOpen(false)}
         message="Password reset successful"
         action={<CloseIcon />}
       />
     </Stack>
   );
-}
+};
 
-export default ResetPasswordForm
+export default ResetPasswordForm;
