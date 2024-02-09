@@ -12,7 +12,7 @@ import CreateOrders from "./pages/orders/create-orders";
 import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider, createTheme } from "@mui/material";
-import '@fontsource/roboto'
+import "@fontsource/roboto";
 import TwoFactorAuth from "./components/Forms/Login/TwoFactorAuth";
 import SignupForm from "./components/Forms/Signup/SignupForm";
 import MainLayout from "./components/Layout/MainLayout";
@@ -20,9 +20,9 @@ import MainLayout from "./components/Layout/MainLayout";
 function App() {
   const themeOptions = {
     Typography: {
-      fontFamily: "roboto"
-    }
-  }
+      fontFamily: "roboto",
+    },
+  };
   const theme = createTheme(themeOptions);
   const admin =
     localStorage.getItem("auth") &&
@@ -44,30 +44,34 @@ function App() {
               path="/"
               element={
                 <MainLayout>
-                
                   <Dashome />
-                
-              </MainLayout>
+                </MainLayout>
               }
               // element={admin !== null ? <Layout /> : <Navigate to="/" />}
             />
 
-              <Route path="/shipment" element={<MainLayout></MainLayout>} />
-              <Route path="/blog" element={<MainLayout></MainLayout>} />
-              <Route path="/shop-for-me" element={<MainLayout></MainLayout>} />
-              <Route path="/payments" element={<MainLayout></MainLayout>} />
-              <Route path="/get-a-quote" element={<MainLayout></MainLayout>} />
-              <Route path="/settings" element={<MainLayout></MainLayout>} />
-              <Route path="/users" element={<MainLayout></MainLayout>} />
-              <Route path="/orders" element={<MainLayout><Orders /></MainLayout>}>
-                <Route path="" element={<Confirmed />} />
-                <Route path="create" element={<CreateOrders />} />
-                <Route path="requests" element={<OrderRequests />} />
-                <Route path="drafts" element={<Drafts />} />
-                <Route path="order-detail" element={<OrderDetails />} />
-                <Route path="draft-detail" element={<DraftDetails />} />
-              </Route>
-            
+            <Route path="/shipment" element={<MainLayout></MainLayout>} />
+            <Route path="/blog" element={<MainLayout></MainLayout>} />
+            <Route path="/shop-for-me" element={<MainLayout></MainLayout>} />
+            <Route path="/payments" element={<MainLayout></MainLayout>} />
+            <Route path="/get-a-quote" element={<MainLayout></MainLayout>} />
+            <Route path="/settings" element={<MainLayout></MainLayout>} />
+            <Route path="/users" element={<MainLayout></MainLayout>} />
+            <Route
+              path="/orders"
+              element={
+                <MainLayout>
+                  <Orders />
+                </MainLayout>
+              }
+            >
+              <Route path="" element={<Confirmed />} />
+              <Route path="create" element={<CreateOrders />} />
+              <Route path="requests" element={<OrderRequests />} />
+              <Route path="drafts" element={<Drafts />} />
+              <Route path="order-detail" element={<OrderDetails />} />
+              <Route path="draft-detail" element={<DraftDetails />} />
+            </Route>
 
             <Route
               path="/login"
@@ -76,7 +80,7 @@ function App() {
             <Route path="/sign-up" element={<SignupForm />} />
             <Route path="/reset-password" element={<Login />} />
             <Route path="/two-factor-auth" element={<TwoFactorAuth />} />
-            </Routes>
+          </Routes>
         </QueryClientProvider>
         <Toaster containerClassName="font-roboto" />
       </>

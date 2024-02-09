@@ -11,8 +11,8 @@ export function getNavbarTitle(currentPagePathname) {
       return "Shipment";
     } else if (currentPagePathname === "/shop-for-me") {
       return "Shop For Me";
-    } else if (currentPagePathname === "/billing") {
-      return "Billing";
+    } else if (currentPagePathname === "/payments") {
+      return "Payments";
     } else if (currentPagePathname === "/blog") {
       return "Blog";
     } else if (currentPagePathname === "/refer-a-friend") {
