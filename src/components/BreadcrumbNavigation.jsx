@@ -2,12 +2,14 @@ import { Box, Breadcrumbs, Link } from '@mui/material'
 import React from 'react'
 import HomeIcon from '../assets/icons/HomeIcon';
 import ArrowLeftIcon from '../assets/icons/ArrowLeftIcon';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const BreadcrumbNavigation = () => {
     const url = window.location.pathname;
     const segments = url.split("/").filter((segment) => segment !== "");
-    const navigate = useNavigate()
+  const navigate = useNavigate()
+  const { id } = useParams()
+  console.log(id)
   return (
     <Box>
       <Breadcrumbs separator={<ArrowLeftIcon />}>
@@ -27,7 +29,7 @@ const BreadcrumbNavigation = () => {
             }}
             href={`/${link}`}
           >
-            {link}
+            {link}{id? `=${id}` : null}
           </Link>
         ))}
       </Breadcrumbs>

@@ -59,6 +59,7 @@ function Sidebar({ showFullBar, setShowFullBar }) {
         "&::-webkit-scrollbar": {
           display: "none",
         },
+        zIndex: 9999,
       }}
     >
       <div

@@ -25,8 +25,9 @@ export function getNavbarTitle(currentPagePathname) {
       return "Requested Orders";
     } else if (currentPagePathname === "/orders/drafts") {
       return "Draft Orders";
-    
     } else if (currentPagePathname === "/orders/create") {
       return "Create New Orders";
+    } else if (currentPagePathname === "/orders/orderID") {
+      return "Order Details";
     }
   }
