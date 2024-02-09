@@ -6,16 +6,23 @@ import Sidebar from './Sidebar'
 const MainLayout = ({ children }) => {
   const [showFullBar, setShowFullBar] = useState(false);
   return (
-    <Container maxWidth="xl" disableGutters>
-      <Stack flexDirection="row">
+    <Container maxWidth="xl" disableGutters sx={{ position: "relative" }}>
+      <Stack flexDirection="row" sx={{ position: "relative" }}>
         <Sidebar showFullBar={showFullBar} setShowFullBar={setShowFullBar} />
-        <Stack
+        <Box
           ml={showFullBar ? "250px" : "72px"}
-          width="100%"
+          width="1504px"
+          position={"relative"}
         >
-          <Navbar />
-          {children}
-        </Stack>
+          <Box
+            position="fixed"
+            width="100%"
+            sx={{ maxWidth: "1504px", zIndex: 9999 }}
+          >
+            <Navbar />
+          </Box>
+          <Box mt="122px">{children}</Box>
+        </Box>
       </Stack>
     </Container>
   );

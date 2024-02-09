@@ -69,10 +69,17 @@ function App() {
               <Route path="create" element={<CreateOrders />} />
               <Route path="requests" element={<OrderRequests />} />
               <Route path="drafts" element={<Drafts />} />
-              <Route path="order-detail" element={<OrderDetails />} />
               <Route path="draft-detail" element={<DraftDetails />} />
             </Route>
 
+            <Route
+              path="orders/orderID"
+              element={
+                <MainLayout>
+                  <OrderDetails />
+                </MainLayout>
+              }
+            />
             <Route
               path="/login"
               element={admin !== null ? <Navigate to="/" /> : <Login />}
@@ -80,7 +87,7 @@ function App() {
             <Route path="/sign-up" element={<SignupForm />} />
             <Route path="/reset-password" element={<Login />} />
             <Route path="/two-factor-auth" element={<TwoFactorAuth />} />
-            </Routes>
+          </Routes>
         </QueryClientProvider>
         <Toaster containerClassName="font-roboto" />
       </>
