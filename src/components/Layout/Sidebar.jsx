@@ -14,7 +14,7 @@ import CalculatorIcon from "../../assets/icons/CalculatorIcon";
 import SettingsIcon from "../../assets/icons/SettingsIcon";
 
 function CustomLink({ children, to, icon, showFullBar, ...props }) {
-  const childMatch = useMatch(to !== "" ? `/` + to : "/");
+  const childMatch = useMatch(to !== "" ? `/` + to + "/*" : "/");
   return (
     <Link
       sx={{

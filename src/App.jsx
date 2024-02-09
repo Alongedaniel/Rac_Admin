@@ -80,7 +80,7 @@ function App() {
             <Route path="/sign-up" element={<SignupForm />} />
             <Route path="/reset-password" element={<Login />} />
             <Route path="/two-factor-auth" element={<TwoFactorAuth />} />
-          </Routes>
+            </Routes>
         </QueryClientProvider>
         <Toaster containerClassName="font-roboto" />
       </>
