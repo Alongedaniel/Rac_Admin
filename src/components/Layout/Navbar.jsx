@@ -27,8 +27,12 @@ function Navbar() {
         width="100%"
         sx={{
           px: "40px",
-          borderBottomLeftRadius: "30px",
-          borderBottomRightRadius: "30px",
+          borderBottomLeftRadius: location.pathname.includes("order")
+            ? 0
+            : "30px",
+          borderBottomRightRadius: location.pathname.includes("order")
+            ? 0
+            : "30px",
         }}
         pt="25px"
         bgcolor="#fff"
@@ -52,7 +56,13 @@ function Navbar() {
           <div className="flex items-center space-x-[30px]">
             <Box position={"relative"}>
               <NotificationIcon />
-              <Box width="10px" height="10px" bgcolor="#B3261E" position={'absolute'} sx={{ top: 0, right: 0, borderRadius: '100%'}}></Box>
+              <Box
+                width="10px"
+                height="10px"
+                bgcolor="#B3261E"
+                position={"absolute"}
+                sx={{ top: 0, right: 0, borderRadius: "100%" }}
+              ></Box>
             </Box>
             <Box display="flex">
               <ProfileIcon />

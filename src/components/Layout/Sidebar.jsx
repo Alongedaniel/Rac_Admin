@@ -128,37 +128,37 @@ const links = [
   {
     id: 2,
     title: "Users",
-    to: "users",
+    to: "/users",
     icon: <UserIcon />
   },
   {
     id: 3,
     title: "Orders",
-    to: "orders",
+    to: "/orders",
     icon: <OrderIcon />
   },
   {
     id: 4,
     title: "Shipment",
-    to: "shipment",
+    to: "/shipment",
     icon: <ShipmentIcon />
   },
   {
     id: 5,
     title: "Shop For Me",
-    to: "shop-for-me",
+    to: "/shop-for-me",
     icon: <ShopIcon />
   },
   {
     id: 6,
     title: "Payments",
-    to: "payments",
+    to: "/payments",
     icon: <WalletIcon />
   },
   {
     id: 7,
     title: "Blog",
-    to: "blog",
+    to: "/blog",
     icon: <BlogIcon />
   },
   // {
@@ -169,13 +169,13 @@ const links = [
   {
     id: 9,
     title: "Get a Quote",
-    to: "get-a-quote",
+    to: "/get-a-quote",
     icon: <CalculatorIcon />
   },
   {
     id: 10,
     title: "Settings",
-    to: "settings",
+    to: "/settings",
     icon: <SettingsIcon />
   },
 ];
