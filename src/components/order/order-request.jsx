@@ -5,13 +5,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useOrderRequestQuery } from "../../services/routes/order";
 import { Box, Menu, MenuItem, Paper, TextField, Tooltip, Typography } from "@mui/material";
 import ActionButton from "../ActionButton";
-import FilterIcons from "../../assets/icons/FilterIcons";
 import SearchIcon from "../../assets/icons/SearchIcon";
 import BulkIcon from "../../assets/icons/BulkIcon";
 import NewOrderIcon from "../../assets/icons/NewOrderIcon";
 import OrderTable from "../OrderTable";
 import UserTag from "../../assets/icons/UserTag";
 import MoreIcon from "../../assets/icons/MoreIcon";
+import FilterIcons from "../../assets/icons/FilterIcons";
 
 function OrderRequestComp() {
   const { data, isLoading, isSuccess, error } = useOrderRequestQuery();
@@ -78,9 +78,10 @@ function OrderRequestComp() {
         renderCell: (params) => (
           <Typography
             onClick={() =>
-              navigate(`orderID?id=${params.row.id}`, {
+              navigate(`request-id_${params.row.id}`, {
                 state: {
                   order: params.row,
+                  type: 'request'
                 },
               })
             }
@@ -445,7 +446,7 @@ function OrderRequestComp() {
     ];
   return (
     <>
-      {orderRequest?.length === 0 ? (
+      {rows?.length === 0 ? (
         <div className="flex flex-col items-center space-y-[30px] font-roboto mt-[-15%]">
           <p>You don’t have any order yet, would you like to create one now?</p>
           <button className="bg-brand/200 text-white w-fit p-[10px_15px] rounded-full">
@@ -472,7 +473,7 @@ function OrderRequestComp() {
                   sx: {
                     border: "1px solid #79747E",
                     height: "50px",
-                    width: "458px",
+                    // width: "458px",
                     p: "4px 16px",
                     borderRadius: "16px",
                     input: {

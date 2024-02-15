@@ -29,7 +29,7 @@ const BreadcrumbNavigation = () => {
             }}
             href={`/${link}`}
           >
-            {link}{id? `=${id}` : null}
+            {link}
           </Link>
         ))}
       </Breadcrumbs>

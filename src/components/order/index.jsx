@@ -73,9 +73,10 @@ function OrderHome() {
         renderCell: (params) => (
           <Typography
             onClick={() =>
-              navigate(`orderID?id=${params.row.id}`, {
+              navigate(`order-id_${params.row.id}`, {
                 state: {
                   order: params.row,
+                  type: 'confirmed'
                 },
               })
             }
@@ -459,7 +460,7 @@ function OrderHome() {
                     sx: {
                       border: "1px solid #79747E",
                       height: "50px",
-                      width: "458px",
+                      maxWidth: "458px",
                       p: "4px 16px",
                       borderRadius: "16px",
                       input: {
@@ -471,11 +472,9 @@ function OrderHome() {
                 />
                 <ActionButton title="Bulk Actions" icon={<BulkIcon />} />
               </Box>
-              {/* <Box sx={{ flex: 1 }}> */}
               <ActionButton title="Create new order" icon={<NewOrderIcon />} />
-              {/* </Box> */}
             </Box>
-            <Box height={'500px'}>
+            <Box>
               <OrderTable columns={columns} rows={rows} />
             </Box>
           </Box>

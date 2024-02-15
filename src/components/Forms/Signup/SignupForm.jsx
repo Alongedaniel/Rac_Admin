@@ -104,7 +104,7 @@ const SignupForm = () => {
               color="#79747E"
               mb={{ xs: "30px", sm: "60px" }}
             >
-              CREAYE YOUR ACCOUNT
+              CREATE YOUR ACCOUNT
             </Typography>
             <Box
               sx={{

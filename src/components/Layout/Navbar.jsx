@@ -22,9 +22,10 @@ function Navbar() {
   }, [location.pathname]);
 
   return (
-    <>
       <Box
-        width="100%"
+        // position='fixed'
+        // maxWidth="1289px"
+        // mx='auto'
         sx={{
           px: "40px",
           borderBottomLeftRadius: location.pathname.includes("order")
@@ -34,11 +35,12 @@ function Navbar() {
             ? 0
             : "30px",
         }}
-        pt="25px"
-        bgcolor="#fff"
+        // pt="25px"
+      bgcolor="#fff"
+      zIndex={9999}
       >
         <Box
-          width="100%"
+          // width="100%"
           display="flex"
           py="10px"
           sx={{ justifyContent: "space-between", alignItems: "center" }}
@@ -73,7 +75,6 @@ function Navbar() {
           </div>
         </Box>
       </Box>
-    </>
   );
 }
 

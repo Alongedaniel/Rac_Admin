@@ -19,7 +19,9 @@ function CustomLink({ children, to, icon, showFullBar, ...props }) {
     <Link
       sx={{
         display: "flex",
+        alignItems: 'center',
         justifyContent: showFullBar ? "flex-start" : "center",
+        m: showFullBar ? 0 : '0 auto',
         p: "16px",
         gap: "16px",
         bgcolor: childMatch ? "#E6E1E514" : "",
@@ -33,7 +35,7 @@ function CustomLink({ children, to, icon, showFullBar, ...props }) {
       {...props}
     >
       <div>{icon}</div>
-      {showFullBar && children}
+      <Box display={{xs: 'none', lg: 'block'}}>{showFullBar && children}</Box>
     </Link>
   );
 }
@@ -45,75 +47,92 @@ function Sidebar({ showFullBar, setShowFullBar }) {
     setShowFullBar(!showFullBar);
   };
   return (
-    <Box
-      sx={{
-        minWidth: showFullBar ? "250px" : "56px",
-        bgcolor: "#060C2C",
-        py: "40px",
-        display: "flex",
-        flexDirection: "column",
-        transition: "min-width .3s ease",
-        height: "100%",
-        overflowY: "auto",
-        position: "fixed",
-        "&::-webkit-scrollbar": {
-          display: "none",
-        },
-        zIndex: 9999,
-      }}
-    >
-      <div
-        className={
-          showFullBar
-            ? "rounded-r-[10px] bg-[#E6E1E514] w-[90%] p-[10px] flex items-center space-x-[10px]"
-            : "rounded-r-[10px] bg-[#E6E1E514] w-[100%] p-[16px] flex items-center space-x-[10px]"
-        }
-        onClick={handleClick}
+      <Box
+        sx={{
+          width: '100%',
+          bgcolor: "#060C2C",
+          py: "40px",
+          display: "flex",
+          flexDirection: "column",
+          transition: "min-width .3s ease",
+          height: "100vh",
+          overflowY: "auto",
+          // position: "fixed",
+          "&::-webkit-scrollbar": {
+            display: "none",
+          },
+          zIndex: 9999,
+        }}
       >
         <div
-          className="h-[40px] w-[40px] bg-gray-300 flex items-center
-         justify-center rounded-full font-roboto text-[20px] font-[500]"
+          className={
+            showFullBar
+              ? "rounded-r-[10px] bg-[#E6E1E514] w-[90%] p-[10px] flex items-center space-x-[10px]"
+              : "rounded-r-[10px] bg-[#E6E1E514] w-[100%] p-[16px] flex items-center space-x-[10px]"
+          }
+          onClick={handleClick}
         >
-          R
-        </div>
-        {showFullBar && (
-          <div className="text-white font-roboto">
-            <p className="font-[400] ">Welcome Back</p>
-            <p className="text-[14px]">
-              {user?.firstName}{" "}
-              <span className="font-[500]">ID {user?.racId}</span>
-            </p>
+          <div
+            className="h-[40px] w-[40px] bg-gray-300 flex items-center
+         justify-center rounded-full font-roboto text-[20px] font-[500]"
+          >
+            R
           </div>
-        )}
-      </div>
-      <div className="mt-[20px] grow flex flex-col ">
-        <Box mb="16px">
-          {links.slice(0, 1).map(({ to, id, title, icon }) => (
-            <CustomLink showFullBar={showFullBar} to={to} key={id} icon={icon}>
-              <span className=" w-full"> {title}</span>
-            </CustomLink>
-          ))}
-        </Box>
-        <div className="flex flex-col mb-[170px]">
-          {links.slice(1, 7).map(({ to, id, title, icon }) => (
-            <CustomLink showFullBar={showFullBar} to={to} key={id} icon={icon}>
-              <span className=" w-full"> {title}</span>
-            </CustomLink>
-          ))}
+          {showFullBar && (
+            <Box display={{xs: 'none', lg: 'block'}} sx={{color: '#fff'}} >
+              <p className="font-[400] ">Welcome Back</p>
+              <p className="text-[14px]">
+                {user?.firstName}{" "}
+                <span className="font-[500]">ID {user?.racId}</span>
+              </p>
+            </Box>
+          )}
         </div>
-        <Box px="24px">
-          <Divider sx={{ width: "100%", height: "1px", bgcolor: "#79747E" }} />
-        </Box>
+        <div className="mt-[20px] grow flex flex-col ">
+          <>
+            {links.slice(0, 1).map(({ to, id, title, icon }) => (
+              <CustomLink
+                showFullBar={showFullBar}
+                to={to}
+                key={id}
+                icon={icon}
+              >
+                <span className=" w-full"> {title}</span>
+              </CustomLink>
+            ))}
+          </>
+          <div className="flex flex-col mb-[170px] mt-[16px]">
+            {links.slice(1, 7).map(({ to, id, title, icon }) => (
+              <CustomLink
+                showFullBar={showFullBar}
+                to={to}
+                key={id}
+                icon={icon}
+              >
+                <span className=" w-full"> {title}</span>
+              </CustomLink>
+            ))}
+          </div>
+          <Box px="24px">
+            <Divider
+              sx={{ width: "100%", height: "1px", bgcolor: "#79747E" }}
+            />
+          </Box>
 
-        <div className="flex flex-col pt-[10px]">
-          {links.slice(7, 10).map(({ to, id, title, icon }) => (
-            <CustomLink showFullBar={showFullBar} to={to} key={id} icon={icon}>
-              <span className=" w-full"> {title}</span>
-            </CustomLink>
-          ))}
+          <div className="flex flex-col pt-[10px]">
+            {links.slice(7, 10).map(({ to, id, title, icon }) => (
+              <CustomLink
+                showFullBar={showFullBar}
+                to={to}
+                key={id}
+                icon={icon}
+              >
+                <span className=" w-full"> {title}</span>
+              </CustomLink>
+            ))}
+          </div>
         </div>
-      </div>
-    </Box>
+      </Box>
   );
 }
 
