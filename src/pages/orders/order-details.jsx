@@ -1536,6 +1536,30 @@ function OrderDetails() {
               </Box>
             )}
           </div>
+          <Box
+            width="100%"
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Button
+              startIcon={<ArrowLeftPurple />}
+              variant="outlined"
+              sx={{
+                borderColor: "#79747E",
+                color: "#79747E",
+                height: "40px",
+                borderRadius: "100px",
+                width: "50%",
+                textTransform: "none",
+              }}
+              onClick={() => navigate("/orders")}
+            >
+              Back to Order
+            </Button>
+          </Box>
         </div>
       )}
     </div>
