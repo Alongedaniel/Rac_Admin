@@ -19,6 +19,11 @@ import MainLayout from "./components/Layout/MainLayout";
 
 function App() {
   const themeOptions = {
+    palette: {
+      primary: {
+        main: "#6750A4",
+      },
+    },
     Typography: {
       fontFamily: "roboto",
     },
@@ -67,13 +72,47 @@ function App() {
             >
               <Route path="" element={<Confirmed />} />
               <Route path="create" element={<CreateOrders />} />
-              <Route path="requests" element={<OrderRequests />} />
-              <Route path="drafts" element={<Drafts />} />
               <Route path="draft-detail" element={<DraftDetails />} />
             </Route>
+            <Route
+              path="order-drafts"
+              element={
+                <MainLayout>
+                  <Orders>
+                    <Drafts />
+                  </Orders>
+                </MainLayout>
+              }
+            />
 
             <Route
-              path="orders/orderID"
+              path="order-requests"
+              element={
+                <MainLayout>
+                  <Orders>
+                    <OrderRequests />
+                  </Orders>
+                </MainLayout>
+              }
+            />
+            <Route
+              path="orders/:orderid"
+              element={
+                <MainLayout>
+                  <OrderDetails />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="order-drafts/:draftid"
+              element={
+                <MainLayout>
+                  <OrderDetails />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="order-requests/:requestid"
               element={
                 <MainLayout>
                   <OrderDetails />

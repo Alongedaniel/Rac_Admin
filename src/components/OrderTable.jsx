@@ -13,14 +13,6 @@ import { useNavigate } from "react-router-dom";
 const OrderTable = ({rows, columns}) => {
 
   return (
-    <div
-      style={{
-        height: "100%",
-        width: "1404px",
-        scrollbarWidth: "thin",
-        scrollbarColor: "#888 #f1f1f1",
-      }}
-    >
       <DataGrid
         rows={rows}
         columns={columns}
@@ -41,7 +33,6 @@ const OrderTable = ({rows, columns}) => {
         })}
         sx={{ zIndex: 1}}
       />
-    </div>
   );
 };
 

@@ -6,7 +6,7 @@ const ActionButton = ({icon, title}) => {
     <Button
       variant="contained"
       sx={{
-        width: "fit-content",
+        // width: "fit-content",
         p: "16px",
         borderRadius: "16px",
         bgcolor: "#060C2C",

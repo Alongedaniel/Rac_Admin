@@ -1,12 +1,15 @@
 /* eslint-disable react/prop-types */
-import { Link, Outlet, useMatch } from "react-router-dom";
+import { Box } from "@mui/material";
+import { Link, Outlet, useLocation, useMatch } from "react-router-dom";
 
 function CustomLink({ children, to, ...props }) {
   const match = useMatch(to !== "" ? `/orders/` + to : "/orders/");
+  const location = useLocation();
+  const currentRoute = location.pathname === to
   return (
     <Link
       className={` ${
-        match ? " border-b-[2px] border-brand/200 text-brand/200 " : ""
+        match || currentRoute  ? " border-b-[2px] border-brand/200 text-brand/200 " : ""
       }  h-full pb-[10px] font-roboto font-[500]
 text-[14px]  outline-none`}
       to={to}
@@ -17,24 +20,27 @@ text-[14px]  outline-none`}
   );
 }
 
-function Orders() {
+function Orders({children}) {
   return (
-    <div className="">
+    <Box sx={{ position: "relative", pr: { xs: 0, xl: "40px" } }}>
       <div
         className="bg-white border-t  flex items-end pt-[12px] px-[50px] space-x-[20px]"
         style={{
-          borderBottomLeftRadius:  "30px",
+          borderBottomLeftRadius: "30px",
           borderBottomRightRadius: "30px",
         }}
       >
-        <CustomLink to="">Orders</CustomLink>
-        <CustomLink to="requests">Requests</CustomLink>
-        <CustomLink to="drafts">Draft</CustomLink>
+        <CustomLink to="/orders">Orders</CustomLink>
+        <CustomLink to="/order-requests">Requests</CustomLink>
+        <CustomLink to="/order-drafts">Draft</CustomLink>
       </div>
-      <div className="px-[50px] mt-[16px] h-full">
+      <Box sx={{px: '50px', mt: '16px', height: '100%'}}
+        maxWidth={{ xs: "1100px", xl: "1400px" }}
+      >
         <Outlet />
-      </div>
-    </div>
+        {children}
+      </Box>
+    </Box>
   );
 }
 

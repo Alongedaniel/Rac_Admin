@@ -3,74 +3,194 @@ import { IoChevronUpCircleOutline } from "react-icons/io5";
 import { useLocation, useNavigate } from "react-router-dom";
 import CircleRight from "../../assets/icons/CircleRight";
 import EditIcon from "../../assets/icons/EditIcon";
-import { Box, Button } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Grid,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  Step,
+  StepLabel,
+  Stepper,
+  Switch,
+  TextField,
+  Typography,
+  styled,
+  useTheme,
+} from "@mui/material";
 import ArrowLeftPurple from "../../assets/icons/ArrowLeftPurple";
 import UserTag from "../../assets/icons/UserTag";
 import StartIcon from "../../assets/icons/StartIcon";
 import ChangeIcon from "../../assets/icons/ChangeIcon";
+import ShieldIcon from "../../assets/icons/ShieldIcon";
+import CloseCircle from "../../assets/icons/CloseCircle";
+import ArrowRightWhite from "../../assets/icons/ArrowRightWhite";
+import CheckWhiteIcon from "../../assets/icons/CheckWhiteIcon";
+import TooltipIcon from "../../assets/icons/TooltipIcon";
+import DollarIcon from "../../assets/icons/DollarIcon";
+import PlusIcon from "../../assets/icons/PlusIcon";
+import SubtractIcon from "../../assets/icons/SubtractIcon";
+import UploadIcon from "../../assets/icons/UploadIcon";
+import { BsPlus } from "react-icons/bs";
+import DeletIcon from "../../assets/icons/DeletIcon";
+import PercentageIcon from "../../assets/icons/PercentageIcon";
+import OrderInformation from "./components/OrderInformation";
+import ShippingDetails from "./components/ShippingDetails";
+import PackageDetails from "./components/PackageDetails";
+import DraftIcon from "../../assets/icons/DraftIcon";
+import SuccessImageIcon from "../../assets/icons/SuccessImageIcon";
+import drone from '../../assets/images/drone.png'
+import BillingDetails from "./components/BillingDetails";
+import PaymentInformation from "./components/PaymentInformation";
 
 function OrderDetails() {
-  const location = useLocation()
-  const navigate = useNavigate()
+  const location = useLocation();
+  const navigate = useNavigate();
   const order = location?.state?.order;
+  const type = location?.state?.type;
+  const theme = useTheme();
   const [drop, setDrop] = useState(null);
+  const [saveAsDraft, setSaveAsDraft] = useState(false);
   const toggle = (i) => {
     setDrop((prevFaq) => (prevFaq === i ? null : i));
   };
+  const [proceed, setProceed] = useState(false);
+  const [activeStep, setActiveStep] = useState(0);
+  const steps = order.service === 'Auto Import' ?  [
+    "Order Information",
+    "Package Details",
+    'Shipping Details',
+    "Billing",
+    "Order Details Confirmation",
+    "Request Successfully Approved",
+  ] : [
+    "Order Information",
+    "Package Details",
+    "Billing",
+    "Order Details Confirmation",
+    "Request Successfully Approved",
+  ];
+  const IOSSwitch = styled((props) => (
+    <Switch
+      focusVisibleClassName=".Mui-focusVisible"
+      disableRipple
+      {...props}
+    />
+  ))(({ theme }) => ({
+    width: 42,
+    height: 26,
+    padding: 0,
+    "& .MuiSwitch-switchBase": {
+      padding: 0,
+      margin: 2,
+      transitionDuration: "300ms",
+      "&.Mui-checked": {
+        transform: "translateX(16px)",
+        color: "#fff",
+        "& + .MuiSwitch-track": {
+          backgroundColor:
+            theme.palette.mode === "dark" ? "#2ECA45" : "#65C466",
+          opacity: 1,
+          border: 0,
+        },
+        "&.Mui-disabled + .MuiSwitch-track": {
+          opacity: 0.5,
+        },
+      },
+      "&.Mui-focusVisible .MuiSwitch-thumb": {
+        color: "#33cf4d",
+        border: "6px solid #fff",
+      },
+      "&.Mui-disabled .MuiSwitch-thumb": {
+        color:
+          theme.palette.mode === "light"
+            ? theme.palette.grey[100]
+            : theme.palette.grey[600],
+      },
+      "&.Mui-disabled + .MuiSwitch-track": {
+        opacity: theme.palette.mode === "light" ? 0.7 : 0.3,
+      },
+    },
+    "& .MuiSwitch-thumb": {
+      boxSizing: "border-box",
+      width: 22,
+      height: 22,
+    },
+    "& .MuiSwitch-track": {
+      borderRadius: 26 / 2,
+      backgroundColor: theme.palette.mode === "light" ? "#E9E9EA" : "#39393D",
+      opacity: 1,
+      transition: theme.transitions.create(["background-color"], {
+        duration: 500,
+      }),
+    },
+  }));
+  const finish = activeStep === steps.length - 1;
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    if (activeStep > 0) setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    else setProceed(false);
+  };
+  const shipmentMethods = ["Road", "Air", "Rail", "Sea"];
+  const deliveryCompanies = ["DHL", "Gokada", "Glovo"];
+  const [quantityValue, setQuantityValue] = useState(1);
 
   return (
     <div
       className="px-[40px] py-[30px] font-roboto h-full"
-      style={{ maxWidth: "1000px" }}
+      style={{ maxWidth: "1140px" }}
     >
-      <div
-        className="p-[30px] bg-white rounded-[20px]"
-        style={{ display: "flex", flexDirection: "column", gap: "30px" }}
-      >
-        {/* <p className="border border-brand/200 p-[15px] rounded-[20px] font-roboto border-dotted ">
-          Order Details
-        </p> */}
-
-        <p className="font-roboto text-[24px]">
-          <span>Order ID:</span> <span className="font-[700]">{order.id}</span>
-        </p>
-
-        <div className="flex flex-col space-y-[40px] font-roboto">
-          <div className="">
-            <>
-              <div className="flex items-center space-x-[10px] ">
-                <CircleRight />
-                <p className="font-roboto font-[500] text-[14px] text-t/100 text-brand/200 ">
-                  Order Information
-                </p>
-              </div>
-
-              <div className="flex flex-col space-y-[20px]">
+      {proceed ? (
+        <div
+          className="p-[30px] bg-white rounded-[20px]"
+          style={{ display: "flex", flexDirection: "column", gap: "30px" }}
+        >
+          <p className="font-roboto text-[24px]">
+            <span>{type === "request" ? "Request ID:" : "Order ID:"}</span>{" "}
+            <span className="font-[700]">{order.id}</span>
+          </p>
+          <Stepper activeStep={activeStep}>
+            {steps.map((step, i) => (
+              <Step key={i}>
+                <StepLabel>{i === activeStep ? step : null}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+          <Box>
+            {activeStep === 0 ? (
+              <Box>
                 <Box
                   sx={{
                     width: "100%",
                     display: "flex",
-                    alignItems: "center",
-                    gap: "30px",
+                    flexDirection: "column",
+                    gap: "15px",
                     marginTop: "20px",
                   }}
                 >
+                  <div className="flex items-center space-x-[10px] ">
+                    <CircleRight />
+                    <p className="font-roboto font-[500] text-[14px] text-t/100 text-brand/200 ">
+                      Order Information
+                    </p>
+                  </div>
                   <div
-                    className={`${
-                      drop === 1
-                        ? "h-full p-[10px]"
-                        : "h-[40px] overflow-hidden"
-                    } transition-all border  rounded-[10px]`}
+                    className={` h-full px-[28px] py-[20px]
+                     transition-all border  rounded-[20px]`}
                     style={{ flex: 1 }}
                   >
                     <div
-                      onClick={() => toggle(1)}
-                      className={`${
-                        drop === 1 ? "" : "p-[10px]"
-                      } transition-all  h-[40px] flex items-center justify-between cursor-pointer`}
+                      className={`
+                     transition-all  h-[40px] flex items-center justify-between cursor-pointer`}
                     >
                       <p className="text-[20px]">Order Information</p>
-                      <IoChevronUpCircleOutline className="text-[25px]" />
                     </div>
 
                     <div className="grid grid-cols-5 mt-[30px]  gap-[20px]">
@@ -100,17 +220,60 @@ function OrderDetails() {
                         <p className="text-[14px] text-t/100 font-roboto">
                           Order Type:
                         </p>
-                        <p className="font-roboto  text-[20px]">{order.type}</p>
-                      </div>
-                      <div>
-                        <p className="text-[14px] text-t/100 font-roboto">
-                          Order Status:
-                        </p>
                         <p className="font-roboto  text-[20px]">
+                          {order.type ?? "Shipment"}
+                        </p>
+                      </div>
+                      {/* <div className="col-span-3">
+                        <p className="text-[14px] text-t/100 font-roboto">
+                          {type === "request"
+                            ? "Request Status:"
+                            : "Order Status:"}
+                        </p>
+                        <p
+                          style={{
+                            display: type === "request" ? "none" : "block",
+                          }}
+                          className="font-roboto  text-[20px]"
+                        >
                           {order.status}
                         </p>
-                      </div>
-                      <div></div>
+                        <p
+                          style={{
+                            display: type === "request" ? "flex" : "none",
+                            gap: "5px",
+                            alignItems: "center",
+                          }}
+                          className="font-roboto  text-[20px] text-brand/200"
+                        >
+                          <div
+                            style={{
+                              width: "12px",
+                              height: "12px",
+                              backgroundColor: "#fff",
+                              borderRadius: "100%",
+                              border: "1px solid #B3261E",
+                            }}
+                          ></div>
+                          {order.status}
+                          <Button
+                            startIcon={<ShieldIcon />}
+                            variant="outlined"
+                            sx={{
+                              borderColor: "#79747E",
+                              color: "#79747E",
+                              height: "40px",
+                              borderRadius: "100px",
+                              width: "50%",
+                              textTransform: "none",
+                            }}
+                            onClick={() => navigate("/orders")}
+                          >
+                            Proceed with confirmation
+                          </Button>
+                        </p>
+                      </div> */}
+                      {/* <div></div> */}
                       <div>
                         <p className="text-[14px] text-t/100 font-roboto">
                           Service:
@@ -119,24 +282,30 @@ function OrderDetails() {
                           {order.service}
                         </p>
                       </div>
-                      <div>
-                        <p className="text-[14px] text-t/100 font-roboto">
-                          Shipment Method:
-                        </p>
-                        <p className="font-roboto  text-[20px]">Air</p>
-                      </div>
-                      <div>
-                        <p className="text-[14px] text-t/100 font-roboto">
-                          Delivery Company:
-                        </p>
-                        <p className="font-roboto  text-[20px]">DHL</p>
-                      </div>
+                      <div></div>
+                      {type === "request" ? null : (
+                        <>
+                          <div>
+                            <p className="text-[14px] text-t/100 font-roboto">
+                              Shipment Method:
+                            </p>
+                            <p className="font-roboto  text-[20px]">Air</p>
+                          </div>
+                          <div>
+                            <p className="text-[14px] text-t/100 font-roboto">
+                              Delivery Company:
+                            </p>
+                            <p className="font-roboto  text-[20px]">DHL</p>
+                          </div>
+                        </>
+                      )}
                       <div>
                         <p className="text-[14px] text-t/100 font-roboto">
                           Order Date:
                         </p>
                         <p className="font-roboto  text-[20px]">12/02/2023</p>
                       </div>
+                      <div></div>
                       <div>
                         <p className="text-[14px] text-t/100 font-roboto">
                           Order Time:
@@ -145,588 +314,1227 @@ function OrderDetails() {
                       </div>
                     </div>
                   </div>
-                  <EditIcon />
                 </Box>
-                <Box
-                  sx={{
-                    width: "100%",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "30px",
-                    marginTop: "20px",
-                  }}
-                >
-                  <div
-                    className={`${
-                      drop === 2
-                        ? "h-full p-[10px]"
-                        : "h-[40px] overflow-hidden"
-                    } transition-all  border  rounded-[10px]`}
-                    style={{ flex: 1 }}
+                <Box mt="30px">
+                  <div className="flex items-center space-x-[10px] ">
+                    <CircleRight />
+                    <p className="font-roboto font-[500] text-[14px] text-t/100 text-brand/200 ">
+                      Complete The Order Details
+                    </p>
+                  </div>
+                  <Box px="30px" mt="12px">
+                    <Box pt="30px" sx={{ borderTop: "1px solid #79747E" }}>
+                      <Box display="flex" alignItems="center" gap="30px">
+                        <TextField
+                          fullWidth
+                          required
+                          sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                          id="shipment-method"
+                          type="text"
+                          label="Shipment Method"
+                          defaultValue={"Air"}
+                          select
+                          InputProps={{
+                            sx: {
+                              borderRadius: "20px", // Apply border radius to the input element
+                              height: "56px",
+                              borderColor: "#79747E",
+                              fontSize: "16px",
+                              color: "#1C1B1F",
+                            },
+                          }}
+                          // placeholder="Enter your country"
+                        >
+                          {shipmentMethods.map((method, i) => (
+                            <MenuItem value={method} key={i}>
+                              {method}
+                            </MenuItem>
+                          ))}
+                        </TextField>
+                        <TextField
+                          fullWidth
+                          required
+                          sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                          id="delivery-company"
+                          type="text"
+                          label="Delivery Company"
+                          defaultValue={"DHL"}
+                          select
+                          InputProps={{
+                            sx: {
+                              borderRadius: "20px", // Apply border radius to the input element
+                              height: "56px",
+                              borderColor: "#79747E",
+                              fontSize: "16px",
+                              color: "#1C1B1F",
+                            },
+                          }}
+                          // placeholder="Enter your country"
+                        >
+                          {deliveryCompanies.map((company, i) => (
+                            <MenuItem value={company} key={i}>
+                              {company}
+                            </MenuItem>
+                          ))}
+                        </TextField>
+                      </Box>
+                    </Box>
+                  </Box>
+                </Box>
+              </Box>
+            ) : activeStep === 1 ? (
+              order.service === "Auto Import" ||
+              order.service === "Shop For Me" ? (
+                <PackageDetails
+                  order={order}
+                  type={type}
+                  toggle={toggle}
+                  drop={drop}
+                />
+              ) : (
+                <Box>
+                  <Box>
+                    <div className="flex items-center space-x-[10px] ">
+                      <CircleRight />
+                      <p className="font-roboto font-[500] text-[14px] text-t/100 text-brand/200 ">
+                        Tell us where this package will be shipped from
+                      </p>
+                    </div>
+                    <Box px="30px" mt="12px">
+                      <Box
+                        display="flex"
+                        alignItems="center"
+                        gap="10px"
+                        pt="30px"
+                        sx={{ borderTop: "1px solid #79747E" }}
+                      >
+                        <TextField
+                          fullWidth
+                          required
+                          sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                          id="shipment-method"
+                          type="text"
+                          label="Origin/Shipment Location"
+                          placeholder="Select origin"
+                          select
+                          InputProps={{
+                            sx: {
+                              borderRadius: "20px", // Apply border radius to the input element
+                              height: "56px",
+                              borderColor: "#79747E",
+                              fontSize: "16px",
+                              color: "#1C1B1F",
+                            },
+                          }}
+                          // placeholder="Enter your country"
+                        >
+                          {shipmentMethods.map((method, i) => (
+                            <MenuItem value={method} key={i}>
+                              {method}
+                            </MenuItem>
+                          ))}
+                        </TextField>
+                        <TooltipIcon />
+                      </Box>
+                    </Box>
+                  </Box>
+                  <Box mt="30px">
+                    <div className="flex items-center space-x-[10px] ">
+                      <CircleRight />
+                      <p className="font-roboto font-[500] text-[14px] text-t/100 text-brand/200 ">
+                        Add details about your package
+                      </p>
+                    </div>
+                    <Box
+                      sx={{
+                        width: "100%",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "30px",
+                        marginTop: "20px",
+                      }}
+                    >
+                      <div
+                        className={`${
+                          drop === 4 ? "h-full" : "h-[68px] overflow-hidden"
+                        } px-[28px] py-[20px] transition-all  border  rounded-[20px]`}
+                        style={{ flex: 1 }}
+                      >
+                        <div
+                          onClick={() => toggle(4)}
+                          className={`transition-all flex items-center justify-between cursor-pointer`}
+                        >
+                          <p className="text-[20px]">
+                            Item - <span className="text-brand/200">#1</span>
+                          </p>
+                          <IoChevronUpCircleOutline className="text-[25px]" />
+                        </div>
+                        <Box>
+                          <Box mt="10px" pt="30px">
+                            <Box mb="30px">
+                              <TextField
+                                required
+                                id="product-name"
+                                sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                                type="text"
+                                label="Product Name"
+                                fullWidth
+                                // placeholder="Select origin"
+                                InputProps={{
+                                  sx: {
+                                    borderRadius: "20px", // Apply border radius to the input element
+                                    height: "56px",
+                                    borderColor: "#79747E",
+                                    fontSize: "16px",
+                                    color: "#1C1B1F",
+                                  },
+                                }}
+                              />
+                            </Box>
+                            <Grid container wrap="nowrap" gap="30px" mb="30px">
+                              <Grid item xs={8}>
+                                <TextField
+                                  required
+                                  id="cost"
+                                  sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                                  type="number"
+                                  label="Item Original Cost"
+                                  fullWidth
+                                  // placeholder="Select origin"
+                                  InputProps={{
+                                    startAdornment: <DollarIcon />,
+                                    sx: {
+                                      // maxWidth: "540px",
+                                      borderRadius: "20px", // Apply border radius to the input element
+                                      height: "56px",
+                                      borderColor: "#79747E",
+                                      fontSize: "16px",
+                                      color: "#1C1B1F",
+                                    },
+                                  }}
+                                />
+                              </Grid>
+                              <Grid item xs={4}>
+                                <TextField
+                                  id="quantity"
+                                  sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                                  type="number"
+                                  label="Quantity"
+                                  value={quantityValue}
+                                  fullWidth
+                                  // placeholder="Select origin"
+                                  InputProps={{
+                                    startAdornment: (
+                                      <Box
+                                        zIndex={2}
+                                        sx={{ cursor: "pointer" }}
+                                        onClick={() => {
+                                          if (quantityValue > 1)
+                                            setQuantityValue(
+                                              (prev) => prev - 1
+                                            );
+                                        }}
+                                      >
+                                        <SubtractIcon />
+                                      </Box>
+                                    ),
+                                    endAdornment: (
+                                      <Box
+                                        sx={{ cursor: "pointer" }}
+                                        onClick={() =>
+                                          setQuantityValue((prev) => prev + 1)
+                                        }
+                                      >
+                                        <PlusIcon />
+                                      </Box>
+                                    ),
+                                    sx: {
+                                      borderRadius: "20px", // Apply border radius to the input element
+                                      height: "56px",
+                                      borderColor: "#79747E",
+                                      fontSize: "16px",
+                                      color: "#1C1B1F",
+                                      input: {
+                                        textAlign: "center",
+                                      },
+                                    },
+                                  }}
+                                />
+                              </Grid>
+                            </Grid>
+                            <Box mb="30px">
+                              <Typography
+                                fontSize="12px"
+                                sx={{ pl: "10px" }}
+                                color="#49454F"
+                              >
+                                Upload Product/Item Picture
+                              </Typography>
+                              <Box height="40px" display="flex">
+                                <Box
+                                  height="100%"
+                                  width="100%"
+                                  display="flex"
+                                  gap="10px"
+                                  justifyContent={"center"}
+                                  alignItems={"center"}
+                                  bgcolor="#CAC4D0"
+                                  fontSize="14px"
+                                  fontWeight={500}
+                                  border="1px solid #79747E"
+                                >
+                                  <UploadIcon />
+                                  Choose file
+                                </Box>
+                                <Box
+                                  width="100%"
+                                  height="100%"
+                                  display="flex"
+                                  justifyContent={"center"}
+                                  alignItems={"center"}
+                                  border="1px solid #79747E"
+                                  sx={{
+                                    fontSize: "14px",
+                                    fontWeight: 500,
+                                    borderTopRightRadius: "100px",
+                                    borderBottomRightRadius: "100px",
+                                  }}
+                                >
+                                  No file chosen
+                                </Box>
+                              </Box>
+                            </Box>
+                            <Box mb="30px">
+                              <TextField
+                                id="product/item description"
+                                sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                                type="text"
+                                label="Product/Item Description"
+                                fullWidth
+                                multiline
+                                maxRows={5}
+                                // placeholder="Select origin"
+                                InputProps={{
+                                  sx: {
+                                    // maxWidth: "540px",
+                                    borderRadius: "20px", // Apply border radius to the input element
+                                    // height: "144px",
+                                    borderColor: "#79747E",
+                                    fontSize: "16px",
+                                    color: "#1C1B1F",
+                                  },
+                                }}
+                              />
+                            </Box>
+                            <Box>
+                              <div className="flex items-center space-x-[10px] ">
+                                <CircleRight />
+                                <p className="font-roboto font-[500] text-[14px] text-t/100 text-brand/200 ">
+                                  Describe the item you wish to purchase further
+                                  with the following properties
+                                </p>
+                              </div>
+                              <Box px="30px" mb="30px">
+                                <Box
+                                  display="flex"
+                                  alignItems="center"
+                                  gap="30px"
+                                  pt="30px"
+                                  sx={{ borderTop: "1px solid #79747E" }}
+                                >
+                                  <TextField
+                                    id="item-color"
+                                    sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                                    type="text"
+                                    label="Item Color"
+                                    placeholder="Enter the color of the item"
+                                    InputProps={{
+                                      sx: {
+                                        width: "277px",
+                                        borderRadius: "20px", // Apply border radius to the input element
+                                        height: "56px",
+                                        borderColor: "#79747E",
+                                        fontSize: "16px",
+                                        color: "#1C1B1F",
+                                      },
+                                    }}
+                                  />
+                                  <Button
+                                    startIcon={<BsPlus size={20} />}
+                                    variant="contained"
+                                    sx={{
+                                      bgcolor: "#49454F",
+                                      color: "#E6E1E5",
+                                      width: "176px",
+                                      height: "56px",
+                                      borderRadius: "20px",
+                                      textTransform: "none",
+                                    }}
+                                  >
+                                    Add Properties
+                                  </Button>
+                                </Box>
+                              </Box>
+                            </Box>
+                          </Box>
+                        </Box>
+                      </div>
+                      <DeletIcon />
+                    </Box>
+                    <Box
+                      sx={{
+                        width: "100%",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "30px",
+                        my: "20px",
+                      }}
+                    >
+                      <div
+                        className={`${
+                          drop === 5 ? "h-full" : "h-[68px] overflow-hidden"
+                        } px-[28px] py-[20px] transition-all  border  rounded-[20px]`}
+                        style={{ flex: 1 }}
+                      >
+                        <div
+                          onClick={() => toggle(5)}
+                          className={`transition-all flex items-center justify-between cursor-pointer`}
+                        >
+                          <p className="text-[20px]">
+                            Item - <span className="text-brand/200">#2</span>
+                          </p>
+                          <IoChevronUpCircleOutline className="text-[25px]" />
+                        </div>
+                      </div>
+                      <DeletIcon />
+                    </Box>
+                    <Button
+                      startIcon={<BsPlus size={20} />}
+                      variant="contained"
+                      sx={{
+                        bgcolor: "#49454F",
+                        color: "#E6E1E5",
+                        width: "233px",
+                        height: "56px",
+                        borderRadius: "20px",
+                        textTransform: "none",
+                      }}
+                    >
+                      Add new product/item
+                    </Button>
+                    <Box mt="30px">
+                      <div className="flex items-center space-x-[10px] ">
+                        <CircleRight />
+                        <p className="font-roboto font-[500] text-[14px] text-t/100 text-brand/200 ">
+                          Let’s know the weight and dimensions of the entire
+                          package
+                        </p>
+                      </div>
+                      <Box px="30px" mt="12px">
+                        <Box
+                          display="flex"
+                          alignItems="center"
+                          gap="10px"
+                          pt="30px"
+                          sx={{ borderTop: "1px solid #79747E" }}
+                        >
+                          <Grid container wrap="nowrap" gap="30px" mb="10px">
+                            <Grid item xs={3}>
+                              <TextField
+                                required
+                                id="total-weight"
+                                sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                                type="number"
+                                label="Total Weight (in kg)"
+                                fullWidth
+                                // placeholder="Select origin"
+                                InputProps={{
+                                  sx: {
+                                    // maxWidth: "540px",
+                                    borderRadius: "20px", // Apply border radius to the input element
+                                    height: "56px",
+                                    borderColor: "#79747E",
+                                    fontSize: "16px",
+                                    color: "#1C1B1F",
+                                  },
+                                }}
+                              />
+                            </Grid>
+                            <Grid item xs={3}>
+                              <TextField
+                                required
+                                id="total-length"
+                                sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                                type="number"
+                                label="Total Length (in Inches)"
+                                fullWidth
+                                // placeholder="Select origin"
+                                InputProps={{
+                                  sx: {
+                                    // maxWidth: "540px",
+                                    borderRadius: "20px", // Apply border radius to the input element
+                                    height: "56px",
+                                    borderColor: "#79747E",
+                                    fontSize: "16px",
+                                    color: "#1C1B1F",
+                                  },
+                                }}
+                              />
+                            </Grid>
+                            <Grid item xs={3}>
+                              <TextField
+                                required
+                                id="total-width"
+                                sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                                type="number"
+                                label="Total Width (in Inches)"
+                                fullWidth
+                                // placeholder="Select origin"
+                                InputProps={{
+                                  sx: {
+                                    // maxWidth: "540px",
+                                    borderRadius: "20px", // Apply border radius to the input element
+                                    height: "56px",
+                                    borderColor: "#79747E",
+                                    fontSize: "16px",
+                                    color: "#1C1B1F",
+                                  },
+                                }}
+                              />
+                            </Grid>
+                            <Grid item xs={3}>
+                              <TextField
+                                required
+                                id="total-height"
+                                sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                                type="number"
+                                label="Total Height (in Inches)"
+                                fullWidth
+                                // placeholder="Select origin"
+                                InputProps={{
+                                  sx: {
+                                    // maxWidth: "540px",
+                                    borderRadius: "20px", // Apply border radius to the input element
+                                    height: "56px",
+                                    borderColor: "#79747E",
+                                    fontSize: "16px",
+                                    color: "#1C1B1F",
+                                  },
+                                }}
+                              />
+                            </Grid>
+                          </Grid>
+                        </Box>
+                      </Box>
+                    </Box>
+                  </Box>
+                </Box>
+              )
+            ) : activeStep === 2 ? (
+              order.service === "Auto Import" ? (
+                <>
+                  <ShippingDetails
+                    order={order}
+                    type={type}
+                    toggle={toggle}
+                    drop={drop}
+                  />
+                </>
+              ) : order.service === "Shop For Me" ? (
+                <PaymentInformation toggle={toggle} drop={drop} />
+              ) : (
+                <Box>
+                  <div className="flex items-center space-x-[10px] ">
+                    <CircleRight />
+                    <p className="font-roboto font-[500] text-[14px] text-t/100 text-brand/200 ">
+                      Fill in discount information if needed
+                    </p>
+                  </div>
+                  <Box
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "30px",
+                      mt: "20px",
+                    }}
                   >
                     <div
-                      onClick={() => toggle(2)}
-                      className={`${
-                        drop === 2 ? "" : "p-[10px]"
-                      } transition-all h-[40px] flex items-center justify-between cursor-pointer`}
+                      className={` h-full overflow-hidden
+                     px-[19px] py-[22px] transition-all  border  rounded-[20px]`}
+                      style={{ flex: 1 }}
                     >
-                      <p className="text-[20px]">Shipment Details</p>
-                      <IoChevronUpCircleOutline className="text-[25px]" />
-                    </div>
-
-                    <div className="grid grid-cols-2 mt-[30px] ">
-                      <div>
-                        <p className="text-[14px] text-t/100 font-roboto">
-                          Shipping/Tracking ID:
-                        </p>
-                        <p className="font-roboto  text-[20px]">
-                          {order.shipId}
-                        </p>
+                      <div
+                        className={`transition-all flex items-center justify-between cursor-pointer`}
+                      >
+                        <p className="text-[20px]">Discounts</p>
+                        <Switch
+                          sx={{
+                            root: {
+                              width: 50,
+                              height: 26,
+                              padding: 0,
+                              "& .MuiSwitch-switchBase": {
+                                padding: 1,
+                                "&.Mui-checked": {
+                                  transform: "translateX(24px)",
+                                  color: theme.palette.common.white,
+                                  "& + .MuiSwitch-track": {
+                                    backgroundColor:
+                                      theme.palette.mode === "dark"
+                                        ? "#2ECA45"
+                                        : "#65C466",
+                                    opacity: 1,
+                                    border: 0,
+                                  },
+                                },
+                                "&.Mui-disabled + .MuiSwitch-track": {
+                                  opacity:
+                                    theme.palette.mode === "light" ? 0.7 : 0.3,
+                                },
+                              },
+                              "& .MuiSwitch-thumb": {
+                                width: 24,
+                                height: 24,
+                                borderRadius: "50%",
+                              },
+                              "& .MuiSwitch-track": {
+                                borderRadius: 26 / 2,
+                                backgroundColor:
+                                  theme.palette.mode === "light"
+                                    ? "#E9E9EA"
+                                    : "#39393D",
+                                opacity: 1,
+                                transition: theme.transitions.create(
+                                  ["background-color"],
+                                  {
+                                    duration: 500,
+                                  }
+                                ),
+                              },
+                            },
+                          }}
+                        />
                       </div>
-                      <div>
-                        <p className="text-[14px] text-t/100 font-roboto">
-                          Status:
-                        </p>
-                        <div className="flex items-center space-x-[10px]">
-                          <p className="font-roboto  text-[20px]">
-                            {order.status}
-                          </p>
-                          <Button
-                            startIcon={<StartIcon />}
-                            variant="outlined"
-                            sx={{
-                              p: "5px 20px",
-                              borderColor: "#79747E",
-                              color: "#79747E",
-                              borderRadius: "100px",
-                              textTransform: "none",
-                            }}
+                      <Box mt="20px">
+                        <FormControl>
+                          <RadioGroup
+                            aria-labelledby="demo-controlled-radio-buttons-group"
+                            name="controlled-radio-buttons-group"
                           >
-                            Start Now
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="grid  ">
-                      <div>
-                        <p className="text-[14px] text-t/100 font-roboto">
-                          Packaging:
-                        </p>
-                        <div className="flex items-center space-x-[10px]">
-                          <p className="font-roboto  text-[20px]">
-                            {order.packaging}
-                          </p>
-                          <Button
-                            startIcon={<ChangeIcon />}
-                            variant="outlined"
-                            sx={{
-                              p: "5px 20px",
+                            <Box sx={{ display: "flex" }}>
+                              <FormControlLabel
+                                value="%"
+                                control={<Radio color="primary" />}
+                                label="%"
+                              />
+                              <FormControlLabel
+                                value="$"
+                                control={<Radio color="primary" />}
+                                label="$"
+                              />
+                            </Box>
+                          </RadioGroup>
+                        </FormControl>
+                      </Box>
+                      <Box mt="20px">
+                        <TextField
+                          id="discount"
+                          sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                          // type="number"
+                          label="Discount"
+                          fullWidth
+                          // placeholder="Select origin"
+                          InputProps={{
+                            startAdornment: <PercentageIcon />,
+                            sx: {
+                              // maxWidth: "540px",
+                              borderRadius: "20px", // Apply border radius to the input element
+                              height: "56px",
                               borderColor: "#79747E",
-                              color: "#79747E",
-                              borderRadius: "100px",
-                              textTransform: "none",
-                            }}
-                          >
-                            Change
-                          </Button>
-                        </div>
-                      </div>
+                              fontSize: "16px",
+                              color: "#1C1B1F",
+                            },
+                          }}
+                        />
+                      </Box>
                     </div>
-                  </div>
-                  <EditIcon />
+                  </Box>
                 </Box>
-              </div>
-            </>
-          </div>
-          <div className="">
-            <div className="flex items-center space-x-[10px] ">
-              <CircleRight />
-              <p className="font-roboto font-[500] text-[14px] text-t/100 ">
-                Shipping Details
-              </p>
-            </div>
+              )
+            ) : activeStep === 3 ? (
+              order.service === "Auto Import" ? (
+                <>
+                  <BillingDetails
+                    order={order}
+                    type={type}
+                    toggle={toggle}
+                    drop={drop}
+                  />
+                  <Box mt="30px">
+                    <PaymentInformation toggle={toggle} drop={drop} />
+                  </Box>
+                </>
+              ) : (
+                <Box
+                  display="flex"
+                  sx={{ flexDirection: "column", gap: "30px" }}
+                >
+                  <OrderInformation
+                    order={order}
+                    type={type}
+                    toggle={toggle}
+                    drop={drop}
+                  />
+                  <PackageDetails
+                    order={order}
+                    type={type}
+                    toggle={toggle}
+                    drop={drop}
+                  />
+                  {order.service === "Shop For Me" ? (
+                    <>
+                      <BillingDetails
+                        order={order}
+                        type={type}
+                        toggle={toggle}
+                        drop={drop}
+                      />
+                    </>
+                  ) : null}
+                </Box>
+              )
+            ) : activeStep === 4 ? (
+              order.service === "Auto Import" ? (
+                <Box display="flex" flexDirection="column" gap="30px">
+                  <OrderInformation
+                    order={order}
+                    type={type}
+                    toggle={toggle}
+                    drop={drop}
+                  />
 
-            <div className="flex flex-col space-y-[20px]">
-              <Box
+                  <PackageDetails
+                    order={order}
+                    type={type}
+                    toggle={toggle}
+                    drop={drop}
+                  />
+                  <ShippingDetails
+                    order={order}
+                    type={type}
+                    toggle={toggle}
+                    drop={drop}
+                  />
+                  <BillingDetails
+                    order={order}
+                    type={type}
+                    toggle={toggle}
+                    drop={drop}
+                  />
+                </Box>
+              ) : (
+                <Box width="100%">
+                  <Box bgcolor="#6750A4" borderRadius="20px" px="1px">
+                    <Box
+                      p={saveAsDraft ? "20px" : 0}
+                      mb="40px"
+                      display="flex"
+                      gap="10px"
+                      alignItems="center"
+                    >
+                      {saveAsDraft ? null : <img src={drone} alt="drone" />}
+                      <Box>
+                        <Typography
+                          fontSize="24px"
+                          fontWeight={700}
+                          color="#fff"
+                          mb="10px"
+                        >
+                          {saveAsDraft
+                            ? "Kudos for getting this far!"
+                            : "Congratulations!"}
+                        </Typography>
+                        <Typography fontSize="20px" color="#fff">
+                          {saveAsDraft
+                            ? `You have just saved this ${order.service} request to draft. The customer will not be informed about this order until this request has been approved.`
+                            : `You have just successfully approved this ${order.service} order request`}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
+                  {order.service === "Shop For Me" && !saveAsDraft ? (
+                    <div
+                      style={{
+                        marginTop: "30px",
+                        marginBottom: "30px",
+                        width: "100%",
+                        backgroundColor: "#F2B8B5",
+                        padding: "20px 28px",
+                        borderRadius: "20px",
+                      }}
+                    >
+                      <p
+                        style={{
+                          fontSize: "20px",
+                          fontWeight: 700,
+                          color: "#21005D",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        IMPORTANT NOTICE:
+                      </p>
+                      <p
+                        style={{
+                          fontSize: "20px",
+                          fontWeight: 400,
+                          color: "#49454F",
+                        }}
+                      >
+                        You will be required to add shipping cost of this order
+                        immediately the items in it have been completely
+                        purchased and have arrived the Origin Warehouse.
+                      </p>
+                    </div>
+                  ) : null}
+                  <Box>
+                    <div className="flex items-center space-x-[10px] ">
+                      <CircleRight />
+                      <p className="font-roboto font-[500] text-[14px] text-t/100 ">
+                        What Next?
+                      </p>
+                    </div>
+                    <Box
+                      mt="20px"
+                      px="14px"
+                      py="10px"
+                      borderRadius="20px"
+                      border="1px solid #CAC4D0"
+                    >
+                      <Typography
+                        fontSize="20px"
+                        fontWeight={700}
+                        color="#49454F"
+                        mb="20px"
+                        pl="14px"
+                      >
+                        Here are more information on how to follow up this order
+                      </Typography>
+                      {saveAsDraft ? (
+                        <Typography pl="14px" fontSize="20px">
+                          To complete the approval of this request, please
+                          navigate to the "Drafts" tab in the order history.
+                          Locate this request using its ID or any associated
+                          information.
+                        </Typography>
+                      ) : null}
+                      {saveAsDraft ? null : (
+                        <Box>
+                          <Box
+                            display="flex"
+                            gap="20px"
+                            alignItems="center"
+                            mb="13px"
+                          >
+                            <Box
+                              width="33px"
+                              height="48px"
+                              borderRadius="20px"
+                              bgcolor="#6750A4"
+                              color="#fff"
+                              display="flex"
+                              alignItems="center"
+                              justifyContent="center"
+                              fontSize="20px"
+                            >
+                              1
+                            </Box>
+                            <Typography fontSize="20px">
+                              The customer has been informed about this order
+                              and prompted to Place this order.
+                            </Typography>
+                          </Box>
+                          <Box display="flex" gap="20px" alignItems="center">
+                            <Box
+                              width="33px"
+                              height="48px"
+                              borderRadius="20px"
+                              bgcolor="#6750A4"
+                              color="#fff"
+                              display="flex"
+                              alignItems="center"
+                              justifyContent="center"
+                              fontSize="20px"
+                            >
+                              2
+                            </Box>
+                            <Typography fontSize="20px">
+                              The customer has been informed about this order
+                              and prompted to Place this order.
+                            </Typography>
+                          </Box>
+                        </Box>
+                      )}
+                    </Box>
+                  </Box>
+                </Box>
+              )
+            ) : order.service === "Auto Import" ? (
+              <Box width="100%">
+                <Box bgcolor="#6750A4" borderRadius="20px" px="1px">
+                  <Box
+                    p={saveAsDraft ? "20px" : 0}
+                    mb="40px"
+                    display="flex"
+                    gap="10px"
+                    alignItems="center"
+                  >
+                    {saveAsDraft ? null : <img src={drone} alt="drone" />}
+                    <Box>
+                      <Typography
+                        fontSize="24px"
+                        fontWeight={700}
+                        color="#fff"
+                        mb="10px"
+                      >
+                        {saveAsDraft
+                          ? "Kudos for getting this far!"
+                          : "Congratulations!"}
+                      </Typography>
+                      <Typography fontSize="20px" color="#fff">
+                        {saveAsDraft
+                          ? `You have just saved this ${order.service} request to draft. The customer will not be informed about this order until this request has been approved.`
+                          : `You have just successfully approved this ${order.service} order request`}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
+                <Box>
+                  <div className="flex items-center space-x-[10px] ">
+                    <CircleRight />
+                    <p className="font-roboto font-[500] text-[14px] text-t/100 ">
+                      What Next?
+                    </p>
+                  </div>
+                  <Box
+                    mt="20px"
+                    px="14px"
+                    py="10px"
+                    borderRadius="20px"
+                    border="1px solid #CAC4D0"
+                  >
+                    <Typography
+                      fontSize="20px"
+                      fontWeight={700}
+                      color="#49454F"
+                      mb="20px"
+                      pl="14px"
+                    >
+                      Here are more information on how to follow up this order
+                    </Typography>
+                    {saveAsDraft ? (
+                      <Typography pl="14px" fontSize="20px">
+                        To complete the approval of this request, please
+                        navigate to the "Drafts" tab in the order history.
+                        Locate this request using its ID or any associated
+                        information.
+                      </Typography>
+                    ) : null}
+                    {saveAsDraft ? null : (
+                      <Box>
+                        <Box
+                          display="flex"
+                          gap="20px"
+                          alignItems="center"
+                          mb="13px"
+                        >
+                          <Box
+                            width="33px"
+                            height="48px"
+                            borderRadius="20px"
+                            bgcolor="#6750A4"
+                            color="#fff"
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="center"
+                            fontSize="20px"
+                          >
+                            1
+                          </Box>
+                          <Typography fontSize="20px">
+                            The customer has been informed about this order and
+                            prompted to Place this order.
+                          </Typography>
+                        </Box>
+                        <Box display="flex" gap="20px" alignItems="center">
+                          <Box
+                            width="33px"
+                            height="48px"
+                            borderRadius="20px"
+                            bgcolor="#6750A4"
+                            color="#fff"
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="center"
+                            fontSize="20px"
+                          >
+                            2
+                          </Box>
+                          <Typography fontSize="20px">
+                            The customer has been informed about this order and
+                            prompted to Place this order.
+                          </Typography>
+                        </Box>
+                      </Box>
+                    )}
+                  </Box>
+                </Box>
+              </Box>
+            ) : null}
+          </Box>
+          <>
+            {finish ? (
+              <Button
+                startIcon={<CheckWhiteIcon />}
+                variant="contained"
                 sx={{
-                  width: "100%",
+                  bgcolor: "#6750A4",
+                  color: "#fff",
+                  width: "211px",
+                  height: "40px",
+                  borderRadius: "100px",
+                  textTransform: "none",
+                }}
+                onClick={() => navigate("/order-requests")}
+              >
+                Done
+              </Button>
+            ) : (
+              <Box display="flex" alignItems="center" gap="10px">
+                <Button
+                  startIcon={<ArrowLeftPurple />}
+                  variant="outlined"
+                  sx={{
+                    borderColor: "#79747E",
+                    color: "#79747E",
+                    height: "40px",
+                    borderRadius: "100px",
+                    textTransform: "none",
+                  }}
+                  onClick={handleBack}
+                >
+                  Back
+                </Button>
+                {activeStep === steps.length - 2 && (
+                  <>
+                    <Button
+                      startIcon={<DraftIcon />}
+                      variant="contained"
+                      sx={{
+                        bgcolor: "#6750A4",
+                        color: "#fff",
+                        width: "151px",
+                        height: "40px",
+                        borderRadius: "100px",
+                        textTransform: "none",
+                      }}
+                      onClick={() => {
+                        if (!finish) handleNext();
+                        setSaveAsDraft(true);
+                      }}
+                    >
+                      Save as Draft
+                    </Button>
+                    <Button
+                      startIcon={<CheckWhiteIcon />}
+                      variant="contained"
+                      sx={{
+                        bgcolor: "#B3261E",
+                        width: "220px",
+                        color: "#fff",
+                        height: "40px",
+                        borderRadius: "100px",
+                        textTransform: "none",
+                      }}
+                      onClick={() => {
+                        if (!finish) handleNext();
+                      }}
+                    >
+                      Finish Request Approval
+                    </Button>
+                  </>
+                )}
+                {activeStep !== steps.length - 2 && (
+                  <Button
+                    startIcon={<ArrowRightWhite />}
+                    variant="contained"
+                    sx={{
+                      bgcolor: "#6750A4",
+                      color: "#fff",
+                      width: "172px",
+                      height: "40px",
+                      borderRadius: "100px",
+                      textTransform: "none",
+                    }}
+                    onClick={() => {
+                      if (!finish) handleNext();
+                    }}
+                  >
+                    Next
+                  </Button>
+                )}
+              </Box>
+            )}
+          </>
+        </div>
+      ) : (
+        <div
+          className="p-[30px] bg-white rounded-[20px]"
+          style={{ display: "flex", flexDirection: "column", gap: "30px" }}
+        >
+          {/* <p className="border border-brand/200 p-[15px] rounded-[20px] font-roboto border-dotted ">
+          Order Details
+        </p> */}
+
+          <p className="font-roboto text-[24px]">
+            <span>{type === "request" ? "Request ID:" : "Order ID:"}</span>{" "}
+            <span className="font-[700]">{order.id}</span>
+          </p>
+
+          <div className="flex flex-col space-y-[40px] font-roboto">
+            <OrderInformation
+              order={order}
+              type={type}
+              toggle={toggle}
+              drop={drop}
+            />
+
+            {order.service === "Auto Import" ? null : (
+              <ShippingDetails
+                order={order}
+                type={type}
+                toggle={toggle}
+                drop={drop}
+              />
+            )}
+            <PackageDetails
+              order={order}
+              type={type}
+              toggle={toggle}
+              drop={drop}
+            />
+            {order.service === "Auto Import" ||
+            order.service === "Shop For Me" ? null : (
+              <BillingDetails
+                order={order}
+                type={type}
+                toggle={toggle}
+                drop={drop}
+              />
+            )}
+
+            {type === "request" ? (
+              <Box display="flex" alignItems="center" gap="10px">
+                <Button
+                  startIcon={<ArrowLeftPurple />}
+                  variant="outlined"
+                  sx={{
+                    borderColor: "#79747E",
+                    color: "#79747E",
+                    height: "40px",
+                    borderRadius: "100px",
+                    textTransform: "none",
+                  }}
+                  onClick={() => navigate("/order-requests")}
+                >
+                  Back
+                </Button>
+                <Button
+                  startIcon={<CloseCircle />}
+                  variant="contained"
+                  sx={{
+                    bgcolor: "#B3261E",
+                    color: "#fff",
+                    height: "40px",
+                    borderRadius: "100px",
+                    textTransform: "none",
+                  }}
+                  onClick={() => navigate("/order-requests")}
+                >
+                  Decline request
+                </Button>
+                <Button
+                  startIcon={<ArrowRightWhite />}
+                  variant="contained"
+                  sx={{
+                    bgcolor: "#6750A4",
+                    color: "#fff",
+                    height: "40px",
+                    borderRadius: "100px",
+                    textTransform: "none",
+                  }}
+                  onClick={() => setProceed(true)}
+                >
+                  Proceed with approval
+                </Button>
+              </Box>
+            ) : type === "draft" ? (
+              <Box display="flex" alignItems="center" gap="10px">
+                <Button
+                  startIcon={<ArrowLeftPurple />}
+                  variant="outlined"
+                  sx={{
+                    borderColor: "#79747E",
+                    color: "#79747E",
+                    height: "40px",
+                    borderRadius: "100px",
+                    textTransform: "none",
+                  }}
+                  onClick={() => navigate("/order-drafts")}
+                >
+                  Back
+                </Button>
+                <Button
+                  startIcon={<CheckWhiteIcon />}
+                  variant="contained"
+                  sx={{
+                    bgcolor: "#B3261E",
+                    color: "#fff",
+                    height: "40px",
+                    borderRadius: "100px",
+                    textTransform: "none",
+                  }}
+                  onClick={() => navigate("/orders")}
+                >
+                  Confirm & Submit Order
+                </Button>
+              </Box>
+            ) : (
+              <Box
+                width="100%"
+                sx={{
                   display: "flex",
+                  justifyContent: "center",
                   alignItems: "center",
-                  gap: "30px",
-                  marginTop: "20px",
                 }}
               >
-                <div
-                  className={`${
-                    drop === 5 ? "h-full p-[10px]" : "h-[40px] overflow-hidden"
-                  } transition-all border  rounded-[10px]`}
-                  style={{ flex: 1 }}
+                <Button
+                  startIcon={<ArrowLeftPurple />}
+                  variant="outlined"
+                  sx={{
+                    borderColor: "#79747E",
+                    color: "#79747E",
+                    height: "40px",
+                    borderRadius: "100px",
+                    width: "50%",
+                    textTransform: "none",
+                  }}
+                  onClick={() => navigate("/orders")}
                 >
-                  <div
-                    onClick={() => toggle(5)}
-                    className={`${
-                      drop === 5 ? "" : "p-[10px]"
-                    } transition-all  h-[40px] flex items-center justify-between cursor-pointer`}
-                  >
-                    <p className="text-[20px]">Destination/Shipping Address</p>
-                    <IoChevronUpCircleOutline className="text-[25px]" />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-[20px] mt-[30px] ">
-                    <div className="">
-                      <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        Receiver's First Name:
-                      </p>
-                      <p className="font-roboto  text-[20px] text-brand/100">
-                        Malibu
-                      </p>
-                    </div>
-                    <div className="">
-                      <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        Receiver's Last Name:
-                      </p>
-                      <p className="font-roboto  text-[20px] text-brand/100">
-                        SHedrack
-                      </p>
-                    </div>
-                    <div className="">
-                      <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        Receiver's Phone Number:
-                      </p>
-                      <p className="font-roboto  text-[20px] text-brand/100">
-                        +234 803 456 7845
-                      </p>
-                    </div>
-                    <div className="">
-                      <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        Receiver's Email:
-                      </p>
-                      <p className="font-roboto  text-[20px] text-brand/100">
-                        Malibushdrack@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                  <div className="mt-[10px]">
-                    <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                      Receiver's Address:
-                    </p>
-                    <p className="font-roboto  text-[20px] text-brand/100">
-                      No, 1osolo way, ikeja road, behind scaint merry
-                    </p>
-                  </div>
-                  <div className="grid grid-cols-4 gap-[20px] mt-[30px] ">
-                    <div className="">
-                      <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        Destination Country:
-                      </p>
-                      <p className="font-roboto  text-[20px] text-brand/100">
-                        Turkey
-                      </p>
-                    </div>
-                    <div className="">
-                      <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        Destination State:
-                      </p>
-                      <p className="font-roboto  text-[20px] text-brand/100">
-                        Istanbul
-                      </p>
-                    </div>
-                    <div className="">
-                      <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        Destination City:
-                      </p>
-                      <p className="font-roboto  text-[20px] text-brand/100">
-                        Cyprusic
-                      </p>
-                    </div>
-                    <div className="">
-                      <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        Zip/postal Code:
-                      </p>
-                      <p className="font-roboto  text-[20px] text-brand/100">
-                        98765
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <EditIcon />
+                  Back to Order
+                </Button>
               </Box>
-            </div>
-          </div>
-          <div className="">
-            <div className="flex items-center space-x-[10px] ">
-              <CircleRight />
-              <p className="font-roboto font-[500] text-[14px] text-t/100 ">
-                Package Details
-              </p>
-            </div>
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                alignItems: "center",
-                gap: "30px",
-                marginTop: "20px",
-              }}
-            >
-              <div
-                className={`${
-                  drop === 3 ? "h-full p-[10px]" : "h-[40px] overflow-hidden"
-                } transition-all border  rounded-[10px]`}
-                style={{ flex: 1 }}
-              >
-                <div
-                  onClick={() => toggle(3)}
-                  className={`${
-                    drop === 3 ? "" : "p-[10px]"
-                  } transition-all h-[40px] flex items-center justify-between cursor-pointer`}
-                >
-                  <p className="text-[20px]">
-                    Package Origin/Shipment location
-                  </p>
-                  <IoChevronUpCircleOutline className="text-[25px]" />
-                </div>
-                <div className="mt-[30px]">
-                  <p className="text-[14px] text-t/100 font-roboto">Origin:</p>
-                  <p className="font-roboto  text-[20px]">{order.location}</p>
-                </div>
-                <div className=" mt-[40px] ">
-                  <p className="text-brand/200">Origin Address</p>
-                  <div className="grid grid-cols-2 mt-[20px]">
-                    <div className="">
-                      <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        First Name:
-                      </p>
-                      <p className="font-roboto  text-[20px] text-brand/100">
-                        Malibu
-                      </p>
-                    </div>
-                    <div className="">
-                      <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        Last Name:
-                      </p>
-                      <p className="font-roboto  text-[20px] text-brand/100">
-                        SHedrack
-                      </p>
-                    </div>
-                  </div>
-                  <div className="mt-[20px] ">
-                    <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                      Street Address:
-                    </p>
-                    <p className="font-roboto  text-[20px] text-brand/100">
-                      No, 1osolo way, ikeja road, behind scaint merry
-                    </p>
-                  </div>
-                  <div className="grid grid-cols-3 mt-[20px]">
-                    <div className="">
-                      <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        State:{" "}
-                      </p>
-                      <p className="font-roboto  text-[20px] text-brand/100">
-                        Istanbul
-                      </p>
-                    </div>
-                    <div className="">
-                      <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        City:
-                      </p>
-                      <p className="font-roboto  text-[20px] text-brand/100">
-                        Cyprusic
-                      </p>
-                    </div>
-                    <div className="">
-                      <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        Zip/postal Code:
-                      </p>
-                      <p className="font-roboto  text-[20px] text-brand/100">
-                        98765
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <EditIcon />
-            </Box>
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                alignItems: "center",
-                gap: "30px",
-                marginTop: "20px",
-              }}
-            >
-              <div
-                className={`${
-                  drop === 4 ? "h-full p-[10px]" : "h-[40px] overflow-hidden"
-                } transition-all  border  rounded-[10px]`}
-                style={{ flex: 1 }}
-              >
-                <div
-                  onClick={() => toggle(4)}
-                  className={`${
-                    drop === 4 ? "" : "p-[10px]"
-                  } transition-all h-[40px] flex items-center justify-between cursor-pointer`}
-                >
-                  <p className="text-[20px]">
-                    Item - <span className="text-brand/200">#1</span>
-                  </p>
-                  <IoChevronUpCircleOutline className="text-[25px]" />
-                </div>
-
-                <div className="grid grid-cols-4 mt-[30px] gap-[20px]">
-                  <div className="">
-                    <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                      Product Name:
-                    </p>
-                    <p className="font-roboto  text-[20px] text-brand/100">
-                      Designer Bags
-                    </p>
-                  </div>
-                  <div></div>
-                  <div className="">
-                    <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                      Product Original Cost
-                    </p>
-                    <p className="font-roboto  text-[20px] text-brand/100">
-                      $45.00
-                    </p>
-                  </div>
-                  <div className="">
-                    <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                      Quantity:
-                    </p>
-                    <p className="font-roboto  text-[20px] text-brand/100">4</p>
-                  </div>
-                  <div className="">
-                    <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                      Weight:
-                    </p>
-                    <p className="font-roboto  text-[20px] text-brand/100">
-                      67kg
-                    </p>
-                  </div>
-                  <div className="">
-                    <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                      Height:
-                    </p>
-                    <p className="font-roboto  text-[20px] text-brand/100">
-                      5 inches
-                    </p>
-                  </div>
-                  <div className="">
-                    <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                      Length:
-                    </p>
-                    <p className="font-roboto  text-[20px] text-brand/100">
-                      5 inches
-                    </p>
-                  </div>
-                  <div className="">
-                    <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                      Width:
-                    </p>
-                    <p className="font-roboto  text-[20px] text-brand/100">
-                      5 inches
-                    </p>
-                  </div>
-                </div>
-                <div className="mt-[20px]">
-                  <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                    Product/Item Picture:
-                  </p>
-                  <div className="w-[220px] h-[150px] mt-[10px] rounded-[10px] border"></div>
-                  <p className="text-[14px] text-t/100 font-roboto text-brand/200 mt-[10px]">
-                    Product Description:
-                  </p>
-                  <p className="font-roboto  text-[20px] text-brand/100">
-                    Additonvnv ghss jgsjvsn
-                  </p>
-                </div>
-                <div className="grid grid-cols-2 mt-[10px] gap-[20px]">
-                  <div className="">
-                    <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                      Color:
-                    </p>
-                    <p className="font-roboto  text-[20px] text-brand/100">
-                      Blue
-                    </p>
-                  </div>
-                  <div className="">
-                    <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                      Stripes:
-                    </p>
-                    <p className="font-roboto  text-[20px] text-brand/100">
-                      5 inches
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <EditIcon />
-            </Box>
-          </div>
-
-          <div className="">
-            <div className="flex items-center space-x-[10px] ">
-              <CircleRight />
-              <p className="font-roboto font-[500] text-[14px] text-t/100 ">
-                Billing Details
-              </p>
-            </div>
-
-            <div className="flex flex-col space-y-[20px]">
-              <Box
-                sx={{
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "30px",
-                  marginTop: "20px",
-                }}
-              >
-                <div
-                  className={`${
-                    drop === 6 ? "h-full p-[10px]" : "h-[40px] overflow-hidden"
-                  } transition-all  border  rounded-[10px]`}
-                  style={{ flex: 1 }}
-                >
-                  <div
-                    onClick={() => toggle(6)}
-                    className={`${
-                      drop === 6 ? "" : "p-[10px]"
-                    } transition-all  h-[40px] flex items-center justify-between cursor-pointer`}
-                  >
-                    <p className="text-[20px]">Billing Information</p>
-                    <IoChevronUpCircleOutline className="text-[25px]" />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-[20px] mt-[30px] ">
-                    <div className="">
-                      <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        Receiver's First Name:
-                      </p>
-                      <p className="font-roboto  text-[20px] text-brand/100">
-                        Malibu
-                      </p>
-                    </div>
-                    <div className="">
-                      <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        Receiver's Last Name:
-                      </p>
-                      <p className="font-roboto  text-[20px] text-brand/100">
-                        SHedrack
-                      </p>
-                    </div>
-                    <div className="">
-                      <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        Receiver's Phone Number:
-                      </p>
-                      <p className="font-roboto  text-[20px] text-brand/100">
-                        +234 803 456 7845
-                      </p>
-                    </div>
-                    <div className="">
-                      <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        Receiver's Email:
-                      </p>
-                      <p className="font-roboto  text-[20px] text-brand/100">
-                        Malibushdrack@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                  <div className="mt-[10px]">
-                    <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                      Receiver's Address:
-                    </p>
-                    <p className="font-roboto  text-[20px] text-brand/100">
-                      No, 1osolo way, ikeja road, behind scaint merry
-                    </p>
-                  </div>
-                  <div className="grid grid-cols-4 gap-[20px] mt-[30px] ">
-                    <div className="">
-                      <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        Destination Country:
-                      </p>
-                      <p className="font-roboto  text-[20px] text-brand/100">
-                        Turkey
-                      </p>
-                    </div>
-                    <div className="">
-                      <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        Destination State:
-                      </p>
-                      <p className="font-roboto  text-[20px] text-brand/100">
-                        Istanbul
-                      </p>
-                    </div>
-                    <div className="">
-                      <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        Destination City:
-                      </p>
-                      <p className="font-roboto  text-[20px] text-brand/100">
-                        Cyprusic
-                      </p>
-                    </div>
-                    <div className="">
-                      <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        Zip/postal Code:
-                      </p>
-                      <p className="font-roboto  text-[20px] text-brand/100">
-                        98765
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <EditIcon />
-              </Box>
-              <Box
-                sx={{
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "30px",
-                  marginTop: "20px",
-                }}
-              >
-                <div
-                  className={`${
-                    drop === 7 ? "h-full p-[10px]" : "h-[40px] overflow-hidden"
-                  } transition-all  border  rounded-[10px]`}
-                  style={{ flex: 1 }}
-                >
-                  <div
-                    onClick={() => toggle(7)}
-                    className={`${
-                      drop === 7 ? "" : "p-[10px]"
-                    } transition-all h-[40px] flex items-center justify-between cursor-pointer`}
-                  >
-                    <p className="text-[20px]">Payments Information</p>
-                    <IoChevronUpCircleOutline className="text-[25px]" />
-                  </div>
-
-                  <div className="grid grid-cols-5 mt-[30px]">
-                    <div className="">
-                      <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        Total Shipment Cost:
-                      </p>
-                      <p className="font-roboto  text-[20px] text-brand/100">
-                        $234,000.00
-                      </p>
-                    </div>
-                    <div className="">
-                      <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        Payment Status:
-                      </p>
-                      <p className="font-roboto  text-[20px] text-brand/100">
-                        Processing
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <EditIcon />
-              </Box>
-            </div>
+            )}
           </div>
           <Box
             width="100%"
@@ -753,7 +1561,7 @@ function OrderDetails() {
             </Button>
           </Box>
         </div>
-      </div>
+      )}
     </div>
   );
 }
@@ -764,7 +1572,7 @@ export default OrderDetails;
   /* <div
   className={`${
     drop === 2 ? "h-full p-[10px]" : "h-[40px] overflow-hidden"
-  } transition-all mt-[20px] border  rounded-[10px]`}
+  } transition-all mt-[20px] border  rounded-[20px]`}
 >
   <div
     onClick={() => toggle(2)}
