@@ -142,7 +142,6 @@ function OrderDetails() {
   const shipmentMethods = ["Road", "Air", "Rail", "Sea"];
   const deliveryCompanies = ["DHL", "Gokada", "Glovo"];
 
-
   return (
     <div
       className="px-[40px] py-[30px] font-roboto h-full"
