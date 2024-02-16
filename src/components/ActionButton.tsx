@@ -1,9 +1,10 @@
 import { Button } from '@mui/material'
 import React from 'react'
 
-const ActionButton = ({icon, title}) => {
+const ActionButton = ({icon, title='', action=() => {}}) => {
   return (
     <Button
+      onClick={action}
       variant="contained"
       sx={{
         // width: "fit-content",
