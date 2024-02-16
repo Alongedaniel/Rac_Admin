@@ -71,9 +71,9 @@ function App() {
               }
             >
               <Route path="" element={<Confirmed />} />
-              <Route path="create" element={<CreateOrders />} />
               <Route path="draft-detail" element={<DraftDetails />} />
             </Route>
+            <Route path="orders/create-new-order" element={<MainLayout><CreateOrders /></MainLayout>} />
             <Route
               path="order-drafts"
               element={

@@ -34,5 +34,7 @@ export function getNavbarTitle(currentPagePathname) {
     return "Draft Order Details";
   } else if (currentPagePathname === "/order-requests") {
     return "Order Requests";
+  } else if (currentPagePathname === "/orders/create-new-order") {
+    return "Create New Order";
   }
 }
