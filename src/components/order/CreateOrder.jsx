@@ -319,7 +319,7 @@ const order =  {
                     <Typography fontSize="20px" color="#fff">
                       {saveAsDraft
                         ? `You have just saved this ${exportOrder.orderInformation.service} request to draft. The customer will not be informed about this order until this request has been approved.`
-                        : `You have just successfully approved this ${exportOrder.orderInformation.service} order request`}
+                        : `You have just created this ${exportOrder.orderInformation.service} order, and your payment claim is currently awaiting approval.`}
                     </Typography>
                   </Box>
                 </Box>
