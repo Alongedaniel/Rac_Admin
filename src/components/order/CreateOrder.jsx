@@ -15,6 +15,9 @@ import CheckWhiteIcon from "../../assets/icons/CheckWhiteIcon";
 import DraftIcon from "../../assets/icons/DraftIcon";
 import drone from '../../assets/images/drone.png'
 import CircleRight from "../../assets/icons/CircleRight";
+import BillingDetailsForm from "./components/BillingDetailsForm";
+import OrderPricing from "./components/OrderPricing";
+import OrderInfo from "./components/OrderInfo";
 
 const CreateOrder = () => {
   const [assignedCustomer, setAssignedCustomer] = useState("");
@@ -62,7 +65,7 @@ const CreateOrder = () => {
     "Shipping Details",
     "Billing",
     "Order Details Confirmation",
-    "Request Successfully Approved",
+    saveAsDraft ? "Order Saved to Draft" : "Order Successfully Created",
   ];
   //  : [
   //      "Order Information",
@@ -157,7 +160,7 @@ const order =  {
         actions: "axtions",
       }
   return (
-    <Box px='50px'>
+    <Box px="50px">
       <Box
         bgcolor="#fff"
         sx={{ p: "30px", mt: "40px", height: "100%", borderRadius: "20px" }}
@@ -236,24 +239,41 @@ const order =  {
             </Box>
           ) : activeStep === 3 ? (
             <>
-              <BillingDetails
-                order={order}
-                // type={type}
-                toggle={toggle}
-                drop={drop}
+              <BillingDetailsForm
+                setZipCode={setZipCode}
+                zipCode={zipCode}
+                setAddress={setAddress}
+                address={address}
+                setCity={setCity}
+                city={city}
+                setState={setState}
+                state={state}
+                setCountry={setCountry}
+                country={country}
+                setPhoneNumber={setPhoneNumber}
+                phoneNumber={phoneNumber}
+                setEmail={setEmail}
+                email={email}
+                setLastName={setLastName}
+                lastName={lastName}
+                setFirstName={setFirstName}
+                firstName={firstName}
               />
+
               <Box mt="30px">
-                <PaymentInformation toggle={toggle} drop={drop} />
+                <OrderPricing
+                  shippingCost={shippingCost}
+                  clearingCost={clearingCost}
+                  dutyFee={dutyFee}
+                  setShippingCost={setShippingCost}
+                  setClearingCost={setClearingCost}
+                  setDutyFee={setDutyFee}
+                />
               </Box>
             </>
           ) : activeStep === 4 ? (
             <Box display="flex" flexDirection="column" gap="30px">
-              <OrderInformation
-                order={order}
-                type={"request"}
-                toggle={toggle}
-                drop={drop}
-              />
+              <OrderInfo order={exportOrder.orderInformation} />
 
               <PackageDetails
                 order={order}
@@ -298,8 +318,8 @@ const order =  {
                     </Typography>
                     <Typography fontSize="20px" color="#fff">
                       {saveAsDraft
-                        ? `You have just saved this ${order.service} request to draft. The customer will not be informed about this order until this request has been approved.`
-                        : `You have just successfully approved this ${order.service} order request`}
+                        ? `You have just saved this ${exportOrder.orderInformation.service} request to draft. The customer will not be informed about this order until this request has been approved.`
+                        : `You have just successfully approved this ${exportOrder.orderInformation.service} order request`}
                     </Typography>
                   </Box>
                 </Box>
@@ -356,8 +376,9 @@ const order =  {
                           1
                         </Box>
                         <Typography fontSize="20px">
-                          The customer has been informed about this order and
-                          prompted to Place this order.
+                          The customer will not be informed about this order
+                          until the Finance Team confirms the claimed
+                          transaction to be true.
                         </Typography>
                       </Box>
                       <Box display="flex" gap="20px" alignItems="center">
@@ -375,8 +396,9 @@ const order =  {
                           2
                         </Box>
                         <Typography fontSize="20px">
-                          The customer has been informed about this order and
-                          prompted to Place this order.
+                          After the confirmation of this order’s payment, you
+                          can then start necessary preparations for the shipment
+                          processes.
                         </Typography>
                       </Box>
                     </Box>
@@ -397,7 +419,7 @@ const order =  {
               height: "40px",
               borderRadius: "100px",
               textTransform: "none",
-              mt: '30px'
+              mt: "30px",
             }}
             onClick={() => navigate("/orders")}
           >
