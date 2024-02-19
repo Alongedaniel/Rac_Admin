@@ -7,6 +7,7 @@ import EditIcon from "../../../assets/icons/EditIcon";
 import StartIcon from "../../../assets/icons/StartIcon";
 import ChangeIcon from "../../../assets/icons/ChangeIcon";
 import CircleRight from "../../../assets/icons/CircleRight";
+import CardWrapper from "../../../components/order/components/CardWrapper";
 
 const OrderInformation = ({ toggle, order, type, drop }) => {
   return (
@@ -28,19 +29,10 @@ const OrderInformation = ({ toggle, order, type, drop }) => {
               marginTop: "20px",
             }}
           >
-            <div
-              className={`${
-                drop === 1 ? "h-full" : "h-[68px]  overflow-hidden"
-              } transition-all border px-[28px] py-[20px] rounded-[20px]`}
-              style={{ flex: 1 }}
+            <CardWrapper
+              title="Order Information"
+              style={{width:'100%'}}
             >
-              <div
-                onClick={() => toggle(1)}
-                className={` transition-all flex items-center justify-between cursor-pointer`}
-              >
-                <p className="text-[20px]">Order Information</p>
-                <IoChevronUpCircleOutline className="text-[25px]" />
-              </div>
 
               <div className="grid grid-cols-5 mt-[30px]  gap-[20px]">
                 <div>
@@ -154,7 +146,7 @@ const OrderInformation = ({ toggle, order, type, drop }) => {
                   <p className="font-roboto  text-[20px]">9:48am</p>
                 </div>
               </div>
-            </div>
+            </CardWrapper>
             {type === "request" ? null : <EditIcon />}
           </Box>
           {type === "request" ? null : (
@@ -167,20 +159,7 @@ const OrderInformation = ({ toggle, order, type, drop }) => {
                 marginTop: "20px",
               }}
             >
-              <div
-                className={`${
-                  drop === 2 ? "h-full " : "h-[68px] overflow-hidden"
-                } transition-all px-[28px] py-[20px]  border  rounded-[20px]`}
-                style={{ flex: 1 }}
-              >
-                <div
-                  onClick={() => toggle(2)}
-                  className={` transition-all flex items-center justify-between cursor-pointer`}
-                >
-                  <p className="text-[20px]">Shipment Details</p>
-                  <IoChevronUpCircleOutline className="text-[25px]" />
-                </div>
-
+              <CardWrapper title="Shipment Details">
                 <div className="grid grid-cols-2 mt-[30px] ">
                   <div>
                     <p className="text-[14px] text-t/100 font-roboto">
@@ -235,7 +214,7 @@ const OrderInformation = ({ toggle, order, type, drop }) => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </CardWrapper>
               {type === "request" ? null : <EditIcon />}
             </Box>
           )}
