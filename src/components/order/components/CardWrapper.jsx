@@ -8,6 +8,7 @@ const CardWrapper = ({children, title, showRadio, fullByDefault, removeArrows, .
   return (
     <Box
       {...props}
+      width='100%'
       height={showFull ? "fit-content" : "78px"}
       overflow={showFull ? "auto" : "hidden"}
       py="20px"

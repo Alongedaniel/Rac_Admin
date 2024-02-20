@@ -9,7 +9,7 @@ import RetryIcon from '../../../assets/icons/RetryIcon';
 import StyledArrowRight from '../../../assets/icons/StyledArrowRight';
 import car from '../../../assets/images/car.png'
 
-const OrderPricing = ({shippingCost='', clearingCost='', dutyFee='', setShippingCost=() => {}, setClearingCost=() => {}, setDutyFee=() => {}}) => {
+const OrderPricing = ({shippingCost='', clearingCost='', dutyFee='', setShippingCost=() => {}, setClearingCost=() => {}, setDutyFee=() => {}, service=''}) => {
     const theme = useTheme()
   return (
     <div>
@@ -257,118 +257,150 @@ const OrderPricing = ({shippingCost='', clearingCost='', dutyFee='', setShipping
       </Box>
       <Box mt="20px">
         <CardWrapper fullByDefault title="Shipment Cost">
-          <Box mt="20px" display="flex" gap="25px" sx={{ minHeight: "262px" }}>
-            <Box minWidth="332px">
-              <CardWrapper
-                title="Basic Shipping Method"
-                removeArrows
-                showRadio={<Radio />}
-                fullByDefault
-                style={{ height: "100%" }}
-              >
-                <Box display="flex" flexDirection="column" gap="20px">
-                  <Box>
-                    <Typography fontSize={"14px"} color="#49454F">
-                      Shipping Cost:
-                    </Typography>
-                    <Typography fontSize={"20px"} color="#1C1B1F">
-                      $23.00
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography fontSize={"14px"} color="#49454F">
-                      Clearing, Port Handling:
-                    </Typography>
-                    <Typography fontSize={"20px"} color="#1C1B1F">
-                      $0.00
-                    </Typography>
-                  </Box>
-                </Box>
-              </CardWrapper>
+          {service === "Auto Import" ? (
+            <Box>
+              <TextField
+                fullWidth
+                required
+                sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                id="shipping-cost"
+                type="text"
+                value={shippingCost}
+                onChange={(e) => setShippingCost(e.target.value)}
+                label="Shipping Cost"
+                InputProps={{
+                  startAdornment: <DollarIcon />,
+                  sx: {
+                    borderRadius: "20px", // Apply border radius to the input element
+                    //   borderBottomLeftRadius: "20px", // Apply border radius to the input element
+                    height: "56px",
+                    borderColor: "#79747E",
+                    fontSize: "16px",
+                    color: "#1C1B1F",
+                  },
+                }}
+                // placeholder="Enter your country"
+              />
             </Box>
-            <Box width="100%">
-              <CardWrapper
-                title="Custom Shipping Method"
-                removeArrows
-                showRadio={<Radio />}
-                fullByDefault
-                style={{ height: "100%" }}
-              >
-                <Grid container gap="30px" mb="30px" wrap="nowrap">
-                  <Grid item xs={6}>
-                    <TextField
-                      fullWidth
-                      required
-                      sx={{ fontSize: "16px", color: "#1C1B1F" }}
-                      id="shipping-cost"
-                      type="text"
-                      value={shippingCost}
-                      onChange={(e) => setShippingCost(e.target.value)}
-                      label="Shipping Cost"
-                      InputProps={{
-                        startAdornment: <DollarIcon />,
-                        sx: {
-                          borderRadius: "20px", // Apply border radius to the input element
-                          //   borderBottomLeftRadius: "20px", // Apply border radius to the input element
-                          height: "56px",
-                          borderColor: "#79747E",
-                          fontSize: "16px",
-                          color: "#1C1B1F",
-                        },
-                      }}
-                      // placeholder="Enter your country"
-                    />
+          ) : (
+            <Box
+              mt="20px"
+              display="flex"
+              gap="25px"
+              sx={{ minHeight: "262px" }}
+            >
+              <Box minWidth="332px">
+                <CardWrapper
+                  title="Basic Shipping Method"
+                  removeArrows
+                  showRadio={<Radio />}
+                  fullByDefault
+                  style={{ height: "100%" }}
+                >
+                  <Box display="flex" flexDirection="column" gap="20px">
+                    <Box>
+                      <Typography fontSize={"14px"} color="#49454F">
+                        Shipping Cost:
+                      </Typography>
+                      <Typography fontSize={"20px"} color="#1C1B1F">
+                        $23.00
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <Typography fontSize={"14px"} color="#49454F">
+                        Clearing, Port Handling:
+                      </Typography>
+                      <Typography fontSize={"20px"} color="#1C1B1F">
+                        $0.00
+                      </Typography>
+                    </Box>
+                  </Box>
+                </CardWrapper>
+              </Box>
+              <Box width="100%">
+                <CardWrapper
+                  title="Custom Shipping Method"
+                  removeArrows
+                  showRadio={<Radio />}
+                  fullByDefault
+                  style={{ height: "100%" }}
+                >
+                  <Grid container gap="30px" mb="30px" wrap="nowrap">
+                    <Grid item xs={6}>
+                      <TextField
+                        fullWidth
+                        required
+                        sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                        id="shipping-cost"
+                        type="text"
+                        value={shippingCost}
+                        onChange={(e) => setShippingCost(e.target.value)}
+                        label="Shipping Cost"
+                        InputProps={{
+                          startAdornment: <DollarIcon />,
+                          sx: {
+                            borderRadius: "20px", // Apply border radius to the input element
+                            //   borderBottomLeftRadius: "20px", // Apply border radius to the input element
+                            height: "56px",
+                            borderColor: "#79747E",
+                            fontSize: "16px",
+                            color: "#1C1B1F",
+                          },
+                        }}
+                        // placeholder="Enter your country"
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <TextField
+                        fullWidth
+                        required
+                        sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                        id="clearing-cost"
+                        type="text"
+                        value={shippingCost}
+                        onChange={(e) => setShippingCost(e.target.value)}
+                        label="Clearing, Port Handling"
+                        InputProps={{
+                          startAdornment: <DollarIcon />,
+                          sx: {
+                            borderRadius: "20px", // Apply border radius to the input element
+                            //   borderBottomLeftRadius: "20px", // Apply border radius to the input element
+                            height: "56px",
+                            borderColor: "#79747E",
+                            fontSize: "16px",
+                            color: "#1C1B1F",
+                          },
+                        }}
+                        // placeholder="Enter your country"
+                      />
+                    </Grid>
                   </Grid>
-                  <Grid item xs={6}>
-                    <TextField
-                      fullWidth
-                      required
-                      sx={{ fontSize: "16px", color: "#1C1B1F" }}
-                      id="clearing-cost"
-                      type="text"
-                      value={shippingCost}
-                      onChange={(e) => setShippingCost(e.target.value)}
-                      label="Clearing, Port Handling"
-                      InputProps={{
-                        startAdornment: <DollarIcon />,
-                        sx: {
-                          borderRadius: "20px", // Apply border radius to the input element
-                          //   borderBottomLeftRadius: "20px", // Apply border radius to the input element
-                          height: "56px",
-                          borderColor: "#79747E",
-                          fontSize: "16px",
-                          color: "#1C1B1F",
-                        },
-                      }}
-                      // placeholder="Enter your country"
-                    />
-                  </Grid>
-                </Grid>
-                <TextField
-                  fullWidth
-                  required
-                  sx={{ fontSize: "16px", color: "#1C1B1F" }}
-                  id="duty fee"
-                  type="text"
-                  value={shippingCost}
-                  onChange={(e) => setShippingCost(e.target.value)}
-                  label="Duty Fee"
-                  InputProps={{
-                    startAdornment: <DollarIcon />,
-                    sx: {
-                      borderRadius: "20px", // Apply border radius to the input element
-                      // borderBottomLeftRadius: "20px", // Apply border radius to the input element
-                      height: "56px",
-                      borderColor: "#79747E",
-                      fontSize: "16px",
-                      color: "#1C1B1F",
-                    },
-                  }}
-                  // placeholder="Enter your country"
-                />
-              </CardWrapper>
+                  <TextField
+                    fullWidth
+                    required
+                    sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                    id="duty fee"
+                    type="text"
+                    value={shippingCost}
+                    onChange={(e) => setShippingCost(e.target.value)}
+                    label="Duty Fee"
+                    InputProps={{
+                      startAdornment: <DollarIcon />,
+                      sx: {
+                        borderRadius: "20px", // Apply border radius to the input element
+                        // borderBottomLeftRadius: "20px", // Apply border radius to the input element
+                        height: "56px",
+                        borderColor: "#79747E",
+                        fontSize: "16px",
+                        color: "#1C1B1F",
+                      },
+                    }}
+                    // placeholder="Enter your country"
+                  />
+                </CardWrapper>
+              </Box>
             </Box>
-          </Box>
+          )}
 
           <Box mt="10px">
             <Box border="1px solid #CAC4D0" p="16px 20px" borderRadius="20px">
