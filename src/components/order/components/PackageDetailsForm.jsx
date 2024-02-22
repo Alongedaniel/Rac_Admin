@@ -16,10 +16,9 @@ import PlusIcon from "../../../assets/icons/PlusIcon";
 import UploadIcon from "../../../assets/icons/UploadIcon";
 import { BsPlus } from "react-icons/bs";
 import DeletIcon from "../../../assets/icons/DeletIcon";
+import CardWrapper from "./CardWrapper";
 
 const PackageDetailsForm = ({
-  drop = 0,
-    toggle = () => { },
   origin='',
   productName = "",
   setProductName = () => {},
@@ -38,7 +37,8 @@ const PackageDetailsForm = ({
   setWidth = () => {},
   setWeight = () => {},
   setLength = () => {},
-  setOrigin = () => {},
+  setOrigin = () => { },
+  service=''
 }) => {
   const originList = [
     "Origin 1",
@@ -113,21 +113,10 @@ const PackageDetailsForm = ({
             marginTop: "20px",
           }}
         >
-          <div
-            className={`${
-              drop === 4 ? "h-full" : "h-[68px] overflow-hidden"
-            } px-[28px] py-[20px] transition-all  border  rounded-[20px]`}
-            style={{ flex: 1 }}
+          <CardWrapper
+            title="Item - #1" 
+            
           >
-            <div
-              onClick={() => toggle(4)}
-              className={`transition-all flex items-center justify-between cursor-pointer`}
-            >
-              <p className="text-[20px]">
-                Item - <span className="text-brand/200">#1</span>
-              </p>
-              <IoChevronUpCircleOutline className="text-[25px]" />
-            </div>
             <Box>
               <Box mt="10px" pt="30px">
                 <Box mb="30px">
@@ -203,10 +192,10 @@ const PackageDetailsForm = ({
                         endAdornment: (
                           <Box
                             sx={{ cursor: "pointer" }}
-                                onClick={() => {
-                                    setQuantityValue((prev) => prev + 1)
-                                    setQuantity(quantityValue);
-                                }}
+                            onClick={() => {
+                              setQuantityValue((prev) => prev + 1);
+                              setQuantity(quantityValue);
+                            }}
                           >
                             <PlusIcon />
                           </Box>
@@ -277,6 +266,7 @@ const PackageDetailsForm = ({
                     onChange={(e) => setProductDescription(e.target.value)}
                     fullWidth
                     multiline
+                    rows={5}
                     maxRows={5}
                     // placeholder="Select origin"
                     InputProps={{
@@ -345,7 +335,7 @@ const PackageDetailsForm = ({
                 </Box>
               </Box>
             </Box>
-          </div>
+          </CardWrapper>
           <DeletIcon />
         </Box>
         <Box
@@ -357,22 +347,9 @@ const PackageDetailsForm = ({
             my: "20px",
           }}
         >
-          <div
-            className={`${
-              drop === 5 ? "h-full" : "h-[68px] overflow-hidden"
-            } px-[28px] py-[20px] transition-all  border  rounded-[20px]`}
-            style={{ flex: 1 }}
+          <CardWrapper title='Item - #2'
           >
-            <div
-              onClick={() => toggle(5)}
-              className={`transition-all flex items-center justify-between cursor-pointer`}
-            >
-              <p className="text-[20px]">
-                Item - <span className="text-brand/200">#2</span>
-              </p>
-              <IoChevronUpCircleOutline className="text-[25px]" />
-            </div>
-          </div>
+          </CardWrapper>
           <DeletIcon />
         </Box>
         <Button
@@ -389,7 +366,7 @@ const PackageDetailsForm = ({
         >
           Add new product/item
         </Button>
-        <Box mt="30px">
+        {service === 'Shop For Me' ? null : <Box mt="30px">
           <div className="flex items-center space-x-[10px] ">
             <CircleRight />
             <p className="font-roboto font-[500] text-[14px] text-t/100 text-brand/200 ">
@@ -500,7 +477,7 @@ const PackageDetailsForm = ({
               </Grid>
             </Box>
           </Box>
-        </Box>
+        </Box>}
       </Box>
     </Box>
   );

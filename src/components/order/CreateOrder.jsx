@@ -18,6 +18,7 @@ import CircleRight from "../../assets/icons/CircleRight";
 import BillingDetailsForm from "./components/BillingDetailsForm";
 import OrderPricing from "./components/OrderPricing";
 import OrderInfo from "./components/OrderInfo";
+import AutoImportPackageDetails from "./components/AutoImportPackageDetails";
 
 const CreateOrder = () => {
   const [assignedCustomer, setAssignedCustomer] = useState("");
@@ -59,22 +60,7 @@ const CreateOrder = () => {
   const [otherCharges, setOtherCharges] = useState("");
   const [activeStep, setActiveStep] = useState(0);
     const [saveAsDraft, setSaveAsDraft] = useState(false);
-  const steps = [
-    "Order Information",
-    "Package Details",
-    "Shipping Details",
-    "Billing",
-    "Order Details Confirmation",
-    saveAsDraft ? "Order Saved to Draft" : "Order Successfully Created",
-  ];
-  //  : [
-  //      "Order Information",
-  //      "Package Details",
-  //      "Billing",
-  //      "Order Details Confirmation",
-  //      "Request Successfully Approved",
-  //    ];
-  const finish = activeStep === steps.length - 1;
+
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -148,6 +134,26 @@ const CreateOrder = () => {
       },
     },
   };
+
+    const steps =
+      exportOrder.orderInformation.service !== "Shop For Me"
+        ? [
+            "Order Information",
+            "Package Details",
+            "Shipping Details",
+            "Billing Details",
+            "Order Details Confirmation",
+            saveAsDraft ? "Order Saved to Draft" : "Order Successfully Created",
+          ]
+        : [
+            "Order Information",
+            "Package Details",
+            "Billing Details",
+            "Order Details Confirmation",
+            saveAsDraft ? "Order Saved to Draft" : "Order Successfully Created",
+          ];
+    const finish = activeStep === steps.length - 1;
+
   console.log(exportOrder);
 const order =  {
         id: "R78607",
@@ -189,111 +195,301 @@ const order =  {
             />
           ) : activeStep === 1 ? (
             <Box>
-              <PackageDetailsForm
-                drop={drop}
-                toggle={toggle}
-                origin={origin}
-                productName={productName}
-                originalCost={originalCost}
-                quantity={quantity}
-                itemColor={itemColor}
-                setOrigin={setOrigin}
-                setProductName={setProductName}
-                setOriginalCost={setOriginalCost}
-                setQuantity={setQuantity}
-                setItemColor={setItemColor}
-                productDescription={productDescription}
-                setProductDescription={setProductDescription}
-                weight={weight}
-                length={length}
-                width={width}
-                height={height}
-                setWeight={setWeight}
-                setLength={setLength}
-                setWidth={setWidth}
-                setHeight={setHeight}
-              />
+              {exportOrder.orderInformation.service === "Auto Import" ? (
+                <AutoImportPackageDetails
+                  origin={origin}
+                  setOrigin={setOrigin}
+                />
+              ) : (
+                <PackageDetailsForm
+                  drop={drop}
+                  toggle={toggle}
+                  origin={origin}
+                  productName={productName}
+                  originalCost={originalCost}
+                  quantity={quantity}
+                  itemColor={itemColor}
+                  setOrigin={setOrigin}
+                  setProductName={setProductName}
+                  setOriginalCost={setOriginalCost}
+                  setQuantity={setQuantity}
+                  setItemColor={setItemColor}
+                  productDescription={productDescription}
+                  setProductDescription={setProductDescription}
+                  weight={weight}
+                  length={length}
+                  width={width}
+                  height={height}
+                  setWeight={setWeight}
+                  setLength={setLength}
+                  setWidth={setWidth}
+                  setHeight={setHeight}
+                  service={exportOrder.orderInformation.service}
+                />
+              )}
             </Box>
           ) : activeStep === 2 ? (
             <Box>
-              <ShippingDetailsForm
-                setReceiverZipCode={setReceiverZipCode}
-                receiverZipCode={receiverZipCode}
-                setReceiverAddress={setReceiverAddress}
-                receiverAddress={receiverAddress}
-                setDestinationCity={setDestinationCity}
-                destinationCity={destinationCity}
-                setDestinationState={setDestinationState}
-                destinationState={destinationState}
-                setDestinationCountry={setDestinationCountry}
-                destinationCountry={destinationCountry}
-                setReceiverPhoneNumber={setReceiverPhoneNumber}
-                receiverPhoneNumber={receiverPhoneNumber}
-                setReceiverEmail={setReceiverEmail}
-                receiverEmail={receiverEmail}
-                setReceiverLastName={setReceiverLastName}
-                receiverLastName={receiverLastName}
-                setReceiverFirstName={setReceiverFirstName}
-                receiverFirstName={receiverFirstName}
-              />
+              {exportOrder.orderInformation.service === "Shop For Me" ? (
+                <>
+                  <BillingDetailsForm
+                    setZipCode={setZipCode}
+                    zipCode={zipCode}
+                    setAddress={setAddress}
+                    address={address}
+                    setCity={setCity}
+                    city={city}
+                    setState={setState}
+                    state={state}
+                    setCountry={setCountry}
+                    country={country}
+                    setPhoneNumber={setPhoneNumber}
+                    phoneNumber={phoneNumber}
+                    setEmail={setEmail}
+                    email={email}
+                    setLastName={setLastName}
+                    lastName={lastName}
+                    setFirstName={setFirstName}
+                    firstName={firstName}
+                  />
+
+                  <Box mt="30px">
+                    <OrderPricing
+                      service={exportOrder.orderInformation.service}
+                      shippingCost={shippingCost}
+                      clearingCost={clearingCost}
+                      dutyFee={dutyFee}
+                      setShippingCost={setShippingCost}
+                      setClearingCost={setClearingCost}
+                      setDutyFee={setDutyFee}
+                    />
+                  </Box>
+                </>
+              ) : (
+                <ShippingDetailsForm
+                  setReceiverZipCode={setReceiverZipCode}
+                  receiverZipCode={receiverZipCode}
+                  setReceiverAddress={setReceiverAddress}
+                  receiverAddress={receiverAddress}
+                  setDestinationCity={setDestinationCity}
+                  destinationCity={destinationCity}
+                  setDestinationState={setDestinationState}
+                  destinationState={destinationState}
+                  setDestinationCountry={setDestinationCountry}
+                  destinationCountry={destinationCountry}
+                  setReceiverPhoneNumber={setReceiverPhoneNumber}
+                  receiverPhoneNumber={receiverPhoneNumber}
+                  setReceiverEmail={setReceiverEmail}
+                  receiverEmail={receiverEmail}
+                  setReceiverLastName={setReceiverLastName}
+                  receiverLastName={receiverLastName}
+                  setReceiverFirstName={setReceiverFirstName}
+                  receiverFirstName={receiverFirstName}
+                  service={exportOrder.orderInformation.service}
+                />
+              )}
             </Box>
           ) : activeStep === 3 ? (
             <>
-              <BillingDetailsForm
-                setZipCode={setZipCode}
-                zipCode={zipCode}
-                setAddress={setAddress}
-                address={address}
-                setCity={setCity}
-                city={city}
-                setState={setState}
-                state={state}
-                setCountry={setCountry}
-                country={country}
-                setPhoneNumber={setPhoneNumber}
-                phoneNumber={phoneNumber}
-                setEmail={setEmail}
-                email={email}
-                setLastName={setLastName}
-                lastName={lastName}
-                setFirstName={setFirstName}
-                firstName={firstName}
-              />
+              {" "}
+              {exportOrder.orderInformation.service === "Shop For Me" ? (
+                <Box display="flex" flexDirection="column" gap="30px">
+                  <OrderInfo order={exportOrder.orderInformation} />
 
-              <Box mt="30px">
-                <OrderPricing
-                  shippingCost={shippingCost}
-                  clearingCost={clearingCost}
-                  dutyFee={dutyFee}
-                  setShippingCost={setShippingCost}
-                  setClearingCost={setClearingCost}
-                  setDutyFee={setDutyFee}
-                />
-              </Box>
+                  <PackageDetails
+                    order={order}
+                    type={"request"}
+                    toggle={toggle}
+                    drop={drop}
+                  />
+                  <ShippingDetails
+                    order={order}
+                    type={"request"}
+                    toggle={toggle}
+                    drop={drop}
+                  />
+                  <BillingDetails
+                    order={order}
+                    type={"request"}
+                    toggle={toggle}
+                    drop={drop}
+                  />
+                </Box>
+              ) : (
+                <>
+                  <BillingDetailsForm
+                    setZipCode={setZipCode}
+                    zipCode={zipCode}
+                    setAddress={setAddress}
+                    address={address}
+                    setCity={setCity}
+                    city={city}
+                    setState={setState}
+                    state={state}
+                    setCountry={setCountry}
+                    country={country}
+                    setPhoneNumber={setPhoneNumber}
+                    phoneNumber={phoneNumber}
+                    setEmail={setEmail}
+                    email={email}
+                    setLastName={setLastName}
+                    lastName={lastName}
+                    setFirstName={setFirstName}
+                    firstName={firstName}
+                  />
+
+                  <Box mt="30px">
+                    <OrderPricing
+                      service={exportOrder.orderInformation.service}
+                      shippingCost={shippingCost}
+                      clearingCost={clearingCost}
+                      dutyFee={dutyFee}
+                      setShippingCost={setShippingCost}
+                      setClearingCost={setClearingCost}
+                      setDutyFee={setDutyFee}
+                    />
+                  </Box>
+                </>
+              )}
             </>
           ) : activeStep === 4 ? (
-            <Box display="flex" flexDirection="column" gap="30px">
-              <OrderInfo order={exportOrder.orderInformation} />
+            exportOrder.orderInformation.service === "Shop For Me" ? (
+              <Box width="100%">
+                <Box bgcolor="#6750A4" borderRadius="20px" px="1px">
+                  <Box
+                    p={saveAsDraft ? "20px" : 0}
+                    mb="40px"
+                    display="flex"
+                    gap="10px"
+                    alignItems="center"
+                  >
+                    {saveAsDraft ? null : <img src={drone} alt="drone" />}
+                    <Box>
+                      <Typography
+                        fontSize="24px"
+                        fontWeight={700}
+                        color="#fff"
+                        mb="10px"
+                      >
+                        {saveAsDraft
+                          ? "Kudos for getting this far!"
+                          : "Congratulations!"}
+                      </Typography>
+                      <Typography fontSize="20px" color="#fff">
+                        {saveAsDraft
+                          ? `You have just saved this ${exportOrder.orderInformation.service} request to draft. The customer will not be informed about this order until this request has been approved.`
+                          : `You have just created this ${exportOrder.orderInformation.service} order, and your payment claim is currently awaiting approval.`}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
+                <Box>
+                  <div className="flex items-center space-x-[10px] ">
+                    <CircleRight />
+                    <p className="font-roboto font-[500] text-[14px] text-t/100 ">
+                      What Next?
+                    </p>
+                  </div>
+                  <Box
+                    mt="20px"
+                    px="14px"
+                    py="10px"
+                    borderRadius="20px"
+                    border="1px solid #CAC4D0"
+                  >
+                    <Typography
+                      fontSize="20px"
+                      fontWeight={700}
+                      color="#49454F"
+                      mb="20px"
+                      pl="14px"
+                    >
+                      Here are more information on how to follow up this order
+                    </Typography>
+                    {saveAsDraft ? (
+                      <Typography pl="14px" fontSize="20px">
+                        To complete the approval of this request, please
+                        navigate to the "Drafts" tab in the order history.
+                        Locate this request using its ID or any associated
+                        information.
+                      </Typography>
+                    ) : null}
+                    {saveAsDraft ? null : (
+                      <Box>
+                        <Box
+                          display="flex"
+                          gap="20px"
+                          alignItems="center"
+                          mb="13px"
+                        >
+                          <Box
+                            width="33px"
+                            height="48px"
+                            borderRadius="20px"
+                            bgcolor="#6750A4"
+                            color="#fff"
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="center"
+                            fontSize="20px"
+                          >
+                            1
+                          </Box>
+                          <Typography fontSize="20px">
+                            The customer will not be informed about this order
+                            until the Finance Team confirms the claimed
+                            transaction to be true.
+                          </Typography>
+                        </Box>
+                        <Box display="flex" gap="20px" alignItems="center">
+                          <Box
+                            width="33px"
+                            height="48px"
+                            borderRadius="20px"
+                            bgcolor="#6750A4"
+                            color="#fff"
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="center"
+                            fontSize="20px"
+                          >
+                            2
+                          </Box>
+                          <Typography fontSize="20px">
+                            After the confirmation of this order’s payment, you
+                            can then start necessary preparations for the
+                            shipment processes.
+                          </Typography>
+                        </Box>
+                      </Box>
+                    )}
+                  </Box>
+                </Box>
+              </Box>
+            ) : (
+              <Box display="flex" flexDirection="column" gap="30px">
+                <OrderInfo order={exportOrder.orderInformation} />
 
-              <PackageDetails
-                order={order}
-                type={"request"}
-                toggle={toggle}
-                drop={drop}
-              />
-              <ShippingDetails
-                order={order}
-                type={"request"}
-                toggle={toggle}
-                drop={drop}
-              />
-              <BillingDetails
-                order={order}
-                type={"request"}
-                toggle={toggle}
-                drop={drop}
-              />
-            </Box>
+                <PackageDetails
+                  order={order}
+                  type={"request"}
+                  toggle={toggle}
+                  drop={drop}
+                />
+                <ShippingDetails
+                  order={order}
+                  type={"request"}
+                  toggle={toggle}
+                  drop={drop}
+                />
+                <BillingDetails
+                  order={order}
+                  type={"request"}
+                  toggle={toggle}
+                  drop={drop}
+                />
+              </Box>
+            )
           ) : activeStep === 5 ? (
             <Box width="100%">
               <Box bgcolor="#6750A4" borderRadius="20px" px="1px">
