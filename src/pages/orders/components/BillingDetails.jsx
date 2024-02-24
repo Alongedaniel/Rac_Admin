@@ -3,8 +3,9 @@ import EditIcon from '../../../assets/icons/EditIcon';
 import { IoChevronUpCircleOutline } from 'react-icons/io5';
 import CircleRight from '../../../assets/icons/CircleRight';
 import { Box } from '@mui/material';
+import CardWrapper from '../../../components/order/components/CardWrapper';
 
-const BillingDetails = ({order, toggle, drop, type}) => {
+const BillingDetails = ({order, type}) => {
   return (
     <>
       {type === "request" &&
@@ -29,20 +30,7 @@ const BillingDetails = ({order, toggle, drop, type}) => {
                   marginTop: "20px",
                 }}
               >
-                <div
-                  className={`${
-                    drop === 6 ? "h-full " : "h-[68px] overflow-hidden"
-                  } transition-all px-[28px] py-[20px] border  rounded-[20px]`}
-                  style={{ flex: 1 }}
-                >
-                  <div
-                    onClick={() => toggle(6)}
-                    className={` transition-all flex items-center justify-between cursor-pointer`}
-                  >
-                    <p className="text-[20px]">Billing Information</p>
-                    <IoChevronUpCircleOutline className="text-[25px]" />
-                  </div>
-
+                <CardWrapper title="Billing Information">
                   <div className="grid grid-cols-2 gap-[20px] mt-[30px] ">
                     <div className="">
                       <p className="text-[14px] text-t/100 font-roboto text-brand/200">
@@ -119,7 +107,7 @@ const BillingDetails = ({order, toggle, drop, type}) => {
                       </p>
                     </div>
                   </div>
-                </div>
+                </CardWrapper>
                 {type === "request" ? null : <EditIcon />}
               </Box>
             )}
@@ -133,19 +121,9 @@ const BillingDetails = ({order, toggle, drop, type}) => {
                   marginTop: "20px",
                 }}
               >
-                <div
-                  className={`${
-                    drop === 7 ? "h-full " : "h-[68px] overflow-hidden"
-                  } transition-all px-[28px] py-[20px]  border  rounded-[20px]`}
-                  style={{ flex: 1 }}
+                <CardWrapper
+                  title="Payments Information"
                 >
-                  <div
-                    onClick={() => toggle(7)}
-                    className={` transition-all flex items-center justify-between cursor-pointer`}
-                  >
-                    <p className="text-[20px]">Payments Information</p>
-                    <IoChevronUpCircleOutline className="text-[25px]" />
-                  </div>
 
                   <div className="grid grid-cols-5 mt-[30px]">
                     {order.service === "Shop For Me" && (
@@ -191,7 +169,7 @@ const BillingDetails = ({order, toggle, drop, type}) => {
                       </p>
                     </div>
                   </div>
-                </div>
+                </CardWrapper>
                 {type === "request" ? null : <EditIcon />}
               </Box>
             )}

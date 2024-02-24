@@ -1,4 +1,11 @@
-import { Box, Button, Step, StepLabel, Stepper, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Step,
+  StepLabel,
+  Stepper,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 import OrderInformationForm from "./components/OrderInformationForm";
 import ArrowLeftPurple from "../../assets/icons/ArrowLeftPurple";
@@ -13,12 +20,15 @@ import OrderInformation from "../../pages/orders/components/OrderInformation";
 import ShippingDetails from "../../pages/orders/components/ShippingDetails";
 import CheckWhiteIcon from "../../assets/icons/CheckWhiteIcon";
 import DraftIcon from "../../assets/icons/DraftIcon";
-import drone from '../../assets/images/drone.png'
+import drone from "../../assets/images/drone.png";
 import CircleRight from "../../assets/icons/CircleRight";
 import BillingDetailsForm from "./components/BillingDetailsForm";
 import OrderPricing from "./components/OrderPricing";
 import OrderInfo from "./components/OrderInfo";
 import AutoImportPackageDetails from "./components/AutoImportPackageDetails";
+import PackageDetailsInfo from "./components/PackageDetailsInfo";
+import ShippingDetailsInfo from "./components/ShippingDetailsInfo";
+import BillingDetailsInfo from "./components/BillingDetailsInfo";
 
 const CreateOrder = () => {
   const [assignedCustomer, setAssignedCustomer] = useState("");
@@ -59,7 +69,7 @@ const CreateOrder = () => {
   const [dutyFee, setDutyFee] = useState("");
   const [otherCharges, setOtherCharges] = useState("");
   const [activeStep, setActiveStep] = useState(0);
-    const [saveAsDraft, setSaveAsDraft] = useState(false);
+  const [saveAsDraft, setSaveAsDraft] = useState(false);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -70,10 +80,6 @@ const CreateOrder = () => {
   const handleBack = () => {
     if (activeStep > 0) setActiveStep((prevActiveStep) => prevActiveStep - 1);
     else setProceed(false);
-  };
-  const [drop, setDrop] = useState(null);
-  const toggle = (i) => {
-    setDrop((prevFaq) => (prevFaq === i ? null : i));
   };
 
   const [quantityValue, setQuantityValue] = useState(1);
@@ -135,36 +141,36 @@ const CreateOrder = () => {
     },
   };
 
-    const steps =
-      exportOrder.orderInformation.service !== "Shop For Me"
-        ? [
-            "Order Information",
-            "Package Details",
-            "Shipping Details",
-            "Billing Details",
-            "Order Details Confirmation",
-            saveAsDraft ? "Order Saved to Draft" : "Order Successfully Created",
-          ]
-        : [
-            "Order Information",
-            "Package Details",
-            "Billing Details",
-            "Order Details Confirmation",
-            saveAsDraft ? "Order Saved to Draft" : "Order Successfully Created",
-          ];
-    const finish = activeStep === steps.length - 1;
+  const steps =
+    exportOrder.orderInformation.service !== "Shop For Me"
+      ? [
+          "Order Information",
+          "Package Details",
+          "Shipping Details",
+          "Billing Details",
+          "Order Details Confirmation",
+          saveAsDraft ? "Order Saved to Draft" : "Order Successfully Created",
+        ]
+      : [
+          "Order Information",
+          "Package Details",
+          "Billing Details",
+          "Order Details Confirmation",
+          saveAsDraft ? "Order Saved to Draft" : "Order Successfully Created",
+        ];
+  const finish = activeStep === steps.length - 1;
 
   console.log(exportOrder);
-const order =  {
-        id: "R78607",
-        service: "Auto Import",
-        customer: "Rexo Offorex",
-        location: "Lagos, Nigeria",
-        status: "Not Responded",
-        date: "22-03-2023 13:05",
-        staff: "Micheal Sam obalodu",
-        actions: "axtions",
-      }
+  const order = {
+    id: "R78607",
+    service: "Auto Import",
+    customer: "Rexo Offorex",
+    location: "Lagos, Nigeria",
+    status: "Not Responded",
+    date: "22-03-2023 13:05",
+    staff: "Micheal Sam obalodu",
+    actions: "axtions",
+  };
   return (
     <Box px="50px">
       <Box
@@ -202,8 +208,6 @@ const order =  {
                 />
               ) : (
                 <PackageDetailsForm
-                  drop={drop}
-                  toggle={toggle}
                   origin={origin}
                   productName={productName}
                   originalCost={originalCost}
@@ -296,24 +300,9 @@ const order =  {
                 <Box display="flex" flexDirection="column" gap="30px">
                   <OrderInfo order={exportOrder.orderInformation} />
 
-                  <PackageDetails
-                    order={order}
-                    type={"request"}
-                    toggle={toggle}
-                    drop={drop}
-                  />
-                  <ShippingDetails
-                    order={order}
-                    type={"request"}
-                    toggle={toggle}
-                    drop={drop}
-                  />
-                  <BillingDetails
-                    order={order}
-                    type={"request"}
-                    toggle={toggle}
-                    drop={drop}
-                  />
+                  <PackageDetailsInfo order={exportOrder} />
+                  <ShippingDetailsInfo order={exportOrder} />
+                  <BillingDetailsInfo order={exportOrder} />
                 </Box>
               ) : (
                 <>
@@ -470,24 +459,9 @@ const order =  {
               <Box display="flex" flexDirection="column" gap="30px">
                 <OrderInfo order={exportOrder.orderInformation} />
 
-                <PackageDetails
-                  order={order}
-                  type={"request"}
-                  toggle={toggle}
-                  drop={drop}
-                />
-                <ShippingDetails
-                  order={order}
-                  type={"request"}
-                  toggle={toggle}
-                  drop={drop}
-                />
-                <BillingDetails
-                  order={order}
-                  type={"request"}
-                  toggle={toggle}
-                  drop={drop}
-                />
+                <PackageDetailsInfo order={exportOrder} />
+                <ShippingDetailsInfo order={exportOrder} />
+                <BillingDetailsInfo order={exportOrder} />
               </Box>
             )
           ) : activeStep === 5 ? (
@@ -685,6 +659,7 @@ const order =  {
               <Button
                 startIcon={<ArrowRightWhite />}
                 variant="contained"
+                disabled={service.length === 0}
                 sx={{
                   bgcolor: "#6750A4",
                   color: "#fff",

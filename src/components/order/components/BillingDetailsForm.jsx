@@ -40,7 +40,12 @@ const BillingDetailsForm = ({
       { name: "Australia", code: "+61" },
     ];
     const [code, setCode] = useState("");
-    const [number, setNumber] = useState("");
+  const [number, setNumber] = useState("");
+  const [selectedValue, setSelectedValue] = useState(null);
+
+  const handleChange = (event) => {
+    setSelectedValue(event.target.value);
+  };
     useEffect(() => {
       setPhoneNumber(code + number);
     }, [code, number]);
@@ -56,14 +61,28 @@ const BillingDetailsForm = ({
       <Box mt="10px" mb="30px">
         <Box mb="10px">
           <CardWrapper
-            showRadio={<Radio color="primary" />}
+            showRadio={
+              <Radio
+                value='default'
+                checked={selectedValue === 'default'}
+                onChange={handleChange}
+                color="primary"
+              />
+            }
             title="Customer's Default Address"
           ></CardWrapper>
         </Box>
         <CardWrapper
           fullByDefault
           title="Custom Billing Address"
-          showRadio={<Radio color="primary" />}
+          showRadio={
+            <Radio
+              value='custom'
+              checked={selectedValue === "custom"}
+              onChange={handleChange}
+              color="primary"
+            />
+          }
         >
           <Box display="flex" flexDirection="column" gap="30px">
             <Grid container gap="30px" wrap="nowrap">

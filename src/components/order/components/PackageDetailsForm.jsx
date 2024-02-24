@@ -17,6 +17,8 @@ import UploadIcon from "../../../assets/icons/UploadIcon";
 import { BsPlus } from "react-icons/bs";
 import DeletIcon from "../../../assets/icons/DeletIcon";
 import CardWrapper from "./CardWrapper";
+import AddIcon from "../../../assets/icons/AddIcon";
+import AddPropertyModal from "./AddPropertyModal";
 
 const PackageDetailsForm = ({
   origin='',
@@ -48,6 +50,7 @@ const PackageDetailsForm = ({
     "Origin 5",
   ];
   const [quantityValue, setQuantityValue] = useState(1);
+  const [open, setOpen] = useState(false)
   return (
     <Box>
       <Box>
@@ -113,13 +116,88 @@ const PackageDetailsForm = ({
             marginTop: "20px",
           }}
         >
-          <CardWrapper
-            title="Item - #1" 
-            
-          >
+          <CardWrapper title="Item - #1">
             <Box>
               <Box mt="10px" pt="30px">
                 <Box mb="30px">
+                  {service === "Shop For Me" && (
+                    <Box mb='30px'>
+                      <Grid container gap="30px" wrap="nowrap" mb='30px'>
+                        <Grid item xs={9}>
+                          <Box display="flex" gap="10px" alignItems="center">
+                            <TextField
+                              required
+                              id="store"
+                              sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                              type="text"
+                              label="Store"
+                              // value={productName}
+                              // onChange={(e) => setProductName(e.target.value)}
+                              fullWidth
+                              placeholder="Select a store"
+                              select
+                              InputProps={{
+                                sx: {
+                                  borderRadius: "20px", // Apply border radius to the input element
+                                  height: "56px",
+                                  borderColor: "#79747E",
+                                  fontSize: "16px",
+                                  color: "#1C1B1F",
+                                },
+                              }}
+                            />
+                            <TooltipIcon />
+                          </Box>
+                        </Grid>
+                        <Grid item xs={3}>
+                          <Box display="flex" gap="10px" alignItems="center">
+                            <TextField
+                              required
+                              id="urgent-purchase"
+                              sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                              type="text"
+                              label="Urgent Purchase"
+                              // value={productName}
+                              // onChange={(e) => setProductName(e.target.value)}
+                              fullWidth
+                              // placeholder="Select origin"
+                              select
+                              InputProps={{
+                                sx: {
+                                  borderRadius: "20px", // Apply border radius to the input element
+                                  height: "56px",
+                                  borderColor: "#79747E",
+                                  fontSize: "16px",
+                                  color: "#1C1B1F",
+                                },
+                              }}
+                            />
+                            <TooltipIcon />
+                          </Box>
+                        </Grid>
+                      </Grid>
+                      <TextField
+                        required
+                        id="item-url"
+                        sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                        type="text"
+                        label="Item URL"
+                        // value={productName}
+                        // onChange={(e) => setProductName(e.target.value)}
+                        fullWidth
+                        placeholder="Paste the item link here"
+                        InputProps={{
+                          sx: {
+                            borderRadius: "20px", // Apply border radius to the input element
+                            height: "56px",
+                            borderColor: "#79747E",
+                            fontSize: "16px",
+                            color: "#1C1B1F",
+                          },
+                        }}
+                      />
+                    </Box>
+                  )}
                   <TextField
                     required
                     id="product-name"
@@ -317,7 +395,8 @@ const PackageDetailsForm = ({
                         }}
                       />
                       <Button
-                        startIcon={<BsPlus size={20} />}
+                        startIcon={<AddIcon color='#E6E1E5' />}
+                        onClick={() => setOpen(true)}
                         variant="contained"
                         sx={{
                           bgcolor: "#49454F",
@@ -347,13 +426,11 @@ const PackageDetailsForm = ({
             my: "20px",
           }}
         >
-          <CardWrapper title='Item - #2'
-          >
-          </CardWrapper>
+          <CardWrapper title="Item - #2"></CardWrapper>
           <DeletIcon />
         </Box>
         <Button
-          startIcon={<BsPlus size={20} />}
+          startIcon={<AddIcon color='#E6E1E5' />}
           variant="contained"
           sx={{
             bgcolor: "#49454F",
@@ -366,119 +443,122 @@ const PackageDetailsForm = ({
         >
           Add new product/item
         </Button>
-        {service === 'Shop For Me' ? null : <Box mt="30px">
-          <div className="flex items-center space-x-[10px] ">
-            <CircleRight />
-            <p className="font-roboto font-[500] text-[14px] text-t/100 text-brand/200 ">
-              Let’s know the weight and dimensions of the entire package
-            </p>
-          </div>
-          <Box px="30px" mt="12px">
-            <Box
-              display="flex"
-              alignItems="center"
-              gap="10px"
-              pt="30px"
-              sx={{ borderTop: "1px solid #79747E" }}
-            >
-              <Grid container wrap="nowrap" gap="30px" mb="10px">
-                <Grid item xs={3}>
-                  <TextField
-                    required
-                    id="total-weight"
-                    sx={{ fontSize: "16px", color: "#1C1B1F" }}
-                    type="number"
-                    value={weight}
-                    onChange={(e) => setWeight(e.target.value)}
-                    label="Total Weight (in kg)"
-                    fullWidth
-                    // placeholder="Select origin"
-                    InputProps={{
-                      sx: {
-                        // maxWidth: "540px",
-                        borderRadius: "20px", // Apply border radius to the input element
-                        height: "56px",
-                        borderColor: "#79747E",
-                        fontSize: "16px",
-                        color: "#1C1B1F",
-                      },
-                    }}
-                  />
+        {service === "Shop For Me" ? null : (
+          <Box mt="30px">
+            <div className="flex items-center space-x-[10px] ">
+              <CircleRight />
+              <p className="font-roboto font-[500] text-[14px] text-t/100 text-brand/200 ">
+                Let’s know the weight and dimensions of the entire package
+              </p>
+            </div>
+            <Box px="30px" mt="12px">
+              <Box
+                display="flex"
+                alignItems="center"
+                gap="10px"
+                pt="30px"
+                sx={{ borderTop: "1px solid #79747E" }}
+              >
+                <Grid container wrap="nowrap" gap="30px" mb="10px">
+                  <Grid item xs={3}>
+                    <TextField
+                      required
+                      id="total-weight"
+                      sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                      type="number"
+                      value={weight}
+                      onChange={(e) => setWeight(e.target.value)}
+                      label="Total Weight (in kg)"
+                      fullWidth
+                      // placeholder="Select origin"
+                      InputProps={{
+                        sx: {
+                          // maxWidth: "540px",
+                          borderRadius: "20px", // Apply border radius to the input element
+                          height: "56px",
+                          borderColor: "#79747E",
+                          fontSize: "16px",
+                          color: "#1C1B1F",
+                        },
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <TextField
+                      required
+                      id="total-length"
+                      sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                      type="number"
+                      value={length}
+                      onChange={(e) => setLength(e.target.value)}
+                      label="Total Length (in Inches)"
+                      fullWidth
+                      // placeholder="Select origin"
+                      InputProps={{
+                        sx: {
+                          // maxWidth: "540px",
+                          borderRadius: "20px", // Apply border radius to the input element
+                          height: "56px",
+                          borderColor: "#79747E",
+                          fontSize: "16px",
+                          color: "#1C1B1F",
+                        },
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <TextField
+                      required
+                      id="total-width"
+                      sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                      type="number"
+                      label="Total Width (in Inches)"
+                      value={width}
+                      onChange={(e) => setWidth(e.target.value)}
+                      fullWidth
+                      // placeholder="Select origin"
+                      InputProps={{
+                        sx: {
+                          // maxWidth: "540px",
+                          borderRadius: "20px", // Apply border radius to the input element
+                          height: "56px",
+                          borderColor: "#79747E",
+                          fontSize: "16px",
+                          color: "#1C1B1F",
+                        },
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <TextField
+                      required
+                      id="total-height"
+                      sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                      type="number"
+                      value={height}
+                      onChange={(e) => setHeight(e.target.value)}
+                      label="Total Height (in Inches)"
+                      fullWidth
+                      // placeholder="Select origin"
+                      InputProps={{
+                        sx: {
+                          // maxWidth: "540px",
+                          borderRadius: "20px", // Apply border radius to the input element
+                          height: "56px",
+                          borderColor: "#79747E",
+                          fontSize: "16px",
+                          color: "#1C1B1F",
+                        },
+                      }}
+                    />
+                  </Grid>
                 </Grid>
-                <Grid item xs={3}>
-                  <TextField
-                    required
-                    id="total-length"
-                    sx={{ fontSize: "16px", color: "#1C1B1F" }}
-                    type="number"
-                    value={length}
-                    onChange={(e) => setLength(e.target.value)}
-                    label="Total Length (in Inches)"
-                    fullWidth
-                    // placeholder="Select origin"
-                    InputProps={{
-                      sx: {
-                        // maxWidth: "540px",
-                        borderRadius: "20px", // Apply border radius to the input element
-                        height: "56px",
-                        borderColor: "#79747E",
-                        fontSize: "16px",
-                        color: "#1C1B1F",
-                      },
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={3}>
-                  <TextField
-                    required
-                    id="total-width"
-                    sx={{ fontSize: "16px", color: "#1C1B1F" }}
-                    type="number"
-                    label="Total Width (in Inches)"
-                    value={width}
-                    onChange={(e) => setWidth(e.target.value)}
-                    fullWidth
-                    // placeholder="Select origin"
-                    InputProps={{
-                      sx: {
-                        // maxWidth: "540px",
-                        borderRadius: "20px", // Apply border radius to the input element
-                        height: "56px",
-                        borderColor: "#79747E",
-                        fontSize: "16px",
-                        color: "#1C1B1F",
-                      },
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={3}>
-                  <TextField
-                    required
-                    id="total-height"
-                    sx={{ fontSize: "16px", color: "#1C1B1F" }}
-                    type="number"
-                    value={height}
-                    onChange={(e) => setHeight(e.target.value)}
-                    label="Total Height (in Inches)"
-                    fullWidth
-                    // placeholder="Select origin"
-                    InputProps={{
-                      sx: {
-                        // maxWidth: "540px",
-                        borderRadius: "20px", // Apply border radius to the input element
-                        height: "56px",
-                        borderColor: "#79747E",
-                        fontSize: "16px",
-                        color: "#1C1B1F",
-                      },
-                    }}
-                  />
-                </Grid>
-              </Grid>
+              </Box>
             </Box>
           </Box>
-        </Box>}
+        )}
       </Box>
+      <AddPropertyModal open={open} onClose={() => setOpen(false)} />
     </Box>
   );
 };
