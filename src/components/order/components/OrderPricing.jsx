@@ -1,16 +1,163 @@
-import React from 'react'
-import CircleRight from '../../../assets/icons/CircleRight';
-import { Box, Button, FormControl, FormControlLabel, Grid, Radio, RadioGroup, Switch, TextField, Typography, useTheme } from '@mui/material';
-import SwitchIcon from '../../../assets/icons/SwitchIcon';
-import CardWrapper from './CardWrapper';
-import DollarIcon from '../../../assets/icons/DollarIcon';
-import PercentageIcon from '../../../assets/icons/PercentageIcon';
-import RetryIcon from '../../../assets/icons/RetryIcon';
-import StyledArrowRight from '../../../assets/icons/StyledArrowRight';
-import car from '../../../assets/images/car.png'
+import React, { useState } from "react";
+import CircleRight from "../../../assets/icons/CircleRight";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormControlLabel,
+  Grid,
+  Radio,
+  RadioGroup,
+  Switch,
+  TextField,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import SwitchIcon from "../../../assets/icons/SwitchIcon";
+import CardWrapper from "./CardWrapper";
+import DollarIcon from "../../../assets/icons/DollarIcon";
+import PercentageIcon from "../../../assets/icons/PercentageIcon";
+import RetryIcon from "../../../assets/icons/RetryIcon";
+import StyledArrowRight from "../../../assets/icons/StyledArrowRight";
+import car from "../../../assets/images/car.png";
+import laptop from "../../../assets/images/laptop.png";
+import XCloseIcon from "../../../assets/icons/XCloseIcon";
+import AddIcon from "../../../assets/icons/AddIcon";
 
-const OrderPricing = ({shippingCost='', clearingCost='', dutyFee='', setShippingCost=() => {}, setClearingCost=() => {}, setDutyFee=() => {}, service=''}) => {
-    const theme = useTheme()
+const OrderPricing = ({
+  shippingCost = "",
+  clearingCost = "",
+  dutyFee = "",
+  setShippingCost = () => {},
+  setClearingCost = () => {},
+  setDutyFee = () => {},
+  service = "",
+}) => {
+  const shopForMeItems = [
+    {
+      image: laptop,
+      itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
+      itemLink: "htttp/jjnkkukja.jhgyja...",
+      itemCost: "$88.99",
+      urgentPurchase: "No",
+      quantity: 3,
+      totalItemValue: "$112.49",
+    },
+    {
+      image: laptop,
+      itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
+      itemLink: "htttp/jjnkkukja.jhgyja...",
+      itemCost: "$88.99",
+      urgentPurchase: "No",
+      quantity: 3,
+      totalItemValue: "$112.49",
+    },
+    {
+      image: laptop,
+      itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
+      itemLink: "htttp/jjnkkukja.jhgyja...",
+      itemCost: "$88.99",
+      urgentPurchase: "No",
+      quantity: 3,
+      totalItemValue: "$112.49",
+    },
+    {
+      image: laptop,
+      itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
+      itemLink: "htttp/jjnkkukja.jhgyja...",
+      itemCost: "$88.99",
+      urgentPurchase: "No",
+      quantity: 3,
+      totalItemValue: "$112.49",
+    },
+    {
+      image: laptop,
+      itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
+      itemLink: "htttp/jjnkkukja.jhgyja...",
+      itemCost: "$88.99",
+      urgentPurchase: "No",
+      quantity: 3,
+      totalItemValue: "$112.49",
+    },
+    {
+      image: laptop,
+      itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
+      itemLink: "htttp/jjnkkukja.jhgyja...",
+      itemCost: "$88.99",
+      urgentPurchase: "No",
+      quantity: 3,
+      totalItemValue: "$112.49",
+    },
+  ];
+  const autoImportItems = [
+    {
+      image: car,
+      itemName: "Benz s10",
+      itemColor: "blue",
+      itemValue: "$88.99",
+      pickupCost: "$22.00",
+    },
+    {
+      image: car,
+      itemName: "Benz s10",
+      itemColor: "blue",
+      itemValue: "$88.99",
+      pickupCost: "$22.00",
+    },
+    {
+      image: car,
+      itemName: "Benz s10",
+      itemColor: "blue",
+      itemValue: "$88.99",
+      pickupCost: "$22.00",
+    },
+    {
+      image: car,
+      itemName: "Benz s10",
+      itemColor: "blue",
+      itemValue: "$88.99",
+      pickupCost: "$22.00",
+    },
+  ];
+  const items = [
+    {
+      image: laptop,
+      itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
+      itemCost: "$88.99",
+      quantity: 3,
+      totalItemValue: "$112.49",
+    },
+    {
+      image: laptop,
+      itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
+      itemCost: "$88.99",
+      quantity: 3,
+      totalItemValue: "$112.49",
+    },
+    {
+      image: laptop,
+      itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
+      itemCost: "$88.99",
+      quantity: 3,
+      totalItemValue: "$112.49",
+    },
+    {
+      image: laptop,
+      itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
+      itemCost: "$88.99",
+      quantity: 3,
+      totalItemValue: "$112.49",
+    },
+  ];
+
+  const [selectedValue, setSelectedValue] = useState(null);
+  const [clicked, setClicked] = useState(false);
+
+  const handleChange = (event) => {
+    setSelectedValue(event.target.value);
+  };
+
+  const theme = useTheme();
   return (
     <div>
       <div className="flex items-center space-x-[10px] ">
@@ -46,170 +193,430 @@ const OrderPricing = ({shippingCost='', clearingCost='', dutyFee='', setShipping
         </Box>
       </Box>
       <Box border="1px solid #CAC4D0" borderRadius="20px">
-        <Grid
-          sx={{
-            bgcolor: "#F4EFF4",
-            borderTopLeftRadius: "20px",
-            borderTopRightRadius: "20px",
-          }}
-          container
-          p="30px"
-        >
-          <Grid item xs={3}>
-            Items
-          </Grid>
+        {service === "Shop For Me" ? (
           <Grid
-            item
-            xs={3}
             sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              bgcolor: "#F4EFF4",
+              borderTopLeftRadius: "20px",
+              borderTopRightRadius: "20px",
             }}
+            container
+            p="20px 30px"
+            gap="20px"
+            wrap="nowrap"
           >
-            Valur Per Item
+            <Grid
+              item
+              xs={3}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                fontWeight: 600,
+              }}
+            >
+              Items
+            </Grid>
+            <Grid
+              item
+              xs={3}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                fontWeight: 600,
+              }}
+            >
+              Item URL
+            </Grid>
+            <Grid
+              item
+              xs={1.5}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                fontWeight: 600,
+              }}
+            >
+              Item Cost From Store
+            </Grid>
+            <Grid
+              item
+              xs={1.5}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                fontWeight: 600,
+              }}
+            >
+              Urgent Purchase
+            </Grid>
+            <Grid
+              item
+              xs={1.5}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                fontWeight: 600,
+              }}
+            >
+              Quantity Of Items
+            </Grid>
+            <Grid
+              item
+              xs={1.5}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                fontWeight: 600,
+              }}
+            >
+              Total Value Of Item
+            </Grid>
           </Grid>
+        ) : service === "Auto Import" ? (
           <Grid
-            item
-            xs={3}
             sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              bgcolor: "#F4EFF4",
+              borderTopLeftRadius: "20px",
+              borderTopRightRadius: "20px",
             }}
+            container
+            p="30px"
           >
-            Quantity of Items
+            <Grid item xs={3} sx={{ fontWeight: 600 }}>
+              Items
+            </Grid>
+            <Grid
+              item
+              xs={3}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontWeight: 600,
+              }}
+            >
+              Car(s) Color
+            </Grid>
+            <Grid
+              item
+              xs={3}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontWeight: 600,
+              }}
+            >
+              Car Value
+            </Grid>
+            <Grid
+              item
+              xs={3}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontWeight: 600,
+              }}
+            >
+              Pickup Cost
+            </Grid>
           </Grid>
+        ) : (
           <Grid
-            item
-            xs={3}
             sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              bgcolor: "#F4EFF4",
+              borderTopLeftRadius: "20px",
+              borderTopRightRadius: "20px",
             }}
+            container
+            p="30px"
           >
-            Total Value Of Item
+            <Grid item xs={3} sx={{ fontWeight: 600 }}>
+              Items
+            </Grid>
+            <Grid
+              item
+              xs={3}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontWeight: 600,
+              }}
+            >
+              Valur Per Item
+            </Grid>
+            <Grid
+              item
+              xs={3}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontWeight: 600,
+              }}
+            >
+              Quantity of Items
+            </Grid>
+            <Grid
+              item
+              xs={3}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontWeight: 600,
+              }}
+            >
+              Total Value Of Item
+            </Grid>
           </Grid>
-        </Grid>
-        <Grid
-          sx={{ bgcolor: "#fff", borderBottom: "1px solid #79747E" }}
-          container
-          p="20px"
-        >
-          <Grid
-            item
-            xs={3}
-            sx={{ display: "flex", alignItems: "center", gap: "10px" }}
-          >
-            <img
-              src={car}
-              alt="car"
-              style={{ width: "61px", height: "54px" }}
-            />
-            <Typography fontSize={"14px"} fontWeight={500}>
-              Benz s10
-            </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={3}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Typography fontSize={"14px"} fontWeight={500}>
-              $88
-            </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={3}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Typography fontSize={"14px"} fontWeight={500}>
-              2
-            </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={3}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Typography fontSize={"14px"} fontWeight={500}>
-              $176
-            </Typography>
-          </Grid>
-        </Grid>
-        <Grid
-          sx={{ bgcolor: "#fff", borderBottom: "1px solid #79747E" }}
-          container
-          p="20px"
-        >
-          <Grid
-            item
-            xs={3}
-            sx={{ display: "flex", alignItems: "center", gap: "10px" }}
-          >
-            <img
-              src={car}
-              alt="car"
-              style={{ width: "61px", height: "54px" }}
-            />
-            <Typography fontSize={"14px"} fontWeight={500}>
-              GLK 450d
-            </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={3}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Typography fontSize={"14px"} fontWeight={500}>
-              $88
-            </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={3}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Typography fontSize={"14px"} fontWeight={500}>
-              2
-            </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={3}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Typography fontSize={"14px"} fontWeight={500}>
-              $176
-            </Typography>
-          </Grid>
-        </Grid>
+        )}
+        {service === "Shop For Me"
+          ? shopForMeItems.map((item, i) => (
+              <Grid
+                key={i}
+                sx={{ bgcolor: "#fff", borderBottom: "1px solid #79747E" }}
+                container
+                gap="20px"
+                p="20px"
+                wrap="nowrap"
+              >
+                <Grid
+                  item
+                  xs={3}
+                  sx={{ display: "flex", alignItems: "center", gap: "10px" }}
+                >
+                  <img
+                    src={item.image}
+                    alt="car"
+                    style={{ width: "61px", height: "54px" }}
+                  />
+                  <Typography
+                    fontSize={"14px"}
+                    fontWeight={600}
+                    color="#1D192B"
+                  >
+                    {item.itemName}
+                  </Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={3}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                  }}
+                >
+                  <Typography fontSize={"14px"} fontWeight={600}>
+                    <a
+                      href={item.itemLink}
+                      style={{
+                        textDecoration: "none",
+                        color: "#6750A4",
+                        fontSize: "14px",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {item.itemLink}
+                    </a>
+                  </Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={1.5}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                  }}
+                >
+                  <Typography fontSize={"14px"} fontWeight={600}>
+                    {item.itemCost}
+                  </Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={1.5}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                  }}
+                >
+                  <Typography fontSize={"14px"} fontWeight={600}>
+                    {item.urgentPurchase}
+                  </Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={1.5}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                  }}
+                >
+                  <Typography fontSize={"14px"} fontWeight={600}>
+                    {item.quantity}
+                  </Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={1.5}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                  }}
+                >
+                  <Typography fontSize={"14px"} fontWeight={600}>
+                    {item.totalItemValue}
+                  </Typography>
+                </Grid>
+              </Grid>
+            ))
+          : service === "Auto Import"
+          ? autoImportItems.map((item, i) => (
+              <Grid
+                key={i}
+                sx={{ bgcolor: "#fff", borderBottom: "1px solid #79747E" }}
+                container
+                p="20px"
+              >
+                <Grid
+                  item
+                  xs={3}
+                  sx={{ display: "flex", alignItems: "center", gap: "10px" }}
+                >
+                  <img
+                    src={item.image}
+                    alt="car"
+                    style={{ width: "61px", height: "54px" }}
+                  />
+                  <Typography
+                    fontSize={"14px"}
+                    fontWeight={600}
+                    color="#1D192B"
+                  >
+                    {item.itemName}
+                  </Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={3}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography fontSize={"14px"} fontWeight={600}>
+                    {item.itemColor}
+                  </Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={3}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography fontSize={"14px"} fontWeight={600}>
+                    {item.itemValue}
+                  </Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={3}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography fontSize={"14px"} fontWeight={600}>
+                    {item.pickupCost}
+                  </Typography>
+                </Grid>
+              </Grid>
+            ))
+          : items.map((item, i) => (
+              <Grid
+                key={i}
+                sx={{ bgcolor: "#fff", borderBottom: "1px solid #79747E" }}
+                container
+                p="20px"
+              >
+                <Grid
+                  item
+                  xs={3}
+                  sx={{ display: "flex", alignItems: "center", gap: "10px" }}
+                >
+                  <img
+                    src={item.image}
+                    alt="car"
+                    style={{ width: "61px", height: "54px" }}
+                  />
+                  <Typography
+                    fontSize={"14px"}
+                    fontWeight={600}
+                    color="#1D192B"
+                  >
+                    {item.itemName}
+                  </Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={3}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography fontSize={"14px"} fontWeight={600}>
+                    {item.itemCost}
+                  </Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={3}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography fontSize={"14px"} fontWeight={600}>
+                    {item.quantity}
+                  </Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={3}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography fontSize={"14px"} fontWeight={600}>
+                    {item.totalItemValue}
+                  </Typography>
+                </Grid>
+              </Grid>
+            ))}
         <Grid
           sx={{
             bgcolor: "#fff",
@@ -219,44 +626,93 @@ const OrderPricing = ({shippingCost='', clearingCost='', dutyFee='', setShipping
           container
           p="20px"
         >
-          <Grid item xs={4}>
-            <Typography fontSize={"14px"} color="#49454F">
-              Total Number Of Items:
-            </Typography>
-            <Typography fontSize={"20px"} color="#1C1B1F">
-              4
-            </Typography>
-          </Grid>
-          <Grid item xs={4}>
-            <Typography fontSize={"14px"} color="#49454F">
-              Total Gross Weight:
-            </Typography>
-            <Typography fontSize={"20px"} color="#1C1B1F">
-              30lbs
-            </Typography>
-          </Grid>
-          {/* <Grid item xs={3}></Grid> */}
-          <Grid
-            item
-            xs={4}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-end",
-              justifyContent: "flex-end",
-            }}
-          >
-            <Typography fontSize={"14px"} color="#49454F">
-              Total Declared Value:
-            </Typography>
-            <Typography fontSize={"20px"} color="#1C1B1F">
-              $345.00
-            </Typography>
-          </Grid>
+          {service === "Auto Import" ? (
+            <>
+              <Grid item xs={8}></Grid>
+              <Grid
+                item
+                xs={2}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-end",
+                  justifyContent: "flex-end",
+                }}
+              >
+                <Typography fontSize={"14px"} color="#49454F">
+                  Total Declared Value:
+                </Typography>
+                <Typography fontSize={"20px"} color="#1C1B1F">
+                  $345.00
+                </Typography>
+              </Grid>
+              <Grid
+                item
+                xs={2}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-end",
+                  justifyContent: "flex-end",
+                }}
+              >
+                <Typography fontSize={"14px"} color="#49454F">
+                  Total pick up cost:
+                </Typography>
+                <Typography fontSize={"20px"} color="#1C1B1F">
+                  $345.00
+                </Typography>
+              </Grid>
+            </>
+          ) : (
+            <>
+              <Grid item xs={4}>
+                <Typography fontSize={"14px"} color="#49454F">
+                  Total Number Of Items:
+                </Typography>
+                <Typography fontSize={"20px"} color="#1C1B1F">
+                  {service === "Shop For Me"
+                    ? shopForMeItems.length
+                    : items.length}
+                </Typography>
+              </Grid>
+              <Grid item xs={4}>
+                <Typography fontSize={"14px"} color="#49454F">
+                  Total Gross Weight:
+                </Typography>
+                <Typography fontSize={"20px"} color="#1C1B1F">
+                  30lbs
+                </Typography>
+              </Grid>
+              {/* <Grid item xs={3}></Grid> */}
+              <Grid
+                item
+                xs={4}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-end",
+                  justifyContent: "flex-end",
+                }}
+              >
+                <Typography fontSize={"14px"} color="#49454F">
+                  Total Declared Value:
+                </Typography>
+                <Typography fontSize={"20px"} color="#1C1B1F">
+                  $345.00
+                </Typography>
+              </Grid>
+            </>
+          )}
         </Grid>
       </Box>
       <Box mt="20px">
-        <CardWrapper fullByDefault title="Shipment Cost">
+        <CardWrapper
+          fullByDefault
+          title={
+            service === "Shop For Me" ? "Procurement Cost" : "Shipment Cost"
+          }
+        >
           {service === "Auto Import" ? (
             <Box>
               <TextField
@@ -282,6 +738,76 @@ const OrderPricing = ({shippingCost='', clearingCost='', dutyFee='', setShipping
                 // placeholder="Enter your country"
               />
             </Box>
+          ) : service === "Shop For Me" ? (
+            <Box>
+              <Grid container mb="20px">
+                <Grid item xs={4}>
+                  <Typography fontSize={"14px"} color="#49454F">
+                    Total Item(s) Cost from Store(s):
+                  </Typography>
+                  <Typography fontSize={"20px"} color="#1C1B1F">
+                    $23.00
+                  </Typography>
+                </Grid>
+                <Grid item xs={4}>
+                  <Typography fontSize={"14px"} color="#49454F">
+                    Total Processing Fee:
+                  </Typography>
+                  <Typography fontSize={"20px"} color="#1C1B1F">
+                    $23.00
+                  </Typography>
+                </Grid>
+                <Grid item xs={4}>
+                  <Typography fontSize={"14px"} color="#49454F">
+                    Total Urgent Purchase Fee:
+                  </Typography>
+                  <Typography fontSize={"20px"} color="#1C1B1F">
+                    $23.00
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid container mb="20px">
+                <Grid item xs={4}>
+                  <Typography fontSize={"14px"} color="#49454F">
+                    Payment Method Surcharge:
+                  </Typography>
+                  <Typography fontSize={"20px"} color="#1C1B1F">
+                    $23.00
+                  </Typography>
+                </Grid>
+                <Grid item xs={4}>
+                  <Typography fontSize={"14px"} color="#49454F">
+                    VAT:
+                  </Typography>
+                  <Typography fontSize={"20px"} color="#1C1B1F">
+                    $23.00
+                  </Typography>
+                </Grid>
+                <Grid item xs={4}></Grid>
+              </Grid>
+              <TextField
+                fullWidth
+                required
+                sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                id="warehouse-cost"
+                type="text"
+                // value={shippingCost}
+                // onChange={(e) => setShippingCost(e.target.value)}
+                label="Total Shipping to Origin Warehouse cost"
+                InputProps={{
+                  startAdornment: <DollarIcon />,
+                  sx: {
+                    borderRadius: "20px", // Apply border radius to the input element
+                    //   borderBottomLeftRadius: "20px", // Apply border radius to the input element
+                    height: "56px",
+                    borderColor: "#79747E",
+                    fontSize: "16px",
+                    color: "#1C1B1F",
+                  },
+                }}
+                // placeholder="Enter your country"
+              />
+            </Box>
           ) : (
             <Box
               mt="20px"
@@ -293,7 +819,13 @@ const OrderPricing = ({shippingCost='', clearingCost='', dutyFee='', setShipping
                 <CardWrapper
                   title="Basic Shipping Method"
                   removeArrows
-                  showRadio={<Radio />}
+                  showRadio={
+                    <Radio
+                      value="basic"
+                      checked={selectedValue === "basic"}
+                      onChange={handleChange}
+                    />
+                  }
                   fullByDefault
                   style={{ height: "100%" }}
                 >
@@ -321,7 +853,13 @@ const OrderPricing = ({shippingCost='', clearingCost='', dutyFee='', setShipping
                 <CardWrapper
                   title="Custom Shipping Method"
                   removeArrows
-                  showRadio={<Radio />}
+                  showRadio={
+                    <Radio
+                      value="custom"
+                      checked={selectedValue === "custom"}
+                      onChange={handleChange}
+                    />
+                  }
                   fullByDefault
                   style={{ height: "100%" }}
                 >
@@ -402,70 +940,149 @@ const OrderPricing = ({shippingCost='', clearingCost='', dutyFee='', setShipping
             </Box>
           )}
 
-          <Box mt="10px">
-            <Box border="1px solid #CAC4D0" p="16px 20px" borderRadius="20px">
-              <Typography fontSize={"14px"} color="#49454F" mb="20px">
-                Additional Costs
-              </Typography>
-              <Grid container>
-                <Grid item xs={3}>
-                  <Typography fontSize={"14px"} color="#49454F">
-                    Storage Charge:
-                  </Typography>
-                  <Typography fontSize={"20px"} color="#1C1B1F">
-                    $23.00
-                  </Typography>
+          <Box mt="20px">
+            {service === "Shop For Me" ? null : (
+              <Box border="1px solid #CAC4D0" p="16px 20px" borderRadius="20px">
+                <Typography fontSize={"14px"} color="#49454F" mb="20px">
+                  Additional Costs
+                </Typography>
+                <Grid container>
+                  <Grid item xs={3}>
+                    <Typography fontSize={"14px"} color="#49454F">
+                      Storage Charge:
+                    </Typography>
+                    <Typography fontSize={"20px"} color="#1C1B1F">
+                      $23.00
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={3}>
+                    <Typography fontSize={"14px"} color="#49454F">
+                      Insurance Cost:
+                    </Typography>
+                    <Typography fontSize={"20px"} color="#1C1B1F">
+                      $23.00
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={3}>
+                    <Typography fontSize={"14px"} color="#49454F">
+                      Payment Method Surcharge:
+                    </Typography>
+                    <Typography fontSize={"20px"} color="#1C1B1F">
+                      $23.00
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={3}>
+                    <Typography fontSize={"14px"} color="#49454F">
+                      VAT:
+                    </Typography>
+                    <Typography fontSize={"20px"} color="#1C1B1F">
+                      $23.00
+                    </Typography>
+                  </Grid>
                 </Grid>
-                <Grid item xs={3}>
-                  <Typography fontSize={"14px"} color="#49454F">
-                    Insurance Cost:
-                  </Typography>
-                  <Typography fontSize={"20px"} color="#1C1B1F">
-                    $23.00
-                  </Typography>
+                <Grid container wrap="nowrap" gap="10px" mt="20px">
+                  {service === "Auto Import" ? (
+                    <Box width="100%">
+                      <Grid container gap="30px" wrap="nowrap">
+                        <Grid item xs={6}>
+                          <TextField
+                            required
+                            id="pickup-cost"
+                            sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                            type="number"
+                            label="Pick Up Cost"
+                            fullWidth
+                            // placeholder="Select origin"
+                            InputProps={{
+                              startAdornment: <DollarIcon />,
+                              sx: {
+                                // maxWidth: "540px",
+                                borderRadius: "20px", // Apply border radius to the input element
+                                height: "56px",
+                                borderColor: "#79747E",
+                                fontSize: "16px",
+                                color: "#1C1B1F",
+                              },
+                            }}
+                          />
+                        </Grid>
+                        <Grid item xs={6}>
+                          <TextField
+                            required
+                            id="other-charges"
+                            sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                            type="number"
+                            label="Other Charges"
+                            fullWidth
+                            // placeholder="Select origin"
+                            InputProps={{
+                              startAdornment: <DollarIcon />,
+                              sx: {
+                                // maxWidth: "540px",
+                                borderRadius: "20px", // Apply border radius to the input element
+                                height: "56px",
+                                borderColor: "#79747E",
+                                fontSize: "16px",
+                                color: "#1C1B1F",
+                              },
+                            }}
+                          />
+                        </Grid>
+                      </Grid>
+                      <Button
+                        onClick={() => setClicked(!clicked)}
+                        startIcon={clicked ? <XCloseIcon /> : <AddIcon />}
+                        variant={clicked ? "contained" : "outlined"}
+                        sx={{
+                          border: clicked ? "none" : "1px solid #79747E",
+                          bgcolor: clicked ? "#E7E0EC" : "transparent",
+                          color: "#1C1B1F",
+                          fontSize: "16px",
+                          width: "200px",
+                          height: "56px",
+                          borderRadius: "20px",
+                          borderBottomLeftRadius: clicked ? 0 : "20px",
+                          borderBottomRightRadius: clicked ? 0 : "20px",
+                          borderBottom: clicked
+                            ? "1px solid #49454F"
+                            : "1px solid #79747E",
+                          textTransform: "none",
+                          mt: "20px",
+                          "&:hover": {
+                            bgcolor: clicked ? "#E7E0EC" : "transparent",
+                          },
+                        }}
+                      >
+                        Pick-Up Cost
+                      </Button>
+                    </Box>
+                  ) : (
+                    <Grid item xs={12}>
+                      <TextField
+                        required
+                        id="other-charges"
+                        sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                        type="number"
+                        label="Other Charges"
+                        fullWidth
+                        // placeholder="Select origin"
+                        InputProps={{
+                          startAdornment: <DollarIcon />,
+                          sx: {
+                            // maxWidth: "540px",
+                            borderRadius: "20px", // Apply border radius to the input element
+                            height: "56px",
+                            borderColor: "#79747E",
+                            fontSize: "16px",
+                            color: "#1C1B1F",
+                          },
+                        }}
+                      />
+                    </Grid>
+                  )}
                 </Grid>
-                <Grid item xs={3}>
-                  <Typography fontSize={"14px"} color="#49454F">
-                    Payment Method Surcharge:
-                  </Typography>
-                  <Typography fontSize={"20px"} color="#1C1B1F">
-                    $23.00
-                  </Typography>
-                </Grid>
-                <Grid item xs={3}>
-                  <Typography fontSize={"14px"} color="#49454F">
-                    VAT:
-                  </Typography>
-                  <Typography fontSize={"20px"} color="#1C1B1F">
-                    $23.00
-                  </Typography>
-                </Grid>
-              </Grid>
-              <Grid container wrap="nowrap" gap="10px" mt="20px">
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    id="other-charges"
-                    sx={{ fontSize: "16px", color: "#1C1B1F" }}
-                    type="number"
-                    label="Other Charges"
-                    fullWidth
-                    // placeholder="Select origin"
-                    InputProps={{
-                      startAdornment: <DollarIcon />,
-                      sx: {
-                        // maxWidth: "540px",
-                        borderRadius: "20px", // Apply border radius to the input element
-                        height: "56px",
-                        borderColor: "#79747E",
-                        fontSize: "16px",
-                        color: "#1C1B1F",
-                      },
-                    }}
-                  />
-                </Grid>
-              </Grid>
-            </Box>
+              </Box>
+            )}
             <Box
               display="flex"
               alignItems="center"
@@ -632,7 +1249,9 @@ const OrderPricing = ({shippingCost='', clearingCost='', dutyFee='', setShipping
             </Box>
             <Box mt="20px" display="flex" flexDirection="column" gap="5px">
               <Box display="flex" alignItems="center" gap="10px">
-                <StyledArrowRight />
+                <Box width="24px">
+                  <StyledArrowRight />
+                </Box>
                 <Typography fontSize={"12px"} fontWeight={500}>
                   RAC Logistics’s current exchange rate which is subjected to
                   change according to market trends is ($1=₦1,200), the customer
@@ -642,20 +1261,28 @@ const OrderPricing = ({shippingCost='', clearingCost='', dutyFee='', setShipping
                 </Typography>
               </Box>
               <Box display="flex" alignItems="center" gap="10px">
-                <StyledArrowRight color="#B3261E" />
+                <Box width="24px">
+                  <StyledArrowRight color="#B3261E" />
+                </Box>
+
                 <Typography fontSize={"12px"} fontWeight={500}>
-                  The total the customer are paying here includes only the
-                  Shipping related costs
+                  {service === "Shop For Me"
+                    ? "The shipping amount paid by customers here does not include clearing costs, which are only due once the car(s) have successfully arrived at the Port in Nigeria."
+                    : "The total the customer are paying here includes only the Shipping related costs"}
                 </Typography>
               </Box>
               <Box display="flex" alignItems="center" gap="10px">
-                <StyledArrowRight />
+                <Box width="24px">
+                  <StyledArrowRight />
+                </Box>
                 <Typography fontSize={"12px"} fontWeight={500}>
                   Prices and subtotals are displayed including taxes
                 </Typography>
               </Box>
               <Box display="flex" alignItems="center" gap="10px">
-                <StyledArrowRight />
+                <Box width="24px">
+                  <StyledArrowRight />
+                </Box>
                 <Typography fontSize={"12px"} fontWeight={500}>
                   Discounts are calculated based on prices and subtotals taken
                   without considering taxes
@@ -664,9 +1291,26 @@ const OrderPricing = ({shippingCost='', clearingCost='', dutyFee='', setShipping
             </Box>
           </Box>
         </CardWrapper>
+        {service === "Shop For Me" && (
+          <CardWrapper mt="20px" title="Clearing Cost">
+            <Box
+              mt="10px"
+              p="10px 20px"
+              borderRadius="100px"
+              border="1px solid #CAC4D0"
+              bgcolor="#F4EFF4"
+            >
+              {" "}
+              <Typography fontSize={"16px"} fontWeight={500} color="#1C1B1F">
+                The clearing cost decision will be made upon the arrival of the
+                car(s) at the port in Nigeria.
+              </Typography>
+            </Box>
+          </CardWrapper>
+        )}
       </Box>
     </div>
   );
-}
+};
 
-export default OrderPricing
+export default OrderPricing;

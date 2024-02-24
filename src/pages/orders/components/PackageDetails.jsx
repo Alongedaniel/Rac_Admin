@@ -7,7 +7,7 @@ import ItemBox from './ItemBox';
 import ProductBox from './ProductBox';
 import CardWrapper from '../../../components/order/components/CardWrapper';
 
-const PackageDetails = ({type, toggle, drop, order}) => {
+const PackageDetails = ({type, order}) => {
   return (
     <div className="">
       <div className="flex items-center space-x-[10px] ">
@@ -132,9 +132,9 @@ const PackageDetails = ({type, toggle, drop, order}) => {
         {type === "request" ? null : <EditIcon />}
       </Box>
       {order.service === "Auto Import" ? (
-        <ProductBox order={order} type={type} toggle={toggle} drop={drop} />
+        <ProductBox order={order} type={type} />
       ) : (
-        <ItemBox order={order} type={type} toggle={toggle} drop={drop} />
+        <ItemBox order={order} type={type} />
       )}
     </div>
   );

@@ -3,8 +3,9 @@ import React from "react";
 import { IoChevronUpCircleOutline } from "react-icons/io5";
 import EditIcon from "../../../assets/icons/EditIcon";
 import car from '../../../assets/images/car.png';
+import CardWrapper from "../../../components/order/components/CardWrapper";
 
-const ProductBox = ({ order, drop, toggle, type }) => {
+const ProductBox = ({ order, type }) => {
   return (
     <Box
       sx={{
@@ -15,21 +16,8 @@ const ProductBox = ({ order, drop, toggle, type }) => {
         marginTop: "20px",
       }}
     >
-      <div
-        className={`${
-          drop === 4 ? "h-full " : "h-[68px] overflow-hidden"
-        } transition-all px-[28px] py-[20px] border  rounded-[20px]`}
-        style={{ flex: 1 }}
+      <CardWrapper title='Car - #2'
       >
-        <div
-          onClick={() => toggle(4)}
-          className={`transition-all flex items-center justify-between cursor-pointer`}
-        >
-          <p className="text-[20px]">
-            Car - <span className="text-brand/200">#1</span>
-          </p>
-          <IoChevronUpCircleOutline className="text-[25px]" />
-        </div>
 
         {type === "request" ? (
           <>
@@ -347,7 +335,7 @@ const ProductBox = ({ order, drop, toggle, type }) => {
             </div>
           </>
         )}
-      </div>
+      </CardWrapper>
       {type === "request" ? null : <EditIcon />}
     </Box>
   );

@@ -22,7 +22,7 @@ text-[14px]  outline-none`}
 
 function Orders({children}) {
   return (
-    <Box sx={{ position: "relative", pr: { xs: 0, xl: "40px" } }}>
+    <Box sx={{ position: "relative" }}>
       <div
         className="bg-white border-t  flex items-end pt-[12px] px-[50px] space-x-[20px]"
         style={{
@@ -35,7 +35,7 @@ function Orders({children}) {
         <CustomLink to="/order-drafts">Draft</CustomLink>
       </div>
       <Box sx={{px: '50px', mt: '16px', height: '100%'}}
-        maxWidth={{ xs: "1100px", xl: "1400px" }}
+        // maxWidth={{ xs: "1100px", xl: "1400px" }}
       >
         <Outlet />
         {children}

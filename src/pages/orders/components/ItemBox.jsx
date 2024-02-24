@@ -2,8 +2,9 @@ import { Box } from '@mui/material';
 import React from 'react'
 import { IoChevronUpCircleOutline } from 'react-icons/io5';
 import EditIcon from '../../../assets/icons/EditIcon';
+import CardWrapper from '../../../components/order/components/CardWrapper';
 
-const ItemBox = ({order, drop, toggle, type}) => {
+const ItemBox = ({order, type}) => {
   return (
     <Box
       sx={{
@@ -14,21 +15,8 @@ const ItemBox = ({order, drop, toggle, type}) => {
         marginTop: "20px",
       }}
     >
-      <div
-        className={`${
-          drop === 4 ? "h-full " : "h-[68px] overflow-hidden"
-        } transition-all px-[28px] py-[20px] border  rounded-[20px]`}
-        style={{ flex: 1 }}
+      <CardWrapper title={` Item - #1`}
       >
-        <div
-          onClick={() => toggle(4)}
-          className={`transition-all flex items-center justify-between cursor-pointer`}
-        >
-          <p className="text-[20px]">
-            Item - <span className="text-brand/200">#1</span>
-          </p>
-          <IoChevronUpCircleOutline className="text-[25px]" />
-        </div>
 
         {type === "request" ? (
           <>
@@ -265,7 +253,7 @@ const ItemBox = ({order, drop, toggle, type}) => {
             </div>
           </>
         )}
-      </div>
+      </CardWrapper>
       {type === "request" ? null : <EditIcon />}
     </Box>
   );

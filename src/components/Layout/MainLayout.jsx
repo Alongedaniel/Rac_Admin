@@ -6,7 +6,7 @@ import Sidebar from './Sidebar'
 const MainLayout = ({ children }) => {
   const [showFullBar, setShowFullBar] = useState(false);
   return (
-    <Container maxWidth="xl" disableGutters>
+    // <Container maxWidth="xl" disableGutters>
       <Box display="flex">
         <Box
           minWidth={showFullBar ? { xs: "56px", lg: "250px" } : "56px"}
@@ -24,24 +24,24 @@ const MainLayout = ({ children }) => {
           </Box>
         </Box>
 
-        <Box width maxWidth={"1400px"} position="relative">
-          <Box width="100%" position="relative" height="102px">
+        <Box width="100%" overflow='hidden' position="relative">
+          <Box width="100%" position="relative" height="96px">
             <Box
-              zIndex={9999}
+              zIndex={999}
               width="100%"
-              maxWidth={showFullBar ? { xs: "1100px", xl: "1230px" } : "1400px"}
+              // maxWidth={ "1400px"}
               pr={{ xs: "40px", lg: showFullBar ? 0 : "40px", xl: "40px" }}
               position="fixed"
             >
               <Navbar />
             </Box>
           </Box>
-          <Box width="100%" maxWidth={showFullBar ? "1230px" : "1400px"}>
+          <Box width="100%">
             {children}
           </Box>
         </Box>
       </Box>
-    </Container>
+    // </Container>
   );
 }
 

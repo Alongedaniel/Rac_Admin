@@ -3,8 +3,9 @@ import { IoChevronUpCircleOutline } from 'react-icons/io5';
 import EditIcon from '../../../assets/icons/EditIcon';
 import { Box } from '@mui/material';
 import CircleRight from '../../../assets/icons/CircleRight';
+import CardWrapper from '../../../components/order/components/CardWrapper';
 
-const ShippingDetails = ({type, order, drop, toggle}) => {
+const ShippingDetails = ({type, order}) => {
   return (
     <>
       {type === "request" && order.service !== "Auto Import" ? null : (
@@ -26,19 +27,7 @@ const ShippingDetails = ({type, order, drop, toggle}) => {
                 marginTop: "20px",
               }}
             >
-              <div
-                className={`${
-                  drop === 5 ? "h-full " : "h-[68px] overflow-hidden"
-                } transition-all px-[28px] py-[20px] border  rounded-[20px]`}
-                style={{ flex: 1 }}
-              >
-                <div
-                  onClick={() => toggle(5)}
-                  className={` transition-all  flex items-center justify-between cursor-pointer`}
-                >
-                  <p className="text-[20px]">Destination/Shipping Address</p>
-                  <IoChevronUpCircleOutline className="text-[25px]" />
-                </div>
+              <CardWrapper title="Destination/Shipping Address">
 
                 <div className="grid grid-cols-2 gap-[20px] mt-[30px] ">
                   <div className="">
@@ -116,7 +105,7 @@ const ShippingDetails = ({type, order, drop, toggle}) => {
                     </p>
                   </div>
                 </div>
-              </div>
+              </CardWrapper>
               {type === "request" ? null : <EditIcon />}
             </Box>
           </div>
