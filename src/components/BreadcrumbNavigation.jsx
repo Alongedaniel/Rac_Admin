@@ -9,7 +9,6 @@ const BreadcrumbNavigation = () => {
     const segments = url.split("/").filter((segment) => segment !== "");
   const navigate = useNavigate()
   const { id } = useParams()
-  console.log(id)
   return (
     <Box>
       <Breadcrumbs separator={<ArrowLeftIcon />}>

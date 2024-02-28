@@ -9,17 +9,38 @@ import CheckMoreIcon from "../assets/icons/CheckMoreIcon";
 import CloseSquare from "../assets/icons/CloseSquare";
 import ProcessIcon from "../assets/icons/ProcessIcon";
 import { useNavigate } from "react-router-dom";
+import { makeStyles } from "@mui/styles";
 
-const OrderTable = ({rows, columns}) => {
+const OrderTable = ({ rows, columns, pageSize = 10 }) => {
+  // const useStyles = makeStyles({
+  //   root: {
+  //     "& ::-webkit-scrollbar": {
+  //       padding: "0 10px",
+  //       backgroundColor: "#CAC4D0",
+        
+  //     },
+  //     "& ::-webkit-scrollbar-thumb": {
+  //       width: "140px important",
+  //       height: "179px",
+  //       borderRadius: "100px",
+  //       backgroundColor: "#79747E",
+  //     },
+  //     "& ::-webkit-scrollbar-track": {
+  //       backgroundColor: "transparent",
+  //     },
+  //   },
+  // });
+  // const classes = useStyles();
 
   return (
+    // <div className={classes.root}>
       <DataGrid
         rows={rows}
         columns={columns}
         // getRowId={(row) => row.id}
         initialState={{
           pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
+            paginationModel: { page: 0, pageSize: pageSize },
           },
         }}
         pageSizeOptions={[5, 10]}
@@ -31,8 +52,14 @@ const OrderTable = ({rows, columns}) => {
           top: 5,
           bottom: 5,
         })}
-        sx={{ zIndex: 1}}
+        sx={{
+          zIndex: 1,
+          height: "75vh",
+          bgcolor: "#fff",
+          borderRadius: "20px",
+        }}
       />
+    // </div>
   );
 };
 

@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
-import { Box, Divider, Link } from "@mui/material";
+import { Box, Divider } from "@mui/material";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { useMatch } from "react-router-dom";
+import { Link, useMatch } from "react-router-dom";
 import HomeIcon from "../../assets/icons/HomeIcon";
 import UserIcon from "../../assets/icons/UserIcon";
 import OrderIcon from "../../assets/icons/OrderIcon";
@@ -17,21 +17,21 @@ function CustomLink({ children, to, icon, showFullBar, ...props }) {
   const childMatch = useMatch(to !== "" ? `/` + to + "/*" : "/");
   return (
     <Link
-      sx={{
+      style={{
         display: "flex",
         alignItems: 'center',
         justifyContent: showFullBar ? "flex-start" : "center",
-        m: showFullBar ? 0 : '0 auto',
-        p: "16px",
-        gap: "16px",
-        bgcolor: childMatch ? "#E6E1E514" : "",
+        // margin: showFullBar ? 0 : '0 auto',
+        padding: "16px",
+        gap: showFullBar ? "16px" : 0,
+        backgroundColor: childMatch ? "#E6E1E514" : "",
         color: "#E7E0EC",
         textDecoration: "none",
         "&:hover": {
-          bgcolor: "#E6E1E514",
+          backgroundColor: "#E6E1E514",
         },
       }}
-      href={to}
+      to={to}
       {...props}
     >
       <div>{icon}</div>
@@ -67,8 +67,8 @@ function Sidebar({ showFullBar, setShowFullBar }) {
         <div
           className={
             showFullBar
-              ? "rounded-r-[10px] bg-[#E6E1E514] w-[90%] p-[10px] flex items-center space-x-[10px]"
-              : "rounded-r-[10px] bg-[#E6E1E514] w-[100%] p-[16px] flex items-center space-x-[10px]"
+              ? "rounded-r-[10px] bg-[#E6E1E514] w-[100%] p-[10px] flex items-center space-x-[10px]"
+              : "rounded-r-[10px] bg-[#E6E1E514] w-[100%] p-[10px] flex items-center "
           }
           onClick={handleClick}
         >

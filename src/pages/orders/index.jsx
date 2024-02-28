@@ -20,21 +20,24 @@ text-[14px]  outline-none`}
   );
 }
 
-function Orders({children}) {
+function Orders({children, showFullBar}) {
   return (
     <Box sx={{ position: "relative" }}>
-      <div
-        className="bg-white border-t  flex items-end pt-[12px] px-[50px] space-x-[20px]"
-        style={{
-          borderBottomLeftRadius: "30px",
-          borderBottomRightRadius: "30px",
-        }}
-      >
-        <CustomLink to="/orders">Orders</CustomLink>
-        <CustomLink to="/order-requests">Requests</CustomLink>
-        <CustomLink to="/order-drafts">Draft</CustomLink>
-      </div>
-      <Box sx={{px: '50px', mt: '16px', height: '100%'}}
+      <Box position='fixed' width='100%' top={96} pr={showFullBar ? '250px' : '56px'} zIndex={2}>
+        <div
+          className="bg-white border-t  flex items-end pt-[12px] px-[50px] space-x-[20px]"
+          style={{
+            borderBottomLeftRadius: "30px",
+            borderBottomRightRadius: "30px",
+          }}
+        >
+          <CustomLink to="/orders">Orders</CustomLink>
+          <CustomLink to="/order-requests">Requests</CustomLink>
+          <CustomLink to="/order-drafts">Draft</CustomLink>
+        </div>
+      </Box>
+      <Box
+        sx={{ px: "50px", mt: "60px", mb:'16px', height: "100%" }}
         // maxWidth={{ xs: "1100px", xl: "1400px" }}
       >
         <Outlet />

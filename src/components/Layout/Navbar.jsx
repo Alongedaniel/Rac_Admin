@@ -10,16 +10,9 @@ import NotificationIcon from "../../assets/icons/NotificationIcon";
 import ProfileIcon from "../../assets/icons/ProfileIcon";
 import ArrowDown from "../../assets/icons/ArrowDown";
 
-function Navbar() {
+function Navbar({navbarTitle}) {
   const location = useLocation();
-  const [navbarTitle, setNavbarTitle] = useState(
-    getNavbarTitle(location.pathname)
-  );
 
-  useEffect(() => {
-    const updatedPathname = location.pathname;
-    setNavbarTitle(getNavbarTitle(updatedPathname));
-  }, [location.pathname]);
 
   return (
     <Box
