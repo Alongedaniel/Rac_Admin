@@ -16,6 +16,9 @@ import "@fontsource/roboto";
 import TwoFactorAuth from "./components/Forms/Login/TwoFactorAuth";
 import SignupForm from "./components/Forms/Signup/SignupForm";
 import MainLayout from "./components/Layout/MainLayout";
+import Shipment from "./pages/Shipment/Shipment";
+import ShipmentHistory from "./pages/Shipment/ShipmentHistory";
+import { useState } from "react";
 
 function App() {
   const themeOptions = {
@@ -40,6 +43,7 @@ function App() {
       },
     },
   });
+  const [showFullBar, setShowFullBar] = useState(false);
   return (
     <ThemeProvider theme={theme}>
       <>
@@ -48,36 +52,137 @@ function App() {
             <Route
               path="/"
               element={
-                <MainLayout>
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="Dashboard"
+                >
                   <Dashome />
                 </MainLayout>
               }
               // element={admin !== null ? <Layout /> : <Navigate to="/" />}
             />
 
-            <Route path="/shipment" element={<MainLayout></MainLayout>} />
-            <Route path="/blog" element={<MainLayout></MainLayout>} />
-            <Route path="/shop-for-me" element={<MainLayout></MainLayout>} />
-            <Route path="/payments" element={<MainLayout></MainLayout>} />
-            <Route path="/get-a-quote" element={<MainLayout></MainLayout>} />
-            <Route path="/settings" element={<MainLayout></MainLayout>} />
-            <Route path="/users" element={<MainLayout></MainLayout>} />
+            <Route
+              path="/shipment"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="Shipments"
+                >
+                  <Shipment />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/shipment/history"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="Shipments History"
+                >
+                  <ShipmentHistory />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/blog"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="Blog"
+                ></MainLayout>
+              }
+            />
+            <Route
+              path="/shop-for-me"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="Shop For Me"
+                ></MainLayout>
+              }
+            />
+            <Route
+              path="/payments"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="Payments"
+                ></MainLayout>
+              }
+            />
+            <Route
+              path="/get-a-quote"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="Get A Quote"
+                ></MainLayout>
+              }
+            />
+            <Route
+              path="/settings"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="Settings"
+                ></MainLayout>
+              }
+            />
+            <Route
+              path="/users"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="Users"
+                ></MainLayout>
+              }
+            />
             <Route
               path="/orders"
               element={
-                <MainLayout>
-                  <Orders />
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="Confirmed Orders"
+                >
+                  <Orders
+                    showFullBar={showFullBar}
+                  />
                 </MainLayout>
               }
             >
               <Route path="" element={<Confirmed />} />
               <Route path="draft-detail" element={<DraftDetails />} />
             </Route>
-            <Route path="orders/create-new-order" element={<MainLayout><CreateOrders /></MainLayout>} />
+            <Route
+              path="orders/create-new-order"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                >
+                  <CreateOrders />
+                </MainLayout>
+              }
+            />
             <Route
               path="order-drafts"
               element={
-                <MainLayout>
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="Draft Orders"
+                >
                   <Orders>
                     <Drafts />
                   </Orders>
@@ -88,7 +193,11 @@ function App() {
             <Route
               path="order-requests"
               element={
-                <MainLayout>
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="Requested Orders"
+                >
                   <Orders>
                     <OrderRequests />
                   </Orders>
@@ -98,7 +207,11 @@ function App() {
             <Route
               path="orders/:orderid"
               element={
-                <MainLayout>
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="Order Details"
+                >
                   <OrderDetails />
                 </MainLayout>
               }
@@ -106,7 +219,11 @@ function App() {
             <Route
               path="order-drafts/:draftid"
               element={
-                <MainLayout>
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="Draft Order Details"
+                >
                   <OrderDetails />
                 </MainLayout>
               }
@@ -114,7 +231,11 @@ function App() {
             <Route
               path="order-requests/:requestid"
               element={
-                <MainLayout>
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="Request Details"
+                >
                   <OrderDetails />
                 </MainLayout>
               }
