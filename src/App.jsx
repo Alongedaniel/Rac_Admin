@@ -19,6 +19,7 @@ import MainLayout from "./components/Layout/MainLayout";
 import Shipment from "./pages/Shipment/Shipment";
 import ShipmentHistory from "./pages/Shipment/ShipmentHistory";
 import { useState } from "react";
+import CreateShipment from "./pages/Shipment/CreateShipment";
 
 function App() {
   const themeOptions = {
@@ -172,6 +173,18 @@ function App() {
                   setShowFullBar={setShowFullBar}
                 >
                   <CreateOrders />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="shipment/add-new-shipment"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title='Create New Shipment'
+                >
+                  <CreateShipment />
                 </MainLayout>
               }
             />

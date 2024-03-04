@@ -69,6 +69,7 @@ const Shipment = () => {
         <Box pt="16px" sx={{ borderTop: "1px dotted #79747E" }} width='100%'>
           <Button
             variant="contained"
+            onClick={() => navigate('add-new-shipment')}
             sx={{
               py: "10px",
               fontSize: "14px",
