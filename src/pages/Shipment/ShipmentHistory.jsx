@@ -97,7 +97,7 @@ const ShipmentHistory = () => {
         renderCell: (params) => (
           <Typography
             onClick={() =>
-              navigate(`order-id_${params.row.id}`, {
+              navigate(`shipping-id_${params.row.id}`, {
                 state: {
                   order: params.row,
                 },

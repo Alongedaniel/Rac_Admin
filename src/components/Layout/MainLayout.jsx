@@ -14,7 +14,7 @@ const MainLayout = ({ children, title, showFullBar, setShowFullBar }) => {
       >
         <Box
           width={showFullBar ? { xs: "56px", lg: "250px" } : "56px"}
-          position="fixed"
+          position="fixed" zIndex={9999}
         >
           <Sidebar showFullBar={showFullBar} setShowFullBar={setShowFullBar} />
         </Box>
