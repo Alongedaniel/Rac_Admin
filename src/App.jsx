@@ -20,6 +20,7 @@ import Shipment from "./pages/Shipment/Shipment";
 import ShipmentHistory from "./pages/Shipment/ShipmentHistory";
 import { useState } from "react";
 import CreateShipment from "./pages/Shipment/CreateShipment";
+import ShipmentDetails from "./pages/Shipment/ShipmentDetails";
 
 function App() {
   const themeOptions = {
@@ -85,6 +86,18 @@ function App() {
                   title="Shipments History"
                 >
                   <ShipmentHistory />
+                </MainLayout>
+              }
+            />
+             <Route
+              path="/shipment/history/:shippingid"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="Shipment Details"
+                >
+                  <ShipmentDetails />
                 </MainLayout>
               }
             />
