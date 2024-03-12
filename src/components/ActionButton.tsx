@@ -1,20 +1,26 @@
 import { Button } from '@mui/material'
 import React from 'react'
 
-const ActionButton = ({icon, title='', action=() => {}}) => {
+const ActionButton = ({
+  icon,
+  title = "",
+  action = () => {},
+  bg = "#060C2C",
+}) => {
   return (
     <Button
       onClick={action}
       variant="contained"
       sx={{
         // width: "fit-content",
+        minWidth: '170px',
         p: "16px",
         borderRadius: "16px",
-        bgcolor: "#060C2C",
+        bgcolor: bg,
         fontSize: "14px",
         fontWeight: 500,
         "&:hover": {
-          bgcolor: "#060C2C",
+          bgcolor: bg,
         },
       }}
       startIcon={icon}
@@ -22,6 +28,6 @@ const ActionButton = ({icon, title='', action=() => {}}) => {
       {title}
     </Button>
   );
-}
+};
 
 export default ActionButton

@@ -21,6 +21,7 @@ import ShipmentHistory from "./pages/Shipment/ShipmentHistory";
 import { useState } from "react";
 import CreateShipment from "./pages/Shipment/CreateShipment";
 import ShipmentDetails from "./pages/Shipment/ShipmentDetails";
+import ShopForMe from "./pages/Shop for me/ShopForMe";
 
 function App() {
   const themeOptions = {
@@ -118,7 +119,7 @@ function App() {
                   showFullBar={showFullBar}
                   setShowFullBar={setShowFullBar}
                   title="Shop For Me"
-                ></MainLayout>
+                ><ShopForMe /></MainLayout>
               }
             />
             <Route
