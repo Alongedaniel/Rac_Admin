@@ -179,7 +179,7 @@ const ShopForMe = () => {
                     />
                   </Box>
                 ))}
-                <Typography fontSize="12px" color="#49454F">
+                <Typography textAlign='center' fontSize="12px" color="#49454F">
                   +{params.row.image.length - 3}
                 </Typography>
               </Box>
