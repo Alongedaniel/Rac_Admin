@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import ArrowCircleUp from '../../../assets/icons/ArrowCircleUp';
 import { ArrowCircleDown } from 'iconsax-react';
 
-const CardWrapper = ({children, title, showRadio, fullByDefault, removeArrows, ...props }) => {
+const CardWrapper = ({children, title, showRadio, fullByDefault, removeArrows, bottomRadius, topRadius, ...props }) => {
     const [showFull, setShowFull] = useState(fullByDefault ? true : false)
   return (
     <Box
@@ -14,11 +14,11 @@ const CardWrapper = ({children, title, showRadio, fullByDefault, removeArrows, .
       py="20px"
       px={removeArrows ? "20px" : "35px"}
       border="1px solid #CAC4D0"
-      borderRadius="20px"
+      // borderRadius="20px"
       display="flex"
       flexDirection="column"
       justifyContent="flex-start"
-      sx={{ transition: "all .4s ease" }}
+      sx={{ transition: "all .4s ease", borderTopLeftRadius: topRadius ? 0 : '20px', borderTopRightRadius: topRadius ? 0 : '20px', borderBottomLeftRadius: bottomRadius ? 0 : '20px', borderBottomRightRadius: bottomRadius ? 0 : '20px' }}
     >
       <Box
         mb="20px"

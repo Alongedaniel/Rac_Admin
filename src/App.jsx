@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Layout from "./components/Layout";
 import Dashome from "./pages";
 import Orders from "./pages/orders";
@@ -24,6 +24,7 @@ import ShipmentDetails from "./pages/Shipment/ShipmentDetails";
 import ShopForMe from "./pages/Shop for me/ShopForMe";
 
 function App() {
+  const location = useLocation()
   const themeOptions = {
     palette: {
       primary: {
@@ -237,7 +238,7 @@ function App() {
                 <MainLayout
                   showFullBar={showFullBar}
                   setShowFullBar={setShowFullBar}
-                  title="Order Details"
+                  title={location?.state?.type === 'shop for me' ? 'Shop For Me Order Details' : "Order Details"}
                 >
                   <OrderDetails />
                 </MainLayout>
