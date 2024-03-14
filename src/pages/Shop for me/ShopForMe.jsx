@@ -247,10 +247,10 @@ const ShopForMe = () => {
       renderCell: (params) => (
         <Typography
           onClick={() =>
-            navigate(`order-id_${params.row.id}`, {
+            navigate(`/orders/order-id_${params.row.id}`, {
               state: {
                 order: params.row,
-                type: "confirmed",
+                type: 'shop for me'
               },
             })
           }
