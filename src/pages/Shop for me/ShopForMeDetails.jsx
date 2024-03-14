@@ -330,7 +330,6 @@ const ShopForMeDetails = () => {
                       borderRadius="100px"
                       display="flex"
                       alignItems="center"
-                      gap="0px"
                     >
                       <Radio
                         value="Purchase Not Started"
@@ -348,13 +347,13 @@ const ShopForMeDetails = () => {
                       borderRadius="100px"
                       display="flex"
                       alignItems="center"
-                      gap="0px"
                     >
                       <Radio
                         value="Purchase in Progress"
                         checked={selectedRadioValue === "Purchase in Progress"}
                         onChange={handleRadioChange}
                       />
+
                       <Typography fontSize="14px" color="#49454F">
                         Purchase in Progress
                       </Typography>
@@ -366,7 +365,6 @@ const ShopForMeDetails = () => {
                       borderRadius="100px"
                       display="flex"
                       alignItems="center"
-                      gap="0px"
                     >
                       <Radio
                         value="Purchase Completed"
