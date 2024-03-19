@@ -207,7 +207,6 @@ const PackageDetailsForm = ({
                     value={productName}
                     onChange={(e) => setProductName(e.target.value)}
                     fullWidth
-                    // placeholder="Select origin"
                     InputProps={{
                       sx: {
                         borderRadius: "20px", // Apply border radius to the input element
