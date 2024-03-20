@@ -22,6 +22,11 @@ import { useState } from "react";
 import CreateShipment from "./pages/Shipment/CreateShipment";
 import ShipmentDetails from "./pages/Shipment/ShipmentDetails";
 import ShopForMe from "./pages/Shop for me/ShopForMe";
+import Customer from "./pages/Users/Customer";
+import Staff from "./pages/Users/Staff";
+import Users from "./pages/Users/Users";
+import CreateCustomer from "./pages/Users/CreateCustomer";
+import CreateStaff from "./pages/Users/CreateStaff";
 
 function App() {
   const location = useLocation()
@@ -91,7 +96,7 @@ function App() {
                 </MainLayout>
               }
             />
-             <Route
+            <Route
               path="/shipment/history/:shippingid"
               element={
                 <MainLayout
@@ -120,7 +125,9 @@ function App() {
                   showFullBar={showFullBar}
                   setShowFullBar={setShowFullBar}
                   title="Shop For Me"
-                ><ShopForMe /></MainLayout>
+                >
+                  <ShopForMe />
+                </MainLayout>
               }
             />
             <Route
@@ -154,13 +161,31 @@ function App() {
               }
             />
             <Route
-              path="/users"
+              path="/users-customers"
               element={
                 <MainLayout
                   showFullBar={showFullBar}
                   setShowFullBar={setShowFullBar}
-                  title="Users"
-                ></MainLayout>
+                  title="Customers"
+                >
+                  <Users showFullBar={showFullBar} />
+                </MainLayout>
+              }
+            >
+              <Route path="" element={<Customer />} />
+            </Route>
+            <Route
+              path="users-staffs"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="Staffs"
+                >
+                  <Users>
+                    <Staff />
+                  </Users>
+                </MainLayout>
               }
             />
             <Route
@@ -171,9 +196,7 @@ function App() {
                   setShowFullBar={setShowFullBar}
                   title="Confirmed Orders"
                 >
-                  <Orders
-                    showFullBar={showFullBar}
-                  />
+                  <Orders showFullBar={showFullBar} />
                 </MainLayout>
               }
             >
@@ -192,12 +215,36 @@ function App() {
               }
             />
             <Route
+              path="users-customers/adding-new-customer"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="Adding New Customer"
+                >
+                  <CreateCustomer />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="users-staffs/adding-new-staff"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="Adding New Staff"
+                >
+                  <CreateStaff />
+                </MainLayout>
+              }
+            />
+            <Route
               path="shipment/add-new-shipment"
               element={
                 <MainLayout
                   showFullBar={showFullBar}
                   setShowFullBar={setShowFullBar}
-                  title='Create New Shipment'
+                  title="Create New Shipment"
                 >
                   <CreateShipment />
                 </MainLayout>
@@ -238,7 +285,11 @@ function App() {
                 <MainLayout
                   showFullBar={showFullBar}
                   setShowFullBar={setShowFullBar}
-                  title={location?.state?.type === 'shop for me' ? 'Shop For Me Order Details' : "Order Details"}
+                  title={
+                    location?.state?.type === "shop for me"
+                      ? "Shop For Me Order Details"
+                      : "Order Details"
+                  }
                 >
                   <OrderDetails />
                 </MainLayout>
