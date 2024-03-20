@@ -2,14 +2,16 @@
 import { Box } from "@mui/material";
 import { Link, Outlet, useLocation, useMatch } from "react-router-dom";
 
-function CustomLink({ children, to, ...props }) {
+export function CustomLink({ children, to, ...props }) {
   const match = useMatch(to !== "" ? `/orders/` + to : "/orders/");
   const location = useLocation();
   const currentRoute = location.pathname === to
   return (
     <Link
       className={` ${
-        match || currentRoute  ? " border-b-[2px] border-brand/200 text-brand/200 " : ""
+        match || currentRoute
+          ? " border-b-[2px] border-brand/200 text-brand/200 "
+          : "text-t/100"
       }  h-full pb-[10px] font-roboto font-[500]
 text-[14px]  outline-none`}
       to={to}

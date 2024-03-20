@@ -24,13 +24,15 @@ function Navbar({navbarTitle}) {
         borderBottomLeftRadius:
           location.pathname === "/orders" ||
           location.pathname === "/order-requests" ||
-          location.pathname === "/order-drafts"
+          location.pathname === "/order-drafts" ||
+          location.pathname.includes("users")
             ? 0
             : "30px",
         borderBottomRightRadius:
           location.pathname === "/orders" ||
           location.pathname === "/order-requests" ||
-          location.pathname === "/order-drafts"
+          location.pathname === "/order-drafts" ||
+          location.pathname.includes("users")
             ? 0
             : "30px",
       }}
