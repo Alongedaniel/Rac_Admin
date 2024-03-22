@@ -19,6 +19,7 @@ const ActionButton = ({
         bgcolor: bg,
         fontSize: "14px",
         fontWeight: 500,
+        textTransform: 'none',
         "&:hover": {
           bgcolor: bg,
         },

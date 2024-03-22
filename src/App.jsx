@@ -18,7 +18,7 @@ import SignupForm from "./components/Forms/Signup/SignupForm";
 import MainLayout from "./components/Layout/MainLayout";
 import Shipment from "./pages/Shipment/Shipment";
 import ShipmentHistory from "./pages/Shipment/ShipmentHistory";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CreateShipment from "./pages/Shipment/CreateShipment";
 import ShipmentDetails from "./pages/Shipment/ShipmentDetails";
 import ShopForMe from "./pages/Shop for me/ShopForMe";
@@ -27,9 +27,13 @@ import Staff from "./pages/Users/Staff";
 import Users from "./pages/Users/Users";
 import CreateCustomer from "./pages/Users/CreateCustomer";
 import CreateStaff from "./pages/Users/CreateStaff";
+import UserDetailsPage from "./pages/Users/UserDetailsPage";
 
 function App() {
   const location = useLocation()
+  useEffect(() => {
+    window.scroll(0, 0)
+  })
   const themeOptions = {
     palette: {
       primary: {
@@ -185,6 +189,30 @@ function App() {
                   <Users>
                     <Staff />
                   </Users>
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/users-customers/:userid"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="Customer Details"
+                >
+                    <UserDetailsPage />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/users-staffs/:userid"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="Customer Details"
+                >
+                    <UserDetailsPage userType="Staff" />
                 </MainLayout>
               }
             />

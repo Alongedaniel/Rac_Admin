@@ -87,22 +87,21 @@ const ProfileInformationForm = () => {
             />
           </Grid>
           <Grid item xs={6}>
-            <Grid container>
+            <Grid container gap="20px" wrap="nowrap">
               <Grid item xs={4}>
                 <TextField
                   fullWidth
                   required
                   sx={{ fontSize: "16px", color: "#1C1B1F" }}
-                  id="phone-number"
+                  id="code"
                   type="text"
                   // value={code}
                   // onChange={(e) => setCode(e.target.value)}
-                  label="Phone Number"
+                  label="Code"
                   select
                   InputProps={{
                     sx: {
-                      borderTopLeftRadius: "20px", // Apply border radius to the input element
-                      borderBottomLeftRadius: "20px", // Apply border radius to the input element
+                      borderRadius: "20px",// Apply border radius to the input element
                       height: "56px",
                       borderColor: "#79747E",
                       fontSize: "16px",
@@ -122,14 +121,14 @@ const ProfileInformationForm = () => {
                 <TextField
                   fullWidth
                   sx={{ fontSize: "16px", color: "#1C1B1F" }}
-                  //   id="shipment-method"
+                  id="phone-number"
+                  label='Phone Number'
                   type="text"
                   // value={number}
                   // onChange={(e) => setNumber(e.target.value)}
                   InputProps={{
                     sx: {
-                      borderTopRightRadius: "20px", // Apply border radius to the input element
-                      borderBottomRightRadius: "20px", // Apply border radius to the input element
+                      borderRadius: "20px",// Apply border radius to the input element
                       height: "56px",
                       borderColor: "#79747E",
                       fontSize: "16px",
@@ -150,10 +149,10 @@ const ProfileInformationForm = () => {
               sx={{ fontSize: "16px", color: "#1C1B1F" }}
               id="destination-country"
               type="text"
-              label="Destination Country"
+              label="Country"
               // value={destinationCountry}
               // onChange={(e) => setDestinationCountry(e.target.value)}
-              defaultValue={"Nigeria"}
+              defaultValue={""}
               select
               InputProps={{
                 sx: {
@@ -182,8 +181,8 @@ const ProfileInformationForm = () => {
               type="text"
               // value={destinationState}
               // onChange={(e) => setDestinationState(e.target.value)}
-              label="Destination State"
-              defaultValue={"Lagos"}
+              label="State"
+              defaultValue={""}
               select
               InputProps={{
                 sx: {
@@ -212,8 +211,8 @@ const ProfileInformationForm = () => {
               type="text"
               // value={destinationCity}
               // onChange={(e) => setDestinationCity(e.target.value)}
-              label="Destination City"
-              defaultValue={"Ikeja"}
+              label="City"
+              defaultValue={""}
               select
               InputProps={{
                 sx: {

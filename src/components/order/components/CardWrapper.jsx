@@ -34,7 +34,7 @@ const CardWrapper = ({children, title, showRadio, fullByDefault, removeArrows, b
         justifyContent="flex-start"
       >
         <Box
-          mb="20px"
+          mb={title || !removeArrows ? "20px" : 0}
           display="flex"
           alignItems="center"
           justifyContent="space-between"
