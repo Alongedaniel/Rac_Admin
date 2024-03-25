@@ -301,15 +301,19 @@ const UserActivities = () => {
     );
 
   return (
-    <Box display="flex" gap="16px" height='262px'>
+    <Box display="flex" gap="16px" height="262px">
       {/* <OrderTable columns={columns} rows={rows} height="262px" /> */}
       <Box
         width="100%"
         p="16px"
         sx={{ border: "1px solid #CAC4D0", borderRadius: "20px" }}
       >
-        <TableContainer sx={{height: '262px'}}>
-          <Table sx={{ width: "100%", height: '262px' }} aria-label="simple table">
+        <TableContainer sx={{ height: "262px", }}>
+          <Table
+            stickyHeader
+            sx={{ width: "100%", height: "262px" }}
+            aria-label="simple table"
+          >
             <TableHead>
               <TableRow>
                 <TableCell>Event</TableCell>
@@ -331,17 +335,24 @@ const UserActivities = () => {
             </TableBody>
           </Table>
         </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={rowsPerPageOptions}
-            component="div"
-            count={rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+        <TablePagination
+          rowsPerPageOptions={rowsPerPageOptions}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </Box>
-      <Box p="16px" sx={{ border: "1px solid #CAC4D0", borderRadius: "20px", minWidth: '190px' }}>
+      <Box
+        p="16px"
+        sx={{
+          border: "1px solid #CAC4D0",
+          borderRadius: "20px",
+          minWidth: "190px",
+        }}
+      >
         <Box display="flex" gap="8px" alignItems="center" mb="16px">
           <PinnedIcon />
           <Typography color="#B3261E" fontSize="22px">
