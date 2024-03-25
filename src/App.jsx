@@ -210,7 +210,7 @@ function App() {
                 <MainLayout
                   showFullBar={showFullBar}
                   setShowFullBar={setShowFullBar}
-                  title="Customer Details"
+                  title="Staff Details"
                 >
                     <UserDetailsPage userType="Staff" />
                 </MainLayout>
