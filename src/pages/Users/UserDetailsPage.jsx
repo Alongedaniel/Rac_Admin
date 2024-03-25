@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, MenuItem, Modal, Radio, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import CardWrapper from "../../components/order/components/CardWrapper";
 import CallIcon from "../../assets/icons/CallIcon";
@@ -13,9 +13,29 @@ import ArrowLeftPurple from "../../assets/icons/ArrowLeftPurple";
 import EditIcon from "../../assets/icons/EditIcon";
 import ChangeIcon from "../../assets/icons/ChangeIcon";
 import KeyIcon from "../../assets/icons/KeyIcon";
+import UserOrders from "./components/UserOrders";
+import UserActivities from "./components/UserActivities";
+import UserModals from "./components/UserModals";
+import { cities, countries, countryCodes, states } from "./constants";
+import ArrowRightWhite from "../../assets/icons/ArrowRightWhite";
 
 const UserDetailsPage = ({ userType = "Customer" }) => {
+
   const [currentTab, setCurrentTab] = useState("Account Information");
+  const [openEditProfile, setOpenEditProfile] = useState(false)
+  const handleOpenEditProfile = () => setOpenEditProfile(true);
+  const handleCloseEditProfile = () => setOpenEditProfile(false);
+  const [openResetPassword, setOpenResetPassword] = useState(false)
+  const handleOpenResetPassword = () => setOpenResetPassword(true);
+  const handleCloseResetPassword = () => setOpenResetPassword(false);
+  const [accountStatus, setAccountStatus] = useState('Unverified')
+  const [currentStatus, setCurrentStatus] = useState(accountStatus)
+  const [openAccountStatusModal, setOpenAccountStatusModal] =
+    useState(false);
+  const handleUpdateAccountStatus = () => setOpenAccountStatusModal(true);
+  const handleCloseUpdateAccountStatus = () => setOpenAccountStatusModal(false);
+  const [openPriviledgeModal, setOpenPriviledgeModal] = useState(false);
+  const [confirmStatusChange, setConfirmStatusChange] = useState(false)
   const tabs =
     userType === "Customer"
       ? [
@@ -103,6 +123,7 @@ const UserDetailsPage = ({ userType = "Customer" }) => {
         </CardWrapper>
         <CardWrapper removeArrows topRadius fullByDefault mt="8px" mb="24px">
           <Button
+            onClick={handleOpenEditProfile}
             startIcon={<Edit />}
             variant="contained"
             sx={{
@@ -138,6 +159,7 @@ const UserDetailsPage = ({ userType = "Customer" }) => {
                 sx={{
                   borderBottom:
                     currentTab === tab ? "2px solid #6750A4" : "none",
+                  cursor: "pointer",
                 }}
               >
                 <Typography
@@ -185,6 +207,7 @@ const UserDetailsPage = ({ userType = "Customer" }) => {
                   <Button
                     startIcon={<ResetIcon />}
                     variant="contained"
+                    onClick={handleOpenResetPassword}
                     sx={{
                       bgcolor: "#B3261E",
                       color: "#fff",
@@ -209,17 +232,18 @@ const UserDetailsPage = ({ userType = "Customer" }) => {
                       User Profile
                     </Typography>
                   </Box>
-                  <Box mb={userType === 'Staff' ? '32px' : 0}>
+                  <Box mb={userType === "Staff" ? "32px" : 0}>
                     <Box mb="10px">
                       <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                         Status:
                       </p>
                       <Box display="flex" gap="10px" alignItems="center">
                         <p className="font-roboto  text-[20px] text-brand/100">
-                          Unverified
+                          {currentStatus}
                         </p>
                         <Button
                           startIcon={<ChangeIcon />}
+                          onClick={handleUpdateAccountStatus}
                           variant="outlined"
                           sx={{
                             borderColor: "#6750A4",
@@ -247,6 +271,7 @@ const UserDetailsPage = ({ userType = "Customer" }) => {
                     {userType === "Staff" ? (
                       <Button
                         startIcon={<KeyIcon />}
+                        onClick={() => setOpenPriviledgeModal(true)}
                         variant="contained"
                         sx={{
                           bgcolor: "#6750A4",
@@ -389,6 +414,8 @@ const UserDetailsPage = ({ userType = "Customer" }) => {
                 </Box>
               </Box>
             )}
+            {currentTab === "Orders" && <UserOrders />}
+            {currentTab === "Activities" && <UserActivities />}
           </Box>
         </Box>
         <Box mt="30px">
@@ -408,6 +435,554 @@ const UserDetailsPage = ({ userType = "Customer" }) => {
           </Button>
         </Box>
       </Box>
+      <UserModals
+        open={openEditProfile}
+        onClose={handleCloseEditProfile}
+        title="Edit User Personal Information"
+      >
+        <Box
+          display="flex"
+          flexDirection="column"
+          gap="30px"
+          mb="30px"
+          // py="30px"
+          // pr="30px"
+          //   sx={{ borderTop: "1px solid #79747E" }}
+        >
+          <Grid container gap="30px" wrap="nowrap">
+            <Grid item xs={6}>
+              <TextField
+                fullWidth
+                required
+                sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                id="first-name"
+                type="text"
+                label="First Name"
+                // value={receiverFirstName}
+                // onChange={(e) => setReceiverFirstName(e.target.value)}
+                InputProps={{
+                  sx: {
+                    borderRadius: "20px", // Apply border radius to the input element
+                    height: "56px",
+                    borderColor: "#79747E",
+                    fontSize: "16px",
+                    color: "#1C1B1F",
+                  },
+                }}
+                // placeholder="Enter your country"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                fullWidth
+                required
+                sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                id="last-name"
+                type="text"
+                label="Last Name"
+                // value={receiverLastName}
+                // onChange={(e) => setReceiverLastName(e.target.value)}
+                InputProps={{
+                  sx: {
+                    borderRadius: "20px", // Apply border radius to the input element
+                    height: "56px",
+                    borderColor: "#79747E",
+                    fontSize: "16px",
+                    color: "#1C1B1F",
+                  },
+                }}
+                // placeholder="Enter your country"
+              />
+            </Grid>
+          </Grid>
+          <Grid container gap="30px" wrap="nowrap">
+            <Grid item xs={6}>
+              <TextField
+                fullWidth
+                required
+                sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                id="receiver's-email"
+                type="text"
+                label="Email"
+                // value={receiverEmail}
+                // onChange={(e) => setReceiverEmail(e.target.value)}
+                InputProps={{
+                  sx: {
+                    borderRadius: "20px", // Apply border radius to the input element
+                    height: "56px",
+                    borderColor: "#79747E",
+                    fontSize: "16px",
+                    color: "#1C1B1F",
+                  },
+                }}
+                // placeholder="Enter your country"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Grid container gap="20px" wrap="nowrap">
+                <Grid item xs={4}>
+                  <TextField
+                    fullWidth
+                    required
+                    sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                    id="code"
+                    type="text"
+                    // value={code}
+                    // onChange={(e) => setCode(e.target.value)}
+                    label="Code"
+                    select
+                    InputProps={{
+                      sx: {
+                        borderRadius: "20px", // Apply border radius to the input element
+                        height: "56px",
+                        borderColor: "#79747E",
+                        fontSize: "16px",
+                        color: "#1C1B1F",
+                      },
+                    }}
+                    // placeholder="Enter your country"
+                  >
+                    {countryCodes.map((country, i) => (
+                      <MenuItem value={country.code} key={i}>
+                        {country.name} {country.code}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+                <Grid item xs={8}>
+                  <TextField
+                    fullWidth
+                    sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                    id="phone-number"
+                    label="Phone Number"
+                    type="text"
+                    // value={number}
+                    // onChange={(e) => setNumber(e.target.value)}
+                    InputProps={{
+                      sx: {
+                        borderRadius: "20px", // Apply border radius to the input element
+                        height: "56px",
+                        borderColor: "#79747E",
+                        fontSize: "16px",
+                        color: "#1C1B1F",
+                      },
+                    }}
+                    // placeholder="Enter your country"
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid container gap="30px" wrap="nowrap">
+            <Grid item xs={4}>
+              <TextField
+                fullWidth
+                required
+                sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                id="destination-country"
+                type="text"
+                label="Country"
+                // value={destinationCountry}
+                // onChange={(e) => setDestinationCountry(e.target.value)}
+                defaultValue={""}
+                select
+                InputProps={{
+                  sx: {
+                    borderRadius: "20px", // Apply border radius to the input element
+                    height: "56px",
+                    borderColor: "#79747E",
+                    fontSize: "16px",
+                    color: "#1C1B1F",
+                  },
+                }}
+                // placeholder="Enter your country"
+              >
+                {countries.map((country, i) => (
+                  <MenuItem value={country} key={i}>
+                    {country}
+                  </MenuItem>
+                ))}{" "}
+              </TextField>
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                fullWidth
+                required
+                sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                id="destination-state"
+                type="text"
+                // value={destinationState}
+                // onChange={(e) => setDestinationState(e.target.value)}
+                label="State"
+                defaultValue={""}
+                select
+                InputProps={{
+                  sx: {
+                    borderRadius: "20px", // Apply border radius to the input element
+                    height: "56px",
+                    borderColor: "#79747E",
+                    fontSize: "16px",
+                    color: "#1C1B1F",
+                  },
+                }}
+                // placeholder="Enter your country"
+              >
+                {states.map((state, i) => (
+                  <MenuItem value={state} key={i}>
+                    {state}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                fullWidth
+                required
+                sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                id="destination-city"
+                type="text"
+                // value={destinationCity}
+                // onChange={(e) => setDestinationCity(e.target.value)}
+                label="City"
+                defaultValue={""}
+                select
+                InputProps={{
+                  sx: {
+                    borderRadius: "20px", // Apply border radius to the input element
+                    height: "56px",
+                    borderColor: "#79747E",
+                    fontSize: "16px",
+                    color: "#1C1B1F",
+                  },
+                }}
+                // placeholder="Enter your country"
+              >
+                {cities.map((city, i) => (
+                  <MenuItem value={city} key={i}>
+                    {city}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+          </Grid>
+          <TextField
+            fullWidth
+            required
+            sx={{ fontSize: "16px", color: "#1C1B1F" }}
+            id="address"
+            type="text"
+            label="Address"
+            // value={receiverAddress}
+            // onChange={(e) => setReceiverAddress(e.target.value)}
+            InputProps={{
+              sx: {
+                borderRadius: "20px", // Apply border radius to the input element
+                height: "56px",
+                borderColor: "#79747E",
+                fontSize: "16px",
+                color: "#1C1B1F",
+              },
+            }}
+            // placeholder="Enter your country"
+          />
+          <TextField
+            fullWidth
+            sx={{ fontSize: "16px", color: "#1C1B1F" }}
+            id="zip-code"
+            type="text"
+            label="Zip/Postal Code"
+            // value={receiverZipCode}
+            // onChange={(e) => setReceiverZipCode(e.target.value)}
+            InputProps={{
+              sx: {
+                borderRadius: "20px", // Apply border radius to the input element
+                height: "56px",
+                borderColor: "#79747E",
+                fontSize: "16px",
+                color: "#1C1B1F",
+              },
+            }}
+            // placeholder="Enter your country"
+          />
+        </Box>
+        <Box>
+          <Button
+            startIcon={<ArrowLeftPurple />}
+            variant="outlined"
+            sx={{
+              borderColor: "#79747E",
+              color: "#79747E",
+              width: "110px",
+              height: "40px",
+              borderRadius: "100px",
+              textTransform: "none",
+              mr: "10px",
+            }}
+            onClick={handleCloseEditProfile}
+          >
+            Cancel
+          </Button>
+          <Button
+            startIcon={<ArrowRightWhite />}
+            variant="contained"
+            sx={{
+              bgcolor: "#6750A4",
+              color: "#fff",
+              width: "172px",
+              height: "40px",
+              borderRadius: "100px",
+              textTransform: "none",
+            }}
+          >
+            Update
+          </Button>
+        </Box>
+      </UserModals>
+      <UserModals
+        open={openResetPassword}
+        onClose={handleCloseResetPassword}
+        title="Reset user password"
+      >
+        <Typography fontSize="22px" color="#49454F" mb="30px">
+          The customer will be sent an email that contains a link to reset their
+          password, are you sure you want to proceed?
+        </Typography>
+        <Box>
+          <Button
+            startIcon={<ArrowLeftPurple />}
+            variant="outlined"
+            sx={{
+              borderColor: "#79747E",
+              color: "#79747E",
+              width: "110px",
+              height: "40px",
+              borderRadius: "100px",
+              textTransform: "none",
+              mr: "10px",
+            }}
+            onClick={handleCloseResetPassword}
+          >
+            Cancel
+          </Button>
+          <Button
+            startIcon={<ArrowRightWhite />}
+            variant="contained"
+            sx={{
+              bgcolor: "#6750A4",
+              color: "#fff",
+              width: "200px",
+              height: "40px",
+              borderRadius: "100px",
+              textTransform: "none",
+            }}
+          >
+            Confirm and Proceed
+          </Button>
+        </Box>
+      </UserModals>
+      <UserModals
+        open={openAccountStatusModal}
+        onClose={handleCloseUpdateAccountStatus}
+        title="Update User Account Status"
+      >
+        <Box
+          mb="30px"
+          bgcolor="#fff"
+          border="1px solid #21005D"
+          borderRadius="20px"
+          p="24px"
+        >
+          <Typography color="#79747E" fontSize="16px" mb="16px">
+            Content goes here
+          </Typography>
+          <Box display="flex" gap="16px">
+            <Box
+              sx={{
+                borderRadius: "100px",
+                border: "1px solid #CAC4D0",
+                bgcolor: "rgba(103, 80, 164, 0.11)",
+                pr: "14px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Radio
+                value="Unverified"
+                checked={accountStatus === "Unverified"}
+                onChange={(e) => setAccountStatus(e.target.value)}
+              />
+              <Typography color="#49454F" fontSize="14px">
+                Unverified
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                borderRadius: "100px",
+                border: "1px solid #CAC4D0",
+                bgcolor: "rgba(103, 80, 164, 0.11)",
+                pr: "14px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Radio
+                value="Pending Verification"
+                checked={accountStatus === "Pending Verification"}
+                onChange={(e) => setAccountStatus(e.target.value)}
+              />
+              <Typography color="#49454F" fontSize="14px">
+                Pending Verification
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                borderRadius: "100px",
+                border: "1px solid #CAC4D0",
+                bgcolor: "rgba(103, 80, 164, 0.11)",
+                pr: "14px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Radio
+                value="Verified"
+                checked={accountStatus === "Verified"}
+                onChange={(e) => setAccountStatus(e.target.value)}
+              />
+              <Typography color="#49454F" fontSize="14px">
+                Verified
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                borderRadius: "100px",
+                border: "1px solid #CAC4D0",
+                bgcolor: "rgba(103, 80, 164, 0.11)",
+                pr: "14px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Radio
+                value="Suspended"
+                checked={accountStatus === "Suspended"}
+                onChange={(e) => setAccountStatus(e.target.value)}
+              />
+              <Typography color="#49454F" fontSize="14px">
+                Suspended
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+        <Box>
+          <Button
+            startIcon={<ArrowLeftPurple />}
+            variant="outlined"
+            sx={{
+              borderColor: "#79747E",
+              color: "#79747E",
+              width: "110px",
+              height: "40px",
+              borderRadius: "100px",
+              textTransform: "none",
+              mr: "10px",
+            }}
+            onClick={handleCloseUpdateAccountStatus}
+          >
+            Cancel
+          </Button>
+          <Button
+            startIcon={<ArrowRightWhite />}
+            variant="contained"
+            onClick={() => setConfirmStatusChange(true)}
+            sx={{
+              bgcolor: "#6750A4",
+              color: "#fff",
+              width: "200px",
+              height: "40px",
+              borderRadius: "100px",
+              textTransform: "none",
+            }}
+          >
+            Confirm and Proceed
+          </Button>
+        </Box>
+      </UserModals>
+      <UserModals
+        open={openPriviledgeModal}
+        onClose={() => setOpenPriviledgeModal(false)}
+        title="Manage Staff Privileges"
+      >
+        <Box width="100%" height="56px" bgcolor="#fff"></Box>
+      </UserModals>
+      <Modal
+        open={confirmStatusChange}
+        onClose={() => setConfirmStatusChange(false)}
+      >
+        <Box
+          bgcolor="#fff"
+          sx={{
+            position: "absolute",
+            transform: "translate(-50%, -50%)",
+          }}
+          top="50%"
+          left="50%"
+          width="312px"
+          height="fit-content"
+          borderRadius="20px"
+        >
+          <Box bgcolor="#6750A41C" p="30px">
+            <Box display="flex" flexDirection={"column"} gap="16px" pb="24px">
+              <Typography color="#1C1B1F" fontSize="24px">
+                Status Update Confirmation
+              </Typography>
+              <Typography color="#49454F" fontSize="14px">
+                Are you sure you want to update the Account status of this user?
+              </Typography>
+            </Box>
+            <Box
+              display="flex"
+              gap="8ppx"
+              pt="24px"
+              alignItems={"center"}
+              justifyContent="flex-end"
+            >
+              <Button
+                variant="text"
+                onClick={() => setConfirmStatusChange(false)}
+                sx={{
+                  textTransform: "none",
+                  color: "#6750A4",
+                  fontWeight: 500,
+                  width: "68px",
+                  height: "40px",
+                  fontSize: "14px",
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="text"
+                onClick={() => {
+                  setCurrentStatus(accountStatus);
+                  setConfirmStatusChange(false);
+                  handleCloseUpdateAccountStatus();
+                }}
+                sx={{
+                  textTransform: "none",
+                  color: "#6750A4",
+                  fontWeight: 500,
+                  width: "150px",
+                  height: "40px",
+                  fontSize: "14px",
+                }}
+              >
+                Confirm and update
+              </Button>
+            </Box>
+          </Box>
+        </Box>
+      </Modal>
     </Box>
   );
 };
