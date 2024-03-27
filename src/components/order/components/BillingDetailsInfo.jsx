@@ -5,7 +5,7 @@ import CardWrapper from './CardWrapper';
 import EditIcon from '../../../assets/icons/EditIcon';
 import TooltipIcon from '../../../assets/icons/TooltipIcon';
 
-const BillingDetailsInfo = ({order}) => {
+const BillingDetailsInfo = ({order, service, view}) => {
   return (
     <div className="">
       <div className="flex items-center space-x-[10px] ">
@@ -101,7 +101,7 @@ const BillingDetailsInfo = ({order}) => {
               </div>
             </div>
           </CardWrapper>
-          <EditIcon />
+          {view ? null : <EditIcon />}
         </Box>
         <Box
           sx={{
@@ -133,40 +133,40 @@ const BillingDetailsInfo = ({order}) => {
                 </div>
               </>
             </div>
-            {(order.orderInformation.service === "Auto Import" ||
-              order.orderInformation.service === "Shop For Me") && (
-                <div className="grid grid-cols-5 mt-[30px]">
-                  <div className="col-span-2">
-                    <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                      Clearing Cost:
-                    </p>
-                    <Box display="flex" gap="10px" alignItems={"center"}>
-                      {" "}
-                      <p className="font-roboto  text-[20px] text-brand/100">
-                        N/A
-                      </p>
-                      <Tooltip
-                        title="The shipment cost is not will be decided once the 
-items have been procured and brought to the origin warehouse." placement='right-start'
-                      >
-                        <Box>
-                          <TooltipIcon />
-                        </Box>
-                      </Tooltip>
-                    </Box>
-                  </div>
-                  <div className="col-span-3">
-                    <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                      Payment Status:
-                    </p>
+            {((order?.orderInformation?.service ?? service) === "Auto Import" ||
+              (order?.orderInformation?.service ?? service) ===
+                "Shop For Me") && (
+              <div className="grid grid-cols-5 mt-[30px]">
+                <div className="col-span-2">
+                  <p className="text-[14px] text-t/100 font-roboto text-brand/200">
+                    Clearing Cost:
+                  </p>
+                  <Box display="flex" gap="10px" alignItems={"center"}>
+                    {" "}
                     <p className="font-roboto  text-[20px] text-brand/100">
                       N/A
                     </p>
-                  </div>
+                    <Tooltip
+                      title="The shipment cost is not will be decided once the 
+items have been procured and brought to the origin warehouse."
+                      placement="right-start"
+                    >
+                      <Box>
+                        <TooltipIcon />
+                      </Box>
+                    </Tooltip>
+                  </Box>
                 </div>
-              )}
+                <div className="col-span-3">
+                  <p className="text-[14px] text-t/100 font-roboto text-brand/200">
+                    Payment Status:
+                  </p>
+                  <p className="font-roboto  text-[20px] text-brand/100">N/A</p>
+                </div>
+              </div>
+            )}
           </CardWrapper>
-          <EditIcon />
+          {view ? null : <EditIcon />}
         </Box>
       </div>
     </div>

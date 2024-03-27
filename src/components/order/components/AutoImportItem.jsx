@@ -1,10 +1,10 @@
 import { Box } from '@mui/material';
 import React from 'react'
-import laptop from '../../../assets/images/laptop.png'
+import car from '../../../assets/images/car.png'
 import CardWrapper from './CardWrapper';
 import EditIcon from '../../../assets/icons/EditIcon';
 
-const AutoImportItem = () => {
+const AutoImportItem = ({view}) => {
   return (
     <Box
       sx={{
@@ -89,7 +89,7 @@ const AutoImportItem = () => {
             <p className="text-[14px] text-t/100 font-roboto text-brand/200">
               Car Picture:
               <div className=" mt-[10px] rounded-[10px]">
-                <img src={laptop} alt="laptop" />
+                <img src={car} alt="car" />
               </div>
             </p>
           </div>
@@ -214,8 +214,8 @@ const AutoImportItem = () => {
             </div>
           </div>
         </div>
-          </CardWrapper>
-          <EditIcon />
+      </CardWrapper>
+      {view ? null : <EditIcon />}
     </Box>
   );
 }

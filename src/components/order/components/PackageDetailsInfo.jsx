@@ -8,7 +8,7 @@ import { Box } from '@mui/material';
 import OrderItem from './OrderItem';
 import AutoImportItem from './AutoImportItem';
 
-const PackageDetailsInfo = ({order}) => {
+const PackageDetailsInfo = ({order, view, service}) => {
   return (
     <div className="">
       <div className="flex items-center space-x-[10px] ">
@@ -30,23 +30,23 @@ const PackageDetailsInfo = ({order}) => {
           title="Package Origin/Shipment location"
           style={{ width: "100%" }}
         >
-            <div className="grid grid-cols-2 mt-[20px]">
-              <div className="">
-                <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                  Origin warehouse:
-                </p>
-                <p className="font-roboto  text-[20px] text-brand/100">
-                  Nigeria(lagos - warehouse)
-                </p>
-              </div>
+          <div className="grid grid-cols-2 mt-[20px]">
+            <div className="">
+              <p className="text-[14px] text-t/100 font-roboto text-brand/200">
+                Origin warehouse:
+              </p>
+              <p className="font-roboto  text-[20px] text-brand/100">
+                Nigeria(lagos - warehouse)
+              </p>
             </div>
+          </div>
         </CardWrapper>
-         <EditIcon />
+        {view ? null : <EditIcon />}
       </Box>
-      {order.orderInformation.service === "Auto Import" ? (
-        <AutoImportItem />
+      {order?.orderInformation?.service ?? service === "Auto Import" ? (
+        <AutoImportItem view={view} />
       ) : (
-        <OrderItem order={order} />
+        <OrderItem order={order} service={service} view={view} />
       )}
     </div>
   );

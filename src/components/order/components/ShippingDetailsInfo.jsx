@@ -5,7 +5,7 @@ import { Box, Tooltip, Typography } from "@mui/material";
 import TooltipIcon from "../../../assets/icons/TooltipIcon";
 import EditIcon from "../../../assets/icons/EditIcon";
 
-const ShippingDetailsInfo = ({ order }) => {
+const ShippingDetailsInfo = ({ order, service,view }) => {
   return (
     <div className="">
       <div className="flex items-center space-x-[10px] ">
@@ -26,7 +26,7 @@ const ShippingDetailsInfo = ({ order }) => {
           }}
         >
           <CardWrapper title="Destination/Shipping Address">
-            {order.orderInformation.service === "Import" ? (
+            {order?.orderInformation?.service ?? service === "Import" ? (
               <Box mt="10px">
                 <Box p="10px 14px" borderRadius="20px" bgcolor="#F2B8B5">
                   <Typography
@@ -50,7 +50,7 @@ const ShippingDetailsInfo = ({ order }) => {
                   </div>
                 </div>
               </Box>
-            ) : order.orderInformation.service === "Shop For Me" ? (
+            ) : order?.orderInformation?.service ?? service === "Shop For Me" ? (
               <Box mt="10px">
                 {" "}
                 <div className="grid grid-cols-2 mt-[20px]">
@@ -157,7 +157,7 @@ items have been procured and brought to the origin warehouse."
               </>
             )}
           </CardWrapper>
-          <EditIcon />
+          {view ? null : <EditIcon />}
         </Box>
       </div>
     </div>

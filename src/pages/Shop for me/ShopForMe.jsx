@@ -25,9 +25,13 @@ import OrderTable from "../../components/OrderTable";
 import ShopIcon from "../../assets/icons/ShopIcon";
 import laptop from "../../assets/images/laptop.png";
 import ManageIcon from "../../assets/icons/ManageIcon";
+import PackageDetailsInfo from "../../components/order/components/PackageDetailsInfo";
+import ArrowSquare from "../../assets/icons/ArrowSquare";
+import UserModals from "../Users/components/UserModals";
 
 const ShopForMe = () => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [packageDetails, setPackageDetails] = useState(false)
   const open = Boolean(anchorEl);
   const handleOpenMenu = (e) => {
     setAnchorEl(e.currentTarget);
@@ -194,6 +198,7 @@ const ShopForMe = () => {
       width: 160,
       renderCell: (params) => (
         <Box
+          onClick={() => setPackageDetails(true)}
         >
           {/* {params.row.procid.map((proc) => {
               let id = []
@@ -234,7 +239,7 @@ const ShopForMe = () => {
             color="#000"
           >
             {params.row.procid.join().length > 12
-              ? params.row.procid.join().slice(0, 12) + "..."
+              ? params.row.procid.join(', ').slice(0, 12) + "..."
               : params.row.procid.map((item) => item)}
           </Typography>
         </Box>
@@ -966,6 +971,38 @@ const ShopForMe = () => {
           </Box>
         )}
       </Box>
+      <UserModals
+        open={packageDetails}
+        onClose={() => setPackageDetails(false)}
+        title="Package Details"
+      >
+        <Box display="flex" alignItems="center" gap="10px" mb="30px">
+          <Typography fontSize="24px" color="#1C1B1F">
+            Order ID:{" "}
+            <Typography
+              fontSize="24px"
+              color="#1C1B1F"
+              display="inline"
+              fontWeight={700}
+            >
+              OD78667
+            </Typography>
+          </Typography>
+          <ArrowSquare />
+          <Typography fontSize="24px" color="#1C1B1F">
+            Tracking ID:{" "}
+            <Typography
+              fontSize="24px"
+              color="#1C1B1F"
+              display="inline"
+              fontWeight={700}
+            >
+              SH78667
+            </Typography>
+          </Typography>
+        </Box>
+        <PackageDetailsInfo service="Shop For Me" view={true} />
+      </UserModals>
     </>
   );
 };

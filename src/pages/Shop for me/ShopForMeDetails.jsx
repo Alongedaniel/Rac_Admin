@@ -16,6 +16,8 @@ import TooltipIcon from "../../assets/icons/TooltipIcon";
 import CloseCircle from "../../assets/icons/CloseCircle";
 import ActivityIcon from "../../assets/icons/ActivityIcon";
 import EyeIconRed from "../../assets/icons/EyeIconRed";
+import UserModals from "../Users/components/UserModals";
+import PackageDetailsInfo from "../../components/order/components/PackageDetailsInfo";
 
 const ShopForMeDetails = () => {
   const location = useLocation();
@@ -228,9 +230,7 @@ const ShopForMeDetails = () => {
           <Line />
           <Box mt="10px" display="flex" gap="30px" alignItems="center">
             <Box width="100%" display="flex" flexDirection={"column"} gap="8px">
-              <CardWrapper title="Item - #PR08756" bottomRadius>
-                
-              </CardWrapper>
+              <CardWrapper title="Item - #PR08756" bottomRadius></CardWrapper>
               <CardWrapper
                 removeArrows
                 fullByDefault
@@ -308,9 +308,7 @@ const ShopForMeDetails = () => {
           </Box>
           <Box mt="16px" display="flex" gap="30px" alignItems="center">
             <Box width="100%" display="flex" flexDirection={"column"} gap="8px">
-              <CardWrapper title="Item - #PR08766" bottomRadius>
-                
-              </CardWrapper>
+              <CardWrapper title="Item - #PR08766" bottomRadius></CardWrapper>
               <CardWrapper
                 removeArrows
                 fullByDefault
@@ -601,6 +599,7 @@ const ShopForMeDetails = () => {
           </Button>
         </Box>
       </Box>
+      
     </Box>
   );
 };

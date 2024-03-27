@@ -15,6 +15,7 @@ import CloseSquare from '../../assets/icons/CloseSquare';
 import ProcessIcon from '../../assets/icons/ProcessIcon';
 import CheckIcon from '../../assets/icons/CheckIcon';
 import NewShipmentIcon from '../../assets/icons/NewShipmentIcon';
+import TrackShipmentIcon from '../../assets/icons/TrackShipmentIcon';
 
 const ShipmentHistory = () => {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -370,7 +371,7 @@ const ShipmentHistory = () => {
         shipmentMethod: "Air",
         destination: "Lagos, Nigeria",
         status: "Delivered",
-        origin: "NG-LOS-A 3",
+        origin: "London, UK",
         date: "22-03-2023 13:05",
         cost: "$107.76",
         deliveryCompany: "---",
@@ -388,7 +389,7 @@ const ShipmentHistory = () => {
         shipmentMethod: "Rail",
         destination: "Lagos, Nigeria",
         status: "Cleared",
-        origin: "NG-LOS-A 3",
+        origin: "London, UK",
         date: "22-03-2023 13:05",
         cost: "$107.76",
         deliveryCompany: "---",
@@ -406,7 +407,7 @@ const ShipmentHistory = () => {
         shipmentMethod: "Air",
         destination: "Lagos, Nigeria",
         status: "Not Started",
-        origin: "NG-LOS-A 3",
+        origin: "London, UK",
         date: "22-03-2023 13:05",
         cost: "$107.76",
         deliveryCompany: "---",
@@ -424,7 +425,7 @@ const ShipmentHistory = () => {
         shipmentMethod: "Road",
         destination: "Lagos, Nigeria",
         status: "Cancelled",
-        origin: "NG-LOS-A 3",
+        origin: "London, UK",
         date: "22-03-2023 13:05",
         cost: "$107.76",
         deliveryCompany: "---",
@@ -442,7 +443,7 @@ const ShipmentHistory = () => {
         shipmentMethod: "Rail",
         destination: "Lagos, Nigeria",
         status: "Arrived Destination",
-        origin: "NG-LOS-A 3",
+        origin: "London, UK",
         date: "22-03-2023 13:05",
         cost: "$107.76",
         deliveryCompany: "---",
@@ -460,7 +461,7 @@ const ShipmentHistory = () => {
         shipmentMethod: "Air",
         destination: "Lagos, Nigeria",
         status: "In Transit",
-        origin: "NG-LOS-A 3",
+        origin: "London, UK",
         date: "22-03-2023 13:05",
         cost: "$107.76",
         deliveryCompany: "---",
@@ -478,7 +479,7 @@ const ShipmentHistory = () => {
         shipmentMethod: "Road",
         destination: "Lagos, Nigeria",
         status: "Processing",
-        origin: "NG-LOS-A 3",
+        origin: "London, UK",
         date: "22-03-2023 13:05",
         cost: "$107.76",
         deliveryCompany: "---",
@@ -496,7 +497,7 @@ const ShipmentHistory = () => {
         shipmentMethod: "Rail",
         destination: "Lagos, Nigeria",
         status: "Delivered",
-        origin: "NG-LOS-A 3",
+        origin: "London, UK",
         date: "22-03-2023 13:05",
         cost: "$107.76",
         deliveryCompany: "---",
@@ -514,7 +515,7 @@ const ShipmentHistory = () => {
         shipmentMethod: "Air",
         destination: "Lagos, Nigeria",
         status: "Cleared",
-        origin: "NG-LOS-A 3",
+        origin: "London, UK",
         date: "22-03-2023 13:05",
         cost: "$107.76",
         deliveryCompany: "---",
@@ -532,7 +533,7 @@ const ShipmentHistory = () => {
         shipmentMethod: "Road",
         destination: "Lagos, Nigeria",
         status: "Not Started",
-        origin: "NG-LOS-A 3",
+        origin: "London, UK",
         date: "22-03-2023 13:05",
         cost: "$107.76",
         deliveryCompany: "---",
@@ -550,7 +551,7 @@ const ShipmentHistory = () => {
         shipmentMethod: "Rail",
         destination: "Lagos, Nigeria",
         status: "Cancelled",
-        origin: "NG-LOS-A 3",
+        origin: "London, UK",
         date: "22-03-2023 13:05",
         cost: "$107.76",
         deliveryCompany: "---",
@@ -568,7 +569,7 @@ const ShipmentHistory = () => {
         shipmentMethod: "Air",
         destination: "Lagos, Nigeria",
         status: "Arrived Destination",
-        origin: "NG-LOS-A 3",
+        origin: "London, UK",
         date: "22-03-2023 13:05",
         cost: "$107.76",
         deliveryCompany: "---",
@@ -586,7 +587,7 @@ const ShipmentHistory = () => {
         shipmentMethod: "Road",
         destination: "Lagos, Nigeria",
         status: "In Transit",
-        origin: "NG-LOS-A 3",
+        origin: "London, UK",
         date: "22-03-2023 13:05",
         cost: "$107.76",
         deliveryCompany: "---",
@@ -604,7 +605,7 @@ const ShipmentHistory = () => {
         shipmentMethod: "Air",
         destination: "Lagos, Nigeria",
         status: "Processing",
-        origin: "NG-LOS-A 3",
+        origin: "London, UK",
         date: "22-03-2023 13:05",
         cost: "$107.76",
         deliveryCompany: "---",
@@ -622,7 +623,7 @@ const ShipmentHistory = () => {
         shipmentMethod: "Rail",
         destination: "Lagos, Nigeria",
         status: "Delivered",
-        origin: "NG-LOS-A 3",
+        origin: "London, UK",
         date: "22-03-2023 13:05",
         cost: "$107.76",
         deliveryCompany: "---",
@@ -640,7 +641,7 @@ const ShipmentHistory = () => {
         shipmentMethod: "Road",
         destination: "Lagos, Nigeria",
         status: "Cleared",
-        origin: "NG-LOS-A 3",
+        origin: "London, UK",
         date: "22-03-2023 13:05",
         cost: "$107.76",
         deliveryCompany: "---",
@@ -658,7 +659,7 @@ const ShipmentHistory = () => {
         shipmentMethod: "Air",
         destination: "Lagos, Nigeria",
         status: "Not Started",
-        origin: "NG-LOS-A 3",
+        origin: "London, UK",
         date: "22-03-2023 13:05",
         cost: "$107.76",
         deliveryCompany: "---",
@@ -676,7 +677,7 @@ const ShipmentHistory = () => {
         shipmentMethod: "Air",
         destination: "Lagos, Nigeria",
         status: "Cancelled",
-        origin: "NG-LOS-A 3",
+        origin: "London, UK",
         date: "22-03-2023 13:05",
         cost: "$107.76",
         deliveryCompany: "---",
@@ -694,7 +695,7 @@ const ShipmentHistory = () => {
         shipmentMethod: "Rail",
         destination: "Lagos, Nigeria",
         status: "Arrived Destination",
-        origin: "NG-LOS-A 3",
+        origin: "London, UK",
         date: "22-03-2023 13:05",
         cost: "$107.76",
         deliveryCompany: "---",
@@ -712,7 +713,7 @@ const ShipmentHistory = () => {
         shipmentMethod: "Road",
         destination: "Lagos, Nigeria",
         status: "In Transit",
-        origin: "NG-LOS-A 3",
+        origin: "London, UK",
         date: "22-03-2023 13:05",
         cost: "$107.76",
         deliveryCompany: "---",
@@ -730,7 +731,7 @@ const ShipmentHistory = () => {
         shipmentMethod: "Air",
         destination: "Lagos, Nigeria",
         status: "Processing",
-        origin: "NG-LOS-A 3",
+        origin: "London, UK",
         date: "22-03-2023 13:05",
         cost: "$107.76",
         deliveryCompany: "---",
@@ -774,7 +775,18 @@ const ShipmentHistory = () => {
               />
               <ActionButton title="Bulk Actions" icon={<BulkIcon />} />
             </Box>
-            <ActionButton title="Create new shipment" icon={<NewShipmentIcon />} />
+            <Box display='flex' alignItems='center' gap='16px'>
+              <ActionButton
+                title="Track shipment"
+                icon={<TrackShipmentIcon />}
+                bg="#4F378B"
+              />
+              <ActionButton
+                action={() => navigate("add-new-shipment")}
+                title="Create new shipment"
+                icon={<NewShipmentIcon />}
+              />
+            </Box>
           </Box>
           <Box height="80%">
             <OrderTable pageSize={10} columns={columns} rows={rows} />
