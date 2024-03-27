@@ -12,11 +12,16 @@ const UserModals = ({open, onClose, children, title}) => {
         sx={{
           position: "absolute",
           transform: "translate(-50%, -50%)",
+          '&::-webkit-scrollbar': {
+            display: 'none'
+          }
         }}
         top="50%"
         left="50%"
         width="900px"
         height="fit-content"
+        maxHeight='600px'
+        overflow='auto'
         borderRadius="20px"
       >
         <Box bgcolor="#6750A41C" p="30px">

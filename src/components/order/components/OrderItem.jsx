@@ -4,7 +4,7 @@ import { Box } from '@mui/material';
 import EditIcon from '../../../assets/icons/EditIcon';
 import laptop from '../../../assets/images/laptop.png'
 
-const OrderItem = ({order}) => {
+const OrderItem = ({order, service, view}) => {
   return (
     <Box
       sx={{
@@ -16,7 +16,7 @@ const OrderItem = ({order}) => {
       }}
     >
       <CardWrapper title={` Item - #1`}>
-        {order.orderInformation.service === "Shop For Me" ? (
+        {order?.orderInformation?.service ?? service === "Shop For Me" ? (
           <>
             <div className="grid grid-cols-5 mt-[30px] gap-[20px]">
               <>
@@ -203,7 +203,7 @@ const OrderItem = ({order}) => {
           </>
         )}
       </CardWrapper>
-      <EditIcon />
+      {view ? null : <EditIcon />}
     </Box>
   );
 }

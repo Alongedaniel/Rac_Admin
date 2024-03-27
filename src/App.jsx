@@ -84,11 +84,11 @@ function App() {
                   setShowFullBar={setShowFullBar}
                   title="Shipments"
                 >
-                  <Shipment />
+                  <ShipmentHistory />
                 </MainLayout>
               }
             />
-            <Route
+            {/* <Route
               path="/shipment/history"
               element={
                 <MainLayout
@@ -99,9 +99,9 @@ function App() {
                   <ShipmentHistory />
                 </MainLayout>
               }
-            />
+            /> */}
             <Route
-              path="/shipment/history/:shippingid"
+              path="/shipment/:shippingid"
               element={
                 <MainLayout
                   showFullBar={showFullBar}

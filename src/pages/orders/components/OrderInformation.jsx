@@ -1,5 +1,5 @@
-import { Box, Button } from "@mui/material";
-import React from "react";
+import { Box, Button, Grid, MenuItem, TextField, Typography } from "@mui/material";
+import React, { useState } from "react";
 import { IoChevronUpCircleOutline } from "react-icons/io5";
 import UserTag from "../../../assets/icons/UserTag";
 import ShieldIcon from "../../../assets/icons/ShieldIcon";
@@ -8,8 +8,12 @@ import StartIcon from "../../../assets/icons/StartIcon";
 import ChangeIcon from "../../../assets/icons/ChangeIcon";
 import CircleRight from "../../../assets/icons/CircleRight";
 import CardWrapper from "../../../components/order/components/CardWrapper";
+import UserModals from "../../Users/components/UserModals";
+import ArrowLeftPurple from "../../../assets/icons/ArrowLeftPurple";
+import ArrowRightWhite from "../../../assets/icons/ArrowRightWhite";
 
-const OrderInformation = ({ toggle, order, type, drop }) => {
+const OrderInformation = ({ order, type }) => {
+    const [editOrderInfo, setEditOrderInfo] = useState(false);
   return (
     <div className="">
       <>
@@ -29,14 +33,10 @@ const OrderInformation = ({ toggle, order, type, drop }) => {
               marginTop: "20px",
             }}
           >
-            <CardWrapper
-              title="Order Information"
-              style={{width:'100%'}}
-            >
-
+            <CardWrapper title="Order Information" style={{ width: "100%" }}>
               <div className="grid grid-cols-5 mt-[30px]  gap-[20px]">
-                <div>
-                  <p className="text-[14px] text-t/100 font-roboto">
+                <div className="col-span-2">
+                  <p className="text-[14px] text-t/100 font-roboto ">
                     Assigned Customer:
                   </p>
                   <div
@@ -45,6 +45,7 @@ const OrderInformation = ({ toggle, order, type, drop }) => {
                       gap: "5px",
                       alignItems: "center",
                       borderBottom: "1px solid #79747E",
+                      maxWidth: "149px",
                     }}
                   >
                     <UserTag />
@@ -65,7 +66,7 @@ const OrderInformation = ({ toggle, order, type, drop }) => {
                     {order.type ?? "Shipment"}
                   </p>
                 </div>
-                <div className="col-span-3">
+                <div className="col-span-2">
                   <p className="text-[14px] text-t/100 font-roboto">
                     {type === "request" ? "Request Status:" : "Order Status:"}
                   </p>
@@ -147,7 +148,11 @@ const OrderInformation = ({ toggle, order, type, drop }) => {
                 </div>
               </div>
             </CardWrapper>
-            {type === "request" ? null : <EditIcon />}
+            {type === "request" ? null : (
+              <Box onClick={() => setEditOrderInfo(true)}>
+                <EditIcon />
+              </Box>
+            )}
           </Box>
           {type === "request" ? null : (
             <Box
@@ -341,6 +346,187 @@ const OrderInformation = ({ toggle, order, type, drop }) => {
           )} */}
         </div>
       </>
+      <UserModals
+        open={editOrderInfo}
+        onClose={() => setEditOrderInfo(false)}
+        title="Edit Order Information"
+      >
+        <Box mb="30px">
+          <Typography fontSize="24px" color="#1C1B1F">
+            Order ID:{" "}
+            <Typography
+              fontSize="24px"
+              color="#1C1B1F"
+              display="inline"
+              fontWeight={700}
+            >
+              {order.id}
+            </Typography>
+          </Typography>
+        </Box>
+        <Box>
+          <div className="flex items-center space-x-[10px] ">
+            <CircleRight />
+            <p className="font-roboto font-[500] text-[14px] text-t/100 text-brand/200 ">
+              Fill in the order & customer details
+            </p>
+          </div>
+          <Box
+            display="flex"
+            flexDirection="column"
+            gap="30px"
+            mt="10px"
+            p="30px"
+            sx={{ borderTop: "1px solid #79747E" }}
+          >
+            <TextField
+              id="assigned-customer"
+              sx={{ fontSize: "16px", color: "#1C1B1F" }}
+              type="text"
+              label="Assigned Customer"
+              fullWidth
+              disabled
+              value={order.customer}
+              // placeholder="Select origin"
+              InputProps={{
+                sx: {
+                  // maxWidth: "540px",
+                  borderRadius: "20px", // Apply border radius to the input element
+                  // height: "144px",
+                  borderColor: "#79747E",
+                  fontSize: "16px",
+                  color: "#1C1B1F",
+                },
+              }}
+            />
+            <Grid container gap="30px" wrap="nowrap">
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  required
+                  sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                  id="shipment-method"
+                  type="text"
+                  label="Order Type"
+                  select
+                  InputProps={{
+                    sx: {
+                      borderRadius: "20px", // Apply border radius to the input element
+                      height: "56px",
+                      borderColor: "#79747E",
+                      fontSize: "16px",
+                      color: "#1C1B1F",
+                    },
+                  }}
+                  // placeholder="Enter your country"
+                ></TextField>
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  required
+                  sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                  id="service"
+                  type="text"
+                  label="Service"
+                  defaultValue={order.service}
+                  select
+                  disabled
+                  InputProps={{
+                    sx: {
+                      borderRadius: "20px", // Apply border radius to the input element
+                      height: "56px",
+                      borderColor: "#79747E",
+                      fontSize: "16px",
+                      color: "#1C1B1F",
+                    },
+                  }}
+                  // placeholder="Enter your country"
+                >
+                  <MenuItem value={order.service}>
+                    {order.service}
+                  </MenuItem>
+                </TextField>
+              </Grid>
+            </Grid>
+            <Grid container gap="30px" wrap="nowrap">
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  required
+                  sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                  id="shipment-method"
+                  type="text"
+                  label="Shipment Method"
+                  select
+                  InputProps={{
+                    sx: {
+                      borderRadius: "20px", // Apply border radius to the input element
+                      height: "56px",
+                      borderColor: "#79747E",
+                      fontSize: "16px",
+                      color: "#1C1B1F",
+                    },
+                  }}
+                  // placeholder="Enter your country"
+                ></TextField>
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  required
+                  sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                  id="delivery-company"
+                  type="text"
+                  label="Delivery Company"
+                  select
+                  InputProps={{
+                    sx: {
+                      borderRadius: "20px", // Apply border radius to the input element
+                      height: "56px",
+                      borderColor: "#79747E",
+                      fontSize: "16px",
+                      color: "#1C1B1F",
+                    },
+                  }}
+                  // placeholder="Enter your country"
+                ></TextField>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+        <Box mt="30px">
+          <Button
+            startIcon={<ArrowLeftPurple />}
+            variant="outlined"
+            sx={{
+              borderColor: "#79747E",
+              color: "#79747E",
+              height: "40px",
+              borderRadius: "100px",
+              textTransform: "none",
+              mr: "10px",
+            }}
+            onClick={() => setEditOrderInfo(false)}
+          >
+            Back
+          </Button>
+          <Button
+            startIcon={<ArrowRightWhite />}
+            variant="contained"
+            sx={{
+              bgcolor: "#6750A4",
+              color: "#fff",
+              width: "172px",
+              height: "40px",
+              borderRadius: "100px",
+              textTransform: "none",
+            }}
+          >
+            Update
+          </Button>
+        </Box>
+      </UserModals>
     </div>
   );
 };
