@@ -2,8 +2,9 @@ import { Box, Modal, Typography } from '@mui/material'
 import React from 'react'
 import CloseCircle from '../../../assets/icons/CloseCircle';
 import CloseCircleRed from '../../../assets/icons/CloseCircleRed';
+import ArrowSquare from '../../../assets/icons/ArrowSquare';
 
-const UserModals = ({open, onClose, children, title}) => {
+const UserModals = ({open, onClose, children, title, id1, id2, type1, type2}) => {
     
   return (
     <Modal open={open} onClose={onClose}>
@@ -12,36 +13,100 @@ const UserModals = ({open, onClose, children, title}) => {
         sx={{
           position: "absolute",
           transform: "translate(-50%, -50%)",
-          '&::-webkit-scrollbar': {
-            display: 'none'
-          }
+          "&::-webkit-scrollbar": {
+            display: "none",
+          },
         }}
         top="50%"
         left="50%"
         width="900px"
         height="fit-content"
-        maxHeight='600px'
-        overflow='auto'
+        maxHeight="600px"
+        overflow="auto"
         borderRadius="20px"
       >
-        <Box bgcolor="#6750A41C" p="30px">
+        <Box
+          sx={{
+            "&::-webkit-scrollbar": {
+              display: "none",
+            },
+          }}
+          height="fit-content"
+          maxHeight="600px"
+          overflow="auto"
+          bgcolor="#6750A41C"
+          p="30px"
+          position={"relative"}
+        >
           <Box
-            border="2px dashed #6750A4"
-            borderRadius="20px"
-            mb="30px"
-            p="20px 30px"
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
+            bgcolor="#fff"
+            position="fixed"
+            left={0}
+            right={0}
+            top={0}
+            width="100%"
+            zIndex={5}
           >
-            <Typography fontSize="28px" color="#6750A4">
-              {title}
-            </Typography>
-            <Box onClick={onClose}>
-              <CloseCircleRed />
+            <Box pt="30px" pb="16px" px="30px" bgcolor="#6750A41C">
+              <Box
+                width="100%"
+                border="2px dashed #6750A4"
+                borderRadius="20px"
+                // mb="30px"
+                p="20px 30px"
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Typography fontSize="28px" color="#6750A4">
+                  {title}
+                </Typography>
+                <Box onClick={onClose}>
+                  <CloseCircleRed />
+                </Box>
+              </Box>
             </Box>
+            {type1 && id1 && (
+              <Box
+                display="flex"
+                alignItems="center"
+                gap="10px"
+                px="30px"
+                bgcolor="#6750A41C"
+                pt="14px"
+                pb="16px"
+              >
+                <Typography fontSize="24px" color="#1C1B1F">
+                  {type1}:{" "}
+                  <Typography
+                    fontSize="24px"
+                    color="#1C1B1F"
+                    display="inline"
+                    fontWeight={700}
+                  >
+                    {id1}
+                  </Typography>
+                </Typography>
+                {type2 && id2 && (
+                  <>
+                    <ArrowSquare />
+                    <Typography fontSize="24px" color="#1C1B1F">
+                      {type2}:{" "}
+                      <Typography
+                        fontSize="24px"
+                        color="#1C1B1F"
+                        display="inline"
+                        fontWeight={700}
+                      >
+                        {id2}
+                      </Typography>
+                    </Typography>
+                  </>
+                )}
+              </Box>
+            )}
           </Box>
-          {children}
+          <Box pt={type1 && id1 ? "200px" : "116px"}>{children}</Box>
         </Box>
       </Box>
     </Modal>

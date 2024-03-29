@@ -975,32 +975,11 @@ const ShopForMe = () => {
         open={packageDetails}
         onClose={() => setPackageDetails(false)}
         title="Package Details"
+        type1="Ordeer ID"
+        type2="Tracking ID"
+        id1="OD78667"
+        id2="SH78667"
       >
-        <Box display="flex" alignItems="center" gap="10px" mb="30px">
-          <Typography fontSize="24px" color="#1C1B1F">
-            Order ID:{" "}
-            <Typography
-              fontSize="24px"
-              color="#1C1B1F"
-              display="inline"
-              fontWeight={700}
-            >
-              OD78667
-            </Typography>
-          </Typography>
-          <ArrowSquare />
-          <Typography fontSize="24px" color="#1C1B1F">
-            Tracking ID:{" "}
-            <Typography
-              fontSize="24px"
-              color="#1C1B1F"
-              display="inline"
-              fontWeight={700}
-            >
-              SH78667
-            </Typography>
-          </Typography>
-        </Box>
         <PackageDetailsInfo service="Shop For Me" view={true} />
       </UserModals>
     </>

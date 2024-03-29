@@ -39,6 +39,7 @@ import OrderItem from "../../components/order/components/OrderItem";
 import ShippingDetailsInfo from "../../components/order/components/ShippingDetailsInfo";
 import BillingDetailsInfo from "../../components/order/components/BillingDetailsInfo";
 import PackageDetailsInfo from "../../components/order/components/PackageDetailsInfo";
+import AssigneOrderModal from "../../components/Modals/AssigneOrderModal";
 
 const CreateShipment = () => {
   const steps = [
@@ -52,6 +53,9 @@ const CreateShipment = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
   const [assignedOrder, setAssignedOrder] = useState(false)
+  const [assignedOrder1, setAssignedOrder1] = useState(false)
+  const [assignedOrder2, setAssignedOrder2] = useState(false)
+  const [assignedOrder3, setAssignedOrder3] = useState(false)
   const today = dayjs();
   const [date, setDate] = useState(today);
 
@@ -70,6 +74,63 @@ const CreateShipment = () => {
     const order = {
       image: laptop,
       service: "Auto Import",
+      id: "SH08758",
+      customer: "Rexo Offorex",
+      shippingMethod: "Basic",
+      shipmentMethod: "Air",
+      destination: "Lagos, Nigeria",
+      status: "Not Started",
+      origin: "London, UK",
+      date: "22-03-2023 ",
+      time: "13:05",
+      cost: "$107.76",
+      deliveryCompany: "---",
+      dispatchCompany: "---",
+      staff: "Micheal Sam obalodu",
+      packaging: "Packaging In Progress",
+      actions: "actions",
+    };
+    const order1 = {
+      image: laptop,
+      service: "Export",
+      id: "SH08758",
+      customer: "Rexo Offorex",
+      shippingMethod: "Basic",
+      shipmentMethod: "Air",
+      destination: "Lagos, Nigeria",
+      status: "Not Started",
+      origin: "London, UK",
+      date: "22-03-2023 ",
+      time: "13:05",
+      cost: "$107.76",
+      deliveryCompany: "---",
+      dispatchCompany: "---",
+      staff: "Micheal Sam obalodu",
+      packaging: "Packaging In Progress",
+      actions: "actions",
+    };
+    const order2 = {
+      image: laptop,
+      service: "Import",
+      id: "SH08758",
+      customer: "Rexo Offorex",
+      shippingMethod: "Basic",
+      shipmentMethod: "Air",
+      destination: "Lagos, Nigeria",
+      status: "Not Started",
+      origin: "London, UK",
+      date: "22-03-2023 ",
+      time: "13:05",
+      cost: "$107.76",
+      deliveryCompany: "---",
+      dispatchCompany: "---",
+      staff: "Micheal Sam obalodu",
+      packaging: "Packaging In Progress",
+      actions: "actions",
+    };
+    const order3 = {
+      image: laptop,
+      service: "Shop For Me",
       id: "SH08758",
       customer: "Rexo Offorex",
       shippingMethod: "Basic",
@@ -652,7 +713,17 @@ const CreateShipment = () => {
                             </Typography>
                           </Box>
                         </Grid>
-                        <Grid item xs={2.4}></Grid>
+                        <Grid item xs={2.4}>
+                          <Typography sx={{cursor: 'pointer'}} onClick={() => setAssignedOrder1(true)}>
+                            Export
+                          </Typography>
+                          <Typography sx={{cursor: 'pointer'}} onClick={() => setAssignedOrder2(true)}>
+                            Import
+                          </Typography>
+                          <Typography sx={{cursor: 'pointer'}} onClick={() => setAssignedOrder3(true)}>
+                            Shop For Me
+                          </Typography>
+                        </Grid>
                         <Grid item xs={2.4}>
                           <Typography fontSize="14px" color="#49454F">
                             Service:
@@ -1070,147 +1141,26 @@ const CreateShipment = () => {
           </Box>
         )}
       </Box>
-      <UserModals
+      <AssigneOrderModal
         open={assignedOrder}
+        order={order}
         onClose={() => setAssignedOrder(false)}
-        title="Assigned Order Details"
-      >
-        <Box mb="30px">
-          <Typography fontSize="24px" color="#1C1B1F">
-            Order ID:{" "}
-            <Typography
-              fontSize="24px"
-              color="#1C1B1F"
-              display="inline"
-              fontWeight={700}
-            >
-              OD78667
-            </Typography>
-          </Typography>
-        </Box>
-        <Box mb="30px">
-          <SectionHeader noBorder title="Order Information" />
-          <CardWrapper mt="20px" title="Order Information">
-            <Box mt="5px">
-              <Grid container wrap="nowrap" mb="20px">
-                <Grid item xs={4.8}>
-                  <Typography fontSize="14px" color="#49454F">
-                    Assigned Customer:
-                  </Typography>
-                  <Box display="flex" alignItems="center" gap="4px">
-                    <UserTag />
-                    <Typography fontSize="22px" color="#21005D">
-                      {order.customer}
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={2.4}>
-                  <Typography fontSize="14px" color="#49454F">
-                    Order Type:
-                  </Typography>
-                  <Typography fontSize="22px" color="#1C1B1F">
-                    Shipment
-                  </Typography>
-                </Grid>
-                <Grid item xs={4.8}>
-                  <Typography fontSize="14px" color="#49454F">
-                    Order Status:
-                  </Typography>
-                  <Typography fontSize="22px" color="#1C1B1F">
-                    {order.status}
-                  </Typography>
-                </Grid>
-              </Grid>
-              <Grid container wrap="nowrap">
-                <Grid item xs={2.4}>
-                  <Typography fontSize="14px" color="#49454F">
-                    Service:
-                  </Typography>
-                  <Typography fontSize="22px" color="#1C1B1F">
-                    {order.service}
-                  </Typography>
-                </Grid>
-                <Grid item xs={2.4}>
-                  <Typography fontSize="14px" color="#49454F">
-                    Shipment Method:
-                  </Typography>
-                  <Typography fontSize="22px" color="#1C1B1F">
-                    {order.shipmentMethod}
-                  </Typography>
-                </Grid>
-                <Grid item xs={2.4}>
-                  <Typography fontSize="14px" color="#49454F">
-                    Delivery Company:
-                  </Typography>
-                  <Typography fontSize="22px" color="#1C1B1F">
-                    DHL
-                  </Typography>
-                </Grid>
-                <Grid item xs={2.4}>
-                  <Typography fontSize="14px" color="#49454F">
-                    Order Creation Date:
-                  </Typography>
-                  <Typography fontSize="22px" color="#1C1B1F">
-                    {order.date}
-                  </Typography>
-                </Grid>
-                <Grid item xs={2.4}>
-                  <Typography fontSize="14px" color="#49454F">
-                    Order Creation Time:
-                  </Typography>
-                  <Typography fontSize="22px" color="#1C1B1F">
-                    {order.time}
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Box>
-          </CardWrapper>
-          <Box py="10px">
-            <Line />
-          </Box>
-          <CardWrapper title="Shipping Details">
-            <Box mt="5px">
-              <Grid container wrap="nowrap" mb="20px">
-                <Grid item xs={2.4}>
-                  <Typography fontSize="14px" color="#49454F">
-                    Shipping/Tracking ID:
-                  </Typography>
-                  <Typography fontSize="22px" color="#1C1B1F">
-                    {order.id}
-                  </Typography>
-                </Grid>
-                <Grid item xs={9.6}>
-                  <Typography fontSize="14px" color="#49454F">
-                    Shipping Status:
-                  </Typography>
-                  <Typography fontSize="22px" color="#1C1B1F">
-                    Processing
-                  </Typography>
-                </Grid>
-              </Grid>
-              <Grid container wrap="nowrap">
-                <Grid item xs={12}>
-                  <Typography fontSize="14px" color="#49454F">
-                    Packaging Status:
-                  </Typography>
-                  <Typography fontSize="22px" color="#1C1B1F">
-                    {order.packaging}
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Box>
-          </CardWrapper>
-        </Box>
-        <Box mb="30px">
-          <PackageDetailsInfo service={order.service} view={true} />
-        </Box>
-        <Box mb="30px">
-          <ShippingDetailsInfo service={order.service} view={true} />
-        </Box>
-        <Box>
-          <BillingDetailsInfo service={order.service} view={true} />
-        </Box>
-      </UserModals>
+      />
+      <AssigneOrderModal
+        open={assignedOrder1}
+        order={order1}
+        onClose={() => setAssignedOrder1(false)}
+      />
+      <AssigneOrderModal
+        open={assignedOrder2}
+        order={order2}
+        onClose={() => setAssignedOrder2(false)}
+      />
+      <AssigneOrderModal
+        open={assignedOrder3}
+        order={order3}
+        onClose={() => setAssignedOrder3(false)}
+      />
     </Box>
   );
 };

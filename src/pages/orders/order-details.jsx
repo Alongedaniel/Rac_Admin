@@ -49,6 +49,9 @@ import PaymentInformation from "./components/PaymentInformation";
 import PackageDetailsForm from "../../components/order/components/PackageDetailsForm";
 import ShopForMeDetails from "../Shop for me/ShopForMeDetails";
 import UserModals from "../Users/components/UserModals";
+import PackageDetailsInfo from "../../components/order/components/PackageDetailsInfo";
+import ShippingDetailsInfo from "../../components/order/components/ShippingDetailsInfo";
+import BillingDetailsInfo from "../../components/order/components/BillingDetailsInfo";
 
 function OrderDetails() {
   const location = useLocation();
@@ -147,7 +150,7 @@ function OrderDetails() {
 
   return (
     <>
-      {type === "shop for me" ? (
+      {order.service === "Shop For Me" ? (
         <ShopForMeDetails />
       ) : (
         <div
@@ -990,22 +993,25 @@ function OrderDetails() {
                   toggle={toggle}
                   drop={drop}
                 />
+                <PackageDetailsInfo order={order} service={order.service} />
+                <ShippingDetailsInfo order={order} service={order.service} />
+                <BillingDetailsInfo order={order} service={order.service} />
 
-                {order.service === "Auto Import" ? null : (
+                {/* {order.service === "Auto Import" ? null : (
                   <ShippingDetails
                     order={order}
                     type={type}
                     toggle={toggle}
                     drop={drop}
                   />
-                )}
-                <PackageDetails
+                  )} */}
+                {/* <PackageDetails
                   order={order}
                   type={type}
                   toggle={toggle}
                   drop={drop}
-                />
-                {order.service === "Auto Import" ||
+                /> */}
+                {/* {order.service === "Auto Import" ||
                 order.service === "Shop For Me" ? null : (
                   <BillingDetails
                     order={order}
@@ -1013,7 +1019,7 @@ function OrderDetails() {
                     toggle={toggle}
                     drop={drop}
                   />
-                )}
+                )} */}
 
                 {type === "request" ? (
                   <Box display="flex" alignItems="center" gap="10px">
@@ -1096,8 +1102,8 @@ function OrderDetails() {
                     width="100%"
                     sx={{
                       display: "flex",
-                      justifyContent: "center",
                       alignItems: "center",
+                      gap:'10px'
                     }}
                   >
                     <Button
@@ -1108,12 +1114,42 @@ function OrderDetails() {
                         color: "#79747E",
                         height: "40px",
                         borderRadius: "100px",
-                        width: "50%",
+                        width: "98px",
                         textTransform: "none",
                       }}
                       onClick={() => navigate("/orders")}
                     >
-                      Back to Order
+                      Back
+                    </Button>
+                    <Button
+                      startIcon={<ArrowLeftPurple />}
+                      variant="contained"
+                      sx={{
+                        bgcolor: "#6750A4",
+                        color: "#fff",
+                        height: "40px",
+                        borderRadius: "100px",
+                        width: "196px",
+                        textTransform: "none",
+                      }}
+                      onClick={() => navigate("/orders")}
+                    >
+                      View order activities
+                    </Button>
+                    <Button
+                      startIcon={<ArrowLeftPurple />}
+                      variant="contained"
+                      sx={{
+                        bgcolor: "#B3261E",
+                        color: "#fff",
+                        height: "40px",
+                        borderRadius: "100px",
+                        width: "147px",
+                        textTransform: "none",
+                      }}
+                      onClick={() => navigate("/orders")}
+                    >
+                      Cancel order
                     </Button>
                   </Box>
                 )}
@@ -1146,7 +1182,6 @@ function OrderDetails() {
           )}
         </div>
       )}
-      
     </>
   );
 }
