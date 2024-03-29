@@ -30,7 +30,7 @@ const ShopForMeDetails = () => {
       setSelectedRadioValue(event.target.value);
     };
   return (
-    <Box py="30px" px="40px">
+    <Box py="30px" px="40px" maxWidth="1140px">
       <Box p="30px" borderRadius="20px" bgcolor="#fff">
         <Box mb="30px">
           <Typography fontSize="24px" color="#1C1B1F">
@@ -54,98 +54,103 @@ const ShopForMeDetails = () => {
             gap="30px"
             alignItems="center"
           >
-            <CardWrapper title="Order Information">
-              <Box mt="5px">
-                <Grid container gap="30px" wrap="nowrap" mb="40px">
-                  <Grid item xs={2.4}>
-                    <Typography fontSize="14px" color="#49454F">
-                      Assigned Customer:
-                    </Typography>
-                    <Box display="flex" alignItems="center" gap="8px">
-                      <UserTag />
-                      <Typography
-                        display="inline"
-                        fontSize="22px"
-                        color="#21005D"
-                      >
-                        Rex Offorex
+            <Box width="100%">
+              <CardWrapper title="Order Information">
+                <Box mt="5px">
+                  <Grid container gap="30px" wrap="nowrap" mb="40px">
+                    <Grid item xs={2.4}>
+                      <Typography fontSize="14px" color="#49454F">
+                        Assigned Customer:
                       </Typography>
-                    </Box>
+                      <Box display="flex" alignItems="center" gap="8px">
+                        <UserTag />
+                        <Typography
+                          display="inline"
+                          fontSize="22px"
+                          color="#21005D"
+                        >
+                          Rex Offorex
+                        </Typography>
+                      </Box>
+                    </Grid>
+                    <Grid item xs={2.4}></Grid>
+                    <Grid item xs={2.4}>
+                      <Typography fontSize="14px" color="#49454F">
+                        Order Type:
+                      </Typography>
+                      <Typography fontSize="22px" color="#1C1B1F">
+                        Shipment
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={2.4}>
+                      <Typography fontSize="14px" color="#49454F">
+                        Order Status:
+                      </Typography>
+                      <Typography fontSize="22px" color="#1C1B1F">
+                        Under Process
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={2.4}>
+                      <Typography fontSize="14px" color="#49454F">
+                        Item Purchase Status:
+                      </Typography>
+                      <Typography fontSize="22px" color="#1C1B1F">
+                        Some Purchased
+                      </Typography>
+                    </Grid>
                   </Grid>
-                  <Grid item xs={2.4}></Grid>
-                  <Grid item xs={2.4}>
-                    <Typography fontSize="14px" color="#49454F">
-                      Order Type:
-                    </Typography>
-                    <Typography fontSize="22px" color="#1C1B1F">
-                      Shipment
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={2.4}>
-                    <Typography fontSize="14px" color="#49454F">
-                      Order Status:
-                    </Typography>
-                    <Typography fontSize="22px" color="#1C1B1F">
-                      Under Process
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={2.4}>
-                    <Typography fontSize="14px" color="#49454F">
-                      Item Purchase Status:
-                    </Typography>
-                    <Typography fontSize="22px" color="#1C1B1F">
-                      Some Purchased
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Grid container gap="30px" wrap="nowrap">
-                  <Grid item xs={2.4}>
-                    <Typography fontSize="14px" color="#49454F">
-                      Service:
-                    </Typography>
-                    <Typography fontSize="22px" color="#1C1B1F">
-                      Shop For Me
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={2.4}>
-                    <Typography fontSize="14px" color="#49454F">
-                      Shipment Method:
-                    </Typography>
-                    <Typography fontSize="22px" color="#1C1B1F">
-                      Air
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={2.4}>
-                    <Typography fontSize="14px" color="#49454F">
-                      Delivery Company:
-                    </Typography>
-                    <Typography fontSize="22px" color="#1C1B1F">
-                      DHL
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={2.4}>
-                    <Typography fontSize="14px" color="#49454F">
-                      Order Creation Date:
-                    </Typography>
-                    <Typography fontSize="22px" color="#1C1B1F">
-                      12/02/2023
-                    </Typography>
-                  </Grid>
+                  <Grid container gap="30px" wrap="nowrap">
+                    <Grid item xs={2.4}>
+                      <Typography fontSize="14px" color="#49454F">
+                        Service:
+                      </Typography>
+                      <Typography fontSize="22px" color="#1C1B1F">
+                        Shop For Me
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={2.4}>
+                      <Typography fontSize="14px" color="#49454F">
+                        Shipment Method:
+                      </Typography>
+                      <Typography fontSize="22px" color="#1C1B1F">
+                        Air
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={2.4}>
+                      <Typography fontSize="14px" color="#49454F">
+                        Delivery Company:
+                      </Typography>
+                      <Typography fontSize="22px" color="#1C1B1F">
+                        DHL
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={2.4}>
+                      <Typography fontSize="14px" color="#49454F">
+                        Order Creation Date:
+                      </Typography>
+                      <Typography fontSize="22px" color="#1C1B1F">
+                        12/02/2023
+                      </Typography>
+                    </Grid>
 
-                  <Grid item xs={2.4}>
-                    <Typography fontSize="14px" color="#49454F">
-                      Order Creation Time:
-                    </Typography>
-                    <Typography fontSize="22px" color="#1C1B1F">
-                      9:48am
-                    </Typography>
+                    <Grid item xs={2.4}>
+                      <Typography fontSize="14px" color="#49454F">
+                        Order Creation Time:
+                      </Typography>
+                      <Typography fontSize="22px" color="#1C1B1F">
+                        9:48am
+                      </Typography>
+                    </Grid>
                   </Grid>
-                </Grid>
+                </Box>
+              </CardWrapper>
+              <Box mt="10px" px="20px">
+                <Line />
               </Box>
-            </CardWrapper>
+            </Box>
             <EditIcon />
           </Box>
-          <Line />
+
           <Box mt="10px" display="flex" gap="30px" alignItems="center">
             <CardWrapper title="Shipment Details">
               <Box mt="5px">
@@ -205,29 +210,33 @@ const ShopForMeDetails = () => {
             gap="30px"
             alignItems="center"
           >
-            <CardWrapper title="Package Origin">
-              <Box mt="5px">
-                <Grid container gap="30px" wrap="nowrap">
-                  <Grid item xs={12}>
-                    <Typography fontSize="14px" color="#49454F">
-                      Origin warehouse:
-                    </Typography>
-                    <Typography
-                      sx={{ display: "inline" }}
-                      fontSize="22px"
-                      color="#21005D"
-                    >
-                      UK (London - warehouse)
-                    </Typography>
+            <Box width='100%'>
+              <CardWrapper title="Package Origin">
+                <Box mt="5px">
+                  <Grid container gap="30px" wrap="nowrap">
+                    <Grid item xs={12}>
+                      <Typography fontSize="14px" color="#49454F">
+                        Origin warehouse:
+                      </Typography>
+                      <Typography
+                        sx={{ display: "inline" }}
+                        fontSize="22px"
+                        color="#21005D"
+                      >
+                        UK (London - warehouse)
+                      </Typography>
+                    </Grid>
                   </Grid>
-                </Grid>
+                </Box>
+              </CardWrapper>
+              <Box mt="10px" px="20px">
+                <Line />
               </Box>
-            </CardWrapper>
+            </Box>
             <Box onClick={() => setActiveStep(1)}>
               <EditIcon />
             </Box>
           </Box>
-          <Line />
           <Box mt="10px" display="flex" gap="30px" alignItems="center">
             <Box width="100%" display="flex" flexDirection={"column"} gap="8px">
               <CardWrapper title="Item - #PR08756" bottomRadius></CardWrapper>

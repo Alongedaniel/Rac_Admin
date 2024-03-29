@@ -16,9 +16,13 @@ import ProcessIcon from '../../assets/icons/ProcessIcon';
 import CheckIcon from '../../assets/icons/CheckIcon';
 import NewShipmentIcon from '../../assets/icons/NewShipmentIcon';
 import TrackShipmentIcon from '../../assets/icons/TrackShipmentIcon';
+import PackageDetailsInfo from '../../components/order/components/PackageDetailsInfo';
+import UserModals from '../Users/components/UserModals';
 
 const ShipmentHistory = () => {
     const [anchorEl, setAnchorEl] = useState(null);
+    const [service, setService] = useState('');
+    const [packageDetails, setPackageDetails] = useState(false);
     const open = Boolean(anchorEl);
     const handleOpenMenu = (e) => {
       setAnchorEl(e.currentTarget);
@@ -85,9 +89,13 @@ const ShipmentHistory = () => {
         sortable: false,
         renderCell: (params) => (
           <img
+            onClick={() => {
+              setPackageDetails(true)
+              setService(params.row.service);
+            }}
             src={params.row.image}
             alt=""
-            style={{ width: "110px", height: "50px" }}
+            style={{ width: "110px", height: "50px", cursor: 'pointer' }}
           />
         ),
       },
@@ -775,7 +783,7 @@ const ShipmentHistory = () => {
               />
               <ActionButton title="Bulk Actions" icon={<BulkIcon />} />
             </Box>
-            <Box display='flex' alignItems='center' gap='16px'>
+            <Box display="flex" alignItems="center" gap="16px">
               <ActionButton
                 title="Track shipment"
                 icon={<TrackShipmentIcon />}
@@ -834,6 +842,17 @@ const ShipmentHistory = () => {
           </Button>
         </Box>
       )}
+      <UserModals
+        open={packageDetails}
+        onClose={() => setPackageDetails(false)}
+        title="Package Details"
+        type1="Ordeer ID"
+        type2="Tracking ID"
+        id1="OD78667"
+        id2="SH78667"
+      >
+        <PackageDetailsInfo service={service} view={true} />
+      </UserModals>
     </Box>
   );
 }

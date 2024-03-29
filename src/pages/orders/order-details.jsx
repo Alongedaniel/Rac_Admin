@@ -49,6 +49,11 @@ import PaymentInformation from "./components/PaymentInformation";
 import PackageDetailsForm from "../../components/order/components/PackageDetailsForm";
 import ShopForMeDetails from "../Shop for me/ShopForMeDetails";
 import UserModals from "../Users/components/UserModals";
+import PackageDetailsInfo from "../../components/order/components/PackageDetailsInfo";
+import ShippingDetailsInfo from "../../components/order/components/ShippingDetailsInfo";
+import BillingDetailsInfo from "../../components/order/components/BillingDetailsInfo";
+import ActivityIcon from "../../assets/icons/ActivityIcon";
+import CustomStepper from "../../components/CustomStepper";
 
 function OrderDetails() {
   const location = useLocation();
@@ -147,7 +152,7 @@ function OrderDetails() {
 
   return (
     <>
-      {type === "shop for me" ? (
+      {order.service === "Shop For Me" ? (
         <ShopForMeDetails />
       ) : (
         <div
@@ -163,13 +168,7 @@ function OrderDetails() {
                 <span>{type === "request" ? "Request ID:" : "Order ID:"}</span>{" "}
                 <span className="font-[700]">{order.id}</span>
               </p>
-              <Stepper activeStep={activeStep}>
-                {steps.map((step, i) => (
-                  <Step key={i}>
-                    <StepLabel>{i === activeStep ? step : null}</StepLabel>
-                  </Step>
-                ))}
-              </Stepper>
+                
               <Box>
                 {activeStep === 0 ? (
                   <Box>
@@ -394,24 +393,14 @@ function OrderDetails() {
                 ) : activeStep === 1 ? (
                   order.service === "Auto Import" ||
                   order.service === "Shop For Me" ? (
-                    <PackageDetails
-                      order={order}
-                      type={type}
-                      toggle={toggle}
-                      drop={drop}
-                    />
+                    <PackageDetails order={order} type={type} />
                   ) : (
-                    <PackageDetailsForm drop={drop} toggle={toggle} />
+                    <PackageDetailsForm />
                   )
                 ) : activeStep === 2 ? (
                   order.service === "Auto Import" ? (
                     <>
-                      <ShippingDetails
-                        order={order}
-                        type={type}
-                        toggle={toggle}
-                        drop={drop}
-                      />
+                      <ShippingDetails order={order} type={type} />
                     </>
                   ) : order.service === "Shop For Me" ? (
                     <PaymentInformation toggle={toggle} drop={drop} />
@@ -984,28 +973,26 @@ function OrderDetails() {
               </p>
 
               <div className="flex flex-col space-y-[40px] font-roboto">
-                <OrderInformation
-                  order={order}
-                  type={type}
-                  toggle={toggle}
-                  drop={drop}
-                />
+                <OrderInformation order={order} />
+                <PackageDetailsInfo order={order} service={order.service} />
+                <ShippingDetailsInfo order={order} service={order.service} />
+                <BillingDetailsInfo order={order} service={order.service} />
 
-                {order.service === "Auto Import" ? null : (
+                {/* {order.service === "Auto Import" ? null : (
                   <ShippingDetails
                     order={order}
                     type={type}
                     toggle={toggle}
                     drop={drop}
                   />
-                )}
-                <PackageDetails
+                  )} */}
+                {/* <PackageDetails
                   order={order}
                   type={type}
                   toggle={toggle}
                   drop={drop}
-                />
-                {order.service === "Auto Import" ||
+                /> */}
+                {/* {order.service === "Auto Import" ||
                 order.service === "Shop For Me" ? null : (
                   <BillingDetails
                     order={order}
@@ -1013,7 +1000,7 @@ function OrderDetails() {
                     toggle={toggle}
                     drop={drop}
                   />
-                )}
+                )} */}
 
                 {type === "request" ? (
                   <Box display="flex" alignItems="center" gap="10px">
@@ -1096,8 +1083,8 @@ function OrderDetails() {
                     width="100%"
                     sx={{
                       display: "flex",
-                      justifyContent: "center",
                       alignItems: "center",
+                      gap: "10px",
                     }}
                   >
                     <Button
@@ -1108,12 +1095,42 @@ function OrderDetails() {
                         color: "#79747E",
                         height: "40px",
                         borderRadius: "100px",
-                        width: "50%",
+                        width: "98px",
                         textTransform: "none",
                       }}
                       onClick={() => navigate("/orders")}
                     >
-                      Back to Order
+                      Back
+                    </Button>
+                    <Button
+                      startIcon={<ActivityIcon />}
+                      variant="contained"
+                      sx={{
+                        bgcolor: "#6750A4",
+                        color: "#fff",
+                        height: "40px",
+                        borderRadius: "100px",
+                        width: "196px",
+                        textTransform: "none",
+                      }}
+                      onClick={() => navigate("/orders")}
+                    >
+                      View order activities
+                    </Button>
+                    <Button
+                      startIcon={<CloseCircle />}
+                      variant="contained"
+                      sx={{
+                        bgcolor: "#B3261E",
+                        color: "#fff",
+                        height: "40px",
+                        borderRadius: "100px",
+                        width: "147px",
+                        textTransform: "none",
+                      }}
+                      onClick={() => navigate("/orders")}
+                    >
+                      Cancel order
                     </Button>
                   </Box>
                 )}
@@ -1146,7 +1163,6 @@ function OrderDetails() {
           )}
         </div>
       )}
-      
     </>
   );
 }
