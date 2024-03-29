@@ -52,6 +52,7 @@ import UserModals from "../Users/components/UserModals";
 import PackageDetailsInfo from "../../components/order/components/PackageDetailsInfo";
 import ShippingDetailsInfo from "../../components/order/components/ShippingDetailsInfo";
 import BillingDetailsInfo from "../../components/order/components/BillingDetailsInfo";
+import ActivityIcon from "../../assets/icons/ActivityIcon";
 
 function OrderDetails() {
   const location = useLocation();
@@ -400,11 +401,9 @@ function OrderDetails() {
                     <PackageDetails
                       order={order}
                       type={type}
-                      toggle={toggle}
-                      drop={drop}
                     />
                   ) : (
-                    <PackageDetailsForm drop={drop} toggle={toggle} />
+                    <PackageDetailsForm />
                   )
                 ) : activeStep === 2 ? (
                   order.service === "Auto Import" ? (
@@ -412,8 +411,6 @@ function OrderDetails() {
                       <ShippingDetails
                         order={order}
                         type={type}
-                        toggle={toggle}
-                        drop={drop}
                       />
                     </>
                   ) : order.service === "Shop For Me" ? (
@@ -989,9 +986,6 @@ function OrderDetails() {
               <div className="flex flex-col space-y-[40px] font-roboto">
                 <OrderInformation
                   order={order}
-                  type={type}
-                  toggle={toggle}
-                  drop={drop}
                 />
                 <PackageDetailsInfo order={order} service={order.service} />
                 <ShippingDetailsInfo order={order} service={order.service} />
@@ -1122,7 +1116,7 @@ function OrderDetails() {
                       Back
                     </Button>
                     <Button
-                      startIcon={<ArrowLeftPurple />}
+                      startIcon={<ActivityIcon />}
                       variant="contained"
                       sx={{
                         bgcolor: "#6750A4",
@@ -1137,7 +1131,7 @@ function OrderDetails() {
                       View order activities
                     </Button>
                     <Button
-                      startIcon={<ArrowLeftPurple />}
+                      startIcon={<CloseCircle />}
                       variant="contained"
                       sx={{
                         bgcolor: "#B3261E",
