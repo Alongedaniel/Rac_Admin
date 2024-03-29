@@ -608,6 +608,7 @@ const ShopForMeDetails = () => {
           </Button>
         </Box>
       </Box>
+      
     </Box>
   );
 };
