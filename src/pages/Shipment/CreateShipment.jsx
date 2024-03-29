@@ -40,6 +40,7 @@ import ShippingDetailsInfo from "../../components/order/components/ShippingDetai
 import BillingDetailsInfo from "../../components/order/components/BillingDetailsInfo";
 import PackageDetailsInfo from "../../components/order/components/PackageDetailsInfo";
 import AssigneOrderModal from "../../components/Modals/AssigneOrderModal";
+import CustomStepper from "../../components/CustomStepper";
 
 const CreateShipment = () => {
   const steps = [
@@ -161,13 +162,7 @@ const CreateShipment = () => {
         width="100%"
         maxWidth={{ xs: "1100px", xl: "1400px" }}
       >
-        <Stepper activeStep={activeStep}>
-          {steps.map((step, i) => (
-            <Step key={i}>
-              <StepLabel>{i === activeStep ? step : null}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
+        <CustomStepper steps={steps} activeStep={activeStep} />
         <Box mt="30px">
           {activeStep === 0 ? (
             <Box>
@@ -714,13 +709,22 @@ const CreateShipment = () => {
                           </Box>
                         </Grid>
                         <Grid item xs={2.4}>
-                          <Typography sx={{cursor: 'pointer'}} onClick={() => setAssignedOrder1(true)}>
+                          <Typography
+                            sx={{ cursor: "pointer" }}
+                            onClick={() => setAssignedOrder1(true)}
+                          >
                             Export
                           </Typography>
-                          <Typography sx={{cursor: 'pointer'}} onClick={() => setAssignedOrder2(true)}>
+                          <Typography
+                            sx={{ cursor: "pointer" }}
+                            onClick={() => setAssignedOrder2(true)}
+                          >
                             Import
                           </Typography>
-                          <Typography sx={{cursor: 'pointer'}} onClick={() => setAssignedOrder3(true)}>
+                          <Typography
+                            sx={{ cursor: "pointer" }}
+                            onClick={() => setAssignedOrder3(true)}
+                          >
                             Shop For Me
                           </Typography>
                         </Grid>

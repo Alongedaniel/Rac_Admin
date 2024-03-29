@@ -10,6 +10,7 @@ import ProfileInformation from './components/ProfileInformation';
 import drone from '../../assets/images/drone.png'
 import CircleRight from '../../assets/icons/CircleRight';
 import { useNavigate } from 'react-router-dom';
+import CustomStepper from '../../components/CustomStepper';
 
 const CreateCustomer = () => {
     const [activeStep, setActiveStep] = useState(0);
@@ -53,13 +54,7 @@ const CreateCustomer = () => {
             </Typography>
           </Box>
         )}
-        <Stepper activeStep={activeStep}>
-          {steps.map((step, i) => (
-            <Step key={i}>
-              <StepLabel>{i === activeStep ? step : null}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
+        <CustomStepper steps={steps} activeStep={activeStep} />
         <Box mt="30px">
           {activeStep === 0 && <ProfileInformationForm />}
           {activeStep === 1 && <AdditionInfoForm />}

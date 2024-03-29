@@ -30,6 +30,7 @@ import PackageDetailsInfo from "./components/PackageDetailsInfo";
 import ShippingDetailsInfo from "./components/ShippingDetailsInfo";
 import BillingDetailsInfo from "./components/BillingDetailsInfo";
 import Navbar from "../Layout/Navbar";
+import CustomStepper from "../CustomStepper";
 
 const CreateOrder = () => {
   const [assignedCustomer, setAssignedCustomer] = useState("");
@@ -182,7 +183,7 @@ const CreateOrder = () => {
           pr={{ xs: "40px" }}
           position="fixed"
         >
-          <Navbar navbarTitle={`Create New ${service ?? ''} Order`} />
+          <Navbar navbarTitle={`Create New ${service ?? ""} Order`} />
         </Box>
       </Box>
       <Box px="50px">
@@ -191,13 +192,7 @@ const CreateOrder = () => {
           sx={{ p: "30px", mt: "40px", height: "100%", borderRadius: "20px" }}
           maxWidth={{ xs: "1100px", xl: "1400px" }}
         >
-          <Stepper activeStep={activeStep}>
-            {steps.map((step, i) => (
-              <Step key={i}>
-                <StepLabel>{i === activeStep ? step : null}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
+          <CustomStepper steps={steps} activeStep={activeStep} />
           <Box mt="30px">
             {activeStep === 0 ? (
               <OrderInformationForm

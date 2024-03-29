@@ -53,6 +53,7 @@ import PackageDetailsInfo from "../../components/order/components/PackageDetails
 import ShippingDetailsInfo from "../../components/order/components/ShippingDetailsInfo";
 import BillingDetailsInfo from "../../components/order/components/BillingDetailsInfo";
 import ActivityIcon from "../../assets/icons/ActivityIcon";
+import CustomStepper from "../../components/CustomStepper";
 
 function OrderDetails() {
   const location = useLocation();
@@ -167,13 +168,7 @@ function OrderDetails() {
                 <span>{type === "request" ? "Request ID:" : "Order ID:"}</span>{" "}
                 <span className="font-[700]">{order.id}</span>
               </p>
-              <Stepper activeStep={activeStep}>
-                {steps.map((step, i) => (
-                  <Step key={i}>
-                    <StepLabel>{i === activeStep ? step : null}</StepLabel>
-                  </Step>
-                ))}
-              </Stepper>
+                
               <Box>
                 {activeStep === 0 ? (
                   <Box>
@@ -398,20 +393,14 @@ function OrderDetails() {
                 ) : activeStep === 1 ? (
                   order.service === "Auto Import" ||
                   order.service === "Shop For Me" ? (
-                    <PackageDetails
-                      order={order}
-                      type={type}
-                    />
+                    <PackageDetails order={order} type={type} />
                   ) : (
                     <PackageDetailsForm />
                   )
                 ) : activeStep === 2 ? (
                   order.service === "Auto Import" ? (
                     <>
-                      <ShippingDetails
-                        order={order}
-                        type={type}
-                      />
+                      <ShippingDetails order={order} type={type} />
                     </>
                   ) : order.service === "Shop For Me" ? (
                     <PaymentInformation toggle={toggle} drop={drop} />
@@ -984,9 +973,7 @@ function OrderDetails() {
               </p>
 
               <div className="flex flex-col space-y-[40px] font-roboto">
-                <OrderInformation
-                  order={order}
-                />
+                <OrderInformation order={order} />
                 <PackageDetailsInfo order={order} service={order.service} />
                 <ShippingDetailsInfo order={order} service={order.service} />
                 <BillingDetailsInfo order={order} service={order.service} />
@@ -1097,7 +1084,7 @@ function OrderDetails() {
                     sx={{
                       display: "flex",
                       alignItems: "center",
-                      gap:'10px'
+                      gap: "10px",
                     }}
                   >
                     <Button
@@ -1176,7 +1163,6 @@ function OrderDetails() {
           )}
         </div>
       )}
-      
     </>
   );
 }
