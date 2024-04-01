@@ -171,7 +171,6 @@ function OrderDetails() {
                 <span>{type === "request" ? "Request ID:" : "Order ID:"}</span>{" "}
                 <span className="font-[700]">{order.id}</span>
               </p>
-
               <Box>
                 {activeStep === 0 ? (
                   <Box>
