@@ -1,10 +1,15 @@
-import { Box } from '@mui/material';
-import React from 'react'
+import { Box, Button } from '@mui/material';
+import React, { useState } from 'react'
 import { IoChevronUpCircleOutline } from 'react-icons/io5';
 import EditIcon from '../../../assets/icons/EditIcon';
 import CardWrapper from '../../../components/order/components/CardWrapper';
+import UserModals from '../../Users/components/UserModals';
+import PackageDetailsForm from '../../../components/order/components/PackageDetailsForm';
+import ArrowLeftPurple from '../../../assets/icons/ArrowLeftPurple';
+import ArrowRightWhite from '../../../assets/icons/ArrowRightWhite';
 
-const ItemBox = ({order, type}) => {
+const ItemBox = ({ order, type = '', proceed = false }) => {
+  const [open, setOpen] = useState(false);
   return (
     <Box
       sx={{
@@ -15,9 +20,7 @@ const ItemBox = ({order, type}) => {
         marginTop: "20px",
       }}
     >
-      <CardWrapper title={` Item - #1`}
-      >
-
+      <CardWrapper title={` Item - #1`}>
         {type === "request" ? (
           <>
             <div className="grid grid-cols-4 mt-[30px] gap-[20px]">
@@ -254,7 +257,45 @@ const ItemBox = ({order, type}) => {
           </>
         )}
       </CardWrapper>
-      {type === "request" ? null : <EditIcon />}
+      {type === "request" && !proceed ? null : <Box onClick={() => setOpen(true)}><EditIcon /></Box>}
+      <UserModals
+        open={open}
+        onClose={() => setOpen(false)}
+        title="Edit Package Details"
+      >
+        <PackageDetailsForm service={order.service} />
+        <Box mt="30px">
+          <Button
+            startIcon={<ArrowLeftPurple />}
+            variant="outlined"
+            sx={{
+              borderColor: "#79747E",
+              color: "#79747E",
+              height: "40px",
+              borderRadius: "100px",
+              textTransform: "none",
+              mr: "10px",
+            }}
+            onClick={() => setOpen(false)}
+          >
+            Back
+          </Button>
+          <Button
+            startIcon={<ArrowRightWhite />}
+            variant="contained"
+            sx={{
+              bgcolor: "#6750A4",
+              color: "#fff",
+              width: "172px",
+              height: "40px",
+              borderRadius: "100px",
+              textTransform: "none",
+            }}
+          >
+            Update
+          </Button>
+        </Box>
+      </UserModals>
     </Box>
   );
 }

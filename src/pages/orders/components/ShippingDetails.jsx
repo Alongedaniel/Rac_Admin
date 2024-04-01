@@ -1,11 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { IoChevronUpCircleOutline } from 'react-icons/io5';
 import EditIcon from '../../../assets/icons/EditIcon';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import CircleRight from '../../../assets/icons/CircleRight';
 import CardWrapper from '../../../components/order/components/CardWrapper';
+import UserModals from '../../Users/components/UserModals';
+import ShippingDetailsForm from '../../../components/order/components/ShippingDetailsForm';
+import ArrowLeftPurple from '../../../assets/icons/ArrowLeftPurple';
+import ArrowRightWhite from '../../../assets/icons/ArrowRightWhite';
 
-const ShippingDetails = ({type, order}) => {
+const ShippingDetails = ({ type='', order, proceed=false }) => {
+  const [open, setOpen] = useState(false)
   return (
     <>
       {type === "request" && order.service !== "Auto Import" ? null : (
@@ -28,7 +33,6 @@ const ShippingDetails = ({type, order}) => {
               }}
             >
               <CardWrapper title="Destination/Shipping Address">
-
                 <div className="grid grid-cols-2 gap-[20px] mt-[30px] ">
                   <div className="">
                     <p className="text-[14px] text-t/100 font-roboto text-brand/200">
@@ -106,9 +110,51 @@ const ShippingDetails = ({type, order}) => {
                   </div>
                 </div>
               </CardWrapper>
-              {type === "request" ? null : <EditIcon />}
+              {type === "request" && !proceed ? null : (
+                <Box onClick={() => setOpen(true)}>
+                  <EditIcon />
+                </Box>
+              )}
             </Box>
           </div>
+          <UserModals
+            open={open}
+            onClose={() => setOpen(false)}
+            title="Edit Shipping Details"
+          >
+            <ShippingDetailsForm />
+            <Box >
+              <Button
+                startIcon={<ArrowLeftPurple />}
+                variant="outlined"
+                sx={{
+                  borderColor: "#79747E",
+                  color: "#79747E",
+                  height: "40px",
+                  borderRadius: "100px",
+                  textTransform: "none",
+                  mr: "10px",
+                }}
+                onClick={() => setOpen(false)}
+              >
+                Back
+              </Button>
+              <Button
+                startIcon={<ArrowRightWhite />}
+                variant="contained"
+                sx={{
+                  bgcolor: "#6750A4",
+                  color: "#fff",
+                  width: "172px",
+                  height: "40px",
+                  borderRadius: "100px",
+                  textTransform: "none",
+                }}
+              >
+                Update
+              </Button>
+            </Box>
+          </UserModals>
         </div>
       )}
     </>

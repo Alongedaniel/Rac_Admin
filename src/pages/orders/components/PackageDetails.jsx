@@ -7,7 +7,7 @@ import ItemBox from './ItemBox';
 import ProductBox from './ProductBox';
 import CardWrapper from '../../../components/order/components/CardWrapper';
 
-const PackageDetails = ({type, order}) => {
+const PackageDetails = ({type='', order, proceed=false}) => {
   return (
     <div className="">
       <div className="flex items-center space-x-[10px] ">
@@ -27,7 +27,7 @@ const PackageDetails = ({type, order}) => {
       >
         <CardWrapper
           title="Package Origin/Shipment location"
-          style={{width: '100%'}}
+          style={{ width: "100%" }}
         >
           {type === "request" &&
             (order.service === "Auto Import" ? null : (
@@ -129,12 +129,12 @@ const PackageDetails = ({type, order}) => {
             </>
           )}
         </CardWrapper>
-        {type === "request" ? null : <EditIcon />}
+        {type === "request" && !proceed ? null : <EditIcon />}
       </Box>
       {order.service === "Auto Import" ? (
-        <ProductBox order={order} type={type} />
+        <ProductBox proceed={proceed} order={order} type={type} />
       ) : (
-        <ItemBox order={order} type={type} />
+        <ItemBox proceed={proceed} order={order} type={type} />
       )}
     </div>
   );

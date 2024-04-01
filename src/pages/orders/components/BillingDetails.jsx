@@ -1,11 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import EditIcon from '../../../assets/icons/EditIcon';
 import { IoChevronUpCircleOutline } from 'react-icons/io5';
 import CircleRight from '../../../assets/icons/CircleRight';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import CardWrapper from '../../../components/order/components/CardWrapper';
+import UserModals from '../../Users/components/UserModals';
+import BillingDetailsForm from '../../../components/order/components/BillingDetailsForm';
+import ArrowLeftPurple from '../../../assets/icons/ArrowLeftPurple';
+import ArrowRightWhite from '../../../assets/icons/ArrowRightWhite';
 
-const BillingDetails = ({order, type}) => {
+const BillingDetails = ({ order, type = '', proceed = false }) => {
+  const [open, setOpen] = useState(false);
   return (
     <>
       {type === "request" &&
@@ -108,7 +113,11 @@ const BillingDetails = ({order, type}) => {
                     </div>
                   </div>
                 </CardWrapper>
-                {type === "request" ? null : <EditIcon />}
+                {type === "request" && !proceed ? null : (
+                  <Box onClick={() => setOpen(true)}>
+                    <EditIcon />
+                  </Box>
+                )}
               </Box>
             )}
             {order.service === "Auto Import" ? null : (
@@ -121,10 +130,7 @@ const BillingDetails = ({order, type}) => {
                   marginTop: "20px",
                 }}
               >
-                <CardWrapper
-                  title="Payments Information"
-                >
-
+                <CardWrapper title="Payments Information">
                   <div className="grid grid-cols-5 mt-[30px]">
                     {order.service === "Shop For Me" && (
                       <>
@@ -174,6 +180,44 @@ const BillingDetails = ({order, type}) => {
               </Box>
             )}
           </div>
+          <UserModals
+            open={open}
+            onClose={() => setOpen(false)}
+            title="Edit Billing Details"
+          >
+            <BillingDetailsForm />
+            <Box mt="30px">
+              <Button
+                startIcon={<ArrowLeftPurple />}
+                variant="outlined"
+                sx={{
+                  borderColor: "#79747E",
+                  color: "#79747E",
+                  height: "40px",
+                  borderRadius: "100px",
+                  textTransform: "none",
+                  mr: "10px",
+                }}
+                onClick={() => setOpen(false)}
+              >
+                Back
+              </Button>
+              <Button
+                startIcon={<ArrowRightWhite />}
+                variant="contained"
+                sx={{
+                  bgcolor: "#6750A4",
+                  color: "#fff",
+                  width: "172px",
+                  height: "40px",
+                  borderRadius: "100px",
+                  textTransform: "none",
+                }}
+              >
+                Update
+              </Button>
+            </Box>
+          </UserModals>
         </div>
       )}
     </>

@@ -18,6 +18,7 @@ import UserActivities from "./components/UserActivities";
 import UserModals from "./components/UserModals";
 import { cities, countries, countryCodes, states } from "./constants";
 import ArrowRightWhite from "../../assets/icons/ArrowRightWhite";
+import AdditionInfoForm from "./components/AdditionInfoForm";
 
 const UserDetailsPage = ({ userType = "Customer" }) => {
 
@@ -32,6 +33,7 @@ const UserDetailsPage = ({ userType = "Customer" }) => {
   const [currentStatus, setCurrentStatus] = useState(accountStatus)
   const [openAccountStatusModal, setOpenAccountStatusModal] =
     useState(false);
+  const [open, setOpen] = useState(false)
   const handleUpdateAccountStatus = () => setOpenAccountStatusModal(true);
   const handleCloseUpdateAccountStatus = () => setOpenAccountStatusModal(false);
   const [openPriviledgeModal, setOpenPriviledgeModal] = useState(false);
@@ -409,7 +411,7 @@ const UserDetailsPage = ({ userType = "Customer" }) => {
                     </div>
                   </Box>
                 </Box>
-                <Box>
+                <Box onClick={() => setOpen(true)}>
                   <EditIcon />
                 </Box>
               </Box>
@@ -983,6 +985,44 @@ const UserDetailsPage = ({ userType = "Customer" }) => {
           </Box>
         </Box>
       </Modal>
+      <UserModals
+        open={open}
+        onClose={() => setOpen(false)}
+        title="Edit Customer Business Information"
+      >
+        <AdditionInfoForm />
+        <Box mt="30px">
+          <Button
+            startIcon={<ArrowLeftPurple />}
+            variant="outlined"
+            sx={{
+              borderColor: "#79747E",
+              color: "#79747E",
+              height: "40px",
+              borderRadius: "100px",
+              textTransform: "none",
+              mr: "10px",
+            }}
+            onClick={() => setOpen(false)}
+          >
+            Back
+          </Button>
+          <Button
+            startIcon={<ArrowRightWhite />}
+            variant="contained"
+            sx={{
+              bgcolor: "#6750A4",
+              color: "#fff",
+              width: "172px",
+              height: "40px",
+              borderRadius: "100px",
+              textTransform: "none",
+            }}
+          >
+            Update
+          </Button>
+        </Box>
+      </UserModals>
     </Box>
   );
 };

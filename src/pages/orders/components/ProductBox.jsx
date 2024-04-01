@@ -1,11 +1,16 @@
-import { Box } from "@mui/material";
-import React from "react";
+import { Box, Button } from "@mui/material";
+import React, { useState } from "react";
 import { IoChevronUpCircleOutline } from "react-icons/io5";
 import EditIcon from "../../../assets/icons/EditIcon";
 import car from '../../../assets/images/car.png';
 import CardWrapper from "../../../components/order/components/CardWrapper";
+import UserModals from "../../Users/components/UserModals";
+import AutoImportPackageDetails from "../../../components/order/components/AutoImportPackageDetails";
+import ArrowLeftPurple from "../../../assets/icons/ArrowLeftPurple";
+import ArrowRightWhite from "../../../assets/icons/ArrowRightWhite";
 
-const ProductBox = ({ order, type }) => {
+const ProductBox = ({ order, type = '', proceed = false }) => {
+  const [openModal, setOpenModal] = useState(false);
   return (
     <Box
       sx={{
@@ -16,9 +21,7 @@ const ProductBox = ({ order, type }) => {
         marginTop: "20px",
       }}
     >
-      <CardWrapper title='Car - #2'
-      >
-
+      <CardWrapper title="Car - #1">
         {type === "request" ? (
           <>
             <div className="grid grid-cols-5 mt-[30px] gap-[20px]">
@@ -336,7 +339,49 @@ const ProductBox = ({ order, type }) => {
           </>
         )}
       </CardWrapper>
-      {type === "request" ? null : <EditIcon />}
+      {type === "request" && !proceed ? null : (
+        <Box onClick={() => setOpenModal(true)}>
+          <EditIcon />
+        </Box>
+      )}
+      <UserModals
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        title="Edit Package Details"
+      >
+        <AutoImportPackageDetails />
+        <Box mt="30px">
+          <Button
+            startIcon={<ArrowLeftPurple />}
+            variant="outlined"
+            sx={{
+              borderColor: "#79747E",
+              color: "#79747E",
+              height: "40px",
+              borderRadius: "100px",
+              textTransform: "none",
+              mr: "10px",
+            }}
+            onClick={() => setOpenModal(false)}
+          >
+            Back
+          </Button>
+          <Button
+            startIcon={<ArrowRightWhite />}
+            variant="contained"
+            sx={{
+              bgcolor: "#6750A4",
+              color: "#fff",
+              width: "172px",
+              height: "40px",
+              borderRadius: "100px",
+              textTransform: "none",
+            }}
+          >
+            Update
+          </Button>
+        </Box>
+      </UserModals>
     </Box>
   );
 };
