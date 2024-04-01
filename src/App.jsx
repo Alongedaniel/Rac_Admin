@@ -21,7 +21,7 @@ import ShipmentHistory from "./pages/Shipment/ShipmentHistory";
 import { useEffect, useState } from "react";
 import CreateShipment from "./pages/Shipment/CreateShipment";
 import ShipmentDetails from "./pages/Shipment/ShipmentDetails";
-import ShopForMe from "./pages/Shop for me/ShopForMe";
+import ShopForMe from "./pages/ShopForMe/ShopForMe";
 import Customer from "./pages/Users/Customer";
 import Staff from "./pages/Users/Staff";
 import Users from "./pages/Users/Users";
@@ -30,10 +30,10 @@ import CreateStaff from "./pages/Users/CreateStaff";
 import UserDetailsPage from "./pages/Users/UserDetailsPage";
 
 function App() {
-  const location = useLocation()
+  const location = useLocation();
   useEffect(() => {
-    window.scroll(0, 0)
-  })
+    window.scroll(0, 0);
+  });
   const themeOptions = {
     palette: {
       primary: {
@@ -200,7 +200,7 @@ function App() {
                   setShowFullBar={setShowFullBar}
                   title="Customer Details"
                 >
-                    <UserDetailsPage />
+                  <UserDetailsPage />
                 </MainLayout>
               }
             />
@@ -212,7 +212,7 @@ function App() {
                   setShowFullBar={setShowFullBar}
                   title="Staff Details"
                 >
-                    <UserDetailsPage userType="Staff" />
+                  <UserDetailsPage userType="Staff" />
                 </MainLayout>
               }
             />

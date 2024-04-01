@@ -84,7 +84,7 @@ const BillingDetailsForm = ({
             />
           }
         >
-          <Box display="flex" flexDirection="column" gap="30px">
+          <Box display="flex" flexDirection="column" gap="30px" mt='5px'>
             <Grid container gap="30px" wrap="nowrap">
               <Grid item xs={6}>
                 <TextField

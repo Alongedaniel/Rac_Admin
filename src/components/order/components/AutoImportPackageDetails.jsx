@@ -16,10 +16,12 @@ import {
   LocalizationProvider
 } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import AddPropertyModal from './AddPropertyModal';
 
 const AutoImportPackageDetails = ({ origin = "", setOrigin = () => { } }) => {
     const today = dayjs()
-    const [date, setDate] = useState(today);
+  const [date, setDate] = useState(today);
+  const [open, setOpen] = useState(false)
     const originList = [
       "Origin 1",
       "Origin 2",
@@ -489,6 +491,7 @@ const AutoImportPackageDetails = ({ origin = "", setOrigin = () => { } }) => {
                           borderRadius: "20px",
                           textTransform: "none",
                         }}
+                        onClick={() => setOpen(true)}
                       >
                         Add Properties
                       </Button>
@@ -806,6 +809,7 @@ const AutoImportPackageDetails = ({ origin = "", setOrigin = () => { } }) => {
           Add new product/item
         </Button>
       </Box>
+      <AddPropertyModal open={open} onClose={() => setOpen(false)} />
     </Box>
   );
 };

@@ -43,11 +43,11 @@ import ShippingDetails from "./components/ShippingDetails";
 import PackageDetails from "./components/PackageDetails";
 import DraftIcon from "../../assets/icons/DraftIcon";
 import SuccessImageIcon from "../../assets/icons/SuccessImageIcon";
-import drone from '../../assets/images/drone.png'
+import drone from "../../assets/images/drone.png";
 import BillingDetails from "./components/BillingDetails";
 import PaymentInformation from "./components/PaymentInformation";
 import PackageDetailsForm from "../../components/order/components/PackageDetailsForm";
-import ShopForMeDetails from "../Shop for me/ShopForMeDetails";
+import ShopForMeDetails from "../ShopForMe/ShopForMeDetails";
 import UserModals from "../Users/components/UserModals";
 import PackageDetailsInfo from "../../components/order/components/PackageDetailsInfo";
 import ShippingDetailsInfo from "../../components/order/components/ShippingDetailsInfo";
@@ -69,20 +69,23 @@ function OrderDetails() {
   };
   const [proceed, setProceed] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
-  const steps = order.service === 'Auto Import' ?  [
-    "Order Information",
-    "Package Details",
-    'Shipping Details',
-    "Billing",
-    "Order Details Confirmation",
-    "Request Successfully Approved",
-  ] : [
-    "Order Information",
-    "Package Details",
-    "Billing",
-    "Order Details Confirmation",
-    "Request Successfully Approved",
-  ];
+  const steps =
+    order.service === "Auto Import"
+      ? [
+          "Order Information",
+          "Package Details",
+          "Shipping Details",
+          "Billing",
+          "Order Details Confirmation",
+          "Request Successfully Approved",
+        ]
+      : [
+          "Order Information",
+          "Package Details",
+          "Billing",
+          "Order Details Confirmation",
+          "Request Successfully Approved",
+        ];
   const IOSSwitch = styled((props) => (
     <Switch
       focusVisibleClassName=".Mui-focusVisible"
@@ -152,7 +155,7 @@ function OrderDetails() {
 
   return (
     <>
-      {order.service === "Shop For Me" ? (
+      {order.service === "Shop For Me" && type !== "request" ? (
         <ShopForMeDetails />
       ) : (
         <div
@@ -168,7 +171,6 @@ function OrderDetails() {
                 <span>{type === "request" ? "Request ID:" : "Order ID:"}</span>{" "}
                 <span className="font-[700]">{order.id}</span>
               </p>
-                
               <Box>
                 {activeStep === 0 ? (
                   <Box>
@@ -393,14 +395,22 @@ function OrderDetails() {
                 ) : activeStep === 1 ? (
                   order.service === "Auto Import" ||
                   order.service === "Shop For Me" ? (
-                    <PackageDetails order={order} type={type} />
+                    <PackageDetails
+                      proceed={proceed}
+                      order={order}
+                      type={type}
+                    />
                   ) : (
                     <PackageDetailsForm />
                   )
                 ) : activeStep === 2 ? (
                   order.service === "Auto Import" ? (
                     <>
-                      <ShippingDetails order={order} type={type} />
+                      <ShippingDetails
+                        proceed={proceed}
+                        order={order}
+                        type={type}
+                      />
                     </>
                   ) : order.service === "Shop For Me" ? (
                     <PaymentInformation toggle={toggle} drop={drop} />
@@ -530,10 +540,9 @@ function OrderDetails() {
                   order.service === "Auto Import" ? (
                     <>
                       <BillingDetails
+                        proceed={proceed}
                         order={order}
                         type={type}
-                        toggle={toggle}
-                        drop={drop}
                       />
                       <Box mt="30px">
                         <PaymentInformation toggle={toggle} drop={drop} />
@@ -973,34 +982,52 @@ function OrderDetails() {
               </p>
 
               <div className="flex flex-col space-y-[40px] font-roboto">
-                <OrderInformation order={order} />
-                <PackageDetailsInfo order={order} service={order.service} />
-                <ShippingDetailsInfo order={order} service={order.service} />
-                <BillingDetailsInfo order={order} service={order.service} />
-
-                {/* {order.service === "Auto Import" ? null : (
-                  <ShippingDetails
-                    order={order}
-                    type={type}
-                    toggle={toggle}
-                    drop={drop}
-                  />
-                  )} */}
-                {/* <PackageDetails
-                  order={order}
-                  type={type}
-                  toggle={toggle}
-                  drop={drop}
-                /> */}
-                {/* {order.service === "Auto Import" ||
-                order.service === "Shop For Me" ? null : (
-                  <BillingDetails
-                    order={order}
-                    type={type}
-                    toggle={toggle}
-                    drop={drop}
-                  />
-                )} */}
+                <OrderInformation order={order} type={type} />
+                {type === "request" ? (
+                  <>
+                    {order.service === "Auto Import" ? null : (
+                      <ShippingDetails
+                        order={order}
+                        type={type}
+                        toggle={toggle}
+                        drop={drop}
+                      />
+                    )}
+                    <PackageDetails
+                      order={order}
+                      type={type}
+                      toggle={toggle}
+                      drop={drop}
+                    />
+                    {order.service === "Auto Import" ||
+                    order.service === "Shop For Me" ? null : (
+                      <BillingDetails
+                        order={order}
+                        type={type}
+                        toggle={toggle}
+                        drop={drop}
+                      />
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <PackageDetailsInfo
+                      order={order}
+                      service={order.service}
+                      type={type}
+                    />
+                    <ShippingDetailsInfo
+                      order={order}
+                      service={order.service}
+                      type={type}
+                    />
+                    <BillingDetailsInfo
+                      order={order}
+                      service={order.service}
+                      type={type}
+                    />
+                  </>
+                )}
 
                 {type === "request" ? (
                   <Box display="flex" alignItems="center" gap="10px">

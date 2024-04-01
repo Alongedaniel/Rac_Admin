@@ -4,8 +4,18 @@ import CloseCircle from '../../../assets/icons/CloseCircle';
 import CloseCircleRed from '../../../assets/icons/CloseCircleRed';
 import ArrowSquare from '../../../assets/icons/ArrowSquare';
 
-const UserModals = ({open, onClose, children, title, id1, id2, type1, type2}) => {
-    
+const UserModals = ({
+  open = false,
+  onClose,
+  children,
+  title = "",
+  id1 = "",
+  id2 = "",
+  type1 = "",
+  type2 = "",
+  width = "900px",
+  maxHeight = "600px",
+}) => {
   return (
     <Modal open={open} onClose={onClose}>
       <Box
@@ -19,9 +29,9 @@ const UserModals = ({open, onClose, children, title, id1, id2, type1, type2}) =>
         }}
         top="50%"
         left="50%"
-        width="900px"
+        width={width}
         height="fit-content"
-        maxHeight="600px"
+        maxHeight='600px'
         overflow="auto"
         borderRadius="20px"
       >
@@ -32,7 +42,7 @@ const UserModals = ({open, onClose, children, title, id1, id2, type1, type2}) =>
             },
           }}
           height="fit-content"
-          maxHeight="600px"
+          maxHeight={maxHeight}
           overflow="auto"
           bgcolor="#6750A41C"
           p="30px"
@@ -46,6 +56,7 @@ const UserModals = ({open, onClose, children, title, id1, id2, type1, type2}) =>
             top={0}
             width="100%"
             zIndex={5}
+            sx={{boxShadow:' 0px 5px 10px rgba(0, 0, 0, 0.1)'}}
           >
             <Box pt="30px" pb="16px" px="30px" bgcolor="#6750A41C">
               <Box
@@ -111,6 +122,6 @@ const UserModals = ({open, onClose, children, title, id1, id2, type1, type2}) =>
       </Box>
     </Modal>
   );
-}
+};
 
 export default UserModals
