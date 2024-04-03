@@ -28,6 +28,8 @@ import Users from "./pages/Users/Users";
 import CreateCustomer from "./pages/Users/CreateCustomer";
 import CreateStaff from "./pages/Users/CreateStaff";
 import UserDetailsPage from "./pages/Users/UserDetailsPage";
+import TrackShipment from "./pages/Shipment/TrackShipment/TrackShipment";
+import TrackShipmentDetails from "./pages/Shipment/TrackShipment/TrackShipmentDetails";
 
 function App() {
   const location = useLocation();
@@ -275,6 +277,30 @@ function App() {
                   title="Create New Shipment"
                 >
                   <CreateShipment />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="shipment/track-shipment"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="Tracking"
+                >
+                  <TrackShipment />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="shipment/track-shipment/:id"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="Tracking"
+                >
+                  <TrackShipmentDetails />
                 </MainLayout>
               }
             />
