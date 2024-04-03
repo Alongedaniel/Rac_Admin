@@ -788,6 +788,7 @@ const ShipmentHistory = () => {
                 title="Track shipment"
                 icon={<TrackShipmentIcon />}
                 bg="#4F378B"
+                action={() => navigate('track-shipment')}
               />
               <ActionButton
                 action={() => navigate("add-new-shipment")}

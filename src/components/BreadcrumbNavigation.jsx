@@ -33,7 +33,7 @@ const BreadcrumbNavigation = () => {
               to={i === segments.length - 1 ? '' : routeTo}
             >
               {link}
-              {id ? `=${id}` : null}
+              {/* {id ? `=${id}` : null} */}
             </Link>
           );
         })}
