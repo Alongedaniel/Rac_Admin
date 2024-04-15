@@ -30,6 +30,8 @@ import CreateStaff from "./pages/Users/CreateStaff";
 import UserDetailsPage from "./pages/Users/UserDetailsPage";
 import TrackShipment from "./pages/Shipment/TrackShipment/TrackShipment";
 import TrackShipmentDetails from "./pages/Shipment/TrackShipment/TrackShipmentDetails";
+import PaymentHistory from "./pages/Payments/PaymentHistory";
+import PaymentInvoice from "./pages/Payments/PaymentInvoice";
 
 function App() {
   const location = useLocation();
@@ -137,13 +139,24 @@ function App() {
               }
             />
             <Route
-              path="/payments"
+              path="/payment-history"
               element={
                 <MainLayout
                   showFullBar={showFullBar}
                   setShowFullBar={setShowFullBar}
-                  title="Payments"
-                ></MainLayout>
+                  title="Payment History"
+                >
+                  <PaymentHistory />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/payment-history/:id"
+              element={
+                  <PaymentInvoice
+                    showFullBar={showFullBar}
+                    setShowFullBar={setShowFullBar}
+                  />
               }
             />
             <Route
