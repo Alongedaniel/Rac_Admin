@@ -13,8 +13,8 @@ const UserModals = ({
   id2 = "",
   type1 = "",
   type2 = "",
-  width = "900px",
-  maxHeight = "600px",
+  width = "80%",
+  height = "80%",
 }) => {
   return (
     <Modal open={open} onClose={onClose}>
@@ -30,19 +30,20 @@ const UserModals = ({
         top="50%"
         left="50%"
         width={width}
-        height="fit-content"
-        maxHeight='600px'
+        height={height}
+        // maxHeight='600px'
         overflow="auto"
         borderRadius="20px"
       >
+        Box
         <Box
           sx={{
             "&::-webkit-scrollbar": {
               display: "none",
             },
           }}
-          height="fit-content"
-          maxHeight={maxHeight}
+          height="100%"
+          // maxHeight={'80%'}
           overflow="auto"
           bgcolor="#6750A41C"
           p="30px"

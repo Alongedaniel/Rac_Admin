@@ -175,7 +175,7 @@ const links = [
   {
     id: 6,
     title: "Payments",
-    to: "/payments",
+    to: "/payment-history",
     icon: <WalletIcon />
   },
   {
