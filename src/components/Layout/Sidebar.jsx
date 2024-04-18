@@ -35,6 +35,7 @@ function CustomLink({ children, to, icon, showFullBar, title, ...props }) {
       }}
       to={to}
       {...props}
+      title={title}
     >
       <div>{icon}</div>
       <Box display={{xs: 'none', lg: 'block'}}>{showFullBar && children}</Box>

@@ -36,8 +36,10 @@ const PaymentInvoice = ({ showFullBar, setShowFullBar }) => {
           "Payment Method Surcharge:",
           "Discount:",
         ]
-      :
-        state.order.service === "Auto Import"
+      : state.order.service === "Auto Import" &&
+        state.order.paymentFor === "Clearing & Port Handling Cost"
+      ? ["Customs Clearing:", "VAT:", "Payment Method Surcharge:", "Discount:"]
+      : state.order.service === "Auto Import"
       ? [
           "Pickup Cost:",
           "Shipping Cost:",
@@ -188,11 +190,21 @@ const PaymentInvoice = ({ showFullBar, setShowFullBar }) => {
       setShowFullBar={setShowFullBar}
     >
       <Box p="30px 40px">
-        <Box p="30px" borderRadius="24px" bgcolor="#fff" maxWidth="1100px" position='relative'>
-          <Box position='absolute' top='70px' right='70px'>
+        <Box
+          p="30px"
+          borderRadius="24px"
+          bgcolor="#fff"
+          maxWidth="1100px"
+          position="relative"
+        >
+          <Box position="absolute" top="70px" right="70px">
             <SecondaryLogo />
           </Box>
-          <Box mb="20px" onClick={() => navigate(-1)}>
+          <Box
+            mb="20px"
+            onClick={() => navigate(-1)}
+            sx={{ cursor: "pointer" }}
+          >
             <ArrowBack />
           </Box>
           <Box display="flex" gap="16px" alignItems="center" mb="24px">
@@ -254,7 +266,12 @@ const PaymentInvoice = ({ showFullBar, setShowFullBar }) => {
               {type === "Invoice" ? (
                 <>
                   <Box width="2px" height="12px" bgcolor="#CAC4D0"></Box>
-                  <Box display="flex" alignItems="center" gap="8px">
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    gap="8px"
+                    sx={{ cursor: "pointer" }}
+                  >
                     <RefreshIcon />
                     <Typography fontSize="16px" color="#6750A4">
                       Check Payment status
@@ -526,7 +543,10 @@ const PaymentInvoice = ({ showFullBar, setShowFullBar }) => {
                             display="inline"
                             fontWeight={700}
                             color="#6750A4"
-                            sx={{ textDecoration: "underline" }}
+                            sx={{
+                              textDecoration: "underline",
+                              cursor: "pointer",
+                            }}
                           >
                             send us a dm
                           </Typography>{" "}
@@ -1241,7 +1261,7 @@ const PaymentInvoice = ({ showFullBar, setShowFullBar }) => {
                       {x}
                     </Typography>
                     <Typography color="#fff" fontSize="14px" fontWeight={500}>
-                      {x === 'Discount:' ? '- ' : null}$126.66
+                      {x === "Discount:" ? "- " : null}$126.66
                     </Typography>
                   </Box>
                 ))}
@@ -1300,8 +1320,12 @@ const PaymentInvoice = ({ showFullBar, setShowFullBar }) => {
                       ? "The total you are paying now includes the Shipping fees (and Pick up cost if applicable)  but excludes Clearing & Port Handling Cost which you are to pay upon arrival/clearing of your Car(s) in the port in Lagos, Nigeria"
                       : "The total you paid included the Shipping fees (and Pick up cost if applicable)  but excludes Clearing & Port Handling Cost which you are to pay upon arrival/clearing of your Car(s) in the port in Lagos, Nigeria"
                     : type === "Invoice"
-                    ? "The total the customer are paying here includes only the Shipping related costs"
-                    : "The total paid includes only the Shipping related costs."}
+                    ? state.order.service === "Export"
+                      ? "The total the customer are paying here includes only the Shipping related costs"
+                      : "The total you are paying now includes only the Shipping related costs which you are to pay upon arrival/clearing of your package."
+                    : state.order.service === "Export"
+                    ? "The total paid includes only the Shipping related costs."
+                    : "The total paid upon arrival/clearing of this package includes only the Shipping related costs."}
                 </Typography>
               </Box>
               <Box display="flex" alignItems="center" gap="10px">
