@@ -32,6 +32,7 @@ import TrackShipment from "./pages/Shipment/TrackShipment/TrackShipment";
 import TrackShipmentDetails from "./pages/Shipment/TrackShipment/TrackShipmentDetails";
 import PaymentHistory from "./pages/Payments/PaymentHistory";
 import PaymentInvoice from "./pages/Payments/PaymentInvoice";
+import GetAQuote from "./pages/GetAQuote/GetAQuote";
 
 function App() {
   const location = useLocation();
@@ -166,7 +167,9 @@ function App() {
                   showFullBar={showFullBar}
                   setShowFullBar={setShowFullBar}
                   title="Get A Quote"
-                ></MainLayout>
+                >
+                  <GetAQuote />
+                </MainLayout>
               }
             />
             <Route
