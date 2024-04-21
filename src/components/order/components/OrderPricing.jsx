@@ -32,6 +32,7 @@ const OrderPricing = ({
   setClearingCost = () => {},
   setDutyFee = () => {},
   service = "",
+  shopForMe=false
 }) => {
   const shopForMeItems = [
     {
@@ -1092,7 +1093,8 @@ const OrderPricing = ({
               sx={{ borderTop: "1px solid #79747E" }}
             >
               <Box
-                maxWidth="384px"
+                // maxWidth="384px"
+                width='100%'
                 height="168px"
                 border="1px solid #CAC4D0"
                 p="22px 20px"
@@ -1196,7 +1198,8 @@ const OrderPricing = ({
               </Box>
               <Box
                 height="168px"
-                maxWidth={"280px"}
+                // maxWidth={"280px"}
+                width='100%'
                 bgcolor="#21005D"
                 p="22px 20px"
                 borderRadius="20px"
@@ -1218,7 +1221,7 @@ const OrderPricing = ({
                   </Typography>
                 </Box>
               </Box>
-              <Box height="168px">
+              {/* <Box height="168px">
                 <Typography fontSize={"16px"} fontWeight={500} mb="16px">
                   Transaction Status:
                 </Typography>
@@ -1245,7 +1248,7 @@ const OrderPricing = ({
                 >
                   Retry Submission
                 </Button>
-              </Box>
+              </Box> */}
             </Box>
             <Box mt="20px" display="flex" flexDirection="column" gap="5px">
               <Box display="flex" alignItems="center" gap="10px">
@@ -1291,7 +1294,7 @@ const OrderPricing = ({
             </Box>
           </Box>
         </CardWrapper>
-        {service === "Shop For Me" && (
+        {(service === "Shop For Me" && !shopForMe)  && (
           <CardWrapper mt="20px" title="Clearing Cost">
             <Box
               mt="10px"

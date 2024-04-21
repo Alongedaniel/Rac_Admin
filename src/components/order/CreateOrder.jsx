@@ -31,8 +31,10 @@ import ShippingDetailsInfo from "./components/ShippingDetailsInfo";
 import BillingDetailsInfo from "./components/BillingDetailsInfo";
 import Navbar from "../Layout/Navbar";
 import CustomStepper from "../CustomStepper";
+import ShopForMePackageDetails from "../../pages/ShopForMe/ShopForMePackageDetails";
+import BillingInfo from "../../pages/ShopForMe/BillingInfo";
 
-const CreateOrder = () => {
+const CreateOrder = ({shopForMe = false}) => {
   const [assignedCustomer, setAssignedCustomer] = useState("");
   const [orderType, setOrderType] = useState("");
   const [service, setService] = useState("");
@@ -175,27 +177,30 @@ const CreateOrder = () => {
   };
   return (
     <>
-      <Box width="100%" position="relative" height="96px">
-        <Box
-          zIndex={999}
-          width="100%"
-          // maxWidth={ "1400px"}
-          pr={{ xs: "40px" }}
-          position="fixed"
-        >
-          <Navbar navbarTitle={`Create New ${service ?? ""} Order`} />
+      {shopForMe ? null : (
+        <Box width="100%" position="relative" height="96px">
+          <Box
+            zIndex={999}
+            width="100%"
+            // maxWidth={ "1400px"}
+            pr={{ xs: "40px" }}
+            position="fixed"
+          >
+            <Navbar navbarTitle={`Create New ${service ?? ""} Order`} />
+          </Box>
         </Box>
-      </Box>
+      )}
       <Box px="50px">
         <Box
           bgcolor="#fff"
           sx={{ p: "30px", mt: "40px", height: "100%", borderRadius: "20px" }}
-          maxWidth={{ xs: "1100px", xl: "1400px" }}
+          maxWidth={{ xs: "1200px", xl: "1400px" }}
         >
           <CustomStepper steps={steps} activeStep={activeStep} />
           <Box mt="30px">
             {activeStep === 0 ? (
               <OrderInformationForm
+                shopForMe={shopForMe}
                 setAssignedCustomer={setAssignedCustomer}
                 assignedCustomer={assignedCustomer}
                 orderType={orderType}
@@ -214,6 +219,8 @@ const CreateOrder = () => {
                     origin={origin}
                     setOrigin={setOrigin}
                   />
+                ) : shopForMe ? (
+                  <ShopForMePackageDetails />
                 ) : (
                   <PackageDetailsForm
                     origin={origin}
@@ -297,7 +304,11 @@ const CreateOrder = () => {
                     receiverLastName={receiverLastName}
                     setReceiverFirstName={setReceiverFirstName}
                     receiverFirstName={receiverFirstName}
-                    service={exportOrder.orderInformation.service}
+                    service={
+                      shopForMe
+                        ? "Import"
+                        : exportOrder.orderInformation.service
+                    }
                   />
                 )}
               </Box>
@@ -312,6 +323,24 @@ const CreateOrder = () => {
                     <ShippingDetailsInfo order={exportOrder} />
                     <BillingDetailsInfo order={exportOrder} />
                   </Box>
+                ) : shopForMe ? (
+                  <>
+                    <Box mb="30px">
+                      <BillingInfo />
+                    </Box>
+                    <Box mt="30px">
+                      <OrderPricing
+                        service="Shop For Me"
+                        shippingCost={shippingCost}
+                        clearingCost={clearingCost}
+                        dutyFee={dutyFee}
+                        setShippingCost={setShippingCost}
+                        setClearingCost={setClearingCost}
+                        setDutyFee={setDutyFee}
+                        shopForMe={true}
+                      />
+                    </Box>
+                  </>
                 ) : (
                   <>
                     <BillingDetailsForm
@@ -462,6 +491,14 @@ const CreateOrder = () => {
                       )}
                     </Box>
                   </Box>
+                </Box>
+              ) : shopForMe ? (
+                <Box display="flex" flexDirection="column" gap="30px">
+                  <OrderInfo order={exportOrder.orderInformation} />
+
+                  <PackageDetailsInfo order={exportOrder} />
+                  <ShippingDetailsInfo order={exportOrder} service='Import' />
+                  <BillingDetailsInfo order={exportOrder} />
                 </Box>
               ) : (
                 <Box display="flex" flexDirection="column" gap="30px">
@@ -668,7 +705,7 @@ const CreateOrder = () => {
                 <Button
                   startIcon={<ArrowRightWhite />}
                   variant="contained"
-                  disabled={service.length === 0}
+                  disabled={service.length === 0 && !shopForMe}
                   sx={{
                     bgcolor: "#6750A4",
                     color: "#fff",
