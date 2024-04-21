@@ -442,7 +442,7 @@ const OrderInformation = ({ order, type }) => {
                 <Line />
               </Box> */}
           </Box>
-          <Box onClick={() => editOrderInfo(true)}>
+          <Box onClick={() => setEditOrderInfo(true)}>
             <EditIcon />
           </Box>
         </Box>

@@ -155,7 +155,7 @@ function OrderDetails() {
 
   return (
     <>
-      {order.service === "Shop For Me" && type !== "request" ? (
+      {(order.service === "Shop For Me" || type === 'shop for me') && type !== "request" ? (
         <ShopForMeDetails />
       ) : (
         <div

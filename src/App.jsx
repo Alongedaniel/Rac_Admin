@@ -11,7 +11,7 @@ import Login from "./pages/login";
 import CreateOrders from "./pages/orders/create-orders";
 import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ThemeProvider, createTheme } from "@mui/material";
+import { Box, ThemeProvider, Typography, createTheme } from "@mui/material";
 import "@fontsource/roboto";
 import TwoFactorAuth from "./components/Forms/Login/TwoFactorAuth";
 import SignupForm from "./components/Forms/Signup/SignupForm";
@@ -33,6 +33,7 @@ import TrackShipmentDetails from "./pages/Shipment/TrackShipment/TrackShipmentDe
 import PaymentHistory from "./pages/Payments/PaymentHistory";
 import PaymentInvoice from "./pages/Payments/PaymentInvoice";
 import GetAQuote from "./pages/GetAQuote/GetAQuote";
+import CreateOrder from "./components/order/CreateOrder";
 
 function App() {
   const location = useLocation();
@@ -154,10 +155,10 @@ function App() {
             <Route
               path="/payment-history/:id"
               element={
-                  <PaymentInvoice
-                    showFullBar={showFullBar}
-                    setShowFullBar={setShowFullBar}
-                  />
+                <PaymentInvoice
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                />
               }
             />
             <Route
@@ -257,6 +258,27 @@ function App() {
                   setShowFullBar={setShowFullBar}
                 >
                   <CreateOrders />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="orders/:orderid/add_shipment_details_shop_for_me"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title={
+                    <Box>
+                      <Typography fontSize="24px" >
+                        Add Shipment Details{" "}
+                        <Typography display='inline' fontSize="24px" color="#6750A4">
+                          • Shop For Me Service
+                        </Typography>
+                      </Typography>
+                    </Box>
+                  }
+                >
+                  <CreateOrder shopForMe />
                 </MainLayout>
               }
             />

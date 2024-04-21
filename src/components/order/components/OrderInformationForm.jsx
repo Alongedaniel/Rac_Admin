@@ -6,6 +6,7 @@ import ArrowLeftPurple from "../../../assets/icons/ArrowLeftPurple";
 
 
 const OrderInformationForm = ({
+  shopForMe,
   setAssignedCustomer,
   assignedCustomer,
     orderType,
@@ -44,6 +45,7 @@ const OrderInformationForm = ({
           type="text"
           label="Assigned Customer"
           fullWidth
+          disabled={shopForMe}
           value={assignedCustomer}
           onChange={(e) => setAssignedCustomer(e.target.value)}
           // placeholder="Select origin"
@@ -66,10 +68,11 @@ const OrderInformationForm = ({
               sx={{ fontSize: "16px", color: "#1C1B1F" }}
               id="shipment-method"
               type="text"
-              value={orderType}
+              value={shopForMe ? "Shipment" : orderType}
               onChange={(e) => setOrderType(e.target.value)}
               label="Order Type"
               defaultValue={"Shipment"}
+              disabled={shopForMe}
               select
               InputProps={{
                 sx: {
@@ -83,10 +86,10 @@ const OrderInformationForm = ({
               // placeholder="Enter your country"
             >
               {orderTypeList.map((method, i) => (
-                  <MenuItem value={method} key={i}>
-                    {method}
-                  </MenuItem>
-                ))}{" "}
+                <MenuItem value={method} key={i}>
+                  {method}
+                </MenuItem>
+              ))}{" "}
             </TextField>
           </Grid>
           <Grid item xs={6}>
@@ -97,9 +100,10 @@ const OrderInformationForm = ({
               id="service"
               type="text"
               label="Service"
-              value={service}
+              value={shopForMe ? "Shop For Me" : service}
               onChange={(e) => setService(e.target.value)}
               defaultValue={"Import"}
+              disabled={shopForMe}
               select
               InputProps={{
                 sx: {
