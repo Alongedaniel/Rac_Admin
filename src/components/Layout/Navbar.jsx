@@ -127,6 +127,7 @@ function Navbar({navbarTitle}) {
             // Add any other styles or overrides here
           },
         }}
+        disableScrollLock
         sx={{
           top: "10px",
           left: "-20px",
