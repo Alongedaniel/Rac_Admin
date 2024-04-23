@@ -1313,8 +1313,8 @@ const PaymentInvoice = ({ showFullBar, setShowFullBar }) => {
                 <Typography color="#1D192B" fontSize={"12px"} fontWeight={500}>
                   {state.order.service === "Shop For Me"
                     ? type === "Invoice"
-                      ? "The total you are paying now includes only the Shipping related costs and excludes Shop-for-me cost which you have already paid earlier."
-                      : "The total you paid included only the Shipping related costs and excluded Shop-for-me cost which you have already paid earlier."
+                      ? "The total you are paying now includes only the Shop-for-me cost and excludes Shipment Cost which you are to pay upon arrival/clearing of your package."
+                      : "The total you paid included only the Shop-for-me cost and excludes Shipment Cost which you are to pay upon arrival/clearing of your package."
                     : state.order.service === "Auto Import"
                     ? type === "Invoice"
                       ? "The total you are paying now includes the Shipping fees (and Pick up cost if applicable)  but excludes Clearing & Port Handling Cost which you are to pay upon arrival/clearing of your Car(s) in the port in Lagos, Nigeria"
