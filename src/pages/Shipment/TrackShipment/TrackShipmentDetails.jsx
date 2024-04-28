@@ -1,15 +1,147 @@
-import { Box, Button, Typography } from '@mui/material'
-import React from 'react'
-import SectionHeader from '../../../components/SectionHeader';
-import CardWrapper from '../../../components/order/components/CardWrapper';
-import WhatsappIcon from '../../../assets/icons/WhatsappIcon';
-import ArrowLeftPurple from '../../../assets/icons/ArrowLeftPurple';
-import NewShipmentIcon from '../../../assets/icons/NewShipmentIcon';
-import LeftArrow from '../../../assets/icons/LeftArrow';
-import { useNavigate } from 'react-router-dom';
+import { Box, Button, Grid, Typography } from "@mui/material";
+import React from "react";
+import SectionHeader from "../../../components/SectionHeader";
+import CardWrapper from "../../../components/order/components/CardWrapper";
+import WhatsappIcon from "../../../assets/icons/WhatsappIcon";
+import ArrowLeftPurple from "../../../assets/icons/ArrowLeftPurple";
+import NewShipmentIcon from "../../../assets/icons/NewShipmentIcon";
+import LeftArrow from "../../../assets/icons/LeftArrow";
+import { useNavigate } from "react-router-dom";
+import TrackItemIcon from "../../../assets/icons/TrackItemIcon";
+import TickCircle from "../../../assets/icons/TickCircle";
+import LineArrow from "../../../assets/icons/LineArrow";
+import MinusCircle from "../../../assets/icons/MinusCircle";
 
 const TrackShipmentDetails = () => {
-    const navigate = useNavigate()
+  const navigate = useNavigate();
+  const shipmentDetails = [
+    {
+      day: "Wednesday",
+      date: "April, 05 2023",
+      tracks: [
+        {
+          time: "09:53 Local time",
+          processLocation: "Processed at LONDON - HEARTHROW - UK",
+          location: "LONDON - HEATHROW - UK",
+        },
+        {
+          time: "09:53 Local time",
+          processLocation: "Processed at LONDON - HEARTHROW - UK",
+          location: "LONDON - HEATHROW - UK",
+        },
+        {
+          time: "09:53 Local time",
+          processLocation: "Processed at LONDON - HEARTHROW - UK",
+          location: "LONDON - HEATHROW - UK",
+        },
+      ],
+    },
+    {
+      day: "Wednesday",
+      date: "April, 05 2023",
+      tracks: [
+        {
+          time: "09:53 Local time",
+          processLocation: "Processed at LONDON - HEARTHROW - UK",
+          location: "LONDON - HEATHROW - UK",
+        },
+        {
+          time: "09:53 Local time",
+          processLocation: "Processed at LONDON - HEARTHROW - UK",
+          location: "LONDON - HEATHROW - UK",
+        },
+        {
+          time: "09:53 Local time",
+          processLocation: "Processed at LONDON - HEARTHROW - UK",
+          location: "LONDON - HEATHROW - UK",
+        },
+      ],
+    },
+    {
+      day: "Wednesday",
+      date: "April, 05 2023",
+      tracks: [
+        {
+          time: "09:53 Local time",
+          processLocation: "Processed at LONDON - HEARTHROW - UK",
+          location: "LONDON - HEATHROW - UK",
+        },
+        {
+          time: "09:53 Local time",
+          processLocation: "Processed at LONDON - HEARTHROW - UK",
+          location: "LONDON - HEATHROW - UK",
+        },
+        {
+          time: "09:53 Local time",
+          processLocation: "Processed at LONDON - HEARTHROW - UK",
+          location: "LONDON - HEATHROW - UK",
+        },
+      ],
+    },
+    {
+      day: "Wednesday",
+      date: "April, 05 2023",
+      tracks: [
+        {
+          time: "09:53 Local time",
+          processLocation: "Processed at LONDON - HEARTHROW - UK",
+          location: "LONDON - HEATHROW - UK",
+        },
+        {
+          time: "09:53 Local time",
+          processLocation: "Processed at LONDON - HEARTHROW - UK",
+          location: "LONDON - HEATHROW - UK",
+        },
+        {
+          time: "09:53 Local time",
+          processLocation: "Processed at LONDON - HEARTHROW - UK",
+          location: "LONDON - HEATHROW - UK",
+        },
+      ],
+    },
+    {
+      day: "Wednesday",
+      date: "April, 05 2023",
+      tracks: [
+        {
+          time: "09:53 Local time",
+          processLocation: "Processed at LONDON - HEARTHROW - UK",
+          location: "LONDON - HEATHROW - UK",
+        },
+        {
+          time: "09:53 Local time",
+          processLocation: "Processed at LONDON - HEARTHROW - UK",
+          location: "LONDON - HEATHROW - UK",
+        },
+        {
+          time: "09:53 Local time",
+          processLocation: "Processed at LONDON - HEARTHROW - UK",
+          location: "LONDON - HEATHROW - UK",
+        },
+      ],
+    },
+    {
+      day: "Wednesday",
+      date: "April, 05 2023",
+      tracks: [
+        {
+          time: "09:53 Local time",
+          processLocation: "Processed at LONDON - HEARTHROW - UK",
+          location: "LONDON - HEATHROW - UK",
+        },
+        {
+          time: "09:53 Local time",
+          processLocation: "Processed at LONDON - HEARTHROW - UK",
+          location: "LONDON - HEATHROW - UK",
+        },
+        {
+          time: "09:53 Local time",
+          processLocation: "Processed at LONDON - HEARTHROW - UK",
+          location: "LONDON - HEATHROW - UK",
+        },
+      ],
+    },
+  ];
   return (
     <Box p="30px 40px">
       <Box p="30px" maxWidth="1140px" borderRadius="24px" bgcolor="#fff">
@@ -50,11 +182,76 @@ const TrackShipmentDetails = () => {
             <Box width="1px" height="88px" bgcolor="#CAC4D0"></Box>
             <Box
               flex={1}
-              border="1px solid #CAC4D0"
+              // border="1px solid #CAC4D0"
               width="100%"
-              height="88px"
-              borderRadius="24px"
-            ></Box>
+              // height="88px"
+              // borderRadius="24px"
+            >
+              <Grid container wrap="nowrap" mb='16px'>
+                <Grid
+                  sx={{ display: "flex", alignItems: "center" }}
+                  item
+                  xs={2.875}
+                >
+                  <TickCircle />
+                  <LineArrow />
+                </Grid>
+                <Grid
+                  sx={{ display: "flex", alignItems: "center" }}
+                  item
+                  xs={2.875}
+                >
+                  <MinusCircle />
+                  <LineArrow />
+                </Grid>
+                <Grid
+                  sx={{ display: "flex", alignItems: "center" }}
+                  item
+                  xs={2.875}
+                >
+                  <MinusCircle />
+                  <LineArrow />
+                </Grid>
+                <Grid
+                  sx={{ display: "flex", alignItems: "center" }}
+                  item
+                  xs={2.875}
+                >
+                  <MinusCircle />
+                  <LineArrow />
+                </Grid>
+                <Grid item xs={0.5}>
+                  <MinusCircle />
+                </Grid>
+              </Grid>
+              <Grid container wrap="nowrap">
+                <Grid item xs={2.4}>
+                  <Typography fontSize="16px" fontWeight={500} color="#49454F">
+                    Processing
+                  </Typography>
+                </Grid>
+                <Grid item xs={2.4}>
+                  <Typography textAlign='left' fontSize="16px" fontWeight={500} color="#49454F">
+                    In Transit
+                  </Typography>
+                </Grid>
+                <Grid item xs={2.4}>
+                  <Typography textAlign='center' fontSize="16px" fontWeight={500} color="#49454F">
+                    Undergoing Customs Clearing
+                  </Typography>
+                </Grid>
+                <Grid item xs={2.4}>
+                  <Typography textAlign='right' fontSize="16px" fontWeight={500} color="#49454F">
+                    Ready for Pickup
+                  </Typography>
+                </Grid>
+                <Grid item xs={2.4}>
+                  <Typography textAlign='right' fontSize="16px" fontWeight={500} color="#49454F">
+                    Delivered
+                  </Typography>
+                </Grid>
+              </Grid>
+            </Box>
             <Box width="1px" height="88px" bgcolor="#CAC4D0"></Box>
             <Box>
               <Typography fontSize="16px" fontWeight={500} color="#49454F">
@@ -91,9 +288,74 @@ const TrackShipmentDetails = () => {
           </Box>
         </Box>
         <Box mb="24px">
-          <CardWrapper title="All Shipment Updates"></CardWrapper>
+          <CardWrapper title="All Shipment Updates">
+            <Box
+              mt="5px"
+              height="800px"
+              overflow="auto"
+              borderBottom="1px solid #79747E"
+            >
+              {shipmentDetails?.map((item, i) => (
+                <Box key={i} display="flex" borderBottom="2px dashed #79747E">
+                  <Box p="10px 10px 10px 0" width="100%" maxWidth="139px">
+                    <Typography fontSize="14px" color="#1C1B1F">
+                      {item.day}
+                    </Typography>
+                    <Typography
+                      fontSize="16px"
+                      color="#1C1B1F"
+                      fontWeight={700}
+                    >
+                      {item.date}
+                    </Typography>
+                  </Box>
+                  <Box
+                    p="10px"
+                    width="100%"
+                    borderLeft="1px solid #79747E"
+                    display="flex"
+                    flexDirection="column"
+                    gap="15px"
+                  >
+                    {item.tracks?.map((item, i) => (
+                      <Box
+                        key={i}
+                        display="flex"
+                        alignItems="center"
+                        gap="40px"
+                      >
+                        <Box
+                          position="relative"
+                          left="-20px"
+                          pl="30px"
+                          bgcolor="#fff"
+                        >
+                          <TrackItemIcon />
+                        </Box>
+                        <Box display="flex" flexDirection="column" gap="5px">
+                          <Typography fontSize="14px" color="#1C1B1F">
+                            {item.time}
+                          </Typography>
+                          <Typography
+                            fontSize="14px"
+                            color="#1C1B1F"
+                            fontWeight={500}
+                          >
+                            {item.processLocation}
+                          </Typography>
+                          <Typography fontSize="14px" color="#1C1B1F">
+                            {item.location}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    ))}
+                  </Box>
+                </Box>
+              ))}
+            </Box>
+          </CardWrapper>
         </Box>
-        <Box mb="24px">
+        {/* <Box mb="24px">
           <SectionHeader title="Have A Concern?" noBorder />
           <Box mt="16px" pl="34px">
             <Typography fontSize="14px" color="#1C1B1F" mb="10px">
@@ -115,7 +377,7 @@ const TrackShipmentDetails = () => {
               Speak to a Customer Rep
             </Button>
           </Box>
-        </Box>
+        </Box> */}
         <Box>
           <Button
             startIcon={<ArrowLeftPurple />}
@@ -127,8 +389,8 @@ const TrackShipmentDetails = () => {
               borderRadius: "100px",
               textTransform: "none",
               mr: "10px",
-                      }}
-                      onClick={() => navigate(-1)}
+            }}
+            onClick={() => navigate(-1)}
           >
             Back
           </Button>
@@ -150,6 +412,6 @@ const TrackShipmentDetails = () => {
       </Box>
     </Box>
   );
-}
+};
 
-export default TrackShipmentDetails
+export default TrackShipmentDetails;
