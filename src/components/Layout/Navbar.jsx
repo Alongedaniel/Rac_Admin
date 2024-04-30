@@ -13,10 +13,12 @@ import Profile from "../../assets/icons/Profile";
 import ActivitiesIcon from "../../assets/icons/ActivitiesIcon";
 import SecurityIcon from "../../assets/icons/SecurityIcon";
 import ArrowForwardIcon from "../../assets/icons/ArrowForwardIcon";
+import Notification from "../../pages/Notification/Notification";
 
 function Navbar({navbarTitle}) {
   const location = useLocation();
   const [anchorEl, setAnchorEl] = useState(null)
+  const [openNotification, setOpenNotification] = useState(false)
   const open = Boolean(anchorEl)
   const menuItems = [
     {
@@ -77,7 +79,17 @@ function Navbar({navbarTitle}) {
         </Box>
         <div className="flex items-center space-x-[30px]">
           <Box position={"relative"}>
-            <NotificationIcon />
+            <Box
+              p={openNotification ? "10px" : 0}
+              borderRadius={openNotification ? "10px" : 0}
+              bgcolor={openNotification ? "#6750A414" : "transparent"}
+              onClick={() => setOpenNotification(true)}
+              sx={{
+                cursor: "pointer",
+              }}
+            >
+              <NotificationIcon />
+            </Box>
             <Box
               width="10px"
               height="10px"
@@ -178,6 +190,10 @@ function Navbar({navbarTitle}) {
           </MenuItem>
         </Box>
       </Menu>
+      <Notification
+        onClose={() => setOpenNotification(false)}
+        open={openNotification}
+      />
     </Box>
   );
 }
