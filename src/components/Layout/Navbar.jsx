@@ -13,7 +13,7 @@ import Profile from "../../assets/icons/Profile";
 import ActivitiesIcon from "../../assets/icons/ActivitiesIcon";
 import SecurityIcon from "../../assets/icons/SecurityIcon";
 import ArrowForwardIcon from "../../assets/icons/ArrowForwardIcon";
-import Notification from "../../pages/Notification/Notification";
+import NotificationModal from "../../pages/Notification/components/NotificationModal";
 
 function Navbar({navbarTitle}) {
   const location = useLocation();
@@ -190,7 +190,7 @@ function Navbar({navbarTitle}) {
           </MenuItem>
         </Box>
       </Menu>
-      <Notification
+      <NotificationModal
         onClose={() => setOpenNotification(false)}
         open={openNotification}
       />

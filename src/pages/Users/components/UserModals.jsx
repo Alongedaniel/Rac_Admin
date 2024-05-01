@@ -1,5 +1,5 @@
 import { Box, Modal, Typography } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import CloseCircle from '../../../assets/icons/CloseCircle';
 import CloseCircleRed from '../../../assets/icons/CloseCircleRed';
 import ArrowSquare from '../../../assets/icons/ArrowSquare';
@@ -13,12 +13,36 @@ const UserModals = ({
   id2 = "",
   type1 = "",
   type2 = "",
-  width = "80%",
+  width = "70%",
   height = "80%",
 }) => {
+  const sectionRef = useRef(null);
+  const [scrollDirection, setScrollDirection] = useState("down");
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!sectionRef?.current) return;
+
+      const currentScrollPos = sectionRef.current.scrollTop;
+      //   const isScrollingDown =
+      //     currentScrollPos >
+      //         (sectionRef.current.scrollTop || sectionRef.current.scrollTop);
+      console.log(currentScrollPos);
+      console.log(prevScrollPos);
+      setScrollDirection(currentScrollPos > prevScrollPos ? "down" : "up");
+      setPrevScrollPos(currentScrollPos);
+    };
+
+    sectionRef?.current?.addEventListener("scroll", handleScroll);
+    return () => {
+      sectionRef?.current?.removeEventListener("scroll", handleScroll);
+    };
+  }, [prevScrollPos]);
   return (
     <Modal open={open} onClose={onClose}>
       <Box
+        ref={sectionRef}
         bgcolor="#fff"
         sx={{
           position: "absolute",
@@ -35,7 +59,6 @@ const UserModals = ({
         overflow="auto"
         borderRadius="20px"
       >
-        Box
         <Box
           sx={{
             "&::-webkit-scrollbar": {
@@ -49,7 +72,7 @@ const UserModals = ({
           p="30px"
           position={"relative"}
         >
-          <Box
+          {title && <Box
             bgcolor="#fff"
             position="fixed"
             left={0}
@@ -57,7 +80,7 @@ const UserModals = ({
             top={0}
             width="100%"
             zIndex={5}
-            sx={{boxShadow:' 0px 5px 10px rgba(0, 0, 0, 0.1)'}}
+            sx={{boxShadow:scrollDirection === 'down' ? ' 0px 5px 10px rgba(0, 0, 0, 0.1)' : 'none'}}
           >
             <Box pt="30px" pb="16px" px="30px" bgcolor="#6750A41C">
               <Box
@@ -117,8 +140,8 @@ const UserModals = ({
                 )}
               </Box>
             )}
-          </Box>
-          <Box pt={type1 && id1 ? "200px" : "116px"}>{children}</Box>
+          </Box>}
+          <Box ref={sectionRef} pt={type1 && id1 ? "200px" : !title ? 0 : "116px"}>{children}</Box>
         </Box>
       </Box>
     </Modal>

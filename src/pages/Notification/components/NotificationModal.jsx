@@ -1,17 +1,20 @@
 import React from "react";
-import UserModals from "../../pages/Users/components/UserModals";
+import UserModals from "../../Users/components/UserModals";
 import { Box, Button, Typography } from "@mui/material";
-import ArrowCircleUp from "../../assets/icons/ArrowCircleUp";
-import EyeIconOpen from "../../assets/icons/EyeIconOpen";
+import ArrowCircleUp from "../../../assets/icons/ArrowCircleUp";
+import EyeIconOpen from "../../../assets/icons/EyeIconOpen";
 import { CheckmarkIcon } from "react-hot-toast";
 import { Check } from "iconsax-react";
 import { LuCheck } from "react-icons/lu";
-import CloseCircle from "../../assets/icons/CloseCircle";
-import ArrowForwardIcon from "../../assets/icons/ArrowForwardIcon";
-import ArrowLeftIcon from "../../assets/icons/ArrowLeftIcon";
-import ArrowLeftPurple from "../../assets/icons/ArrowLeftPurple";
+import CloseCircle from "../../../assets/icons/CloseCircle";
+import ArrowForwardIcon from "../../../assets/icons/ArrowForwardIcon";
+import ArrowLeftIcon from "../../../assets/icons/ArrowLeftIcon";
+import ArrowLeftPurple from "../../../assets/icons/ArrowLeftPurple";
+import Panel from "./Panel";
+import { useNavigate } from "react-router-dom";
 
-const Notification = ({ open, onClose }) => {
+const NotificationModal = ({ open, onClose }) => {
+  const navigate = useNavigate()
   const notifications = [
     {
       title:
@@ -56,40 +59,7 @@ const Notification = ({ open, onClose }) => {
             width="100%"
           >
             {notifications.map((notification) => (
-              <Box
-                position="relative"
-                p="20px"
-                bgcolor="#FFFBFE"
-                border="1px solid #CAC4D0"
-                display="flex"
-                alignItems="center"
-                borderRadius="20px"
-                justifyContent="space-between"
-                width="100%"
-              >
-                <Typography
-                  fontSize="16px"
-                  color="#49454F"
-                  flex={1}
-                  maxWidth="596px"
-                >
-                  {notification.title}
-                </Typography>
-                <Box display="flex" alignItems="center">
-                  <Box width="1px" height="16px" bgcolor="#CAC4D0"></Box>
-                  <Typography ml="18px" mr="34px" fontSize="14px" color="#000">
-                    {notification.time}
-                  </Typography>
-                  <EyeIconOpen />
-                </Box>
-                <Box
-                  width="8px"
-                  height="8px"
-                  bgcolor="#DC362E"
-                  position={"absolute"}
-                  sx={{ top: 0, left: 0, borderRadius: "100%" }}
-                ></Box>
-              </Box>
+              <Panel notification={notification} key={notification.title} />
             ))}
           </Box>
         ) : (
@@ -153,6 +123,10 @@ const Notification = ({ open, onClose }) => {
                 <ArrowLeftPurple color="#fff" />
               </Box>
             }
+            onClick={() => {
+              navigate('/notifications')
+              onClose()
+            }}
             variant="contained"
             sx={{
               width: "172px",
@@ -173,4 +147,4 @@ const Notification = ({ open, onClose }) => {
   );
 };
 
-export default Notification;
+export default NotificationModal;

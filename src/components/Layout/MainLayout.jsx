@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { Box, Container, Stack } from '@mui/material'
-import Navbar from './Navbar'
-import Sidebar from './Sidebar'
+import React, { useState } from "react";
+import { Box, Container, Stack } from "@mui/material";
+import Navbar from "./Navbar";
+import Sidebar from "./Sidebar";
 
 const MainLayout = ({ children, title, showFullBar, setShowFullBar }) => {
   return (
@@ -14,7 +14,8 @@ const MainLayout = ({ children, title, showFullBar, setShowFullBar }) => {
       >
         <Box
           width={showFullBar ? { xs: "56px", lg: "250px" } : "56px"}
-          position="fixed" zIndex={9999}
+          position="fixed"
+          zIndex={9999}
         >
           <Sidebar showFullBar={showFullBar} setShowFullBar={setShowFullBar} />
         </Box>
@@ -22,7 +23,12 @@ const MainLayout = ({ children, title, showFullBar, setShowFullBar }) => {
 
       <Box width="100%" overflow="hidden" position="relative">
         {!location.pathname.includes("/create-new-order") && (
-          <Box width="100%" position="relative" height="96px">
+          <Box
+            display={location.pathname !== "/notifications" ? 'block' : 'none'}
+            width="100%"
+            position="relative"
+            height="96px"
+          >
             <Box
               zIndex={999}
               width="100%"
@@ -41,4 +47,4 @@ const MainLayout = ({ children, title, showFullBar, setShowFullBar }) => {
   );
 };
 
-export default MainLayout
+export default MainLayout;

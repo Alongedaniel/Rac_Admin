@@ -34,6 +34,7 @@ import PaymentHistory from "./pages/Payments/PaymentHistory";
 import PaymentInvoice from "./pages/Payments/PaymentInvoice";
 import GetAQuote from "./pages/GetAQuote/GetAQuote";
 import CreateOrder from "./components/order/CreateOrder";
+import NotificationsPage from "./pages/Notification/NotificationsPage";
 
 function App() {
   const location = useLocation();
@@ -91,6 +92,17 @@ function App() {
                   title="Shipments"
                 >
                   <ShipmentHistory />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/notifications"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                >
+                  <NotificationsPage />
                 </MainLayout>
               }
             />

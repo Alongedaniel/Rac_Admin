@@ -1,5 +1,5 @@
 import { Box, Button, Grid, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SectionHeader from "../../../components/SectionHeader";
 import CardWrapper from "../../../components/order/components/CardWrapper";
 import WhatsappIcon from "../../../assets/icons/WhatsappIcon";
@@ -11,6 +11,7 @@ import TrackItemIcon from "../../../assets/icons/TrackItemIcon";
 import TickCircle from "../../../assets/icons/TickCircle";
 import LineArrow from "../../../assets/icons/LineArrow";
 import MinusCircle from "../../../assets/icons/MinusCircle";
+import ScrollableSection from "../../../components/ScrollableSection";
 
 const TrackShipmentDetails = () => {
   const navigate = useNavigate();
@@ -142,6 +143,7 @@ const TrackShipmentDetails = () => {
       ],
     },
   ];
+
   return (
     <Box p="30px 40px">
       <Box p="30px" maxWidth="1140px" borderRadius="24px" bgcolor="#fff">
@@ -187,7 +189,7 @@ const TrackShipmentDetails = () => {
               // height="88px"
               // borderRadius="24px"
             >
-              <Grid container wrap="nowrap" mb='16px'>
+              <Grid container wrap="nowrap" mb="16px">
                 <Grid
                   sx={{ display: "flex", alignItems: "center" }}
                   item
@@ -231,22 +233,42 @@ const TrackShipmentDetails = () => {
                   </Typography>
                 </Grid>
                 <Grid item xs={2.4}>
-                  <Typography textAlign='left' fontSize="16px" fontWeight={500} color="#49454F">
+                  <Typography
+                    textAlign="left"
+                    fontSize="16px"
+                    fontWeight={500}
+                    color="#49454F"
+                  >
                     In Transit
                   </Typography>
                 </Grid>
                 <Grid item xs={2.4}>
-                  <Typography textAlign='center' fontSize="16px" fontWeight={500} color="#49454F">
+                  <Typography
+                    textAlign="center"
+                    fontSize="16px"
+                    fontWeight={500}
+                    color="#49454F"
+                  >
                     Undergoing Customs Clearing
                   </Typography>
                 </Grid>
                 <Grid item xs={2.4}>
-                  <Typography textAlign='right' fontSize="16px" fontWeight={500} color="#49454F">
+                  <Typography
+                    textAlign="right"
+                    fontSize="16px"
+                    fontWeight={500}
+                    color="#49454F"
+                  >
                     Ready for Pickup
                   </Typography>
                 </Grid>
                 <Grid item xs={2.4}>
-                  <Typography textAlign='right' fontSize="16px" fontWeight={500} color="#49454F">
+                  <Typography
+                    textAlign="right"
+                    fontSize="16px"
+                    fontWeight={500}
+                    color="#49454F"
+                  >
                     Delivered
                   </Typography>
                 </Grid>
@@ -289,69 +311,97 @@ const TrackShipmentDetails = () => {
         </Box>
         <Box mb="24px">
           <CardWrapper title="All Shipment Updates">
-            <Box
-              mt="5px"
-              height="800px"
-              overflow="auto"
-              borderBottom="1px solid #79747E"
-            >
-              {shipmentDetails?.map((item, i) => (
-                <Box key={i} display="flex" borderBottom="2px dashed #79747E">
-                  <Box p="10px 10px 10px 0" width="100%" maxWidth="139px">
-                    <Typography fontSize="14px" color="#1C1B1F">
-                      {item.day}
-                    </Typography>
-                    <Typography
-                      fontSize="16px"
-                      color="#1C1B1F"
-                      fontWeight={700}
+            <Box mt="5px" borderBottom="1px solid #CAC4D0" position="relative">
+              <ScrollableSection height="800px">
+                <Box bgcolor="transparent">
+                  {shipmentDetails?.map((item, i) => (
+                    <Box
+                      key={i}
+                      display="flex"
+                      borderBottom={
+                        i + 1 !== shipmentDetails.length
+                          ? "2px dashed #79747E"
+                          : "none"
+                      }
                     >
-                      {item.date}
-                    </Typography>
-                  </Box>
-                  <Box
-                    p="10px"
-                    width="100%"
-                    borderLeft="1px solid #79747E"
-                    display="flex"
-                    flexDirection="column"
-                    gap="15px"
-                  >
-                    {item.tracks?.map((item, i) => (
                       <Box
-                        key={i}
-                        display="flex"
-                        alignItems="center"
-                        gap="40px"
+                        p="10px 10px 10px 10px"
+                        width="100%"
+                        maxWidth="139px"
                       >
-                        <Box
-                          position="relative"
-                          left="-20px"
-                          pl="30px"
-                          bgcolor="#fff"
+                        <Typography fontSize="14px" color="#1C1B1F">
+                          {item.day}
+                        </Typography>
+                        <Typography
+                          fontSize="16px"
+                          color="#1C1B1F"
+                          fontWeight={700}
                         >
-                          <TrackItemIcon />
-                        </Box>
-                        <Box display="flex" flexDirection="column" gap="5px">
-                          <Typography fontSize="14px" color="#1C1B1F">
-                            {item.time}
-                          </Typography>
-                          <Typography
-                            fontSize="14px"
-                            color="#1C1B1F"
-                            fontWeight={500}
-                          >
-                            {item.processLocation}
-                          </Typography>
-                          <Typography fontSize="14px" color="#1C1B1F">
-                            {item.location}
-                          </Typography>
-                        </Box>
+                          {item.date}
+                        </Typography>
                       </Box>
-                    ))}
-                  </Box>
+                      <Box
+                        p="10px"
+                        width="100%"
+                        borderLeft="1px solid #79747E"
+                        display="flex"
+                        flexDirection="column"
+                        gap="15px"
+                      >
+                        {item.tracks?.map((item, i) => (
+                          <Box
+                            key={i}
+                            display="flex"
+                            alignItems="center"
+                            gap="40px"
+                          >
+                            <Box
+                              position="relative"
+                              left="-20px"
+                              pl="30px"
+                              // bgcolor="#fff"
+                            >
+                              <TrackItemIcon />
+                            </Box>
+                            <Box
+                              display="flex"
+                              flexDirection="column"
+                              gap="5px"
+                            >
+                              <Typography fontSize="14px" color="#1C1B1F">
+                                {item.time}
+                              </Typography>
+                              <Typography
+                                fontSize="14px"
+                                color="#1C1B1F"
+                                fontWeight={500}
+                              >
+                                {item.processLocation}
+                              </Typography>
+                              <Typography fontSize="14px" color="#1C1B1F">
+                                {item.location}
+                              </Typography>
+                            </Box>
+                          </Box>
+                        ))}
+                      </Box>
+                    </Box>
+                  ))}
                 </Box>
-              ))}
+              </ScrollableSection>
+              {/* <Box
+                position="absolute"
+                bottom={0}
+                left={0}
+                right={0}
+                sx={{
+                  boxShadow: "0px -4px 8px -4px rgba(0, 0, 0, 0.2)",
+                  width: "100%",
+                  height: "7px",
+                  background: `linear-gradient(to top, rgba(0, 0, 0, 0.05) 70%, rgba(0, 0, 0, 0.02) 100%)`,
+                  borderRadius: '8px 8px 0 0'
+                }}
+              ></Box> */}
             </Box>
           </CardWrapper>
         </Box>
