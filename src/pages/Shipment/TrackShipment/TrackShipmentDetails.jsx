@@ -143,7 +143,6 @@ const TrackShipmentDetails = () => {
       ],
     },
   ];
-
   return (
     <Box p="30px 40px">
       <Box p="30px" maxWidth="1140px" borderRadius="24px" bgcolor="#fff">

@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Box, Divider } from "@mui/material";
+import { Box, Divider, Fade, Tooltip } from "@mui/material";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useLocation, useMatch } from "react-router-dom";
@@ -18,28 +18,44 @@ function CustomLink({ children, to, icon, showFullBar, title, ...props }) {
   const location = useLocation()
   const pathname = location.pathname;
   return (
-    <Link
-      style={{
-        display: "flex",
-        alignItems: 'center',
-        justifyContent: showFullBar ? "flex-start" : "center",
-        // margin: showFullBar ? 0 : '0 auto',
-        padding: "16px",
-        gap: showFullBar ? "16px" : 0,
-        backgroundColor: childMatch ? "#E6E1E514" : "",
-        color: "#E7E0EC",
-        textDecoration: "none",
-        "&:hover": {
-          backgroundColor: "#E6E1E514",
-        },
-      }}
-      to={to}
-      {...props}
+    <Tooltip
       title={title}
+      placement="right"
+      TransitionComponent={Fade}
+      TransitionProps={{ timeout: 400 }}
     >
-      <div>{icon}</div>
-      <Box display={{xs: 'none', lg: 'block'}}>{showFullBar && children}</Box>
-    </Link>
+      <Box
+        sx={{
+          padding: "16px",
+          backgroundColor: childMatch ? "#E6E1E514" : "",
+          "&:hover": {
+            backgroundColor: "#E6E1E514",
+          },
+          cursor: "pointer",
+        }}
+      >
+        <Link
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: showFullBar ? "flex-start" : "center",
+            // margin: showFullBar ? 0 : '0 auto',
+
+            gap: showFullBar ? "16px" : 0,
+
+            color: "#E7E0EC",
+            textDecoration: "none",
+          }}
+          to={to}
+          {...props}
+        >
+          <div>{icon}</div>
+          <Box display={{ xs: "none", lg: "block" }}>
+            {showFullBar && children}
+          </Box>
+        </Link>
+      </Box>
+    </Tooltip>
   );
 }
 
@@ -57,9 +73,10 @@ function Sidebar({ showFullBar, setShowFullBar }) {
         py: "40px",
         display: "flex",
         flexDirection: "column",
+        // justifyContent: 'space-between',
         transition: "min-width .3s ease",
         height: "100vh",
-        overflowY: "auto",
+        // overflowY: "auto",
         // position: "fixed",
         "&::-webkit-scrollbar": {
           display: "none",
@@ -91,50 +108,59 @@ function Sidebar({ showFullBar, setShowFullBar }) {
           </Box>
         )}
       </div>
-      <div className="mt-[20px] grow flex flex-col ">
-        <>
-          {links.slice(0, 1).map(({ to, id, title, icon }) => (
-            <CustomLink
-              showFullBar={showFullBar}
-              to={to}
-              key={id}
-              icon={icon}
-              title={title}
-            >
-              <span className=" w-full"> {title}</span>
-            </CustomLink>
-          ))}
-        </>
-        <div className="flex flex-col mb-[170px] mt-[16px]">
-          {links.slice(1, 7).map(({ to, id, title, icon }) => (
-            <CustomLink
-              showFullBar={showFullBar}
-              to={to}
-              key={id}
-              icon={icon}
-              title={title}
-            >
-              <span className=" w-full"> {title}</span>
-            </CustomLink>
-          ))}
-        </div>
-        <Box px="24px">
-          <Divider sx={{ width: "100%", height: "1px", bgcolor: "#79747E" }} />
+      <div className="mt-[20px] grow flex flex-col justify-between">
+        <Box height='100%' maxHeight={{xs: '200px', lg: '400px', xl: '100%'}} sx={{
+          overflow: 'auto', '&::-webkit-scrollbar': {
+          display: 'none'
+        }}}>
+          <>
+            {links.slice(0, 1).map(({ to, id, title, icon }) => (
+              <CustomLink
+                showFullBar={showFullBar}
+                to={to}
+                key={id}
+                icon={icon}
+                title={title}
+              >
+                <span className=" w-full"> {title}</span>
+              </CustomLink>
+            ))}
+          </>
+          <div className="flex flex-col mt-[16px]">
+            {links.slice(1, 7).map(({ to, id, title, icon }) => (
+              <CustomLink
+                showFullBar={showFullBar}
+                to={to}
+                key={id}
+                icon={icon}
+                title={title}
+              >
+                <span className=" w-full"> {title}</span>
+              </CustomLink>
+            ))}
+          </div>
         </Box>
+        <Box>
+          <Box px="24px">
+            <Divider
+              sx={{ width: "100%", height: "1px", bgcolor: "#79747E" }}
+            />
+          </Box>
 
-        <div className="flex flex-col pt-[10px]">
-          {links.slice(7, 10).map(({ to, id, title, icon }) => (
-            <CustomLink
-              showFullBar={showFullBar}
-              to={to}
-              key={id}
-              icon={icon}
-              title={title}
-            >
-              <span className=" w-full"> {title}</span>
-            </CustomLink>
-          ))}
-        </div>
+          <div className="flex flex-col pt-[10px]">
+            {links.slice(7, 10).map(({ to, id, title, icon }) => (
+              <CustomLink
+                showFullBar={showFullBar}
+                to={to}
+                key={id}
+                icon={icon}
+                title={title}
+              >
+                <span className=" w-full"> {title}</span>
+              </CustomLink>
+            ))}
+          </div>
+        </Box>
       </div>
     </Box>
   );
