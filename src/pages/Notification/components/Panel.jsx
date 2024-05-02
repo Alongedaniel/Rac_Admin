@@ -17,6 +17,7 @@ const Panel = ({ notification, key }) => {
       justifyContent="space-between"
           width="100%"
           onClick={() => setIsRead(true)}
+          sx={{cursor: 'pointer'}}
     >
       <Typography fontSize="16px" color="#49454F" flex={1} maxWidth="596px">
         {notification.title}
