@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import SectionHeader from '../../components/SectionHeader'
 import {
   Box,
@@ -28,6 +28,12 @@ import DeletIcon from '../../assets/icons/DeletIcon';
 import AddIcon from '../../assets/icons/AddIcon';
 import dayjs from 'dayjs';
 import ArrowRightWhite from '../../assets/icons/ArrowRightWhite';
+// import drone from '../../assets/images/boxes.png'
+import { IoClose } from 'react-icons/io5';
+import { LuCheck } from 'react-icons/lu';
+import BillingDetailsInfo from '../../components/order/components/BillingDetailsInfo';
+import BillingDetails from '../orders/components/BillingDetails';
+import PaymentInformation from '../orders/components/PaymentInformation';
 
 const ShipmentDetails = () => {
   const [open, setOpen] = useState(false)
@@ -39,13 +45,28 @@ const ShipmentDetails = () => {
   const [courierModal, setCourierModal] = useState(false);
   const [dateModal, setDateModal] = useState(false);
   const [assignedOrderModal, setAssignedOrderModal] = useState(false);
+  const [openClearanceModal, setOpenClearanceModal] = useState(false);
+  const [clearance, setClearance] = useState(false);
+  const [update, setUpdate] = useState(false);
+  const order = location?.state?.order
 
   const handleRadioChange = (event) => {
-    setSelectedRadioValue(event.target.value);
+    if (order?.service === 'Auto Import')
+    {
+      setSelectedRadioValue(event.target.value)
+      
+    }
+    else
+      setSelectedRadioValue(event.target.value);
   };
 
+  useEffect(() => {
+    if (order?.service === 'Auto Import' && selectedRadioValue === "Undergoing Customs Clearing")
+      setOpenClearanceModal(true)
+  }, [selectedRadioValue])
+
+
   const navigate = useNavigate()
-    const order = location?.state?.order
   return (
     <Box py="30px" px="40px">
       <Box p="30px" borderRadius="20px" bgcolor="#fff">
@@ -84,7 +105,13 @@ const ShipmentDetails = () => {
                     <Typography fontSize="14px" color="#49454F">
                       Assigned Order:
                     </Typography>
-                    <Box onClick={() => setAssignedOrderModal(true)} sx={{cursor: 'pointer'}} display="flex" alignItems="center" gap="8px">
+                    <Box
+                      onClick={() => setAssignedOrderModal(true)}
+                      sx={{ cursor: "pointer" }}
+                      display="flex"
+                      alignItems="center"
+                      gap="8px"
+                    >
                       <Typography
                         sx={{ display: "inline" }}
                         fontSize="22px"
@@ -784,13 +811,14 @@ const ShipmentDetails = () => {
       </UserModals>
       <UserModals
         open={courierModal}
+        height="fit-content"
         onClose={() => setCourierModal(false)}
         title="Edit Courier Information"
         type1="Order ID"
         type2="Tracking ID"
         id1={order.id}
         id2="SH78667"
-        width="800px"
+        // width="800px"
         maxHeight="500px"
       >
         <Box
@@ -904,13 +932,14 @@ const ShipmentDetails = () => {
       </UserModals>
       <UserModals
         open={dateModal}
+        height="fit-content"
         onClose={() => setDateModal(false)}
         title="Edit Estimated Delivery Period"
         type1="Order ID"
         type2="Tracking ID"
         id1={order.id}
         id2="SH78667"
-        width="800px"
+        // width="800px"
         maxHeight="500px"
       >
         <Box>
@@ -996,6 +1025,7 @@ const ShipmentDetails = () => {
         </Box>
       </UserModals>
       <UserModals
+        height="fit-content"
         open={assignedOrderModal}
         onClose={() => setAssignedOrderModal(false)}
         title="Edit Assigned Order Details"
@@ -1074,6 +1104,213 @@ const ShipmentDetails = () => {
             Update
           </Button>
         </Box>
+      </UserModals>
+      <UserModals
+        open={openClearanceModal}
+        onClose={() => setOpenClearanceModal(false)}
+        height={clearance ? "80%" : "fit-content"}
+        width={clearance ? "70%" : "444px"}
+        title={clearance ? "Adding Customs Clearing Costs" : undefined}
+        type1={clearance ? "Order ID" : undefined}
+        type2={clearance ? "Tracking ID" : undefined}
+        id1={clearance ? order.id : undefined}
+        id2={clearance ? "SH78667" : undefined}
+      >
+        {clearance ? (
+          update ? (
+            <Box width="100%">
+              <Box bgcolor="#6750A4" borderRadius="20px" px="1px">
+                <Box mb="40px" display="flex" gap="10px" alignItems="center">
+                  <img src='../../assets/images/drone.png' alt="drone" />
+                  <Box>
+                    <Typography
+                      fontSize="24px"
+                      fontWeight={700}
+                      color="#fff"
+                      mb="10px"
+                    >
+                      {" "}
+                      Congratulations!
+                    </Typography>
+                    <Typography fontSize="20px" color="#fff">
+                      {`The shipping status has been updated and clearing cost has been added successfully`}
+                    </Typography>
+                  </Box>
+                </Box>
+              </Box>
+              <Box>
+                <div className="flex items-center space-x-[10px] ">
+                  <CircleRight />
+                  <p className="font-roboto font-[500] text-[14px] text-t/100 ">
+                    What Next?
+                  </p>
+                </div>
+                <Box
+                  mt="20px"
+                  px="14px"
+                  py="10px"
+                  borderRadius="20px"
+                  border="1px solid #CAC4D0"
+                >
+                  <Typography
+                    fontSize="20px"
+                    fontWeight={700}
+                    color="#49454F"
+                    mb="20px"
+                    pl="14px"
+                  >
+                    Here are more information on how to follow up this order
+                  </Typography>
+                  <Box>
+                    <Box
+                      display="flex"
+                      gap="20px"
+                      alignItems="center"
+                      mb="13px"
+                    >
+                      <Box
+                        width="33px"
+                        height="48px"
+                        borderRadius="20px"
+                        bgcolor="#6750A4"
+                        color="#fff"
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        fontSize="20px"
+                      >
+                        1
+                      </Box>
+                      <Typography fontSize="20px">
+                        The customer has been notified about shipping status and
+                        prompted to proceed with paying for their clearing cost.
+                      </Typography>
+                    </Box>
+                    <Box display="flex" gap="20px" alignItems="center">
+                      <Box
+                        width="33px"
+                        height="48px"
+                        borderRadius="20px"
+                        bgcolor="#6750A4"
+                        color="#fff"
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        fontSize="20px"
+                      >
+                        2
+                      </Box>
+                      <Typography fontSize="20px">
+                        After their payment gets confirmed, you’d be required to
+                        start getting their Car(s) ready to be delivered to them
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
+              </Box>
+              <Button
+                startIcon={<ArrowLeftPurple />}
+                variant="outlined"
+                sx={{
+                  borderColor: "#79747E",
+                  color: "#79747E",
+                  height: "40px",
+                  borderRadius: "100px",
+                  textTransform: "none",
+                  mt: "30px",
+                }}
+                onClick={() => setOpenClearanceModal(false)}
+              >
+                Close
+              </Button>
+            </Box>
+          ) : (
+            <Box>
+              <>
+                <BillingDetails proceed={true} order={order} />
+                <Box mt="30px">
+                  <PaymentInformation />
+                </Box>
+              </>
+              <Box mt="30px">
+                <Button
+                  startIcon={<ArrowLeftPurple />}
+                  variant="outlined"
+                  sx={{
+                    borderColor: "#79747E",
+                    color: "#79747E",
+                    height: "40px",
+                    borderRadius: "100px",
+                    textTransform: "none",
+                    mr: "10px",
+                  }}
+                  onClick={() => setOpenClearanceModal(false)}
+                >
+                  Back
+                </Button>
+                <Button
+                  startIcon={<ArrowRightWhite />}
+                    variant="contained"
+                    onClick={() => setUpdate(true)}
+                  sx={{
+                    bgcolor: "#6750A4",
+                    color: "#fff",
+                    width: "172px",
+                    height: "40px",
+                    borderRadius: "100px",
+                    textTransform: "none",
+                  }}
+                >
+                  Update
+                </Button>
+              </Box>
+            </Box>
+          )
+        ) : (
+          <>
+            <Typography fontSize="24px" color="#1C1B1F" mb="16px">
+              Add Clearing Costs...
+            </Typography>
+            <Typography fontSize="14px" color="#49454F">
+              Kindly note that making the shipping status of this auto import
+              order “”Undergoing customs clearing” means you are ready to add
+              the customs clearing and port handling costs to this shipment.
+            </Typography>
+            <Box
+              mt="40px"
+              display="flex"
+              gap="8px"
+              alignItems="center"
+              justifyContent="flex-end"
+            >
+              <Button
+                variant="text"
+                width="170px"
+                height="40px"
+                startIcon={<IoClose />}
+                sx={{ fontSize: "14px", color: "#6750A4", fontWeight: 500 }}
+                onClick={() => setOpenClearanceModal(false)}
+              >
+                {" "}
+                No, I am not ready
+              </Button>
+              <Button
+                variant="text"
+                width="150px"
+                height="40px"
+                startIcon={<LuCheck />}
+                sx={{ fontSize: "14px", color: "#6750A4", fontWeight: 500 }}
+                  onClick={() => {
+                    setClearance(true)
+                    setAssignedOrderModal(false);
+                  }}
+              >
+                {" "}
+                Yes, let’s go on
+              </Button>
+            </Box>
+          </>
+        )}
       </UserModals>
     </Box>
   );

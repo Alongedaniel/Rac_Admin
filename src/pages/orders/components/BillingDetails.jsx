@@ -113,7 +113,7 @@ const BillingDetails = ({ order, type = '', proceed = false }) => {
                     </div>
                   </div>
                 </CardWrapper>
-                {type === "request" && !proceed ? null : (
+                {(type === "request" && !proceed) || proceed ? null : (
                   <Box onClick={() => setOpen(true)}>
                     <EditIcon />
                   </Box>

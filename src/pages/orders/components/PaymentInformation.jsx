@@ -20,19 +20,16 @@ import DollarIcon from "../../../assets/icons/DollarIcon";
 import PercentageIcon from "../../../assets/icons/PercentageIcon";
 import RetryIcon from "../../../assets/icons/RetryIcon";
 import StyledArrowRight from "../../../assets/icons/StyledArrowRight";
+import SectionHeader from "../../../components/SectionHeader";
+import CardWrapper from "../../../components/order/components/CardWrapper";
 
-const PaymentInformation = ({ drop, toggle }) => {
+const PaymentInformation = () => {
   const theme = useTheme();
   return (
     <div>
-      <div className="flex items-center space-x-[10px] ">
-        <CircleRight />
-        <p className="font-roboto font-[500] text-[14px] text-t/100 text-brand/200 ">
-          Confirm the Payments Information for this Order
-        </p>
-      </div>
+      <SectionHeader title="Confirm the Payments Information for this Order" />
       <Box mb="20px" px="30px" mt="12px">
-        <Box pt="30px" sx={{ borderTop: "1px solid #79747E" }}>
+        <Box pt="30px">
           <Box display="flex" alignItems="center" gap="20px" py="10px">
             <Typography
               fontSize={14}
@@ -57,7 +54,7 @@ const PaymentInformation = ({ drop, toggle }) => {
           </Typography>
         </Box>
       </Box>
-      <Box border="1px solid #CAC4D0" borderRadius="20px">
+      <Box border="1px solid #CAC4D0" borderRadius="20px" mb='30px'>
         <Grid
           sx={{
             bgcolor: "#F4EFF4",
@@ -253,25 +250,7 @@ const PaymentInformation = ({ drop, toggle }) => {
           </Grid>
         </Grid>
       </Box>
-      <Box
-        border="1px solid #CAC4D0"
-        p="20px 30px"
-        mt="20px"
-        borderRadius="20px"
-      >
-        <div
-          className={`${
-            drop === 7 ? "h-full" : "h-[68px]  overflow-hidden"
-          } transition-all border px-[28px] py-[20px] rounded-[20px]`}
-          style={{ flex: 1 }}
-        >
-          <div
-            onClick={() => toggle(7)}
-            className={` transition-all flex items-center justify-between cursor-pointer`}
-          >
-            <p className="text-[20px]">Shipment Cost</p>
-            <IoChevronUpCircleOutline className="text-[25px]" />
-          </div>
+      <CardWrapper title="Shipment Cost">
           <Box mt="30px">
             <TextField
               required
@@ -621,8 +600,7 @@ const PaymentInformation = ({ drop, toggle }) => {
               </Box>
             </Box>
           </Box>
-        </div>
-      </Box>
+      </CardWrapper>
     </div>
   );
 };

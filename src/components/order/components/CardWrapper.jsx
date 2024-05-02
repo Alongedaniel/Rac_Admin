@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material'
+import { Box, IconButton, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import ArrowCircleUp from '../../../assets/icons/ArrowCircleUp';
 import { ArrowCircleDown } from 'iconsax-react';
@@ -50,9 +50,9 @@ const CardWrapper = ({children, title, showRadio, fullByDefault, removeArrows, b
             {title}
           </Typography>
           {removeArrows ? null : (
-            <Box onClick={() => setShowFull(!showFull)}>
+            <IconButton onClick={() => setShowFull(!showFull)}>
               {showFull ? <ArrowCircleUp /> : <ArrowCircleDown />}
-            </Box>
+            </IconButton>
           )}
         </Box>
         <Box>{children}</Box>
