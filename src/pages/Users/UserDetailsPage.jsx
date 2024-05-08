@@ -19,9 +19,10 @@ import UserModals from "./components/UserModals";
 import { cities, countries, countryCodes, states } from "./constants";
 import ArrowRightWhite from "../../assets/icons/ArrowRightWhite";
 import AdditionInfoForm from "./components/AdditionInfoForm";
+import { useNavigate } from "react-router-dom";
 
 const UserDetailsPage = ({ userType = "Customer" }) => {
-
+  const navigate = useNavigate()
   const [currentTab, setCurrentTab] = useState("Account Information");
   const [openEditProfile, setOpenEditProfile] = useState(false)
   const handleOpenEditProfile = () => setOpenEditProfile(true);
@@ -432,6 +433,7 @@ const UserDetailsPage = ({ userType = "Customer" }) => {
               width: "170px",
               textTransform: "none",
             }}
+            onClick={() => navigate(-1)}
           >
             Back to Settings
           </Button>
@@ -744,6 +746,7 @@ const UserDetailsPage = ({ userType = "Customer" }) => {
         open={openResetPassword}
         onClose={handleCloseResetPassword}
         title="Reset user password"
+        height="fit-content"
       >
         <Typography fontSize="22px" color="#49454F" mb="30px">
           The customer will be sent an email that contains a link to reset their
@@ -786,6 +789,7 @@ const UserDetailsPage = ({ userType = "Customer" }) => {
         open={openAccountStatusModal}
         onClose={handleCloseUpdateAccountStatus}
         title="Update User Account Status"
+        height="fit-content"
       >
         <Box
           mb="30px"
@@ -914,6 +918,7 @@ const UserDetailsPage = ({ userType = "Customer" }) => {
         open={openPriviledgeModal}
         onClose={() => setOpenPriviledgeModal(false)}
         title="Manage Staff Privileges"
+        height="fit-content"
       >
         <Box width="100%" height="56px" bgcolor="#fff"></Box>
       </UserModals>
