@@ -35,6 +35,9 @@ import PaymentInvoice from "./pages/Payments/PaymentInvoice";
 import GetAQuote from "./pages/GetAQuote/GetAQuote";
 import CreateOrder from "./components/order/CreateOrder";
 import NotificationsPage from "./pages/Notification/NotificationsPage";
+import Settings from "./pages/Settings/Settings";
+import CommunicationPreferences from "./pages/Settings/CommunicationPreferences";
+import Security from "./pages/Settings/Security";
 
 function App() {
   const location = useLocation();
@@ -192,7 +195,45 @@ function App() {
                   showFullBar={showFullBar}
                   setShowFullBar={setShowFullBar}
                   title="Settings"
-                ></MainLayout>
+                >
+                  <Settings />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/settings/my_account_profile_information"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="Profile Information"
+                >
+                  <UserDetailsPage userType="Staff" />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/settings/my_account_communication_preferences"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="Communication Preferences"
+                >
+                  <CommunicationPreferences />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/settings/my_account_security"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="Security"
+                >
+                  <Security />
+                </MainLayout>
               }
             />
             <Route
@@ -281,9 +322,13 @@ function App() {
                   setShowFullBar={setShowFullBar}
                   title={
                     <Box>
-                      <Typography fontSize="24px" >
+                      <Typography fontSize="24px">
                         Add Shipment Details{" "}
-                        <Typography display='inline' fontSize="24px" color="#6750A4">
+                        <Typography
+                          display="inline"
+                          fontSize="24px"
+                          color="#6750A4"
+                        >
                           • Shop For Me Service
                         </Typography>
                       </Typography>
