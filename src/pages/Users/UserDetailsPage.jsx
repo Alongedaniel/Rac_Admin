@@ -1,4 +1,4 @@
-import { Box, Button, Grid, MenuItem, Modal, Radio, TextField, Typography } from "@mui/material";
+import { Box, Button, Grid, IconButton, MenuItem, Modal, Radio, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import CardWrapper from "../../components/order/components/CardWrapper";
 import CallIcon from "../../assets/icons/CallIcon";
@@ -20,8 +20,12 @@ import { cities, countries, countryCodes, states } from "./constants";
 import ArrowRightWhite from "../../assets/icons/ArrowRightWhite";
 import AdditionInfoForm from "./components/AdditionInfoForm";
 import { useNavigate } from "react-router-dom";
+import ArrowBack from "../../assets/icons/ArrowBack";
+import EyeIconOpen from "../../assets/icons/EyeIconOpen";
+import Tick from "../../assets/icons/Tick";
+import CheckWhiteIcon from "../../assets/icons/CheckWhiteIcon";
 
-const UserDetailsPage = ({ userType = "Customer" }) => {
+const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
   const navigate = useNavigate()
   const [currentTab, setCurrentTab] = useState("Account Information");
   const [openEditProfile, setOpenEditProfile] = useState(false)
@@ -39,6 +43,7 @@ const UserDetailsPage = ({ userType = "Customer" }) => {
   const handleCloseUpdateAccountStatus = () => setOpenAccountStatusModal(false);
   const [openPriviledgeModal, setOpenPriviledgeModal] = useState(false);
   const [confirmStatusChange, setConfirmStatusChange] = useState(false)
+  const [changePassword, setChangePassword] = useState(false)
   const tabs =
     userType === "Customer"
       ? [
@@ -51,6 +56,9 @@ const UserDetailsPage = ({ userType = "Customer" }) => {
   return (
     <Box py="24px" px={"40px"}>
       <Box py="24px" px="30px" bgcolor="#fff" borderRadius="24px">
+        <IconButton onClick={() => navigate(-1)} sx={{ mb: "16px" }}>
+          <ArrowBack />
+        </IconButton>
         <Box mb="30px">
           <Typography fontSize="24px" color="#1C1B1F">
             User ID:{" "}
@@ -220,7 +228,7 @@ const UserDetailsPage = ({ userType = "Customer" }) => {
                       textTransform: "none",
                     }}
                   >
-                    Reset User Password
+                    {currentUser ? "Reset My Password" : "Reset User Password"}
                   </Button>
                 </Grid>
                 <Grid
@@ -255,6 +263,7 @@ const UserDetailsPage = ({ userType = "Customer" }) => {
                             borderRadius: "100px",
                             width: "104px",
                             textTransform: "none",
+                            display: currentUser ? 'none' : 'block'
                           }}
                         >
                           Update
@@ -745,14 +754,167 @@ const UserDetailsPage = ({ userType = "Customer" }) => {
       <UserModals
         open={openResetPassword}
         onClose={handleCloseResetPassword}
-        title="Reset user password"
+        title={currentUser ? "Change Password" : "Reset user password"}
         height="fit-content"
       >
-        <Typography fontSize="22px" color="#49454F" mb="30px">
-          The customer will be sent an email that contains a link to reset their
-          password, are you sure you want to proceed?
-        </Typography>
-        <Box>
+        {currentUser ? (
+          changePassword ? (
+            <Box>
+              <Typography fontSize="22px" color="#49454F" mb="30px">
+                Kindly enter your new password
+              </Typography>
+              <TextField
+                InputProps={{
+                  sx: {
+                    borderRadius: "20px", // Apply border radius to the input element
+                    height: "56px",
+                    borderColor: "#79747E",
+                    fontSize: "16px",
+                    color: "#1C1B1F",
+                    mb: "10px",
+                  },
+                }}
+                type="password"
+                fullWidth
+                id="password"
+                label="New Password"
+                placeholder="Enter new password"
+              />
+              <Grid container wrap={{ xs: "wrap", sm: "nowrap" }} mb="10px">
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  display="flex"
+                  alignItems="center"
+                  gap="10px"
+                >
+                  <Tick />
+                  <Typography
+                    fontSize="12px"
+                    color="#49454F"
+                    letterSpacing=".4px"
+                  >
+                    At least one lowercase letter
+                  </Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  display="flex"
+                  alignItems="center"
+                  gap="10px"
+                >
+                  <Tick />
+                  <Typography
+                    fontSize="12px"
+                    color="#49454F"
+                    letterSpacing=".4px"
+                  >
+                    Minimum of 8 characters
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid container wrap={{ xs: "wrap", sm: "nowrap" }} mb="30px">
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  display="flex"
+                  alignItems="center"
+                  gap="10px"
+                >
+                  <Tick color="#79747E" />
+                  <Typography
+                    fontSize="12px"
+                    color="#49454F"
+                    letterSpacing=".4px"
+                  >
+                    At least one uppercase character
+                  </Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  display="flex"
+                  alignItems="center"
+                  gap="10px"
+                >
+                  <Tick />
+                  <Typography
+                    fontSize="12px"
+                    color="#49454F"
+                    letterSpacing=".4px"
+                  >
+                    Must contain a number or special character
+                  </Typography>
+                </Grid>
+              </Grid>
+              <TextField
+                InputProps={{
+                  sx: {
+                    borderRadius: "20px", // Apply border radius to the input element
+                    height: "56px",
+                    borderColor: "#79747E",
+                    mb: "10px",
+                  },
+                }}
+                type="password"
+                fullWidth
+                id="password"
+                label="Re-Enter New Password"
+                placeholder="Re-Enter new password"
+              />
+              <Box
+                alignSelf={"flex-start"}
+                display="flex"
+                alignItems="center"
+                gap="10px"
+              >
+                <Tick />
+                <Typography
+                  fontSize="12px"
+                  color="#49454F"
+                  letterSpacing=".4px"
+                >
+                  Passwords match each other
+                </Typography>
+              </Box>
+            </Box>
+          ) : (
+            <Box>
+              <Typography fontSize="22px" color="#49454F" mb="30px">
+                To ensure maximum security for your account, type in your
+                existing password to continue.
+              </Typography>
+              <TextField
+                InputProps={{
+                  sx: {
+                    borderRadius: "20px", // Apply border radius to the input element
+                    height: "56px",
+                    borderColor: "#79747E",
+                    fontSize: "16px",
+                    color: "#1C1B1F",
+                  },
+                  endAdornment: <EyeIconOpen />,
+                }}
+                type="password"
+                fullWidth
+                id="password"
+                label="Existing Password"
+                placeholder="Enter your password"
+              />
+            </Box>
+          )
+        ) : (
+          <Typography fontSize="22px" color="#49454F">
+            The customer will be sent an email that contains a link to reset
+            their password, are you sure you want to proceed?
+          </Typography>
+        )}
+        <Box mt="30px">
           <Button
             startIcon={<ArrowLeftPurple />}
             variant="outlined"
@@ -765,24 +927,47 @@ const UserDetailsPage = ({ userType = "Customer" }) => {
               textTransform: "none",
               mr: "10px",
             }}
-            onClick={handleCloseResetPassword}
+            onClick={() => {
+              if (changePassword) setChangePassword(false);
+              else handleCloseResetPassword();
+            }}
           >
-            Cancel
+            {changePassword ? "Back" : "Cancel"}
           </Button>
           <Button
-            startIcon={<ArrowRightWhite />}
+            startIcon={
+              changePassword ? <CheckWhiteIcon /> : <ArrowRightWhite />
+            }
             variant="contained"
             sx={{
-              bgcolor: "#6750A4",
+              bgcolor: changePassword ? "#B3261E" : "#6750A4",
               color: "#fff",
-              width: "200px",
+              width: changePassword ? "215px" : "200px",
               height: "40px",
               borderRadius: "100px",
               textTransform: "none",
             }}
+            onClick={() => {
+              if (currentUser && !changePassword) setChangePassword(true);
+            }}
           >
-            Confirm and Proceed
+            {changePassword
+              ? "Confirm New Password"
+              : currentUser
+              ? "Proceed"
+              : "Confirm and Proceed"}
           </Button>
+          {changePassword && (
+            <Box mt='10px' maxWidth='340px'>
+              <Typography fontSize="14px">
+                Upon clicking “Confirm New Password”, I confirm I have read and
+                agreed to{" "}
+                <Typography display="inline" color="#6750A4">
+                  all terms and policies
+                </Typography>
+              </Typography>
+            </Box>
+          )}
         </Box>
       </UserModals>
       <UserModals

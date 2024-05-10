@@ -208,7 +208,7 @@ function App() {
                   setShowFullBar={setShowFullBar}
                   title="Profile Information"
                 >
-                  <UserDetailsPage userType="Staff" />
+                  <UserDetailsPage userType="Staff" currentUser />
                 </MainLayout>
               }
             />

@@ -1,9 +1,9 @@
 import React from 'react'
 
-const MinusCircle = () => {
+const MinusCircle = ({left = '-10px'}) => {
   return (
     <svg
-      style={{ position: "relative", left: "-10px" }}
+      style={{ position: "relative", left: left }}
       width="25"
       height="24"
       viewBox="0 0 25 24"
