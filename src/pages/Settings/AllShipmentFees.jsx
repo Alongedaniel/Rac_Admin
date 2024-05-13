@@ -1041,7 +1041,8 @@ const AllShipmentFees = () => {
             width: "170px",
             mt: "24px",
           }}
-          startIcon={<CloseCircle color="#6750A4" />}
+                  startIcon={<CloseCircle color="#6750A4" />}
+                  onClick={() => navigate('/settings')}
         >
           Back to Settings
         </Button>
