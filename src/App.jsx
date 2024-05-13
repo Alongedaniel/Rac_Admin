@@ -38,6 +38,10 @@ import NotificationsPage from "./pages/Notification/NotificationsPage";
 import Settings from "./pages/Settings/Settings";
 import CommunicationPreferences from "./pages/Settings/CommunicationPreferences";
 import Security from "./pages/Settings/Security";
+import ExchangeRates from "./pages/Settings/ExchangeRates";
+import AllShipmentFees from "./pages/Settings/AllShipmentFees";
+import ProcurementFees from "./pages/Settings/ProcurementFees";
+import PaymentMethods from "./pages/Settings/PaymentMethods";
 
 function App() {
   const location = useLocation();
@@ -233,6 +237,54 @@ function App() {
                   title="Security"
                 >
                   <Security />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/settings/rac_exchange_rates"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="Payments"
+                >
+                  <ExchangeRates />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/settings/all_shipment_fees"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="Payments"
+                >
+                  <AllShipmentFees />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/settings/procurement_fees"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="Payments"
+                >
+                  <ProcurementFees />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/settings/payment_methods"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="Payments"
+                >
+                  <PaymentMethods />
                 </MainLayout>
               }
             />
