@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoChevronUpCircleOutline } from "react-icons/io5";
 import { useLocation, useNavigate } from "react-router-dom";
 import CircleRight from "../../assets/icons/CircleRight";
@@ -54,6 +54,7 @@ import ShippingDetailsInfo from "../../components/order/components/ShippingDetai
 import BillingDetailsInfo from "../../components/order/components/BillingDetailsInfo";
 import ActivityIcon from "../../assets/icons/ActivityIcon";
 import CustomStepper from "../../components/CustomStepper";
+import SectionHeader from "../../components/SectionHeader";
 
 function OrderDetails() {
   const location = useLocation();
@@ -63,6 +64,8 @@ function OrderDetails() {
   const theme = useTheme();
   const [drop, setDrop] = useState(null);
   const [saveAsDraft, setSaveAsDraft] = useState(false);
+
+ 
 
   const toggle = (i) => {
     setDrop((prevFaq) => (prevFaq === i ? null : i));
@@ -146,6 +149,7 @@ function OrderDetails() {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
+
   const handleBack = () => {
     if (activeStep > 0) setActiveStep((prevActiveStep) => prevActiveStep - 1);
     else setProceed(false);
@@ -153,9 +157,14 @@ function OrderDetails() {
   const shipmentMethods = ["Road", "Air", "Rail", "Sea"];
   const deliveryCompanies = ["DHL", "Gokada", "Glovo"];
 
+   useEffect(() => {
+     window.scroll(0, 0);
+   }, [activeStep, proceed]);
+
   return (
     <>
-      {(order.service === "Shop For Me" || type === 'shop for me') && type !== "request" ? (
+      {(order.service === "Shop For Me" || type === "shop for me") &&
+      type !== "request" ? (
         <ShopForMeDetails />
       ) : (
         <div
@@ -171,6 +180,7 @@ function OrderDetails() {
                 <span>{type === "request" ? "Request ID:" : "Order ID:"}</span>{" "}
                 <span className="font-[700]">{order.id}</span>
               </p>
+              <CustomStepper activeStep={activeStep} steps={steps} />
               <Box>
                 {activeStep === 0 ? (
                   <Box>
@@ -533,6 +543,83 @@ function OrderDetails() {
                             />
                           </Box>
                         </div>
+                      </Box>
+                      <Box mt='30px'>
+                        <SectionHeader
+                          noBorder
+                          title="Confirm the Additional Costs for this request"
+                        />
+                                  <Box
+                                    mt='15px'
+                          border="1px solid #CAC4D0"
+                          p="20px 20px"
+                          borderRadius="20px"
+                        >
+                          <Typography
+                            fontSize={"14px"}
+                            color="#49454F"
+                            mb="20px"
+                          >
+                            Additional Costs
+                          </Typography>
+                          <Grid container>
+                            <Grid item xs={3}>
+                              <Typography fontSize={"14px"} color="#49454F">
+                                Storage Charge:
+                              </Typography>
+                              <Typography fontSize={"20px"} color="#1C1B1F">
+                                $23.00
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={3}>
+                              <Typography fontSize={"14px"} color="#49454F">
+                                Insurance Cost:
+                              </Typography>
+                              <Typography fontSize={"20px"} color="#1C1B1F">
+                                $23.00
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={3}>
+                              <Typography fontSize={"14px"} color="#49454F">
+                                Payment Method Surcharge:
+                              </Typography>
+                              <Typography fontSize={"20px"} color="#1C1B1F">
+                                $23.00
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={3}>
+                              <Typography fontSize={"14px"} color="#49454F">
+                                VAT:
+                              </Typography>
+                              <Typography fontSize={"20px"} color="#1C1B1F">
+                                $23.00
+                              </Typography>
+                            </Grid>
+                          </Grid>
+
+                          <Box width="100%" mt="24px">
+                            <TextField
+                              required
+                              id="other-charges"
+                              sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                              type="number"
+                              label="Other Charges"
+                              fullWidth
+                              // placeholder="Select origin"
+                              InputProps={{
+                                startAdornment: <DollarIcon />,
+                                sx: {
+                                  // maxWidth: "540px",
+                                  borderRadius: "20px", // Apply border radius to the input element
+                                  height: "56px",
+                                  borderColor: "#79747E",
+                                  fontSize: "16px",
+                                  color: "#1C1B1F",
+                                },
+                              }}
+                            />
+                          </Box>
+                        </Box>
                       </Box>
                     </Box>
                   )

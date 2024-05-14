@@ -941,7 +941,7 @@ const AllShipmentFees = () => {
                   </Typography>
                 </Box>
                 <PaymentsTable
-                  columns={["Weight (kg)", "Rate (£)"]}
+                  columns={["Weight (kg)", "Rate (¥)"]}
                   rows={["Above 0.5"]}
                   allColored
                 >
@@ -1041,8 +1041,8 @@ const AllShipmentFees = () => {
             width: "170px",
             mt: "24px",
           }}
-                  startIcon={<CloseCircle color="#6750A4" />}
-                  onClick={() => navigate('/settings')}
+          startIcon={<CloseCircle color="#6750A4" />}
+          onClick={() => navigate("/settings")}
         >
           Back to Settings
         </Button>

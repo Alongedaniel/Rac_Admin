@@ -239,9 +239,7 @@ const Settings = () => {
                     bgcolor: "#6750A4",
                     width: "100%",
                   }}
-                  onClick={() =>
-                    navigate("procurement_fees")
-                  }
+                  onClick={() => navigate("procurement_fees")}
                 >
                   Review Procurement fees
                 </Button>
@@ -289,11 +287,126 @@ const Settings = () => {
         </Box>
         <Box mb="24px">
           <Typography fontSize="24px" color="#1C1B1F" mb="24px">
-            Title
+            General
           </Typography>
-          <Box width="100%" height="139px" bgcolor="#EADDFF"></Box>
+          <Box display="flex" gap="20px" mb="24px">
+            <Box
+              display="flex"
+              flexDirection="column"
+              justifyContent="space-between"
+              p="24px"
+              borderRadius="20px"
+              border="1px solid #CAC4D0"
+              height="226px"
+              width="100%"
+            >
+              <Box>
+                <Typography color="#49454F" fontSize="22px">
+                  Warehouse locations
+                </Typography>
+                <Typography color="#49454F" fontSize="16px">
+                  View the complete shipment history of your customers.
+                </Typography>
+              </Box>
+              <Box pt="16px" borderTop="2.2px dashed #79747E">
+                <Button
+                  variant="contained"
+                  sx={{
+                    color: "#fff",
+                    height: "40px",
+                    borderRadius: "100px",
+                    textTransform: "none",
+                    fontSize: "14px",
+                    fontWeight: 500,
+                    bgcolor: "#6750A4",
+                    width: "100%",
+                  }}
+                  onClick={() => navigate("warehouse_locations")}
+                >
+                  Review Shipment History
+                </Button>
+              </Box>
+            </Box>
+            <Box
+              display="flex"
+              flexDirection="column"
+              justifyContent="space-between"
+              p="24px"
+              borderRadius="20px"
+              border="1px solid #CAC4D0"
+              height="226px"
+              width="100%"
+            >
+              <Box>
+                <Typography color="#49454F" fontSize="22px">
+                  Shipping Methods
+                </Typography>
+                <Typography color="#49454F" fontSize="16px">
+                  Set up and customise various shipping methods and rules.
+                </Typography>
+              </Box>
+              <Box pt="16px" borderTop="2.2px dashed #79747E">
+                <Button
+                  variant="contained"
+                  sx={{
+                    color: "#fff",
+                    height: "40px",
+                    borderRadius: "100px",
+                    textTransform: "none",
+                    fontSize: "14px",
+                    fontWeight: 500,
+                    bgcolor: "#6750A4",
+                    width: "100%",
+                  }}
+                  onClick={() =>
+                    navigate("shipping_methods")
+                  }
+                >
+                  Configure Shipping Methods
+                </Button>
+              </Box>
+            </Box>
+            <Box
+              display="flex"
+              flexDirection="column"
+              justifyContent="space-between"
+              p="24px"
+              borderRadius="20px"
+              border="1px solid #CAC4D0"
+              height="226px"
+              width="100%"
+            >
+              <Box>
+                <Typography color="#49454F" fontSize="22px">
+                  Customer Support Settings
+                </Typography>
+                <Typography color="#49454F" fontSize="16px">
+                  Configure settings for customer service, including contact
+                  methods and support hours.
+                </Typography>
+              </Box>
+              <Box pt="16px" borderTop="2.2px dashed #79747E">
+                <Button
+                  variant="contained"
+                  sx={{
+                    color: "#fff",
+                    height: "40px",
+                    borderRadius: "100px",
+                    textTransform: "none",
+                    fontSize: "14px",
+                    fontWeight: 500,
+                    bgcolor: "#6750A4",
+                    width: "100%",
+                  }}
+                  onClick={() => navigate("customer_support_details")}
+                >
+                  CTA
+                </Button>
+              </Box>
+            </Box>
+          </Box>
         </Box>
-        <Button
+        {/* <Button
           variant="outlined"
           sx={{
             color: "#6750A4",
@@ -308,7 +421,7 @@ const Settings = () => {
           startIcon={<ArrowLeftPurple />}
         >
           Back to Settings
-        </Button>
+        </Button> */}
       </Box>
     </Box>
   );

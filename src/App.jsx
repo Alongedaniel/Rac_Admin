@@ -42,6 +42,9 @@ import ExchangeRates from "./pages/Settings/ExchangeRates";
 import AllShipmentFees from "./pages/Settings/AllShipmentFees";
 import ProcurementFees from "./pages/Settings/ProcurementFees";
 import PaymentMethods from "./pages/Settings/PaymentMethods";
+import CustomerSupport from "./pages/Settings/CustomerSupport";
+import WarehouseLocations from "./pages/Settings/WarehouseLocations";
+import ShippingMethods from "./pages/Settings/ShippingMethods";
 
 function App() {
   const location = useLocation();
@@ -285,6 +288,42 @@ function App() {
                   title="Payments"
                 >
                   <PaymentMethods />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/settings/warehouse_locations"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="General"
+                >
+                  <WarehouseLocations />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/settings/shipping_methods"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="General"
+                >
+                  <ShippingMethods />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/settings/customer_support_details"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title="General"
+                >
+                  <CustomerSupport />
                 </MainLayout>
               }
             />
