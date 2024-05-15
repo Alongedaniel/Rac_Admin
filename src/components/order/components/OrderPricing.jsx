@@ -1094,7 +1094,7 @@ const OrderPricing = ({
             >
               <Box
                 // maxWidth="384px"
-                width='100%'
+                width="100%"
                 height="168px"
                 border="1px solid #CAC4D0"
                 p="22px 20px"
@@ -1199,7 +1199,7 @@ const OrderPricing = ({
               <Box
                 height="168px"
                 // maxWidth={"280px"}
-                width='100%'
+                width="100%"
                 bgcolor="#21005D"
                 p="22px 20px"
                 borderRadius="20px"
@@ -1294,8 +1294,14 @@ const OrderPricing = ({
             </Box>
           </Box>
         </CardWrapper>
-        {(service === "Shop For Me" && !shopForMe)  && (
-          <CardWrapper mt="20px" title="Clearing Cost">
+        {service === "Shop For Me" && !shopForMe && (
+          <CardWrapper
+            mt="20px"
+            title={service === "Auto Import"
+                ? "Clearing Cost"
+                : "Shipping Cost"
+            }
+          >
             <Box
               mt="10px"
               p="10px 20px"

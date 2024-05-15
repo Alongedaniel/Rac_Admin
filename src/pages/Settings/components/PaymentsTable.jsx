@@ -33,11 +33,10 @@ const PaymentsTable = ({columns=[], rows=[], allColored=false, children, tooltip
               fontSize="14px"
               fontWeight={500}
               color="#1D192B"
-                    borderRight={i === 0 ? "1px solid #79747E" : "none"}
-                    
+              borderRight={i === 0 ? "1px solid #CAC4D0" : "none"}
             >
-                    {column}
-                    {i > 0 && tooltip ? <Information /> : null}
+              {column}
+              {i > 0 && tooltip ? <Information /> : null}
             </Typography>
           </Box>
         ))}

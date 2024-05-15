@@ -470,8 +470,9 @@ const PaymentInformation = () => {
                 </Box>
               </Box>
               <Box
-                height="168px"
-                maxWidth={"280px"}
+              height="168px"
+              width='100%'
+                // maxWidth={"280px"}
                 bgcolor="#21005D"
                 p="22px 20px"
                 borderRadius="20px"
@@ -493,7 +494,7 @@ const PaymentInformation = () => {
                   </Typography>
                 </Box>
               </Box>
-              <Box height="168px">
+              {/* <Box height="168px">
                 <Typography fontSize={"16px"} fontWeight={500} mb="16px">
                   Payment Status:
                 </Typography>
@@ -565,7 +566,7 @@ const PaymentInformation = () => {
                 >
                   Retry
                 </Button>
-              </Box>
+              </Box> */}
             </Box>
             <Box mt="20px" display="flex" flexDirection="column" gap="5px">
               <Box display="flex" alignItems="center" gap="10px">

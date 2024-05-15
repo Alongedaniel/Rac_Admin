@@ -7,7 +7,7 @@ const Settings = () => {
     const navigate = useNavigate()
   return (
     <Box p="32px 40px">
-      <Box p="24px 30px" borderRadius="20px" maxWidth="1200px" bgcolor="#fff">
+      <Box p="24px 30px" borderRadius="20px" bgcolor="#fff">
         <Typography fontSize="24px" color="#1C1B1F" mb="24px">
           My Account
         </Typography>
@@ -358,9 +358,7 @@ const Settings = () => {
                     bgcolor: "#6750A4",
                     width: "100%",
                   }}
-                  onClick={() =>
-                    navigate("shipping_methods")
-                  }
+                  onClick={() => navigate("shipping_methods")}
                 >
                   Configure Shipping Methods
                 </Button>
@@ -378,7 +376,7 @@ const Settings = () => {
             >
               <Box>
                 <Typography color="#49454F" fontSize="22px">
-                  Customer Support Settings
+                  Customer Support
                 </Typography>
                 <Typography color="#49454F" fontSize="16px">
                   Configure settings for customer service, including contact
@@ -400,7 +398,7 @@ const Settings = () => {
                   }}
                   onClick={() => navigate("customer_support_details")}
                 >
-                  CTA
+                  Review Support Details
                 </Button>
               </Box>
             </Box>

@@ -31,7 +31,7 @@ const Security = () => {
   }, [openModal, openModal2]);
   return (
     <Box p="24px 40px">
-      <Box p="24px" maxWidth="1200px" borderRadius="20px" bgcolor="#fff">
+      <Box p="24px" borderRadius="20px" bgcolor="#fff">
         <IconButton onClick={() => navigate(-1)} sx={{ mb: "16px" }}>
           <ArrowBack />
         </IconButton>
