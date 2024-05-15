@@ -21,6 +21,7 @@ const WeightSymbol = () => {
         borderBottom="1px solid #E7E0EC"
         pb="8px"
         onClick={(e) => setAnchorEl(e.currentTarget)}
+        sx={{cursor: 'pointer'}}
       >
         <Typography color="#1C1B1F" fontSize="16px" fontWeight={500}>
           /{selectedSymbol}
