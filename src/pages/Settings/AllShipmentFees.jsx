@@ -6,6 +6,7 @@ import CloseCircle from "../../assets/icons/CloseCircle";
 import ArrowRightWhite from "../../assets/icons/ArrowRightWhite";
 import ArrowBack from "../../assets/icons/ArrowBack";
 import PaymentsTable from "./components/PaymentsTable";
+import WeightSymbol from "./components/WeightSymbol";
 
 const AllShipmentFees = () => {
   const navigate = useNavigate();
@@ -38,7 +39,7 @@ const AllShipmentFees = () => {
     ];
   return (
     <Box p="24px 40px">
-      <Box p="24px" borderRadius="20px" bgcolor="#fff" maxWidth="1200px">
+      <Box p="24px" borderRadius="20px" bgcolor="#fff">
         <IconButton onClick={() => navigate(-1)} sx={{ mb: "10px" }}>
           <ArrowBack />
         </IconButton>
@@ -54,12 +55,12 @@ const AllShipmentFees = () => {
           </Typography>
           <Box pt="24px" borderTop="1px solid #CAC4D0">
             <Grid container wrap="nowrap" gap="16px">
-              <Grid item xs={4} pr="16px" borderRight="1px solid #CAC4D0">
+              <Grid item xs={6} pr="16px" borderRight="1px solid #CAC4D0">
                 <Box
-                  borderBottom="1px solid #CAC4D0"
-                  py="18px"
                   pl="16px"
-                  mb="8px"
+                  py="18px"
+                  borderRadius="8px"
+                  border="1px solid #CAC4D0"
                 >
                   <Typography fontSize="14px" fontWeight={500} color="#1D192B">
                     Storage Charge
@@ -67,7 +68,8 @@ const AllShipmentFees = () => {
                 </Box>
                 <Box display="flex">
                   <TableValue
-                    width="106px"
+                    minWidth="160px"
+                    maxWidth="160px"
                     value={`${value}%`}
                     setValue={setValue}
                   />
@@ -91,12 +93,12 @@ const AllShipmentFees = () => {
                   </Box>
                 </Box>
               </Grid>
-              <Grid item xs={2.5} pr="16px" borderRight="1px solid #CAC4D0">
+              <Grid item xs={6}>
                 <Box
-                  borderBottom="1px solid #CAC4D0"
+                  border="1px solid #CAC4D0"
                   py="18px"
                   pl="16px"
-                  mb="8px"
+                  borderRadius="8px"
                 >
                   <Typography fontSize="14px" fontWeight={500} color="#1D192B">
                     Insurance Charge
@@ -104,7 +106,8 @@ const AllShipmentFees = () => {
                 </Box>
                 <Box display="flex">
                   <TableValue
-                    width="106px"
+                    minWidth="160px"
+                    maxWidth="160px"
                     value={`${value}%`}
                     setValue={setValue}
                   />
@@ -128,12 +131,14 @@ const AllShipmentFees = () => {
                   </Box>
                 </Box>
               </Grid>
-              <Grid item xs={2.5} pr="16px" borderRight="1px solid #CAC4D0">
+            </Grid>
+            <Grid container wrap="nowrap" gap="16px" mt="24px">
+              <Grid item xs={6} pr="16px" borderRight="1px solid #CAC4D0">
                 <Box
-                  borderBottom="1px solid #CAC4D0"
+                  border="1px solid #CAC4D0"
                   py="18px"
                   pl="16px"
-                  mb="8px"
+                  borderRadius="8px"
                 >
                   <Typography fontSize="14px" fontWeight={500} color="#1D192B">
                     Payment method surcharge
@@ -141,7 +146,8 @@ const AllShipmentFees = () => {
                 </Box>
                 <Box display="flex">
                   <TableValue
-                    width="106px"
+                    minWidth="160px"
+                    maxWidth="160px"
                     value={`${value}%`}
                     setValue={setValue}
                   />
@@ -165,12 +171,12 @@ const AllShipmentFees = () => {
                   </Box>
                 </Box>
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={6}>
                 <Box
-                  borderBottom="1px solid #CAC4D0"
+                  border="1px solid #CAC4D0"
                   py="18px"
                   pl="16px"
-                  mb="8px"
+                  borderRadius="8px"
                 >
                   <Typography fontSize="14px" fontWeight={500} color="#1D192B">
                     VAT
@@ -178,7 +184,8 @@ const AllShipmentFees = () => {
                 </Box>
                 <Box display="flex">
                   <TableValue
-                    width="106px"
+                    minWidth="160px"
+                    maxWidth="160px"
                     value={`${value}%`}
                     setValue={setValue}
                   />
@@ -804,7 +811,7 @@ const AllShipmentFees = () => {
                   pl="16px"
                   py="18px"
                   borderRadius="8px"
-                  border="1px solid #79747E"
+                  border="1px solid #CAC4D0"
                 >
                   <Typography fontSize="14px" fontWeight={500} color="#1D192B">
                     United States
@@ -815,20 +822,49 @@ const AllShipmentFees = () => {
                   rows={["0.5 - 4", "Above 4"]}
                   allColored
                 >
-                  <TableValue value={"70"} setValue={() => {}} />
                   <Box
                     display="flex"
                     alignItems="center"
                     justifyContent="space-between"
                   >
-                    <TableValue value={"5.5"} setValue={() => {}} />
-                    <Typography
-                      color="#1C1B1F"
-                      fontSize="16px"
-                      fontWeight={500}
+                    <TableValue
+                      minWidth="160px"
+                      maxWidth="160px"
+                      value={"70"}
+                      setValue={() => {}}
+                    />
+                    <Box
+                      width="100%"
+                      height="46px"
+                      alignSelf={"flex-end"}
+                      bgcolor="#FFECF1"
+                      display="flex"
+                      alignItems="flex-end"
+                      pl="16px"
+                      borderBottom="1px solid #E7E0EC"
+                      pb="8px"
                     >
-                      /lbs
-                    </Typography>
+                      <Typography
+                        fontSize="14px"
+                        fontWeight={500}
+                        color="#060C2C"
+                      >
+                        Flat Rate
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="space-between"
+                  >
+                    <TableValue
+                      minWidth="160px"
+                      maxWidth="160px"
+                      value={"5.5"}
+                      setValue={() => {}}
+                    />
+                    <WeightSymbol />
                   </Box>
                 </PaymentsTable>
               </Grid>
@@ -837,7 +873,7 @@ const AllShipmentFees = () => {
                   pl="16px"
                   py="18px"
                   borderRadius="8px"
-                  border="1px solid #79747E"
+                  border="1px solid #CAC4D0"
                 >
                   <Typography fontSize="14px" fontWeight={500} color="#1D192B">
                     United Kingdom
@@ -848,26 +884,56 @@ const AllShipmentFees = () => {
                   rows={["0.5 - 10", "Above 10"]}
                   allColored
                 >
-                  <TableValue value={"70"} setValue={() => {}} />
                   <Box
                     display="flex"
                     alignItems="center"
                     justifyContent="space-between"
                   >
-                    <TableValue value={"5.5"} setValue={() => {}} />
-                    <Typography
-                      color="#1C1B1F"
-                      fontSize="16px"
-                      fontWeight={500}
+                    <TableValue
+                      minWidth="160px"
+                      maxWidth="160px"
+                      value={"70"}
+                      setValue={() => {}}
+                    />
+                    <Box
+                      width="100%"
+                      height="46px"
+                      alignSelf={"flex-end"}
+                      bgcolor="#FFECF1"
+                      display="flex"
+                      alignItems="flex-end"
+                      pl="16px"
+                      borderBottom="1px solid #E7E0EC"
+                      pb="8px"
                     >
-                      /lbs
-                    </Typography>
+                      <Typography
+                        fontSize="14px"
+                        fontWeight={500}
+                        color="#060C2C"
+                      >
+                        Flat Rate
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="space-between"
+                  >
+                    <TableValue
+                      minWidth="160px"
+                      maxWidth="160px"
+                      value={"5.5"}
+                      setValue={() => {}}
+                    />
+                    <WeightSymbol />
                   </Box>
                 </PaymentsTable>
                 <Box display="flex" borderBottom="1px solid #E7E0EC">
                   <Box
                     height="56px"
-                    width="250px"
+                    minWidth="170px"
+                    maxWidth="170px"
                     display="flex"
                     alignItems="center"
                     pl="16px"
@@ -878,10 +944,34 @@ const AllShipmentFees = () => {
                       fontSize="14px"
                       fontWeight={500}
                     >
-                      Customs and Port Handling
+                      Customs Clearing and Port Handling
                     </Typography>
                   </Box>
-                  <TableValue value="20" setValue={() => {}} />
+                  <TableValue
+                    minWidth="160px"
+                    maxWidth="160px"
+                    value="20"
+                    setValue={() => {}}
+                  />
+                  <Box
+                    width="100%"
+                    height="46px"
+                    alignSelf={"flex-end"}
+                    bgcolor="#FFECF1"
+                    display="flex"
+                    alignItems="flex-end"
+                    pl="16px"
+                    borderBottom="1px solid #E7E0EC"
+                    pb="8px"
+                  >
+                    <Typography
+                      fontSize="14px"
+                      fontWeight={500}
+                      color="#060C2C"
+                    >
+                      Flat Rate
+                    </Typography>
+                  </Box>
                   {/* <Box
                     height="56px"
                     width="100%"
@@ -902,7 +992,7 @@ const AllShipmentFees = () => {
                   pl="16px"
                   py="18px"
                   borderRadius="8px"
-                  border="1px solid #79747E"
+                  border="1px solid #CAC4D0"
                 >
                   <Typography fontSize="14px" fontWeight={500} color="#1D192B">
                     Dubai
@@ -918,14 +1008,13 @@ const AllShipmentFees = () => {
                     alignItems="center"
                     justifyContent="space-between"
                   >
-                    <TableValue value={"5.5"} setValue={() => {}} />
-                    <Typography
-                      color="#1C1B1F"
-                      fontSize="16px"
-                      fontWeight={500}
-                    >
-                      /lbs
-                    </Typography>
+                    <TableValue
+                      minWidth="160px"
+                      maxWidth="160px"
+                      value={"5.5"}
+                      setValue={() => {}}
+                    />
+                    <WeightSymbol />
                   </Box>
                 </PaymentsTable>
               </Grid>
@@ -934,7 +1023,7 @@ const AllShipmentFees = () => {
                   pl="16px"
                   py="18px"
                   borderRadius="8px"
-                  border="1px solid #79747E"
+                  border="1px solid #CAC4D0"
                 >
                   <Typography fontSize="14px" fontWeight={500} color="#1D192B">
                     China
@@ -950,20 +1039,20 @@ const AllShipmentFees = () => {
                     alignItems="center"
                     justifyContent="space-between"
                   >
-                    <TableValue value={"5.5"} setValue={() => {}} />
-                    <Typography
-                      color="#1C1B1F"
-                      fontSize="16px"
-                      fontWeight={500}
-                    >
-                      /lbs
-                    </Typography>
+                    <TableValue
+                      minWidth="160px"
+                      maxWidth="160px"
+                      value={"5.5"}
+                      setValue={() => {}}
+                    />
+                    <WeightSymbol />
                   </Box>
                 </PaymentsTable>
                 <Box display="flex" borderBottom="1px solid #E7E0EC">
                   <Box
                     height="56px"
-                    width="250px"
+                    minWidth="170px"
+                    maxWidth="170px"
                     display="flex"
                     alignItems="center"
                     pl="16px"
@@ -974,10 +1063,34 @@ const AllShipmentFees = () => {
                       fontSize="14px"
                       fontWeight={500}
                     >
-                      Customs and Port Handling
+                      Customs Clearing and Port Handling
                     </Typography>
                   </Box>
-                  <TableValue value="20" setValue={() => {}} />
+                  <TableValue
+                    minWidth="160px"
+                    maxWidth="160px"
+                    value="20"
+                    setValue={() => {}}
+                  />
+                  <Box
+                    width="100%"
+                    height="46px"
+                    alignSelf={"flex-end"}
+                    bgcolor="#FFECF1"
+                    display="flex"
+                    alignItems="flex-end"
+                    pl="16px"
+                    borderBottom="1px solid #E7E0EC"
+                    pb="8px"
+                  >
+                    <Typography
+                      fontSize="14px"
+                      fontWeight={500}
+                      color="#060C2C"
+                    >
+                      Flat Rate
+                    </Typography>
+                  </Box>
                   {/* <Box
                     height="56px"
                     width="100%"

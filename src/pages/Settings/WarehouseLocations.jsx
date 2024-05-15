@@ -20,7 +20,7 @@ const WarehouseLocations = () => {
   const navigate = useNavigate();
   return (
     <Box p="24px 40px">
-      <Box p="24px" borderRadius="20px" bgcolor="#fff" maxWidth="1200px">
+      <Box p="24px" borderRadius="20px" bgcolor="#fff" >
         <IconButton onClick={() => navigate(-1)} sx={{ mb: "10px" }}>
           <ArrowBack />
         </IconButton>

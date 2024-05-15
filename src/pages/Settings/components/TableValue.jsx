@@ -1,9 +1,10 @@
-import { Box, IconButton, TextField, Typography } from "@mui/material";
+import { Box, IconButton, TextField, Typography, Tooltip } from "@mui/material";
 import React, { useState } from "react";
 import EditValue from "../../../assets/icons/EditValue";
 import CheckWhiteIcon from "../../../assets/icons/CheckWhiteIcon";
 import { CheckmarkIcon } from "react-hot-toast";
 import CheckIcon from "../../../assets/icons/CheckIcon";
+import TickCircle from "../../../assets/icons/TickCircle";
 
 const TableValue = ({value, setValue, ...props}) => {
   const [edit, setEdit] = useState(false);
@@ -34,9 +35,9 @@ const TableValue = ({value, setValue, ...props}) => {
       display="flex"
       alignItems="center"
       justifyContent="space-between"
-          sx={{ cursor: "pointer", transition: 'all .4s ease' }}
-          {...props}
-        //   zIndex={2}
+      sx={{ cursor: "pointer", transition: "all .4s ease" }}
+      {...props}
+      //   zIndex={2}
     >
       <Box>
         {edit ? (
@@ -46,8 +47,8 @@ const TableValue = ({value, setValue, ...props}) => {
         ) : null}
         {edit ? (
           <TextField
-                      variant="outlined"
-                      autoFocus={edit}
+            variant="standard"
+            autoFocus={edit}
             sx={{
               p: 0,
               m: 0,
@@ -57,10 +58,12 @@ const TableValue = ({value, setValue, ...props}) => {
                 m: 0,
                 border: "none",
               },
-              "& .MuiOutlinedInput-root": {
+              "& .MuiTextfield-root": {
                 border: "none", // Remove border
               },
             }}
+            InputProps={{ disableUnderline: true }}
+            fullWidth
             value={value}
             onChange={(e) => setValue(e.target.value)}
           />
@@ -77,17 +80,18 @@ const TableValue = ({value, setValue, ...props}) => {
         )}
       </Box>
       {edit ? (
-        <Box onClick={() => setEdit(false)} sx={{ cursor: "pointer" }}>
-          <CheckIcon />
-        </Box>
-      ) : (
-        hover ? <Box
-          onClick={() => setEdit(true)}
-          sx={{ cursor: "pointer" }}
-        >
-          <EditValue />
-        </Box> : null
-      )}
+        <Tooltip title="Mark as done">
+          <Box onClick={() => setEdit(false)} sx={{ cursor: "pointer" }}>
+            <TickCircle color="#6750A4" />
+          </Box>
+        </Tooltip>
+      ) : hover ? (
+        <Tooltip title="Edit">
+          <Box onClick={() => setEdit(true)} sx={{ cursor: "pointer" }}>
+            <EditValue />
+          </Box>
+        </Tooltip>
+      ) : null}
     </Box>
   );
 };
