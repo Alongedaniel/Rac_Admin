@@ -39,14 +39,20 @@ const AllShipmentFees = () => {
     ];
   return (
     <Box p="24px 40px">
-      <Box p="24px" borderRadius="20px" bgcolor="#fff">
+      <Box p="24px" borderRadius="20px" bgcolor="#fff" maxWidth='1300px'>
         <IconButton onClick={() => navigate(-1)} sx={{ mb: "10px" }}>
           <ArrowBack />
         </IconButton>
         <Typography fontSize="24px" color="#1C1B1F" mb="24px">
           All Shipment Fees
         </Typography>
-        <Box p="24px" borderRadius="20px" border="1px solid #CAC4D0" mb="24px">
+        <Box
+          p="24px"
+          borderRadius="20px"
+          borderTop="1px solid #CAC4D0"
+          borderLeft="1px solid #CAC4D0"
+          mb="24px"
+        >
           <Typography fontSize="22px" color="#1C1B1F" mb="16px">
             General Charges
           </Typography>
@@ -60,7 +66,8 @@ const AllShipmentFees = () => {
                   pl="16px"
                   py="18px"
                   borderRadius="8px"
-                  border="1px solid #CAC4D0"
+                  borderTop="1px solid #CAC4D0"
+                  borderLeft="1px solid #CAC4D0"
                 >
                   <Typography fontSize="14px" fontWeight={500} color="#1D192B">
                     Storage Charge
@@ -95,7 +102,8 @@ const AllShipmentFees = () => {
               </Grid>
               <Grid item xs={6}>
                 <Box
-                  border="1px solid #CAC4D0"
+                  borderTop="1px solid #CAC4D0"
+                  borderLeft="1px solid #CAC4D0"
                   py="18px"
                   pl="16px"
                   borderRadius="8px"
@@ -135,7 +143,8 @@ const AllShipmentFees = () => {
             <Grid container wrap="nowrap" gap="16px" mt="24px">
               <Grid item xs={6} pr="16px" borderRight="1px solid #CAC4D0">
                 <Box
-                  border="1px solid #CAC4D0"
+                  borderTop="1px solid #CAC4D0"
+                  borderLeft="1px solid #CAC4D0"
                   py="18px"
                   pl="16px"
                   borderRadius="8px"
@@ -173,7 +182,8 @@ const AllShipmentFees = () => {
               </Grid>
               <Grid item xs={6}>
                 <Box
-                  border="1px solid #CAC4D0"
+                  borderTop="1px solid #CAC4D0"
+                  borderLeft="1px solid #CAC4D0"
                   py="18px"
                   pl="16px"
                   borderRadius="8px"
@@ -246,7 +256,13 @@ const AllShipmentFees = () => {
             </Button>
           </Box>
         </Box>
-        <Box p="24px" borderRadius="20px" border="1px solid #CAC4D0" mb="24px">
+        <Box
+          p="24px"
+          borderRadius="20px"
+          borderTop="1px solid #CAC4D0"
+          borderLeft="1px solid #CAC4D0"
+          mb="24px"
+        >
           <Typography fontSize="22px" color="#1C1B1F" mb="16px">
             Export Shipping rates
           </Typography>
@@ -254,45 +270,53 @@ const AllShipmentFees = () => {
             These shipping fees includes Customs and port handling
           </Typography>
           <Box pt="24px" borderTop="1px solid #CAC4D0">
-            <PaymentsTable columns={columns} rows={rows} tooltip>
+            <PaymentsTable flex={1} columns={columns} rows={rows} tooltip>
               <Box display="flex">
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
@@ -300,83 +324,49 @@ const AllShipmentFees = () => {
               <Box display="flex">
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-              </Box>
-              <Box display="flex">
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
@@ -384,83 +374,49 @@ const AllShipmentFees = () => {
               <Box display="flex">
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-              </Box>
-              <Box display="flex">
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
@@ -468,83 +424,49 @@ const AllShipmentFees = () => {
               <Box display="flex">
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-              </Box>
-              <Box display="flex">
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
@@ -552,83 +474,49 @@ const AllShipmentFees = () => {
               <Box display="flex">
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-              </Box>
-              <Box display="flex">
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
@@ -636,83 +524,49 @@ const AllShipmentFees = () => {
               <Box display="flex">
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-              </Box>
-              <Box display="flex">
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
-                  setValue={setShipmentValue}
-                  width="127px"
-                />
-                <TableValue
-                  value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
@@ -720,41 +574,299 @@ const AllShipmentFees = () => {
               <Box display="flex">
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
                 <TableValue
                   value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+              </Box>
+              <Box display="flex">
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+              </Box>
+              <Box display="flex">
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+              </Box>
+              <Box display="flex">
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+              </Box>
+              <Box display="flex">
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+              </Box>
+              <Box display="flex">
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
+                  setValue={setShipmentValue}
+                  width="127px"
+                />
+                <TableValue
+                  value={shipmentValue}
+                  flex={1}
                   setValue={setShipmentValue}
                   width="127px"
                 />
@@ -796,7 +908,13 @@ const AllShipmentFees = () => {
             </Button>
           </Box>
         </Box>
-        <Box p="24px" borderRadius="20px" border="1px solid #CAC4D0" mb="24px">
+        <Box
+          p="24px"
+          borderRadius="20px"
+          borderTop="1px solid #CAC4D0"
+          borderLeft="1px solid #CAC4D0"
+          mb="24px"
+        >
           <Typography fontSize="22px" color="#1C1B1F" mb="16px">
             Import Shipping rates
           </Typography>
@@ -811,7 +929,8 @@ const AllShipmentFees = () => {
                   pl="16px"
                   py="18px"
                   borderRadius="8px"
-                  border="1px solid #CAC4D0"
+                  borderTop="1px solid #CAC4D0"
+                  borderLeft="1px solid #CAC4D0"
                 >
                   <Typography fontSize="14px" fontWeight={500} color="#1D192B">
                     United States
@@ -873,7 +992,8 @@ const AllShipmentFees = () => {
                   pl="16px"
                   py="18px"
                   borderRadius="8px"
-                  border="1px solid #CAC4D0"
+                  borderTop="1px solid #CAC4D0"
+                  borderLeft="1px solid #CAC4D0"
                 >
                   <Typography fontSize="14px" fontWeight={500} color="#1D192B">
                     United Kingdom
@@ -992,7 +1112,8 @@ const AllShipmentFees = () => {
                   pl="16px"
                   py="18px"
                   borderRadius="8px"
-                  border="1px solid #CAC4D0"
+                  borderTop="1px solid #CAC4D0"
+                  borderLeft="1px solid #CAC4D0"
                 >
                   <Typography fontSize="14px" fontWeight={500} color="#1D192B">
                     Dubai
@@ -1023,7 +1144,8 @@ const AllShipmentFees = () => {
                   pl="16px"
                   py="18px"
                   borderRadius="8px"
-                  border="1px solid #CAC4D0"
+                  borderTop="1px solid #CAC4D0"
+                  borderLeft="1px solid #CAC4D0"
                 >
                   <Typography fontSize="14px" fontWeight={500} color="#1D192B">
                     China

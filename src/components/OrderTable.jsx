@@ -54,7 +54,6 @@ const OrderTable = ({ rows, columns, pageSize = 10, height = "75vh" }) => {
       })}
       sx={{
         zIndex: 1,
-
         height: 'fit-content',
         maxHeight: '75vh',
         bgcolor: "#fff",

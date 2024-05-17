@@ -45,6 +45,7 @@ import PaymentMethods from "./pages/Settings/PaymentMethods";
 import CustomerSupport from "./pages/Settings/CustomerSupport";
 import WarehouseLocations from "./pages/Settings/WarehouseLocations";
 import ShippingMethods from "./pages/Settings/ShippingMethods";
+import Home from "./pages/Home/Home";
 
 function App() {
   const location = useLocation();
@@ -85,9 +86,9 @@ function App() {
                 <MainLayout
                   showFullBar={showFullBar}
                   setShowFullBar={setShowFullBar}
-                  title="Dashboard"
+                  title="Home"
                 >
-                  <Dashome />
+                  <Home />
                 </MainLayout>
               }
               // element={admin !== null ? <Layout /> : <Navigate to="/" />}

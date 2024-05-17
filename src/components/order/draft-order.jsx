@@ -44,7 +44,7 @@ function DraftOrder() {
    };
    const navigate = useNavigate();
    const columns = [
-     {
+     {flex: 1,
        field: "id",
        headerName: <HeaderName header="S/N" />,
        width: 105,
@@ -67,12 +67,12 @@ function DraftOrder() {
          </Typography>
        ),
      },
-     {
+     {flex: 1,
        field: "service",
        headerName: <HeaderName header="Service" />,
        width: 120,
      },
-     {
+     {flex: 1,
        field: "customer",
        headerName: <HeaderName header="Customer" />,
        // type: "number",
@@ -89,7 +89,7 @@ function DraftOrder() {
          </Typography>
        ),
      },
-     {
+     {flex: 1,
        field: "location",
        headerName: <HeaderName header="Shipment Location" />,
        // type: "number",
@@ -116,7 +116,7 @@ function DraftOrder() {
          </Tooltip>
        ),
      },
-     {
+     {flex: 1,
        field: "date",
        headerName: <HeaderName header="Saved Date" />,
        // type: "number",
@@ -171,7 +171,7 @@ function DraftOrder() {
      //   // type: "number",
      //   width: 120,
      // },
-     {
+     {flex: 1,
        field: "staff",
        headerName: <HeaderName header="Staff In Charge" />,
        // type: "number",
@@ -198,7 +198,7 @@ function DraftOrder() {
      //     </Typography>
      //   ),
      // },
-     {
+     {flex: 1,
        field: "actions",
        headerName: <HeaderName header="Actions" />,
        // type: "number",

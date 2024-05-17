@@ -13,7 +13,7 @@ import UserTag from "../../assets/icons/UserTag";
 import MoreIcon from "../../assets/icons/MoreIcon";
 import FilterIcons from "../../assets/icons/FilterIcons";
 
-function OrderRequestComp() {
+function OrderRequestComp({home=false}) {
   const { data, isLoading, isSuccess, error } = useOrderRequestQuery();
   const orderRequest = data?.data;
   console.log(data)
@@ -72,6 +72,7 @@ function OrderRequestComp() {
     const navigate = useNavigate();
     const columns = [
       {
+        flex: 1,
         field: "id",
         headerName: <HeaderName header="Request ID" />,
         width: 105,
@@ -95,11 +96,13 @@ function OrderRequestComp() {
         ),
       },
       {
+        flex: 1,
         field: "service",
         headerName: <HeaderName header="Service" />,
         width: 120,
       },
       {
+        flex: 1,
         field: "customer",
         headerName: <HeaderName header="Customer" />,
         // type: "number",
@@ -117,6 +120,7 @@ function OrderRequestComp() {
         ),
       },
       {
+        flex: 1,
         field: "location",
         headerName: <HeaderName header="Shipment Location" />,
         // type: "number",
@@ -144,6 +148,7 @@ function OrderRequestComp() {
         ),
       },
       {
+        flex: 1,
         field: "status",
         headerName: <HeaderName header="Status" />,
         // type: "number",
@@ -162,12 +167,14 @@ function OrderRequestComp() {
         ),
       },
       {
+        flex: 1,
         field: "date",
         headerName: <HeaderName header="Request Date" />,
         // type: "number",
         width: 150,
       },
       // {
+        // flex: 1,
       //   field: "cost",
       //   headerName: <HeaderName header="Total Cost" />,
       //   // type: "number",
@@ -211,18 +218,21 @@ function OrderRequestComp() {
       //   ),
       // },
       // {
+        // flex: 1,
       //   field: "type",
       //   headerName: <HeaderName header="Type" />,
       //   // type: "number",
       //   width: 120,
       // },
       {
+        flex: 1,
         field: "staff",
         headerName: <HeaderName header="Staff In Charge" />,
         // type: "number",
         width: 170,
       },
       // {
+        // flex: 1,
       //   field: "packaging",
       //   headerName: <HeaderName header="Packaging" />,
       //   // type: "number",
@@ -244,6 +254,7 @@ function OrderRequestComp() {
       //   ),
       // },
       {
+        flex: 1,
         field: "actions",
         headerName: <HeaderName header="Actions" />,
         // type: "number",
@@ -291,6 +302,7 @@ function OrderRequestComp() {
         ),
       },
       // {
+        // flex: 1,
       //   field: "fullName",
       //   headerName: "Full name",
       //   description: "This column has a value getter and is not sortable.",
@@ -736,7 +748,7 @@ function OrderRequestComp() {
       ) : (
         <Box>
           <Box
-            display="flex"
+            display={home ? 'none' : "flex"}
             alignItems="center"
             gap="10px"
             sx={{ justifyContent: "space-between" }}

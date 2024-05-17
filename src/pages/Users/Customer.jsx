@@ -1,4 +1,4 @@
-import { Box, Button, Menu, MenuItem, Paper, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Menu, MenuItem, Paper, TextField, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material';
 import React, { useState } from "react";
 import NewCustomerIcon from '../../assets/icons/NewCustomerIcon';
 import { useNavigate } from 'react-router-dom';
@@ -19,6 +19,8 @@ import OrderTable from '../../components/OrderTable';
 const Customer = () => {
   const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = useState(null);
+    const theme = useTheme();
+    const desktop = useMediaQuery(theme.breakpoints.up("xl"));
   const open = Boolean(anchorEl);
   const handleOpenMenu = (e) => {
     setAnchorEl(e.currentTarget);
@@ -241,7 +243,7 @@ const Customer = () => {
       //     </Box>
       //   ),
       // },
-      {
+      {flex: desktop ? 1 : undefined,
         field: "id",
         headerName: <HeaderName header="User Avatar & ID" />,
         width: 210,
@@ -285,12 +287,12 @@ const Customer = () => {
           </Box>
         ),
       },
-      {
+      {flex: desktop ? 1 : undefined,
         field: "name",
         headerName: <HeaderName header="Name" />,
         width: 170,
       },
-      {
+      {flex: desktop ? 1 : undefined,
         field: "email",
         headerName: <HeaderName header="Email" />,
         width: 230,
@@ -315,7 +317,7 @@ const Customer = () => {
       //     </Typography>
       //   ),
       // },
-      {
+      {flex: desktop ? 1 : undefined,
         field: "status",
         headerName: <HeaderName header="Status" />,
         // type: "number",
@@ -337,18 +339,18 @@ const Customer = () => {
           </Typography>
         ),
       },
-      {
+      {flex: desktop ? 1 : undefined,
         field: "location",
         sortable: false,
         headerName: <HeaderName header="Location" />,
         width: 150,
       },
-      {
+      {flex: desktop ? 1 : undefined,
         field: "company",
         headerName: <HeaderName header="Company/Business" />,
         width: 170,
       },
-      {
+      {flex: desktop ? 1 : undefined,
         field: "admin",
         headerName: <HeaderName header="Assigned Admin" />,
         // type: "number",
@@ -365,7 +367,7 @@ const Customer = () => {
           </Typography>
         ),
       },
-      {
+      {flex: desktop ? 1 : undefined,
         field: "orders",
         headerName: <HeaderName header="Orders" />,
         width: 120,
@@ -398,7 +400,7 @@ const Customer = () => {
       //   ),
       // },
 
-      {
+      {flex: desktop ? 1 : undefined,
         field: "date",
         headerName: <HeaderName header="Registered On" />,
         // type: "number",
@@ -484,7 +486,7 @@ const Customer = () => {
       //       </Typography>
       //     ),
       //   },
-      {
+      {flex: desktop ? 1 : undefined,
         field: "actions",
         headerName: <HeaderName header="Actions" />,
         // type: "number",
