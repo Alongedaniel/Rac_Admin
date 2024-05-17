@@ -7,7 +7,7 @@ const Settings = () => {
     const navigate = useNavigate()
   return (
     <Box p="32px 40px">
-      <Box p="24px 30px" borderRadius="20px" bgcolor="#fff" maxWidth={'1700px'}>
+      <Box p="24px 30px" borderRadius="20px" bgcolor="#fff" maxWidth={'1300px'}>
         <Typography fontSize="24px" color="#1C1B1F" mb="24px">
           My Account
         </Typography>
