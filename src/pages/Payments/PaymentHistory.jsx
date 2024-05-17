@@ -60,7 +60,7 @@ const PaymentHistory = () => {
      let procId = [];
      const navigate = useNavigate();
     const columns = [
-      {
+      {flex: 1,
         field: "id",
         headerName: <HeaderName header="Invoice ID" />,
         width: 110,
@@ -82,7 +82,7 @@ const PaymentHistory = () => {
           </Typography>
         ),
       },
-      {
+      {flex: 1,
         field: "referenceId",
         headerName: <HeaderName header="Reference ID" />,
         width: 150,
@@ -93,7 +93,7 @@ const PaymentHistory = () => {
           </Typography>
         ),
       },
-      {
+      {flex: 1,
         field: "orderId",
         headerName: <HeaderName header="Req/Order ID" />,
         width: 160,
@@ -118,7 +118,7 @@ const PaymentHistory = () => {
       //     headerName: <HeaderName header="Shipment ID" />,
       //     width: 115,
       //   },
-      {
+      {flex: 1,
         field: "service",
         headerName: <HeaderName header="Service" />,
         // type: "number",
@@ -129,7 +129,7 @@ const PaymentHistory = () => {
           </Typography>
         ),
       },
-      {
+      {flex: 1,
         field: "paymentFor",
         headerName: <HeaderName header="Payment For" />,
         // type: "number",
@@ -141,7 +141,7 @@ const PaymentHistory = () => {
           </Typography>
         ),
       },
-      {
+      {flex: 1,
         field: "cost",
         headerName: <HeaderName header="Total Cost" />,
         // type: "number",
@@ -196,19 +196,19 @@ const PaymentHistory = () => {
           </Typography>
         ),
       },
-      {
+      {flex: 1,
         field: "createdDate",
         headerName: <HeaderName header="Created On" />,
         // type: "number",
         width: 150,
       },
-      {
+      {flex: 1,
         field: "paidDate",
         headerName: <HeaderName header="Paid On" />,
         // type: "number",
         width: 150,
       },
-      {
+      {flex: 1,
         field: "paymentMethod",
         headerName: <HeaderName header="Payment Method" />,
         // type: "number",
@@ -248,7 +248,7 @@ const PaymentHistory = () => {
       //       </Typography>
       //     ),
       //   },
-      {
+      {flex: 1,
         field: "actions",
         headerName: <HeaderName header="Actions" />,
         // type: "number",

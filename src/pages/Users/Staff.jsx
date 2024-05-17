@@ -1,4 +1,4 @@
-import { Box, Button, Menu, MenuItem, Paper, TextField, Typography } from '@mui/material';
+import { Box, Button, Menu, MenuItem, Paper, TextField, Typography, useMediaQuery, useTheme } from '@mui/material';
 import React, { useState } from 'react'
 import NewCustomerIcon from '../../assets/icons/NewCustomerIcon';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +12,8 @@ import MoreIcon from '../../assets/icons/MoreIcon';
 const Staff = () => {
   const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = useState(null);
+    const theme = useTheme();
+    const desktop = useMediaQuery(theme.breakpoints.up("xl"));
   const open = Boolean(anchorEl);
   const handleOpenMenu = (e) => {
     setAnchorEl(e.currentTarget);
@@ -223,7 +225,7 @@ const Staff = () => {
        //     </Box>
        //   ),
        // },
-       {
+       {flex: desktop ? 1 : undefined,
          field: "id",
          headerName: <HeaderName header="User Avatar & ID" />,
          width: 210,
@@ -268,12 +270,12 @@ const Staff = () => {
            </Box>
          ),
        },
-       {
+       {flex: desktop ? 1 : undefined,
          field: "name",
          headerName: <HeaderName header="Name" />,
          width: 170,
        },
-       {
+       {flex: desktop ? 1 : undefined,
          field: "email",
          headerName: <HeaderName header="Email" />,
          width: 230,
@@ -298,7 +300,7 @@ const Staff = () => {
        //     </Typography>
        //   ),
        // },
-       {
+       {flex: desktop ? 1 : undefined,
          field: "status",
          headerName: <HeaderName header="Status" />,
          // type: "number",
@@ -322,7 +324,7 @@ const Staff = () => {
            </Typography>
          ),
        },
-       {
+       {flex: desktop ? 1 : undefined,
          field: "location",
          sortable: false,
          headerName: <HeaderName header="Location" />,
@@ -356,7 +358,7 @@ const Staff = () => {
        //   ),
        // },
 
-       {
+       {flex: desktop ? 1 : undefined,
          field: "date",
          headerName: <HeaderName header="Registered On" />,
          // type: "number",
@@ -442,7 +444,7 @@ const Staff = () => {
        //       </Typography>
        //     ),
        //   },
-       {
+       {flex: desktop ? 1 : undefined,
          field: "actions",
          headerName: <HeaderName header="Actions" />,
          // type: "number",

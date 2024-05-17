@@ -1,4 +1,4 @@
-import { Box, Breadcrumbs,  } from '@mui/material'
+import { Box, Breadcrumbs, Typography,  } from '@mui/material'
 import React from 'react'
 import HomeIcon from '../assets/icons/HomeIcon';
 import ArrowLeftIcon from '../assets/icons/ArrowLeftIcon';
@@ -12,10 +12,11 @@ const BreadcrumbNavigation = () => {
   console.log(segments)
   return (
     <Box>
-      <Breadcrumbs separator={<ArrowLeftIcon />}>
-        <Box onClick={() => navigate('/')}>
+      <Breadcrumbs separator={url === '/' ? null : <ArrowLeftIcon />}>
+        <Box onClick={() => navigate("/")}>
           <HomeIcon width="19px" height="19px" />
         </Box>
+        {url === '/' ? <Typography sx={{ fontSize: "14px", color: "#625B71" }}>Home</Typography> : null}
         {segments.map((link, i) => {
           const routeTo = `/${segments.slice(0, i + 1).join("/")}`;
           return (
@@ -28,9 +29,9 @@ const BreadcrumbNavigation = () => {
                 "&:hover": {
                   backgroundColor: "#E6E1E514",
                 },
-                pointerEvents: i === segments.length - 1 ? 'none' : 'all'
+                pointerEvents: i === segments.length - 1 ? "none" : "all",
               }}
-              to={i === segments.length - 1 ? '' : routeTo}
+              to={i === segments.length - 1 ? "" : routeTo}
             >
               {link}
               {/* {id ? `=${id}` : null} */}

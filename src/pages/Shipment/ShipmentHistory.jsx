@@ -1,4 +1,4 @@
-import { Box, Button, Menu, MenuItem, Paper, TextField, Tooltip, Typography } from '@mui/material'
+import { Box, Button, Menu, MenuItem, Paper, TextField, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material'
 import React, { useState } from 'react'
 import ActionButton from '../../components/ActionButton';
 import SearchIcon from '../../assets/icons/SearchIcon';
@@ -22,7 +22,9 @@ import UserModals from '../Users/components/UserModals';
 const ShipmentHistory = () => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [service, setService] = useState('');
-    const [packageDetails, setPackageDetails] = useState(false);
+  const [packageDetails, setPackageDetails] = useState(false);
+    const theme = useTheme();
+    const desktop = useMediaQuery(theme.breakpoints.up("xl"));
     const open = Boolean(anchorEl);
     const handleOpenMenu = (e) => {
       setAnchorEl(e.currentTarget);
@@ -84,18 +86,19 @@ const ShipmentHistory = () => {
     const columns = [
       {
         field: "image",
+        flex: desktop ? 1 : undefined,
         headerName: <HeaderName header="Package(s) Image" />,
-        width: 150,
+        width: 170,
         sortable: false,
         renderCell: (params) => (
           <img
             onClick={() => {
-              setPackageDetails(true)
+              setPackageDetails(true);
               setService(params.row.service);
             }}
             src={params.row.image}
             alt=""
-            style={{ width: "110px", height: "50px", cursor: 'pointer' }}
+            style={{ width: "110px", height: "50px", cursor: "pointer" }}
           />
         ),
       },
@@ -103,6 +106,7 @@ const ShipmentHistory = () => {
         field: "id",
         headerName: <HeaderName header="Shipment ID" />,
         width: 170,
+        flex: desktop ? 1 : undefined,
         renderCell: (params) => (
           <Typography
             onClick={() =>
@@ -121,7 +125,7 @@ const ShipmentHistory = () => {
           </Typography>
         ),
       },
-      {
+      {flex: desktop ? 1 : undefined,
         field: "customer",
         headerName: <HeaderName header="Customer" />,
         // type: "number",
@@ -138,7 +142,7 @@ const ShipmentHistory = () => {
           </Typography>
         ),
       },
-      {
+      {flex: desktop ? 1 : undefined,
         field: "service",
         headerName: <HeaderName header="Service" />,
         width: 150,
@@ -148,19 +152,19 @@ const ShipmentHistory = () => {
       //     headerName: <HeaderName header="Shipment ID" />,
       //     width: 115,
       //   },
-      {
+      {flex: desktop ? 1 : undefined,
         field: "shippingMethod",
         sortable: false,
         headerName: <HeaderName header="Shipping Method" />,
         width: 150,
       },
-      {
+      {flex: desktop ? 1 : undefined,
         field: "shipmentMethod",
         sortable: false,
         headerName: <HeaderName header="Shipment Method" />,
         width: 150,
       },
-      {
+      {flex: desktop ? 1 : undefined,
         field: "status",
         headerName: <HeaderName header="Status" />,
         // type: "number",
@@ -182,14 +186,14 @@ const ShipmentHistory = () => {
           </Typography>
         ),
       },
-      {
+      {flex: desktop ? 1 : undefined,
         field: "origin",
         sortable: false,
         headerName: <HeaderName header="Origin" />,
         width: 150,
       },
 
-      {
+      {flex: desktop ? 1 : undefined,
         field: "destination",
         headerName: <HeaderName header="Destination" />,
         // type: "number",
@@ -217,13 +221,13 @@ const ShipmentHistory = () => {
         ),
       },
 
-      {
+      {flex: desktop ? 1 : undefined,
         field: "date",
         headerName: <HeaderName header="Shipment Date" />,
         // type: "number",
         width: 170,
       },
-      {
+      {flex: desktop ? 1 : undefined,
         field: "cost",
         headerName: <HeaderName header="Total Cost" />,
         // type: "number",
@@ -269,7 +273,7 @@ const ShipmentHistory = () => {
           </Typography>
         ),
       },
-      {
+      {flex: desktop ? 1 : undefined,
         field: "packaging",
         headerName: <HeaderName header="Packaging" />,
         // type: "number",
@@ -291,20 +295,20 @@ const ShipmentHistory = () => {
           </Typography>
         ),
       },
-      {
+      {flex: desktop ? 1 : undefined,
         field: "staff",
         headerName: <HeaderName header="Staff In Charge" />,
         // type: "number",
         width: 170,
       },
-      {
+      {flex: desktop ? 1 : undefined,
         field: "deliveryCompany",
         headerName: <HeaderName header="Delivery Company" />,
         // type: "number",
         width: 150,
         sortable: false,
       },
-      {
+      {flex: desktop ? 1 : undefined,
         field: "dispatchCompany",
         headerName: <HeaderName header="Dispatch Company" />,
         // type: "number",
@@ -312,7 +316,7 @@ const ShipmentHistory = () => {
         sortable: false,
       },
 
-      {
+      {flex: desktop ? 1 : undefined,
         field: "actions",
         headerName: <HeaderName header="Actions" />,
         // type: "number",

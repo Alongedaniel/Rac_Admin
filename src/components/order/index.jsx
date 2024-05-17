@@ -4,7 +4,7 @@ import { BsThreeDots } from "react-icons/bs";
 // import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 // import { Link } from "react-router-dom";
-import { Box, Button, Menu, MenuItem, Paper, TextField, Tooltip, Typography } from "@mui/material";
+import { Box, Button, Menu, MenuItem, Paper, TextField, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material";
 import NewOrderIcon from "../../assets/icons/NewOrderIcon";
 import ActionButton from "../ActionButton";
 import BulkIcon from "../../assets/icons/BulkIcon";
@@ -22,7 +22,9 @@ import UserTag from "../../assets/icons/UserTag";
 
 function OrderHome() {
   const confirmedOrders = ['Confirmed', 'Delivered'];
-    const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const theme = useTheme()
+  const desktop = useMediaQuery(theme.breakpoints.up('xl'))
     const open = Boolean(anchorEl);
     const handleOpenMenu = (e) => {
       setAnchorEl(e.currentTarget);
@@ -66,7 +68,7 @@ function OrderHome() {
     };
     const navigate = useNavigate();
     const columns = [
-      {
+      {flex: desktop ? 1 : undefined,
         field: "id",
         headerName: <HeaderName header="Order ID" />,
         width: 90,
@@ -89,17 +91,17 @@ function OrderHome() {
           </Typography>
         ),
       },
-      {
+      {flex: desktop ? 1 : undefined,
         field: "service",
         headerName: <HeaderName header="Service" />,
         width: 120,
       },
-      {
+      {flex: desktop ? 1 : undefined,
         field: "shipId",
         headerName: <HeaderName header="Shipment ID" />,
         width: 115,
       },
-      {
+      {flex: desktop ? 1 : undefined,
         field: "customer",
         headerName: <HeaderName header="Customer" />,
         // type: "number",
@@ -116,7 +118,7 @@ function OrderHome() {
           </Typography>
         ),
       },
-      {
+      {flex: desktop ? 1 : undefined,
         field: "location",
         headerName: <HeaderName header="Shipment Location" />,
         // type: "number",
@@ -143,7 +145,7 @@ function OrderHome() {
           </Tooltip>
         ),
       },
-      {
+      {flex: desktop ? 1 : undefined,
         field: "status",
         headerName: <HeaderName header="Status" />,
         // type: "number",
@@ -155,13 +157,13 @@ function OrderHome() {
           </Typography>
         ),
       },
-      {
+      {flex: desktop ? 1 : undefined,
         field: "date",
         headerName: <HeaderName header="Processed Date" />,
         // type: "number",
         width: 150,
       },
-      {
+      {flex: desktop ? 1 : undefined,
         field: "cost",
         headerName: <HeaderName header="Total Cost" />,
         // type: "number",
@@ -204,19 +206,19 @@ function OrderHome() {
           </Typography>
         ),
       },
-      {
+      {flex: desktop ? 1 : undefined,
         field: "type",
         headerName: <HeaderName header="Type" />,
         // type: "number",
         width: 120,
       },
-      {
+      {flex: desktop ? 1 : undefined,
         field: "staff",
         headerName: <HeaderName header="Staff In Charge" />,
         // type: "number",
         width: 150,
       },
-      {
+      {flex: desktop ? 1 : undefined,
         field: "packaging",
         headerName: <HeaderName header="Packaging" />,
         // type: "number",
@@ -237,7 +239,7 @@ function OrderHome() {
           </Typography>
         ),
       },
-      {
+      {flex: desktop ? 1 : undefined,
         field: "actions",
         headerName: <HeaderName header="Actions" />,
         // type: "number",

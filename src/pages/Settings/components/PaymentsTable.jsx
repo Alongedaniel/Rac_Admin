@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material'
 import React from 'react'
 import Information from '../../../assets/icons/Information';
 
-const PaymentsTable = ({columns=[], rows=[], allColored=false, children, tooltip=false}) => {
+const PaymentsTable = ({columns=[], rows=[], allColored=false, children, tooltip=false, flex=undefined}) => {
 
   return (
     <Box width="100%" overflow="auto">
@@ -12,6 +12,7 @@ const PaymentsTable = ({columns=[], rows=[], allColored=false, children, tooltip
             key={i}
             py="18px"
             pl="16px"
+            flex={flex}
             // width={
             //   columns.length === 2 && i === 1
             //     ? "100%" : columns.length > 1 && i === 0 ? '195px'

@@ -34,6 +34,7 @@ const WeightSymbol = () => {
         sx={{
           width: "92px",
         }}
+        disableScrollLock
       >
         <MenuItem
           onClick={() => {

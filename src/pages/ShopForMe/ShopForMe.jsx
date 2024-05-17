@@ -76,7 +76,7 @@ const ShopForMe = () => {
     let procId = [];
   const navigate = useNavigate();
   const columns = [
-    {
+    {flex: 1,
       field: "image",
       headerName: <HeaderName header="Package(s) Image" />,
       width: 150,
@@ -192,7 +192,7 @@ const ShopForMe = () => {
         </Box>
       ),
     },
-    {
+    {flex: 1,
       field: "procid",
       headerName: <HeaderName header="Procurement ID" />,
       width: 160,
@@ -245,7 +245,7 @@ const ShopForMe = () => {
         </Box>
       ),
     },
-    {
+    {flex: 1,
       field: "id",
       headerName: <HeaderName header="Order ID" />,
       width: 110,
@@ -278,7 +278,7 @@ const ShopForMe = () => {
     //     headerName: <HeaderName header="Shipment ID" />,
     //     width: 115,
     //   },
-    {
+    {flex: 1,
       field: "customer",
       headerName: <HeaderName header="Customer" />,
       // type: "number",
@@ -295,7 +295,7 @@ const ShopForMe = () => {
         </Typography>
       ),
     },
-    {
+    {flex: 1,
       field: "status",
       headerName: <HeaderName header="Status" />,
       // type: "number",
@@ -307,13 +307,13 @@ const ShopForMe = () => {
         </Typography>
       ),
     },
-    {
+    {flex: 1,
       field: "origin",
       sortable: false,
       headerName: <HeaderName header="Origin" />,
       width: 150,
     },
-    {
+    {flex: 1,
       field: "destination",
       headerName: <HeaderName header="Destination" />,
       // type: "number",
@@ -341,13 +341,13 @@ const ShopForMe = () => {
       ),
     },
 
-    {
+    {flex: 1,
       field: "date",
       headerName: <HeaderName header="Created On" />,
       // type: "number",
       width: 150,
     },
-    {
+    {flex: 1,
       field: "cost",
       headerName: <HeaderName header="Total Cost" />,
       // type: "number",
@@ -425,7 +425,7 @@ const ShopForMe = () => {
     //       </Typography>
     //     ),
     //   },
-    {
+    {flex: 1,
       field: "actions",
       headerName: <HeaderName header="Actions" />,
       // type: "number",
