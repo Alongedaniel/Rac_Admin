@@ -32,7 +32,8 @@ const WarehouseLocations = () => {
             pl="16px"
             py="18px"
             borderRadius="8px"
-            border="1px solid #79747E"
+            borderTop="1px solid #CAC4D0"
+                  borderLeft="1px solid #CAC4D0"
           >
             <Typography fontSize="14px" fontWeight={500} color="#1D192B">
               Nigeria Warehouse (Lagos)
@@ -52,7 +53,8 @@ const WarehouseLocations = () => {
                 pl="16px"
                 py="18px"
                 borderRadius="8px"
-                border="1px solid #79747E"
+                borderTop="1px solid #CAC4D0"
+                  borderLeft="1px solid #CAC4D0"
               >
                 <Typography fontSize="14px" fontWeight={500} color="#1D192B">
                   US Warehouse (Richmond Texas)
@@ -72,7 +74,8 @@ const WarehouseLocations = () => {
                 pl="16px"
                 py="18px"
                 borderRadius="8px"
-                border="1px solid #79747E"
+                borderTop="1px solid #CAC4D0"
+                  borderLeft="1px solid #CAC4D0"
               >
                 <Typography fontSize="14px" fontWeight={500} color="#1D192B">
                   UK Warehouse (London)
@@ -94,7 +97,8 @@ const WarehouseLocations = () => {
                 pl="16px"
                 py="18px"
                 borderRadius="8px"
-                border="1px solid #79747E"
+                borderTop="1px solid #CAC4D0"
+                  borderLeft="1px solid #CAC4D0"
               >
                 <Typography fontSize="14px" fontWeight={500} color="#1D192B">
                   Dubai Warehouse
@@ -114,7 +118,8 @@ const WarehouseLocations = () => {
                 pl="16px"
                 py="18px"
                 borderRadius="8px"
-                border="1px solid #79747E"
+                borderTop="1px solid #CAC4D0"
+                  borderLeft="1px solid #CAC4D0"
               >
                 <Typography fontSize="14px" fontWeight={500} color="#1D192B">
                   China Warehouse (Guangzhou City)

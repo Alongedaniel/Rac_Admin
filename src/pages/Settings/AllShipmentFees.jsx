@@ -49,8 +49,7 @@ const AllShipmentFees = () => {
         <Box
           p="24px"
           borderRadius="20px"
-          borderTop="1px solid #CAC4D0"
-          borderLeft="1px solid #CAC4D0"
+          border="1px solid #CAC4D0"
           mb="24px"
         >
           <Typography fontSize="22px" color="#1C1B1F" mb="16px">
@@ -259,8 +258,7 @@ const AllShipmentFees = () => {
         <Box
           p="24px"
           borderRadius="20px"
-          borderTop="1px solid #CAC4D0"
-          borderLeft="1px solid #CAC4D0"
+          border="1px solid #CAC4D0"
           mb="24px"
         >
           <Typography fontSize="22px" color="#1C1B1F" mb="16px">
@@ -911,8 +909,7 @@ const AllShipmentFees = () => {
         <Box
           p="24px"
           borderRadius="20px"
-          borderTop="1px solid #CAC4D0"
-          borderLeft="1px solid #CAC4D0"
+          border="1px solid #CAC4D0"
           mb="24px"
         >
           <Typography fontSize="22px" color="#1C1B1F" mb="16px">

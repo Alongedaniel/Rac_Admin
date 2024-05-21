@@ -12,16 +12,18 @@ import Logo from "../../../assets/icons/Logo";
 import { useEffect } from "react";
 import { useAuth } from "../../../utils/contexts/userContext/UserContext";
 import CloseIcon from "../../../assets/icons/CloseIcon";
+import { useNavigate } from "react-router-dom";
 
 const TwoFactorAuth = () => {
   const [step, setStep] = useState(1);
+  const navigate = useNavigate()
   const [email, setEmail] = useState("");
   const [openError, setOpenError] = useState(false);
   const { loading, verifyOtp, isAuthenticated, message, error, setError } =
     useAuth();
   const [otp, setOtp] = useState("");
 
-  
+
   useEffect(() => {
     setStep(3);
   }, [message]);

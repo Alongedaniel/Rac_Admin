@@ -24,8 +24,11 @@ import ArrowBack from "../../assets/icons/ArrowBack";
 import EyeIconOpen from "../../assets/icons/EyeIconOpen";
 import Tick from "../../assets/icons/Tick";
 import CheckWhiteIcon from "../../assets/icons/CheckWhiteIcon";
+import { useAuth } from "../../utils/contexts/userContext/UserContext";
+import moment from "moment";
 
 const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
+  const { user } = useAuth()
   const navigate = useNavigate()
   const [currentTab, setCurrentTab] = useState("Account Information");
   const [openEditProfile, setOpenEditProfile] = useState(false)
@@ -68,7 +71,7 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
               display="inline"
               fontWeight={700}
             >
-              RACS1234567
+              {currentUser ? user?.user?.racId : "RACS1234567"}
             </Typography>
           </Typography>
         </Box>
@@ -95,7 +98,7 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
                 justifyContent="center"
               >
                 <Typography fontSize="50px" color="#1D192B">
-                  U
+                  {currentUser ? user?.user?.firstName.slice(0, 1) : "U"}
                 </Typography>
               </Box>
             </Grid>
@@ -103,30 +106,40 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
               <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                 First Name:
               </p>
-              <p className="font-roboto  text-[20px] text-brand/100">Undo</p>
+              <p className="font-roboto  text-[20px] text-brand/100">
+                {currentUser ? user?.user?.firstName : "Undo"}
+              </p>
               <Box mt="8px">
                 <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                   Other Name:
                 </p>
                 <p className="font-roboto  text-[20px] text-brand/100">
-                  Reno Offorex
+                  {currentUser ? user?.user?.lastName : "Reno Offorex"}
                 </p>
               </Box>
             </Grid>
             <Grid item xs={7.5}>
               <Box mb="8px" display={"flex"} alignItems="center" gap="18px">
                 <CallIcon />
-                <Typography>+234 8080006321</Typography>
+                <Typography>
+                  +234{" "}
+                  {currentUser
+                    ? user?.user?.contactAddress[0]?.phoneNumber
+                    : "8080006321"}
+                </Typography>
               </Box>
               <Box mb="8px" display={"flex"} alignItems="center" gap="18px">
                 <GmailIcon />
-                <Typography>hello@raclogistics.com</Typography>
+                <Typography>
+                  {currentUser ? user?.user?.email : "hello@raclogistics.com"}
+                </Typography>
               </Box>
               <Box display={"flex"} alignItems="center" gap="18px">
                 <Location />
                 <Typography>
-                  29b Osolo Way Opposite Polaris Bank Ajao Estate, ikeja, Lagos
-                  State, Nigeria, 075348
+                  {currentUser
+                    ? `${user?.user?.contactAddress[0]?.streetAddress}, ${user?.user?.contactAddress[0]?.city}, ${user?.user?.contactAddress[0]?.state}, ${user?.user?.contactAddress[0]?.country}, ${user?.user?.contactAddress[0]?.postalCode}`
+                    : "29b Osolo Way Opposite Polaris Bank Ajao Estate, ikeja, Lagos State, Nigeria, 075348"}
                 </Typography>
               </Box>
             </Grid>
@@ -203,7 +216,7 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
                         Email:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        offorrex@gmail.com
+                        {currentUser ? user?.user?.email : "offorrex@gmail.com"}
                       </p>
                     </Box>
                     <Box>
@@ -250,7 +263,11 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
                       </p>
                       <Box display="flex" gap="10px" alignItems="center">
                         <p className="font-roboto  text-[20px] text-brand/100">
-                          {currentStatus}
+                          {currentUser
+                            ? user?.user?.isEmailVerified
+                              ? "Verified"
+                              : "Unverified"
+                            : currentStatus}
                         </p>
                         <Button
                           startIcon={<ChangeIcon />}
@@ -263,7 +280,7 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
                             borderRadius: "100px",
                             width: "104px",
                             textTransform: "none",
-                            display: currentUser ? 'none' : 'block'
+                            display: currentUser ? "none" : "flex",
                           }}
                         >
                           Update
@@ -275,7 +292,11 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
                         Role:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        {userType}
+                        {currentUser
+                          ? user?.user?.isAmin
+                            ? "Staff"
+                            : "Customer"
+                          : userType}
                       </p>
                     </Box>
                   </Box>
@@ -317,7 +338,11 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
                         Registered on:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        22-03-2023 13:05
+                        {currentUser
+                          ? moment(user?.user?.createdAt).format(
+                              "DD-MM-YYYY HH:mm"
+                            )
+                          : "22-03-2023 13:05"}
                       </p>
                     </Box>
                     <Box mb="16px">
@@ -325,7 +350,11 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
                         Last Login:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        22-03-2023 13:05
+                        {currentUser
+                          ? moment(user?.user?.lastLogin).format(
+                              "DD-MM-YYYY HH:mm"
+                            )
+                          : "22-03-2023 13:05"}
                       </p>
                     </Box>
                     <Box>
@@ -427,7 +456,7 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
               </Box>
             )}
             {currentTab === "Orders" && <UserOrders />}
-            {currentTab === "Activities" && <UserActivities />}
+            {currentTab === "Activities" && <UserActivities currentUser={currentUser} />}
           </Box>
         </Box>
         <Box mt="30px">
@@ -958,7 +987,7 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
               : "Confirm and Proceed"}
           </Button>
           {changePassword && (
-            <Box mt='10px' maxWidth='340px'>
+            <Box mt="10px" maxWidth="340px">
               <Typography fontSize="14px">
                 Upon clicking “Confirm New Password”, I confirm I have read and
                 agreed to{" "}

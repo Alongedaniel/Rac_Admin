@@ -2,8 +2,21 @@ import React, { useState } from "react";
 import { Box, Container, Stack } from "@mui/material";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
+import { useAuth } from "../../utils/contexts/userContext/UserContext";
+import { Navigate, useLocation } from "react-router-dom";
 
 const MainLayout = ({ children, title, showFullBar, setShowFullBar }) => {
+  const location = useLocation();
+  const { isAuthenticated } = useAuth();
+  if (!isAuthenticated && location.pathname !== "/")
+    return (
+      <Navigate
+        to="/login"
+        state={{
+          from: location.pathname,
+        }}
+      />
+    );
   return (
     // <Container maxWidth="xl" disableGutters>
     <Box display="flex" minWidth="1200px">
@@ -14,6 +27,8 @@ const MainLayout = ({ children, title, showFullBar, setShowFullBar }) => {
       >
         <Box
           width={showFullBar ? { xs: "56px", lg: "250px" } : "56px"}
+          bottom={0}
+          top={0}
           position="fixed"
           zIndex={9999}
         >
@@ -24,7 +39,7 @@ const MainLayout = ({ children, title, showFullBar, setShowFullBar }) => {
       <Box width="100%" overflow="hidden" position="relative">
         {!location.pathname.includes("/create-new-order") && (
           <Box
-            display={location.pathname !== "/notifications" ? 'block' : 'none'}
+            display={location.pathname !== "/notifications" ? "block" : "none"}
             width="100%"
             position="relative"
             height="96px"

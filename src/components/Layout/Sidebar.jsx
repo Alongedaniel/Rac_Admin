@@ -75,8 +75,8 @@ function Sidebar({ showFullBar, setShowFullBar }) {
         display: "flex",
         flexDirection: "column",
         // justifyContent: 'space-between',
-        transition: "min-width .3s ease",
-        height: "100vh",
+        transition: "all .3s ease",
+        height: "100%",
         // overflowY: "auto",
         // position: "fixed",
         "&::-webkit-scrollbar": {
@@ -91,6 +91,7 @@ function Sidebar({ showFullBar, setShowFullBar }) {
             ? "rounded-r-[10px] bg-[#E6E1E514] w-[100%] p-[10px] flex items-center space-x-[10px]"
             : "rounded-r-[10px] bg-[#E6E1E514] w-[100%] p-[10px] flex items-center "
         }
+        style={{cursor: 'pointer'}}
         onClick={handleClick}
       >
         <div
@@ -112,10 +113,10 @@ function Sidebar({ showFullBar, setShowFullBar }) {
           </Box>
         )}
       </div>
-      <div className="mt-[20px] grow flex flex-col justify-between">
+      <div className="mt-[20px] grow flex flex-col justify-between" style={{height:'100%',overflow: 'auto'}}>
         <Box
-          height="100%"
-          maxHeight={{ xs: "200px", lg: "400px", xl: "100%" }}
+          // height="100%"
+          // maxHeight={{ xs: "200px", lg: "400px", xl: "100%" }}
           sx={{
             overflow: "auto",
             "&::-webkit-scrollbar": {
