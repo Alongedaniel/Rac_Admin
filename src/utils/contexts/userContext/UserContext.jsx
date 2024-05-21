@@ -5,28 +5,33 @@ import axios from "axios";
 
 export const UserContext = createContext(null);
 export const UserProvider = ({ children }) => {
-    const [user, setUser] = useState({});
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const navigate = useNavigate();
-    const [message, setMessage] = useState("");
-    const [loading, setLoading] = useState(false)
+  const [user, setUser] = useState({});
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
+  const [message, setMessage] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('')
 
   useEffect(() => {
     const user = localStorage.getItem("user");
     if (user) {
       setUser(JSON.parse(user));
-    }
+    } else setUser(null);
+
+
     const isAuthenticated = localStorage.getItem("isAuthenticated");
     if (isAuthenticated) {
       setIsAuthenticated(JSON.parse(isAuthenticated));
-    }
-  }, []);
-    console.log(user)
-    console.log(isAuthenticated)
+    } else setIsAuthenticated(false);
+
+
+  }, [loading]);
+
   const signUpMutation = useAccountAuthenticate();
-    const signUp = async (data) => {
-      setLoading(true)
-      try {
+  const signUp = async (data) => {
+    setLoading(true);
+    try {
       const res = await axios.post(
         "https://rac-backend.onrender.com/api/users",
         data
@@ -34,51 +39,74 @@ export const UserProvider = ({ children }) => {
 
       console.log(res.data);
       if (res) {
-          setMessage(res.data.message);
-          }
-          setLoading(false)
+        setMessage(res.data.message);
+      }
+      setLoading(false);
+      navigate("/", {
+        state: {
+          newUser: true,
+        },
+      });
     } catch (e) {
-          console.log(e.message);
-          setLoading(false)
+      console.log(e.message);
+      setLoading(false);
     }
   };
-    const verifyOtp = async (data) => {
-      setLoading(true)
+  const verifyOtp = async (data) => {
+    setLoading(true);
     try {
       const res = await axios.post(
         "https://rac-backend.onrender.com/api/users/auth/otp",
         data
       );
 
-      console.log(res.data);
       setUser(res.data);
       setIsAuthenticated(true);
 
       localStorage.setItem("user", JSON.stringify(res.data));
       localStorage.setItem("isAuthenticated", JSON.stringify(true));
 
-      navigate("/");
-        console.log(isAuthenticated, "isAuthenticated");
-        setLoading(false)
+      // navigate("/");
+      setSuccess('Account verification successful')
+      setLoading(false);
     } catch (e) {
-        console.log(e.message);
-        setLoading(false)
+      setError('Otp invalid or expired')
+      setLoading(false);
     }
   };
 
-    const login = async (data) => {
-      setLoading(true)
+  const login = async (data) => {
+    setLoading(true);
     try {
       const res = await axios.post(
         "https://rac-backend.onrender.com/api/users/auth",
         data
       );
-      setIsAuthenticated(true);
-        setMessage(res.data);
-        setLoading(false)
+      setMessage(res.data.message);
+      setLoading(false);
+      navigate("/two-factor-auth");
+      setError('')
     } catch (e) {
-        console.log(e.message);
-        setLoading(false)
+      setError('Invalid credentials');
+      setLoading(false);
+    }
+  };
+  const logout = async (data) => {
+    setLoading(true);
+    try {
+      // const res = await axios.post(
+      //   "https://rac-backend.onrender.com/api/users/logout"
+      // );
+      setSuccess("Logout successful");
+      setLoading(false);
+      setUser(null)
+      setIsAuthenticated(false)
+      navigate("/login");
+      localStorage.removeItem("user");
+      localStorage.removeItem("isAuthenticated");
+    } catch (e) {
+      console.log(e.message);
+      setLoading(false);
     }
   };
   return (
@@ -90,8 +118,13 @@ export const UserProvider = ({ children }) => {
         message,
         verifyOtp,
         login,
-              isAuthenticated,
-        loading
+        isAuthenticated,
+        loading,
+        logout,
+        success,
+        error,
+        setError,
+        setSuccess
       }}
     >
       {children}
@@ -101,7 +134,7 @@ export const UserProvider = ({ children }) => {
 
 export const useAuth = () => {
   const {
-      message,
+    message,
     user,
     setUser,
     signUp,
@@ -109,6 +142,11 @@ export const useAuth = () => {
     login,
     isAuthenticated,
     loading,
+    logout,
+    success,
+    error,
+    setError,
+    setSuccess,
   } = useContext(UserContext);
   return {
     user,
@@ -119,5 +157,10 @@ export const useAuth = () => {
     login,
     isAuthenticated,
     loading,
+    logout,
+    success,
+    error,
+    setError,
+    setSuccess,
   };
 };

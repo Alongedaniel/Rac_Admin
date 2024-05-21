@@ -47,6 +47,7 @@ import WarehouseLocations from "./pages/Settings/WarehouseLocations";
 import ShippingMethods from "./pages/Settings/ShippingMethods";
 import Home from "./pages/Home/Home";
 import { useAuth } from "./utils/contexts/userContext/UserContext";
+import RequireAuth from "./components/Layout/RequireAuth";
 
 function App() {
   const location = useLocation();
@@ -85,14 +86,14 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={isAuthenticated ?
+              element={
                 <MainLayout
                   showFullBar={showFullBar}
                   setShowFullBar={setShowFullBar}
                   title="Home"
                 >
                   <Home />
-                </MainLayout> : <Navigate to='/sign-up' />
+                </MainLayout>
               }
               // element={admin !== null ? <Layout /> : <Navigate to="/" />}
             />
@@ -565,11 +566,36 @@ function App() {
             />
             <Route
               path="/login"
-              element={admin !== null ? <Navigate to="/" /> : <Login />}
+              element={
+                <RequireAuth>
+                  <Login />
+                </RequireAuth>
+              }
             />
-            <Route path="/sign-up" element={isAuthenticated ? <Navigate to='/' /> : <SignupForm />} />
-            <Route path="/reset-password" element={<Login />} />
-            <Route path="/two-factor-auth" element={<TwoFactorAuth />} />
+            <Route
+              path="/sign-up"
+              element={
+                <RequireAuth>
+                  <SignupForm />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/reset-password"
+              element={
+                <RequireAuth>
+                  <Login />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/two-factor-auth"
+              element={
+                <RequireAuth>
+                  <TwoFactorAuth />
+                </RequireAuth>
+              }
+            />
           </Routes>
         </QueryClientProvider>
         <Toaster containerClassName="font-roboto" />

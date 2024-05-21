@@ -22,7 +22,7 @@ const SignupForm = () => {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
-  const { signUp, message, verifyOtp, loading } = useAuth();
+  const { signUp, message, loading } = useAuth();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -35,7 +35,6 @@ const SignupForm = () => {
   const [postalCode, setPostalCode] = useState("");
   const [countryCode, setCountryCode] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [otp, setOtp] = useState('')
 
   const data = {
     firstName: firstName,
@@ -109,6 +108,8 @@ const SignupForm = () => {
     /[!@#$%^&*(),.?":{}|<>]/.test(password) || /\d/.test(password);
   const isMinLength = password.length > 8;
   const isConfirmed = password === confirmPassword;
+
+  
   const isValid = () => {
     if (
       containsAlpha &&
@@ -124,27 +125,7 @@ const SignupForm = () => {
       return false;
     else return true;
   };
-  // useEffect(() => {
-    
-  // }, [email])
-   const [userEmail, setUserEmail] = useState("");
-   useEffect(() => {
-     const email = localStorage.getItem("email");
-     if (email) {
-       setUserEmail(JSON.parse(email));
-     }
-   }, [otp]);
-  
-  useEffect(() => {
-    if (message)
-      setStep(3)
-  })
 
-  const verifyData = {
-    email: userEmail,
-    otp: otp
-  };
-  console.log(verifyData)
   return (
     <Stack
       py="50px"
@@ -508,7 +489,7 @@ const SignupForm = () => {
             </Box>
           </Box>
         </>
-      ) : step === 2 ? (
+      ) : (
         <>
           <Box mb={{ xs: "70px", sm: "100px" }}>
             <Logo />
@@ -759,6 +740,7 @@ const SignupForm = () => {
                 Back
               </Button>
               <Button
+                disabled={loading}
                 variant="contained"
                 height="40px"
                 sx={{
@@ -770,19 +752,16 @@ const SignupForm = () => {
                   textTransform: "capitalize",
                   borderRadius: "20px",
                   p: "10px 24px",
-                  "&:hover": {
-                    bgcolor: "#6750A4",
-                  },
+                  // "&:hover": {
+                  //   bgcolor: "#6750A4",
+                  // },
                 }}
                 onClick={() => {
                   signUp(data);
-                  if (message) {
-                    setStep((prev) => prev + 1);
-                  }
                   localStorage.setItem("email", JSON.stringify(email));
                 }}
               >
-                {loading ? <CircularProgress /> : 'Create my account'}
+                {loading ? <CircularProgress /> : "Create my account"}
               </Button>
             </Box>
             <Typography
@@ -805,77 +784,6 @@ const SignupForm = () => {
               </Typography>{" "}
               button
             </Typography>
-          </Box>
-        </>
-      ) : (
-        <>
-          <Box mb={{ xs: "70px", sm: "100px" }}>
-            <Logo />
-          </Box>
-          <Box
-            p={{ xs: "20px", sm: "30px" }}
-            mb={{ xs: "30px", sm: "40px" }}
-            width="100%"
-            maxWidth="600px"
-            height={"fit-content"}
-            // maxHeight="370px"
-            borderRadius="20px"
-            bgcolor="#fff"
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <Typography
-              fontSize="22px"
-              color="#79747E"
-              mb={{ xs: "30px", sm: "60px" }}
-            >
-              {message}
-            </Typography>
-            <TextField
-              fullWidth
-              id="otp"
-              type="otp"
-              label="OTP"
-              name="otp"
-              InputProps={{
-                sx: {
-                  borderRadius: "20px", // Apply border radius to the input element
-                  height: "56px",
-                  borderColor: "#79747E",
-                  fontSize: "16px",
-                  color: "#1C1B1F",
-                },
-              }}
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
-              placeholder="Enter otp"
-            />
-          <Button
-            variant="contained"
-            disabled={otp.length === 0}
-            height="40px"
-            sx={{
-              mt: { xs: "32px", sm: "48px" },
-              width: { xs: "100%", sm: "200px" },
-              fontSize: "14px",
-              color: "#fff",
-              bgcolor: "#6750A4",
-              textTransform: "capitalize",
-              borderRadius: "20px",
-              p: "10px 24px",
-              "&:hover": {
-                bgcolor: "#6750A4",
-              },
-            }}
-            onClick={() => verifyOtp(verifyData)}
-          >
-            {loading ? <CircularProgress /> : "Verify OTP"}
-
-          </Button>
           </Box>
         </>
       )}

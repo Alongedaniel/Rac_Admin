@@ -4,7 +4,15 @@ import { getNavbarTitle } from "../../utils";
 import { CiBellOn } from "react-icons/ci";
 import { LuUser2 } from "react-icons/lu";
 import { useLocation } from "react-router-dom";
-import { Box, Button, Menu, MenuItem, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Menu,
+  MenuItem,
+  Paper,
+  Typography,
+  CircularProgress,
+} from "@mui/material";
 import BreadcrumbNavigation from "../BreadcrumbNavigation";
 import NotificationIcon from "../../assets/icons/NotificationIcon";
 import ProfileIcon from "../../assets/icons/ProfileIcon";
@@ -14,10 +22,12 @@ import ActivitiesIcon from "../../assets/icons/ActivitiesIcon";
 import SecurityIcon from "../../assets/icons/SecurityIcon";
 import ArrowForwardIcon from "../../assets/icons/ArrowForwardIcon";
 import NotificationModal from "../../pages/Notification/components/NotificationModal";
+import { useAuth } from "../../utils/contexts/userContext/UserContext";
 
 function Navbar({navbarTitle}) {
   const location = useLocation();
   const [anchorEl, setAnchorEl] = useState(null)
+  const { logout, loading } = useAuth()
   const [openNotification, setOpenNotification] = useState(false)
   const open = Boolean(anchorEl)
   const menuItems = [
@@ -170,6 +180,7 @@ function Navbar({navbarTitle}) {
           ))}
           <MenuItem onClick={() => setAnchorEl(null)}>
             <Button
+              disabled={loading}
               variant="containd"
               sx={{
                 width: "280px",
@@ -180,12 +191,13 @@ function Navbar({navbarTitle}) {
                 fontWeight: 500,
                 fontSize: "14px",
                 textTransform: "none",
-                "&:hover": {
-                  bgcolor: "#6750A4",
-                },
+                // "&:hover": {
+                //   bgcolor: "#6750A4",
+                // },
               }}
+              onClick={logout}
             >
-              Logout
+              {loading ? <CircularProgress /> :  'Logout'}
             </Button>
           </MenuItem>
         </Box>
