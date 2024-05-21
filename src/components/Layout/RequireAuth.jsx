@@ -8,7 +8,7 @@ const RequireAuth = ({ children }) => {
 //   const navigate = useNavigate();
 
   if (isAuthenticated) {
-    const from = location.state?.from
+    const from = location.state?.from || '/';
     return <Navigate to={from} replace />;
   }
 
