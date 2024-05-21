@@ -23,7 +23,6 @@ const TwoFactorAuth = () => {
     useAuth();
   const [otp, setOtp] = useState("");
 
-
   useEffect(() => {
     setStep(3);
   }, [message]);

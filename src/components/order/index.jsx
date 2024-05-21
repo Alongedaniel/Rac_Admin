@@ -25,7 +25,7 @@ import useCustomGetRequest from "../../utils/hooks/api/useCustomGetRequest";
 
 function OrderHome() {
   const confirmedOrders = ['Confirmed', 'Delivered'];
-  const { data } = useCustomGetRequest("import/mine/65b4eb70b9eac43109281773");
+  // const { data } = useCustomGetRequest("import/mine/65b4eb70b9eac43109281773");
   console.log(data)
   const [anchorEl, setAnchorEl] = useState(null);
   const theme = useTheme()
