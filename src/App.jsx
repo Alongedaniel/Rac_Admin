@@ -46,6 +46,7 @@ import CustomerSupport from "./pages/Settings/CustomerSupport";
 import WarehouseLocations from "./pages/Settings/WarehouseLocations";
 import ShippingMethods from "./pages/Settings/ShippingMethods";
 import Home from "./pages/Home/Home";
+import { useAuth } from "./utils/contexts/userContext/UserContext";
 
 function App() {
   const location = useLocation();
@@ -74,6 +75,8 @@ function App() {
       },
     },
   });
+  const { isAuthenticated } = useAuth()
+  console.log(isAuthenticated)
   const [showFullBar, setShowFullBar] = useState(false);
   return (
     <ThemeProvider theme={theme}>
@@ -82,14 +85,14 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={
+              element={isAuthenticated ?
                 <MainLayout
                   showFullBar={showFullBar}
                   setShowFullBar={setShowFullBar}
                   title="Home"
                 >
                   <Home />
-                </MainLayout>
+                </MainLayout> : <Navigate to='/sign-up' />
               }
               // element={admin !== null ? <Layout /> : <Navigate to="/" />}
             />
@@ -564,7 +567,7 @@ function App() {
               path="/login"
               element={admin !== null ? <Navigate to="/" /> : <Login />}
             />
-            <Route path="/sign-up" element={<SignupForm />} />
+            <Route path="/sign-up" element={isAuthenticated ? <Navigate to='/' /> : <SignupForm />} />
             <Route path="/reset-password" element={<Login />} />
             <Route path="/two-factor-auth" element={<TwoFactorAuth />} />
           </Routes>

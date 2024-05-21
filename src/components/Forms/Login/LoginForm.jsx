@@ -8,16 +8,23 @@ import TextInput from "../Inputs/TextInput";
 import PasswordInput from "../Inputs/PasswordInput";
 import toast from "react-hot-toast";
 import { useGetProducts } from "../../../utils/hooks/api/useGetProducts";
-import { Box, Button, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Stack, TextField, Typography } from "@mui/material";
 import Logo from "../../../assets/icons/Logo";
+import { useAuth } from "../../../utils/contexts/userContext/UserContext";
 
 function LoginForm() {
   const dispatch = useDispatch();
+  const {login, loading} = useAuth()
   const [loginAdmin, { isLoading }] = useLoginAdminMutation();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { data: products } = useGetProducts();
+  // const { data: products } = useGetProducts();
+
+  const data = {
+    email: email,
+    password: password,
+  }
 
   const handleSubmit = async () => {
     if (!email.trim() || !password.trim()) {
@@ -84,9 +91,12 @@ function LoginForm() {
         >
           <TextField
             fullWidth
+            required
             id="email"
             type="email"
             label="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             InputProps={{
               sx: {
                 borderRadius: "20px", // Apply border radius to the input element
@@ -104,6 +114,9 @@ function LoginForm() {
                 borderColor: "#79747E",
               },
             }}
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             type="password"
             fullWidth
             id="password"
@@ -127,9 +140,9 @@ function LoginForm() {
               bgcolor: "#6750A4",
             },
           }}
-          onClick={() => navigate("/")}
+          onClick={() => login(data)}
         >
-          Login to your account
+          {loading ? <CircularProgress /> : 'Login to your account'}
         </Button>
       </Box>
       <Box>

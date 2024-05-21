@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
+  CircularProgress,
   Grid,
   MenuItem,
   Stack,
@@ -14,17 +15,51 @@ import Logo from "../../../assets/icons/Logo";
 import Tick from "../../../assets/icons/Tick";
 import ArrowLeftPurple from "../../../assets/icons/ArrowLeftPurple";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../utils/contexts/userContext/UserContext";
 
 const SignupForm = () => {
   const [step, setStep] = useState(1);
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
+  const { signUp, message, verifyOtp, loading } = useAuth();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [country, setCountry] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [streetAddress, setStreetAddress] = useState("");
+  const [postalCode, setPostalCode] = useState("");
+  const [countryCode, setCountryCode] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [otp, setOtp] = useState('')
+
+  const data = {
+    firstName: firstName,
+    lastName: lastName,
+    email: email,
+    password: password,
+    contactAddress: [
+      {
+        country: country,
+        state: state,
+        city: city,
+        streetAddress: streetAddress,
+        countryCode: countryCode,
+        phoneNumber: phoneNumber,
+        postalCode: postalCode,
+      },
+    ],
+  };
+  console.log(data);
   const countries = [
     "United States",
     "Canada",
     "United Kingdom",
-    "Australia",
+    "Nigeria",
     "Germany",
     "France",
     "Japan",
@@ -68,6 +103,48 @@ const SignupForm = () => {
     { name: "Brazil", code: "+55" },
     { name: "India", code: "+91" },
   ];
+  const containsAlpha = /[A-Z]/.test(password);
+  const containsLower = /[a-z]/.test(password);
+  const containsSymbol =
+    /[!@#$%^&*(),.?":{}|<>]/.test(password) || /\d/.test(password);
+  const isMinLength = password.length > 8;
+  const isConfirmed = password === confirmPassword;
+  const isValid = () => {
+    if (
+      containsAlpha &&
+      containsLower &&
+      containsSymbol &&
+      isMinLength &&
+      isConfirmed &&
+      firstName &&
+      lastName &&
+      email &&
+      password
+    )
+      return false;
+    else return true;
+  };
+  // useEffect(() => {
+    
+  // }, [email])
+   const [userEmail, setUserEmail] = useState("");
+   useEffect(() => {
+     const email = localStorage.getItem("email");
+     if (email) {
+       setUserEmail(JSON.parse(email));
+     }
+   }, [otp]);
+  
+  useEffect(() => {
+    if (message)
+      setStep(3)
+  })
+
+  const verifyData = {
+    email: userEmail,
+    otp: otp
+  };
+  console.log(verifyData)
   return (
     <Stack
       py="50px"
@@ -119,6 +196,7 @@ const SignupForm = () => {
                 id="firstname"
                 type="text"
                 label="First Name"
+                name="firstName"
                 InputProps={{
                   sx: {
                     borderRadius: "20px", // Apply border radius to the input element
@@ -128,6 +206,8 @@ const SignupForm = () => {
                     color: "#1C1B1F",
                   },
                 }}
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
                 placeholder="Enter your first name"
               />
               <TextField
@@ -135,6 +215,7 @@ const SignupForm = () => {
                 id="lastname"
                 type="text"
                 label="Last Name"
+                name="lastName"
                 InputProps={{
                   sx: {
                     borderRadius: "20px", // Apply border radius to the input element
@@ -144,6 +225,8 @@ const SignupForm = () => {
                     color: "#1C1B1F",
                   },
                 }}
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
                 placeholder="Enter your last name"
               />
               <TextField
@@ -151,6 +234,7 @@ const SignupForm = () => {
                 id="email"
                 type="email"
                 label="Email"
+                name="email"
                 InputProps={{
                   sx: {
                     borderRadius: "20px", // Apply border radius to the input element
@@ -160,24 +244,54 @@ const SignupForm = () => {
                     color: "#1C1B1F",
                   },
                 }}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
               />
-              <TextField
-                InputProps={{
-                  sx: {
-                    borderRadius: "20px", // Apply border radius to the input element
-                    height: "56px",
-                    borderColor: "#79747E",
-                    fontSize: "16px",
-                    color: "#1C1B1F",
-                  },
-                }}
-                type="password"
-                fullWidth
-                id="password"
-                label="Password"
-                placeholder="Enter your password"
-              />
+              <Box>
+                <TextField
+                  InputProps={{
+                    sx: {
+                      borderRadius: "20px", // Apply border radius to the input element
+                      height: "56px",
+                      borderColor:
+                        containsAlpha &&
+                        containsLower &&
+                        containsSymbol &&
+                        isMinLength
+                          ? "#79747E"
+                          : "#B3261E",
+                      fontSize: "16px",
+                      color: "#1C1B1F",
+                    },
+                  }}
+                  name="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  type="password"
+                  fullWidth
+                  id="password"
+                  label="Password"
+                  placeholder="Enter your password"
+                />
+                {password.length === 0 ? null : (
+                  <Typography
+                    display={
+                      containsAlpha &&
+                      containsLower &&
+                      containsSymbol &&
+                      isMinLength
+                        ? "none"
+                        : "block"
+                    }
+                    pl="16px"
+                    fontSize="12px"
+                    color="#B3261E"
+                  >
+                    Your password must meet the criteria below.
+                  </Typography>
+                )}
+              </Box>
             </Box>
             <Grid
               container
@@ -193,10 +307,24 @@ const SignupForm = () => {
                 alignItems="center"
                 gap="10px"
               >
-                <Tick />
+                <Tick
+                  color={
+                    containsLower
+                      ? "#6750A4"
+                      : password.length === 0
+                      ? "#79747E"
+                      : "#B3261E"
+                  }
+                />
                 <Typography
                   fontSize="12px"
-                  color="#49454F"
+                  color={
+                    containsLower
+                      ? "#21005D"
+                      : password.length === 0
+                      ? "#49454F"
+                      : "#410E0B"
+                  }
                   letterSpacing=".4px"
                 >
                   At least one lowercase letter
@@ -210,10 +338,24 @@ const SignupForm = () => {
                 alignItems="center"
                 gap="10px"
               >
-                <Tick />
+                <Tick
+                  color={
+                    isMinLength
+                      ? "#6750A4"
+                      : password.length === 0
+                      ? "#79747E"
+                      : "#B3261E"
+                  }
+                />
                 <Typography
                   fontSize="12px"
-                  color="#49454F"
+                  color={
+                    isMinLength
+                      ? "#21005D"
+                      : password.length === 0
+                      ? "#49454F"
+                      : "#410E0B"
+                  }
                   letterSpacing=".4px"
                 >
                   Minimum of 8 characters
@@ -227,10 +369,24 @@ const SignupForm = () => {
                 alignItems="center"
                 gap="10px"
               >
-                <Tick color="#79747E" />
+                <Tick
+                  color={
+                    containsAlpha
+                      ? "#6750A4"
+                      : password.length === 0
+                      ? "#79747E"
+                      : "#B3261E"
+                  }
+                />
                 <Typography
                   fontSize="12px"
-                  color="#49454F"
+                  color={
+                    containsAlpha
+                      ? "#21005D"
+                      : password.length === 0
+                      ? "#49454F"
+                      : "#410E0B"
+                  }
                   letterSpacing=".4px"
                 >
                   At least one uppercase character
@@ -244,10 +400,24 @@ const SignupForm = () => {
                 alignItems="center"
                 gap="10px"
               >
-                <Tick />
+                <Tick
+                  color={
+                    containsSymbol
+                      ? "#6750A4"
+                      : password.length === 0
+                      ? "#79747E"
+                      : "#B3261E"
+                  }
+                />
                 <Typography
                   fontSize="12px"
-                  color="#49454F"
+                  color={
+                    containsSymbol
+                      ? "#21005D"
+                      : password.length === 0
+                      ? "#49454F"
+                      : "#410E0B"
+                  }
                   letterSpacing=".4px"
                 >
                   Must contain a number or special character
@@ -265,6 +435,8 @@ const SignupForm = () => {
               type="password"
               fullWidth
               id="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               label="Re-Enter your password"
               placeholder="Re-Enter your password"
             />
@@ -275,13 +447,32 @@ const SignupForm = () => {
               alignItems="center"
               gap="10px"
             >
-              <Tick />
-              <Typography fontSize="12px" color="#49454F" letterSpacing=".4px">
+              <Tick
+                color={
+                  isConfirmed && confirmPassword.length > 0
+                    ? "#6750A4"
+                    : confirmPassword.length === 0
+                    ? "#79747E"
+                    : "#B3261E"
+                }
+              />
+              <Typography
+                fontSize="12px"
+                color={
+                  isConfirmed && confirmPassword.length > 0
+                    ? "#21005D"
+                    : confirmPassword.length === 0
+                    ? "#49454F"
+                    : "#410E0B"
+                }
+                letterSpacing=".4px"
+              >
                 Passwords match each other
               </Typography>
             </Box>
             <Button
               variant="contained"
+              disabled={isValid()}
               height="40px"
               sx={{
                 mt: { xs: "32px", sm: "48px" },
@@ -317,7 +508,7 @@ const SignupForm = () => {
             </Box>
           </Box>
         </>
-      ) : (
+      ) : step === 2 ? (
         <>
           <Box mb={{ xs: "70px", sm: "100px" }}>
             <Logo />
@@ -347,7 +538,7 @@ const SignupForm = () => {
               mb={{ xs: "20px", sm: "30px" }}
             >
               <Typography sx={{ display: "inline" }} fontWeight={700}>
-                Dear Rex
+                Dear {firstName}
               </Typography>
               , Provide us your contact address
             </Typography>
@@ -365,6 +556,9 @@ const SignupForm = () => {
                 id="country"
                 type="text"
                 label="Country"
+                name="country"
+                value={country}
+                onChange={(e) => setCountry(e.target.value)}
                 select
                 InputProps={{
                   sx: {
@@ -389,6 +583,9 @@ const SignupForm = () => {
                 type="text"
                 label="State"
                 select
+                name="state"
+                value={state}
+                onChange={(e) => setState(e.target.value)}
                 InputProps={{
                   sx: {
                     borderRadius: "20px", // Apply border radius to the input element
@@ -411,6 +608,9 @@ const SignupForm = () => {
                 id="city"
                 type="text"
                 label="City"
+                name="city"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
                 select
                 InputProps={{
                   sx: {
@@ -434,6 +634,9 @@ const SignupForm = () => {
                 id="street address"
                 type="text"
                 label="Street Address"
+                name="streetAddress"
+                value={streetAddress}
+                onChange={(e) => setStreetAddress(e.target.value)}
                 InputProps={{
                   sx: {
                     borderRadius: "20px", // Apply border radius to the input element
@@ -450,6 +653,9 @@ const SignupForm = () => {
                 id="zip/postal code"
                 type="text"
                 label="Zip/Postal Code"
+                name="postalCode"
+                value={postalCode}
+                onChange={(e) => setPostalCode(e.target.value)}
                 InputProps={{
                   sx: {
                     borderRadius: "20px", // Apply border radius to the input element
@@ -476,6 +682,9 @@ const SignupForm = () => {
                   fullWidth={isSmall ? true : false}
                   label="Country Code"
                   select
+                  name="countryCode"
+                  value={countryCode}
+                  onChange={(e) => setCountryCode(e.target.value)}
                   InputProps={{
                     sx: {
                       borderRadius: "20px", // Apply border radius to the input element
@@ -509,6 +718,9 @@ const SignupForm = () => {
                   type="number"
                   id="phone number"
                   label="Phone Number"
+                  name="phoneNumber"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
                   placeholder="Enter your phone number"
                 />
               </Box>
@@ -562,9 +774,15 @@ const SignupForm = () => {
                     bgcolor: "#6750A4",
                   },
                 }}
-                onClick={() => navigate("/")}
+                onClick={() => {
+                  signUp(data);
+                  if (message) {
+                    setStep((prev) => prev + 1);
+                  }
+                  localStorage.setItem("email", JSON.stringify(email));
+                }}
               >
-                Create my account
+                {loading ? <CircularProgress /> : 'Create my account'}
               </Button>
             </Box>
             <Typography
@@ -587,6 +805,77 @@ const SignupForm = () => {
               </Typography>{" "}
               button
             </Typography>
+          </Box>
+        </>
+      ) : (
+        <>
+          <Box mb={{ xs: "70px", sm: "100px" }}>
+            <Logo />
+          </Box>
+          <Box
+            p={{ xs: "20px", sm: "30px" }}
+            mb={{ xs: "30px", sm: "40px" }}
+            width="100%"
+            maxWidth="600px"
+            height={"fit-content"}
+            // maxHeight="370px"
+            borderRadius="20px"
+            bgcolor="#fff"
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Typography
+              fontSize="22px"
+              color="#79747E"
+              mb={{ xs: "30px", sm: "60px" }}
+            >
+              {message}
+            </Typography>
+            <TextField
+              fullWidth
+              id="otp"
+              type="otp"
+              label="OTP"
+              name="otp"
+              InputProps={{
+                sx: {
+                  borderRadius: "20px", // Apply border radius to the input element
+                  height: "56px",
+                  borderColor: "#79747E",
+                  fontSize: "16px",
+                  color: "#1C1B1F",
+                },
+              }}
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+              placeholder="Enter otp"
+            />
+          <Button
+            variant="contained"
+            disabled={otp.length === 0}
+            height="40px"
+            sx={{
+              mt: { xs: "32px", sm: "48px" },
+              width: { xs: "100%", sm: "200px" },
+              fontSize: "14px",
+              color: "#fff",
+              bgcolor: "#6750A4",
+              textTransform: "capitalize",
+              borderRadius: "20px",
+              p: "10px 24px",
+              "&:hover": {
+                bgcolor: "#6750A4",
+              },
+            }}
+            onClick={() => verifyOtp(verifyData)}
+          >
+            {loading ? <CircularProgress /> : "Verify OTP"}
+
+          </Button>
           </Box>
         </>
       )}

@@ -2,7 +2,7 @@ import "./order.css";
 
 import { BsThreeDots } from "react-icons/bs";
 // import { Menu, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 // import { Link } from "react-router-dom";
 import { Box, Button, Menu, MenuItem, Paper, TextField, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material";
 import NewOrderIcon from "../../assets/icons/NewOrderIcon";
@@ -19,6 +19,8 @@ import CloseSquare from "../../assets/icons/CloseSquare";
 import CheckMoreIcon from "../../assets/icons/CheckMoreIcon";
 import MoreIcon from "../../assets/icons/MoreIcon";
 import UserTag from "../../assets/icons/UserTag";
+import { useGetProducts } from "../../utils/hooks/api/useGetProducts";
+import axios from "axios";
 
 function OrderHome() {
   const confirmedOrders = ['Confirmed', 'Delivered'];
