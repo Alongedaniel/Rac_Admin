@@ -12,6 +12,7 @@ import WalletIcon from "../../assets/icons/WalletIcon";
 import BlogIcon from "../../assets/icons/BlogIcon";
 import CalculatorIcon from "../../assets/icons/CalculatorIcon";
 import SettingsIcon from "../../assets/icons/SettingsIcon";
+import { useAuth } from "../../utils/contexts/userContext/UserContext";
 
 function CustomLink({ children, to, icon, showFullBar, title, ...props }) {
   const childMatch = useMatch(to !== "" ? `/` + to + "/*" : "/");
@@ -60,7 +61,7 @@ function CustomLink({ children, to, icon, showFullBar, title, ...props }) {
 }
 
 function Sidebar({ showFullBar, setShowFullBar }) {
-  const { user } = useSelector((state) => state.user);
+  const { user } = useAuth()
   
   const handleClick = () => {
     setShowFullBar(!showFullBar);
@@ -96,23 +97,32 @@ function Sidebar({ showFullBar, setShowFullBar }) {
           className="h-[40px] w-[40px] bg-gray-300 flex items-center
          justify-center rounded-full font-roboto text-[20px] font-[500]"
         >
-          R
+          {user?.user?.firstName.slice(0, 1)}
         </div>
         {showFullBar && (
           <Box display={{ xs: "none", lg: "block" }} sx={{ color: "#fff" }}>
             <p className="font-[400] ">Welcome Back</p>
             <p className="text-[14px]">
-              {user?.firstName}{" "}
-              <span className="font-[500]">ID {user?.racId}</span>
+              {user?.user?.firstName} {user?.user?.lastName}
+            </p>
+            <p className="font-[500]">
+              {" "}
+              <span className="font-[400] ">Rex</span> ID: {user?.user?.racId}
             </p>
           </Box>
         )}
       </div>
       <div className="mt-[20px] grow flex flex-col justify-between">
-        <Box height='100%' maxHeight={{xs: '200px', lg: '400px', xl: '100%'}} sx={{
-          overflow: 'auto', '&::-webkit-scrollbar': {
-          display: 'none'
-        }}}>
+        <Box
+          height="100%"
+          maxHeight={{ xs: "200px", lg: "400px", xl: "100%" }}
+          sx={{
+            overflow: "auto",
+            "&::-webkit-scrollbar": {
+              display: "none",
+            },
+          }}
+        >
           <>
             {links.slice(0, 1).map(({ to, id, title, icon }) => (
               <CustomLink

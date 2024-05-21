@@ -1,10 +1,56 @@
 import React, { useState } from "react";
-import { Box, Button, Stack, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Stack,
+  TextField,
+  Typography,
+  CircularProgress,
+  Snackbar,
+} from "@mui/material";
 import Logo from "../../../assets/icons/Logo";
+import { useEffect } from "react";
+import { useAuth } from "../../../utils/contexts/userContext/UserContext";
+import CloseIcon from "../../../assets/icons/CloseIcon";
 
 const TwoFactorAuth = () => {
   const [step, setStep] = useState(1);
-  console.log(step);
+  const [email, setEmail] = useState("");
+  const [openError, setOpenError] = useState(false);
+  const { loading, verifyOtp, isAuthenticated, message, error, setError } =
+    useAuth();
+  const [otp, setOtp] = useState("");
+
+  
+  useEffect(() => {
+    setStep(3);
+  }, [message]);
+
+  useEffect(() => {
+    if (error) {
+      setOpenError(error.length > 0 ? true : false);
+    }
+
+
+    setTimeout(() => {
+      setError("");
+    }, 10000);
+
+    
+  }, [loading]);
+
+  useEffect(() => {
+    const email = localStorage.getItem("email");
+    if (email) setEmail(JSON.parse(email));
+  }, [otp]);
+
+
+  const data = {
+    email: email,
+    otp: otp,
+  };
+
+
   return (
     <Stack
       px="20px"
@@ -66,8 +112,10 @@ const TwoFactorAuth = () => {
         >
           <TextField
             fullWidth
-            id="number"
-            type="number"
+            id="text"
+            type="text"
+            value={otp}
+            onChange={(e) => setOtp(e.target.value)}
             InputProps={{
               sx: {
                 borderRadius: "20px", // Apply border radius to the input element
@@ -79,6 +127,7 @@ const TwoFactorAuth = () => {
           />
         </Box>
         <Button
+          disabled={loading || otp.length < 6}
           variant="contained"
           height="40px"
           sx={{
@@ -89,17 +138,16 @@ const TwoFactorAuth = () => {
             textTransform: "capitalize",
             borderRadius: "20px",
             p: "10px 24px",
-            "&:hover": {
-              bgcolor: "#6750A4",
-            },
+            // "&:hover": {
+            //   bgcolor: "#6750A4",
+            // },
           }}
           onClick={() => {
-            if (step) setStep((prev) => prev + 1);
-            else {
-            }
+            verifyOtp(data);
+            if (isAuthenticated) navigate("/");
           }}
         >
-          Verify
+          {loading ? <CircularProgress /> : "Verify"}
         </Button>
         {step !== 1 && (
           <Box
@@ -132,6 +180,15 @@ const TwoFactorAuth = () => {
           </Typography>
         </Box>
       )}
+      <Snackbar
+        open={openError}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
+        autoHideDuration={6000}
+        onClose={() => setOpenError(false)}
+        message={error}
+        action={<CloseIcon />}
+      />
     </Stack>
   );
 };

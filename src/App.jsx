@@ -46,6 +46,8 @@ import CustomerSupport from "./pages/Settings/CustomerSupport";
 import WarehouseLocations from "./pages/Settings/WarehouseLocations";
 import ShippingMethods from "./pages/Settings/ShippingMethods";
 import Home from "./pages/Home/Home";
+import { useAuth } from "./utils/contexts/userContext/UserContext";
+import RequireAuth from "./components/Layout/RequireAuth";
 
 function App() {
   const location = useLocation();
@@ -74,6 +76,8 @@ function App() {
       },
     },
   });
+  const { isAuthenticated } = useAuth()
+  console.log(isAuthenticated)
   const [showFullBar, setShowFullBar] = useState(false);
   return (
     <ThemeProvider theme={theme}>
@@ -562,11 +566,36 @@ function App() {
             />
             <Route
               path="/login"
-              element={admin !== null ? <Navigate to="/" /> : <Login />}
+              element={
+                <RequireAuth>
+                  <Login />
+                </RequireAuth>
+              }
             />
-            <Route path="/sign-up" element={<SignupForm />} />
-            <Route path="/reset-password" element={<Login />} />
-            <Route path="/two-factor-auth" element={<TwoFactorAuth />} />
+            <Route
+              path="/sign-up"
+              element={
+                <RequireAuth>
+                  <SignupForm />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/reset-password"
+              element={
+                <RequireAuth>
+                  <Login />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/two-factor-auth"
+              element={
+                <RequireAuth>
+                  <TwoFactorAuth />
+                </RequireAuth>
+              }
+            />
           </Routes>
         </QueryClientProvider>
         <Toaster containerClassName="font-roboto" />

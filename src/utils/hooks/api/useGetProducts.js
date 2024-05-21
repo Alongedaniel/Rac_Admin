@@ -5,7 +5,7 @@ import axios from "axios";
 //QUERY GET REQUEST
 export const useGetProducts = () => { 
     const getProducts = async () => {
-        const response = await axiosInstance.get("/products");
+        const response = await axiosInstance.get("/import/admin/allRequests");
         const data = await response.data
         return data
     }

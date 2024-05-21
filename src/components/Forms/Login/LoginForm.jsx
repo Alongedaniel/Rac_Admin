@@ -8,36 +8,45 @@ import TextInput from "../Inputs/TextInput";
 import PasswordInput from "../Inputs/PasswordInput";
 import toast from "react-hot-toast";
 import { useGetProducts } from "../../../utils/hooks/api/useGetProducts";
-import { Box, Button, Stack, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Stack,
+  TextField,
+  Typography,
+  Snackbar,
+} from "@mui/material";
 import Logo from "../../../assets/icons/Logo";
+import { useAuth } from "../../../utils/contexts/userContext/UserContext";
+import CloseIcon from "../../../assets/icons/CloseIcon";
+import { useEffect } from "react";
 
 function LoginForm() {
-  const dispatch = useDispatch();
-  const [loginAdmin, { isLoading }] = useLoginAdminMutation();
+  const { login, loading, success, error, setSuccess, setError } = useAuth();
+  const [open, setOpen] = useState(false);
+  const [openError, setOpenError] = useState(false);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { data: products } = useGetProducts();
-
-  const handleSubmit = async () => {
-    if (!email.trim() || !password.trim()) {
-      alert("Please fill all the fields");
-    } else {
-      try {
-        const data = {
-          email,
-          password,
-        };
-        const res = await loginAdmin(data).unwrap();
-        console.log(res);
-        dispatch(setUser(res));
-        navigate("/admin");
-      } catch (error) {
-        toast.error(error.data.message);
-        console.log(error);
-      }
+  // const { data: products } = useGetProducts();
+  useEffect(() => {
+    if (success) {
+      setOpen(success ? true : false);
     }
-  };
+    if (error) {
+      setOpenError(error ? true : false);
+    }
+    setTimeout(() => {
+      setSuccess("");
+      setError('')
+    }, 10000);
+  }, [loading])
+
+  const data = {
+    email: email,
+    password: password,
+  }
 
   return (
     <Stack
@@ -84,9 +93,12 @@ function LoginForm() {
         >
           <TextField
             fullWidth
+            required
             id="email"
             type="email"
             label="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             InputProps={{
               sx: {
                 borderRadius: "20px", // Apply border radius to the input element
@@ -104,6 +116,9 @@ function LoginForm() {
                 borderColor: "#79747E",
               },
             }}
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             type="password"
             fullWidth
             id="password"
@@ -112,6 +127,7 @@ function LoginForm() {
           />
         </Box>
         <Button
+          disabled={loading}
           variant="contained"
           height="40px"
           sx={{
@@ -123,13 +139,16 @@ function LoginForm() {
             textTransform: "capitalize",
             borderRadius: "20px",
             p: "10px 24px",
-            "&:hover": {
-              bgcolor: "#6750A4",
-            },
+            // "&:hover": {
+            //   bgcolor: "#6750A4",
+            // },
           }}
-          onClick={() => navigate("/")}
+          onClick={() => {
+            login(data);
+            localStorage.setItem("email", JSON.stringify(email));
+          }}
         >
-          Login to your account
+          {loading ? <CircularProgress /> : "Login to your account"}
         </Button>
       </Box>
       <Box>
@@ -156,6 +175,24 @@ function LoginForm() {
           Forgot your password?
         </Typography>
       </Box>
+      <Snackbar
+        open={open}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
+        autoHideDuration={6000}
+        onClose={() => setOpen(false)}
+        message={success}
+        action={<CloseIcon />}
+      />
+      <Snackbar
+        open={openError}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
+        autoHideDuration={6000}
+        onClose={() => setOpenError(false)}
+        message={error}
+        action={<CloseIcon />}
+      />
     </Stack>
     // <div className="h-screen bg-brand/100 flex flex-col items-center p-[20px] justify-center font-roboto">
     //   <div className="text-white">
