@@ -17,13 +17,13 @@ export const UserProvider = ({ children }) => {
     const user = localStorage.getItem("user");
     if (user) {
       setUser(JSON.parse(user));
-    } else setUser(null);
+    }
 
 
     const isAuthenticated = localStorage.getItem("isAuthenticated");
     if (isAuthenticated) {
       setIsAuthenticated(JSON.parse(isAuthenticated));
-    } else setIsAuthenticated(false);
+    }
 
 
   }, [loading]);

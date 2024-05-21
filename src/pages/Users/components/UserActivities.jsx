@@ -3,8 +3,11 @@ import OrderTable from '../../../components/OrderTable';
 import {v4 as uuid}  from 'uuid';
 import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from '@mui/material';
 import PinnedIcon from '../../../assets/icons/PinnedIcon';
+import { useAuth } from '../../../utils/contexts/userContext/UserContext';
+import moment from "moment";
 
-const UserActivities = () => {
+const UserActivities = ({currentUser=false}) => {
+  const { user } = useAuth()
     const HeaderName = ({ header }) => {
       return (
         <Typography fontSize="14px" fontWeight={500} color="#000">
@@ -308,7 +311,7 @@ const UserActivities = () => {
         p="16px"
         sx={{ border: "1px solid #CAC4D0", borderRadius: "20px" }}
       >
-        <TableContainer sx={{ height: "262px", }}>
+        <TableContainer sx={{ height: "262px" }}>
           <Table
             stickyHeader
             sx={{ width: "100%", height: "262px" }}
@@ -365,7 +368,9 @@ const UserActivities = () => {
               Registered on:
             </p>
             <p className="font-roboto  text-[20px] text-brand/100">
-              22-03-2023 13:05
+              {currentUser
+                ? moment(user?.user?.createdAt).format("DD-MM-YYYY HH:mm")
+                : "22-03-2023 13:05"}
             </p>
           </Box>
           <Box mb="16px">
@@ -373,7 +378,9 @@ const UserActivities = () => {
               Last Login:
             </p>
             <p className="font-roboto  text-[20px] text-brand/100">
-              22-03-2023 13:05
+              {currentUser
+                ? moment(user?.user?.lastLogin).format("DD-MM-YYYY HH:mm")
+                : "22-03-2023 13:05"}
             </p>
           </Box>
           <Box>
