@@ -27,7 +27,7 @@ import { useAuth } from "../../utils/contexts/userContext/UserContext";
 function OrderHome() {
   const confirmedOrders = ['Confirmed', 'Delivered'];
   const { user } = useAuth()
-  const { data } = useCustomGetRequest(`import/mine/${user?.user?._id}`);
+  const { data } = useCustomGetRequest(`/import/mine/${user?.user?._id}`);
   console.log(data)
   const [anchorEl, setAnchorEl] = useState(null);
   const theme = useTheme()

@@ -1,11 +1,12 @@
 import axios from 'axios';
 
+
 const axiosInstance = axios.create({
     baseURL: "https://rac-backend.onrender.com/api"
 });
 
 
-const bearerToken = `Bearer ${JSON.parse(localStorage.getItem("auth"))
+const bearerToken = `Bearer ${JSON.parse(localStorage.getItem("jwtToken"))
     }`;
 axiosInstance.interceptors.request.use((config) => {
     config.headers.Authorization = bearerToken;

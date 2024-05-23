@@ -33,8 +33,13 @@ import Navbar from "../Layout/Navbar";
 import CustomStepper from "../CustomStepper";
 import ShopForMePackageDetails from "../../pages/ShopForMe/ShopForMePackageDetails";
 import BillingInfo from "../../pages/ShopForMe/BillingInfo";
+import car from "../../assets/images/car.png";
+import axios from "axios";
+import { useAuth } from "../../utils/contexts/userContext/UserContext";
+import axiosInstance from "../../utils/hooks/api/axiosInstance";
 
-const CreateOrder = ({shopForMe = false}) => {
+const CreateOrder = ({ shopForMe = false }) => {
+  const { bearerToken } = useAuth()
   const [assignedCustomer, setAssignedCustomer] = useState("");
   const [orderType, setOrderType] = useState("");
   const [service, setService] = useState("");
@@ -66,6 +71,20 @@ const CreateOrder = ({shopForMe = false}) => {
   const [country, setCountry] = useState("");
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
+  const [carBrand, setCarBrand] = useState("");
+  const [model, setModel] = useState("");
+  const [productionYear, setProductionYear] = useState("");
+  const [carValue, setCarValue] = useState("");
+  const [carCondition, setCarCondition] = useState("");
+  const [mileage, setMileage] = useState("");
+  const [color, setColor] = useState("");
+  const [vehicleIdNumber, setVehicleIdNumber] = useState("");
+  const [link, setLink] = useState("");
+  const [carImage, setCarImage] = useState("");
+  const [carTitle, setCarTitle] = useState("");
+  const [additionalDescription, setAdditionalDescription] = useState("");
+  const [label, setLabel] = useState("");
+  const [description, setDescription] = useState("");
   const [address, setAddress] = useState("");
   const [zipCode, setZipCode] = useState("");
   const [shippingCost, setShippingCost] = useState("");
@@ -74,6 +93,8 @@ const CreateOrder = ({shopForMe = false}) => {
   const [otherCharges, setOtherCharges] = useState("");
   const [activeStep, setActiveStep] = useState(0);
   const [saveAsDraft, setSaveAsDraft] = useState(false);
+  // const [error, setError] = useState("")
+  // const [data, setData] = useState("")
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -144,6 +165,63 @@ const CreateOrder = ({shopForMe = false}) => {
       },
     },
   };
+
+  const autoImportOrderData = {
+    origin: "Dubai",
+    requestItems: [
+      {
+        carBrand: "Mercedes",
+        model: "GLE 350",
+        productionYear: "2024",
+        carValue: "80,000,000",
+        carCondition: "new",
+        color: "black",
+        mileage: "3500",
+        vehicleIdNumber: "123456789",
+        link: "https://google.com",
+        // carImage: car,
+        // carTitle: "mercedes",
+        additionalDescription: "This is a mercedes gle 350",
+        additionalProperties: [{ label: "horse power", description: "1000hp" }],
+      },
+    ],
+  };
+
+  const handleCreateAutoImportOrder = async () => {
+
+    try {
+      const res = await axiosInstance.post(
+        "/auto-import-requests/create",
+        autoImportOrderData
+      );
+      console.log(res)
+    } catch (e) {
+      console.log(e)
+    }
+  };
+  // const autoImportOrderData = {
+  //   origin: origin,
+  //   requestItems: [
+  //     {
+  //       carBrand: carBrand,
+  //       model: model,
+  //       productionYear: productionYear,
+  //       carValue: carValue,
+  //       carCondition: carCondition,
+  //       color: color,
+  //       mileage: mileage,
+  //       vehicleIdNumber: vehicleIdNumber,
+  //       link: link,
+  //       carImage: carImage,
+  //       carTitle: carTitle,
+  //       additionalDescription: additionalDescription,
+  //       additionalProperties: [
+  //         {label: label,
+  //         description: description,}
+  //       ]
+  //     }
+  //   ]
+  // }
 
   const steps =
     exportOrder.orderInformation.service !== "Shop For Me"
@@ -218,6 +296,12 @@ const CreateOrder = ({shopForMe = false}) => {
                   <AutoImportPackageDetails
                     origin={origin}
                     setOrigin={setOrigin}
+                    carBrand={carBrand}
+                    setCarBrand={setCarBrand}
+                    model={model}
+                    setModel={setModel}
+                    productionYear={productionYear}
+                    setProductionYear={setProductionYear}
                   />
                 ) : shopForMe ? (
                   <ShopForMePackageDetails />
@@ -497,7 +581,7 @@ const CreateOrder = ({shopForMe = false}) => {
                   <OrderInfo order={exportOrder.orderInformation} />
 
                   <PackageDetailsInfo order={exportOrder} />
-                  <ShippingDetailsInfo order={exportOrder} service='Import' />
+                  <ShippingDetailsInfo order={exportOrder} service="Import" />
                   <BillingDetailsInfo order={exportOrder} />
                 </Box>
               ) : (
@@ -693,9 +777,8 @@ const CreateOrder = ({shopForMe = false}) => {
                       borderRadius: "100px",
                       textTransform: "none",
                     }}
-                    onClick={() => {
-                      if (!finish) handleNext();
-                    }}
+                    onClick={handleCreateAutoImportOrder}
+                      // if (!finish) handleNext();
                   >
                     Confirm & Submit Order
                   </Button>
