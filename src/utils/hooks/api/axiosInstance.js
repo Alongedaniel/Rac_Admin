@@ -10,18 +10,18 @@ const bearerToken = `Bearer ${JSON.parse(localStorage.getItem("jwtToken"))
     }`;
 axiosInstance.interceptors.request.use((config) => {
     config.headers.Authorization = bearerToken;
-    document.body.classList.add('loading');
+    // document.body.classList.add('loading');
     return config;
 });
 
-axiosInstance.interceptors.response.use(
-    (response) => {
-        document.body.classList.remove('loading');
-        return response;
-    },
-    (error) => {
-        document.body.classList.remove('loading');
-        return Promise.reject(error);
-    }
-);
+// axiosInstance.interceptors.response.use(
+//     (response) => {
+//         document.body.classList.remove('loading');
+//         return response;
+//     },
+//     (error) => {
+//         document.body.classList.remove('loading');
+//         return Promise.reject(error);
+//     }
+// );
 export default axiosInstance;

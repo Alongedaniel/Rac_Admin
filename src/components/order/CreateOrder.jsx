@@ -40,6 +40,7 @@ import axiosInstance from "../../utils/hooks/api/axiosInstance";
 
 const CreateOrder = ({ shopForMe = false }) => {
   const { bearerToken } = useAuth()
+  // console.log(bearerToken);
   const [assignedCustomer, setAssignedCustomer] = useState("");
   const [orderType, setOrderType] = useState("");
   const [service, setService] = useState("");
@@ -179,15 +180,74 @@ const CreateOrder = ({ shopForMe = false }) => {
         mileage: "3500",
         vehicleIdNumber: "123456789",
         link: "https://google.com",
-        // carImage: car,
-        // carTitle: "mercedes",
+        carImage: car,
+        carTitle: "mercedes",
         additionalDescription: "This is a mercedes gle 350",
-        additionalProperties: [{ label: "horse power", description: "1000hp" }],
+        additionalProperties: [
+          {
+            label: "horse power",
+            description: "1000hp"
+          }
+        ],
       },
     ],
   };
 
+  //  const [car, setCar] = useState(null);
+
+  //  const handleFileChange = (event) => {
+  //    setCar(event.target.files[0]);
+  //  };
+
+  // <div>
+  //   <input type="file" onChange={handleFileChange} />
+  //   <button onClick={handleSubmit}>Upload</button>
+  // </div>;
+
+  // let data = new FormData();
+  // data.append("origin", "Brazil");
+  // data.append("requestItems[0][carBrand]", "Bnex");
+  // data.append("requestItems[0][model]", "2019");
+  // data.append("requestItems[0][productionYear]", "2020");
+  // data.append("requestItems[0][carValue]", "209");
+  // data.append("requestItems[0][carCondition]", "New");
+  // data.append("requestItems[0][color]", "yellow");
+  // data.append("requestItems[0][mileage]", "436678");
+  // data.append("requestItems[0][vehicleIdNumber]", "8373625273");
+  // data.append("requestItems[0][link]", "zkhxbjhgvzjbxjhvuibxoiclnkzs");
+  // data.append(
+  //   "requestItems[carImage]",
+  //   car
+  // );
+  // data.append(
+  //   "requestItems[carTitle]",
+  //   car
+  // );
+  // data.append(
+  //   "requestItems[0][additionalDescription]",
+  //   "zkhxbjhgvzjbxjhvuibxoiclnkzs"
+  // );
+  // data.append(
+  //   "requestItems[0][additionalProperties[0][label]]",
+  //   "requestItems[0][additionalDescription]"
+  // );
+  // data.append(
+  //   "requestItems[0][additionalProperties[0][description]]",
+  //   "requestItems[0][additionalProperties[0][label]]"
+  // );
+
+
   const handleCreateAutoImportOrder = async () => {
+    // let config = {
+    //   method: "post",
+    //   maxBodyLength: Infinity,
+    //   url: "https://rac-backend.onrender.com/api/auto-import-requests/create",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: `Bearer ${bearerToken}`,
+    //   },
+    //   data: autoImportOrderData,
+    // };
 
     try {
       const res = await axiosInstance.post(
