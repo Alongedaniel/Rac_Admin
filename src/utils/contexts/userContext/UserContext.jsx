@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import useAccountAuthenticate from "../../hooks/api/auth/useSignUp";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../../hooks/api/axiosInstance";
 
 export const UserContext = createContext(null);
 export const UserProvider = ({ children }) => {
@@ -38,16 +38,7 @@ export const UserProvider = ({ children }) => {
   const signUp = async (data) => {
     setLoading(true);
     try {
-      const res = await axios.post(
-        "https://rac-backend.onrender.com/api/users",
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${bearerToken}`,
-          },
-        }
-      );
+      const res = await axiosInstance.post("/users", data);
 
       console.log(res.data);
       if (res) {
@@ -61,22 +52,14 @@ export const UserProvider = ({ children }) => {
       });
     } catch (e) {
       console.log(e.message);
+      setError(e.message)
       setLoading(false);
     }
   };
   const verifyOtp = async (data) => {
     setLoading(true);
     try {
-      const res = await axios.post(
-        "https://rac-backend.onrender.com/api/users/auth/otp",
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${bearerToken}`,
-          },
-        }
-      );
+      const res = await axiosInstance.post("/users/auth/otp", data);
 
       setUser(res.data);
       setIsAuthenticated(true);
@@ -90,7 +73,7 @@ export const UserProvider = ({ children }) => {
       setSuccess('Account verification successful')
       setLoading(false);
     } catch (e) {
-      setError('Otp invalid or expired')
+      setError(e.response.data)
       setLoading(false);
     }
   };
@@ -98,35 +81,25 @@ export const UserProvider = ({ children }) => {
   const login = async (data) => {
     setLoading(true);
     try {
-      const res = await axios.post(
-        "https://rac-backend.onrender.com/api/users/auth",
-        data, {headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${bearerToken}`,
-          }}
+      const res = await axiosInstance.post(
+        "/users/auth",
+        data
       );
       setMessage(res.data.message);
       setLoading(false);
       navigate("/two-factor-auth");
       setError('')
     } catch (e) {
-      setError('Invalid credentials');
+      setError(e.message);
       setLoading(false);
     }
   };
-  const logout = async (data) => {
+  const logout = async () => {
     setLoading(true);
     try {
-      // const res = await axios.post(
-      //   "https://rac-backend.onrender.com/api/users/logout",
-      //   {
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       Authorization: `Bearer ${bearerToken}`,
-      //     },
-      //     maxBodyLength: Infinity,
-      //   }
-      // );
+      const res = await axiosInstance.post(
+        "/users/logout"
+      );
       setSuccess("Logout successful");
       setLoading(false);
       setUser(null)

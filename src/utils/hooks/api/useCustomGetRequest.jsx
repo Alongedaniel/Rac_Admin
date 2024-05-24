@@ -3,6 +3,7 @@ import React from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { useAuth } from '../../contexts/userContext/UserContext'
+import axiosInstance from './axiosInstance'
 
 const useCustomGetRequest = (url) => {
     const [data, setData] = useState(null)
@@ -11,18 +12,18 @@ const useCustomGetRequest = (url) => {
     const { bearerToken } = useAuth()
 
     const getRequests = async () => {
-        const config = {
-          method: "GET",
-          url: `https://rac-backend.onrender.com/api/${url}`,
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${bearerToken}`,
-          },
-          maxBodyLength: Infinity,
-        };
+        // const config = {
+        //   // method: "GET",
+        //   url: `https://rac-backend.onrender.com/api/${url}`,
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //     Authorization: `Bearer ${bearerToken}`,
+        //   },
+        //   maxBodyLength: Infinity,
+        // };
         setLoading(true)
         try {
-            const res = axios(config)
+            const res = axiosInstance.get(url)
             setData(res.data)
             setError('')
             setLoading(false)
