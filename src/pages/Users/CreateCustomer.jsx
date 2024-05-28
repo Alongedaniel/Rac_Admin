@@ -1,37 +1,101 @@
-import { Box, Button, Grid, MenuItem, Step, StepLabel, Stepper, TextField, Typography } from '@mui/material'
-import React, { useState } from 'react'
-import SectionHeader from '../../components/SectionHeader';
-import CheckWhiteIcon from '../../assets/icons/CheckWhiteIcon';
-import ArrowRightWhite from '../../assets/icons/ArrowRightWhite';
-import ArrowLeftPurple from '../../assets/icons/ArrowLeftPurple';
-import ProfileInformationForm from './components/ProfileInformationForm';
-import AdditionInfoForm from './components/AdditionInfoForm';
-import ProfileInformation from './components/ProfileInformation';
-import drone from '../../assets/images/drone.png'
-import CircleRight from '../../assets/icons/CircleRight';
-import { useNavigate } from 'react-router-dom';
-import CustomStepper from '../../components/CustomStepper';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  MenuItem,
+  Snackbar,
+  Step,
+  StepLabel,
+  Stepper,
+  TextField,
+  Typography,
+} from "@mui/material";
+import React, { useState } from "react";
+import SectionHeader from "../../components/SectionHeader";
+import CheckWhiteIcon from "../../assets/icons/CheckWhiteIcon";
+import ArrowRightWhite from "../../assets/icons/ArrowRightWhite";
+import ArrowLeftPurple from "../../assets/icons/ArrowLeftPurple";
+import ProfileInformationForm from "./components/ProfileInformationForm";
+import AdditionInfoForm from "./components/AdditionInfoForm";
+import ProfileInformation from "./components/ProfileInformation";
+import drone from "../../assets/images/drone.png";
+import CircleRight from "../../assets/icons/CircleRight";
+import { useNavigate } from "react-router-dom";
+import CustomStepper from "../../components/CustomStepper";
+import axiosInstance from "../../utils/hooks/api/axiosInstance";
+import CloseIcon from "../../assets/icons/CloseIcon";
 
 const CreateCustomer = () => {
-    const [activeStep, setActiveStep] = useState(0);
-    const navigate = useNavigate()
+  const [activeStep, setActiveStep] = useState(0);
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [country, setCountry] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [streetAddress, setStreetAddress] = useState("");
+  const [postalCode, setPostalCode] = useState("");
+  const [countryCode, setCountryCode] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [openError, setOpenError] = useState(false);
 
-      const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      };
+  const data = {
+    firstName: firstName,
+    lastName: lastName,
+    email: email,
+    contactAddress: [
+      {
+        country: country,
+        state: state,
+        city: city,
+        streetAddress: streetAddress,
+        countryCode: countryCode,
+        phoneNumber: phoneNumber,
+        postalCode: postalCode,
+      },
+    ],
+  };
 
-      const handleBack = () => {
-        if (activeStep > 0)
-          setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
-    const steps = [
-      "Profile Information",
-      "Additional Information",
-      "Customer Details Confirmation",
-      "New Customer Successfully Added",
-    ];
-    
-      const finish = activeStep === steps.length - 1;
+  console.log(data);
+
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    if (activeStep > 0) setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+  const steps = [
+    "Profile Information",
+    "Additional Information",
+    "Customer Details Confirmation",
+    "New Customer Successfully Added",
+  ];
+
+  const createNewUser = async () => {
+    setLoading(true);
+    try {
+      const res = await axiosInstance.post("/admin/users/add-new-user", data);
+      console.log(res);
+      setUser(res);
+      setError("");
+      setLoading(false);
+      handleNext()
+    } catch (e) {
+      console.log(e);
+      setError(e.response.data.message);
+      setUser(null);
+      setLoading(false);
+      setOpenError(true)
+    }
+  };
+
+  const finish = activeStep === steps.length - 1;
   return (
     <Box px="50px">
       <Box
@@ -56,10 +120,33 @@ const CreateCustomer = () => {
         )}
         <CustomStepper steps={steps} activeStep={activeStep} />
         <Box mt="30px">
-          {activeStep === 0 && <ProfileInformationForm />}
+          {activeStep === 0 && (
+            <ProfileInformationForm
+              firstName={firstName}
+              lastName={lastName}
+              email={email}
+              setFirstName={setFirstName}
+              setLastName={setLastName}
+              setEmail={setEmail}
+              phoneNumber={phoneNumber}
+              country={country}
+              state={state}
+              city={city}
+              setPhoneNumber={setPhoneNumber}
+              setCountry={setCountry}
+              setState={setState}
+              setCity={setCity}
+              postalCode={postalCode}
+              setPostalCode={setPostalCode}
+              streetAddress={streetAddress}
+              setStreetAddress={setStreetAddress}
+              countryCode={countryCode}
+              setCountryCode={setCountryCode}
+            />
+          )}
           {activeStep === 1 && <AdditionInfoForm />}
           {activeStep === 2 && (
-            <ProfileInformation setActiveStep={setActiveStep} />
+            <ProfileInformation data={data} setActiveStep={setActiveStep} />
           )}
           {activeStep === 3 && (
             <Box width="100%">
@@ -201,12 +288,13 @@ const CreateCustomer = () => {
                     height: "40px",
                     borderRadius: "100px",
                     textTransform: "none",
-                  }}
+                    }}
+                    disabled={loading}
                   onClick={() => {
-                    if (!finish) handleNext();
+                    if (!finish) createNewUser();
                   }}
                 >
-                  Confirm & Create new Customer
+                  {loading ? <CircularProgress /> : 'Confirm & Create new Customer'}
                 </Button>
               </>
             )}
@@ -222,6 +310,7 @@ const CreateCustomer = () => {
                   borderRadius: "100px",
                   textTransform: "none",
                 }}
+                disabled={!firstName && !lastName && !email}
                 onClick={() => {
                   if (!finish) handleNext();
                 }}
@@ -232,8 +321,19 @@ const CreateCustomer = () => {
           </Box>
         )}
       </Box>
+      <Snackbar
+        open={openError}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        sx={{
+          "& .MuiSnackbarContent-root": { borderRadius: "30px", top: "130px" },
+        }}
+        autoHideDuration={6000}
+        onClose={() => setOpenError(false)}
+        message={error}
+        action={<CloseIcon />}
+      />
     </Box>
   );
-}
+};
 
-export default CreateCustomer
+export default CreateCustomer;

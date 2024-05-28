@@ -1,10 +1,30 @@
-import React from 'react'
-import SectionHeader from '../../../components/SectionHeader';
-import { Box, Grid, MenuItem, TextField } from '@mui/material';
-import { countryCodes, countries, states, cities } from '../constants';
+import React from "react";
+import SectionHeader from "../../../components/SectionHeader";
+import { Box, Grid, MenuItem, TextField } from "@mui/material";
+import { countryCodes, countries, states, cities } from "../constants";
 
-const ProfileInformationForm = () => {
-
+const ProfileInformationForm = ({
+  firstName,
+  lastName,
+  email,
+  country,
+  state,
+  city,
+  streetAddress,
+  countryCode,
+  phoneNumber,
+  postalCode,
+  setFirstName,
+  setLastName,
+  setEmail,
+  setCountry,
+  setState,
+  setCity,
+  setStreetAddress,
+  setCountryCode,
+  setPhoneNumber,
+  setPostalCode,
+}) => {
   return (
     <>
       <SectionHeader title="Fill in the User’s profile information" />
@@ -26,8 +46,8 @@ const ProfileInformationForm = () => {
               id="first-name"
               type="text"
               label="First Name"
-              // value={receiverFirstName}
-              // onChange={(e) => setReceiverFirstName(e.target.value)}
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
               InputProps={{
                 sx: {
                   borderRadius: "20px", // Apply border radius to the input element
@@ -48,8 +68,8 @@ const ProfileInformationForm = () => {
               id="last-name"
               type="text"
               label="Last Name"
-              // value={receiverLastName}
-              // onChange={(e) => setReceiverLastName(e.target.value)}
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
               InputProps={{
                 sx: {
                   borderRadius: "20px", // Apply border radius to the input element
@@ -72,8 +92,8 @@ const ProfileInformationForm = () => {
               id="receiver's-email"
               type="text"
               label="Email"
-              // value={receiverEmail}
-              // onChange={(e) => setReceiverEmail(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               InputProps={{
                 sx: {
                   borderRadius: "20px", // Apply border radius to the input element
@@ -95,13 +115,13 @@ const ProfileInformationForm = () => {
                   sx={{ fontSize: "16px", color: "#1C1B1F" }}
                   id="code"
                   type="text"
-                  // value={code}
-                  // onChange={(e) => setCode(e.target.value)}
+                  value={countryCode}
+                  onChange={(e) => setCountryCode(e.target.value)}
                   label="Code"
                   select
                   InputProps={{
                     sx: {
-                      borderRadius: "20px",// Apply border radius to the input element
+                      borderRadius: "20px", // Apply border radius to the input element
                       height: "56px",
                       borderColor: "#79747E",
                       fontSize: "16px",
@@ -111,8 +131,7 @@ const ProfileInformationForm = () => {
                   // placeholder="Enter your country"
                 >
                   {countryCodes.map((country, i) => (
-                    <MenuItem value={country.code} key={i}>
-                      {country.name} {country.code}
+                    <MenuItem value={country.code} key={i}>{country.code}
                     </MenuItem>
                   ))}
                 </TextField>
@@ -122,13 +141,13 @@ const ProfileInformationForm = () => {
                   fullWidth
                   sx={{ fontSize: "16px", color: "#1C1B1F" }}
                   id="phone-number"
-                  label='Phone Number'
+                  label="Phone Number"
                   type="text"
-                  // value={number}
-                  // onChange={(e) => setNumber(e.target.value)}
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
                   InputProps={{
                     sx: {
-                      borderRadius: "20px",// Apply border radius to the input element
+                      borderRadius: "20px", // Apply border radius to the input element
                       height: "56px",
                       borderColor: "#79747E",
                       fontSize: "16px",
@@ -150,8 +169,8 @@ const ProfileInformationForm = () => {
               id="destination-country"
               type="text"
               label="Country"
-              // value={destinationCountry}
-              // onChange={(e) => setDestinationCountry(e.target.value)}
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
               defaultValue={""}
               select
               InputProps={{
@@ -179,8 +198,8 @@ const ProfileInformationForm = () => {
               sx={{ fontSize: "16px", color: "#1C1B1F" }}
               id="destination-state"
               type="text"
-              // value={destinationState}
-              // onChange={(e) => setDestinationState(e.target.value)}
+              value={state}
+              onChange={(e) => setState(e.target.value)}
               label="State"
               defaultValue={""}
               select
@@ -209,8 +228,8 @@ const ProfileInformationForm = () => {
               sx={{ fontSize: "16px", color: "#1C1B1F" }}
               id="destination-city"
               type="text"
-              // value={destinationCity}
-              // onChange={(e) => setDestinationCity(e.target.value)}
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
               label="City"
               defaultValue={""}
               select
@@ -240,8 +259,8 @@ const ProfileInformationForm = () => {
           id="address"
           type="text"
           label="Address"
-          // value={receiverAddress}
-          // onChange={(e) => setReceiverAddress(e.target.value)}
+          value={streetAddress}
+          onChange={(e) => setStreetAddress(e.target.value)}
           InputProps={{
             sx: {
               borderRadius: "20px", // Apply border radius to the input element
@@ -259,8 +278,8 @@ const ProfileInformationForm = () => {
           id="zip-code"
           type="text"
           label="Zip/Postal Code"
-          // value={receiverZipCode}
-          // onChange={(e) => setReceiverZipCode(e.target.value)}
+          value={postalCode}
+          onChange={(e) => setPostalCode(e.target.value)}
           InputProps={{
             sx: {
               borderRadius: "20px", // Apply border radius to the input element
@@ -275,6 +294,6 @@ const ProfileInformationForm = () => {
       </Box>
     </>
   );
-}
+};
 
-export default ProfileInformationForm
+export default ProfileInformationForm;

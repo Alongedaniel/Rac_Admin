@@ -4,7 +4,7 @@ import SectionHeader from '../../../components/SectionHeader';
 import CardWrapper from '../../../components/order/components/CardWrapper';
 import EditIcon from '../../../assets/icons/EditIcon';
 
-const ProfileInformation = ({setActiveStep}) => {
+const ProfileInformation = ({setActiveStep, data}) => {
   return (
     <>
       <Box mt="30px">
@@ -21,7 +21,7 @@ const ProfileInformation = ({setActiveStep}) => {
                     First Name:
                   </p>
                   <p className="font-roboto  text-[20px] text-brand/100">
-                    Malibu
+                    {data.firstName}
                   </p>
                 </div>
                 <div className="col-span-3">
@@ -29,7 +29,7 @@ const ProfileInformation = ({setActiveStep}) => {
                     Last Name:
                   </p>
                   <p className="font-roboto  text-[20px] text-brand/100">
-                    SHedrack
+                    {data.lastName}
                   </p>
                 </div>
                 <div className="col-span-2">
@@ -37,7 +37,8 @@ const ProfileInformation = ({setActiveStep}) => {
                     Phone Number:
                   </p>
                   <p className="font-roboto  text-[20px] text-brand/100">
-                    +234 803 456 7845
+                    {data.contactAddress[0].countryCode}{" "}
+                    {data.contactAddress[0].phoneNumber}
                   </p>
                 </div>
                 <div className="col-span-3">
@@ -45,7 +46,7 @@ const ProfileInformation = ({setActiveStep}) => {
                     Email:
                   </p>
                   <p className="font-roboto  text-[20px] text-brand/100">
-                    Malibushdrack@gmail.com
+                    {data.email}
                   </p>
                 </div>
               </div>
@@ -54,7 +55,7 @@ const ProfileInformation = ({setActiveStep}) => {
                   Address:
                 </p>
                 <p className="font-roboto  text-[20px] text-brand/100">
-                  No, 1osolo way, ikeja road, behind scaint merry
+                  {data.contactAddress[0].streetAddress}
                 </p>
               </div>
               <div className="grid grid-cols-5 gap-[20px] mt-[30px] ">
@@ -63,7 +64,7 @@ const ProfileInformation = ({setActiveStep}) => {
                     Country:
                   </p>
                   <p className="font-roboto  text-[20px] text-brand/100">
-                    Turkey
+                    {data.contactAddress[0].country}
                   </p>
                 </div>
                 <div className="">
@@ -71,7 +72,7 @@ const ProfileInformation = ({setActiveStep}) => {
                     State:
                   </p>
                   <p className="font-roboto  text-[20px] text-brand/100">
-                    Istanbul
+                    {data.contactAddress[0].state}
                   </p>
                 </div>
                 <div className="">
@@ -79,7 +80,7 @@ const ProfileInformation = ({setActiveStep}) => {
                     City:
                   </p>
                   <p className="font-roboto  text-[20px] text-brand/100">
-                    Cyprusic
+                    {data.contactAddress[0].city}
                   </p>
                 </div>
                 <div className="col-span-2">
@@ -87,7 +88,7 @@ const ProfileInformation = ({setActiveStep}) => {
                     Zip/postal Code:
                   </p>
                   <p className="font-roboto  text-[20px] text-brand/100">
-                    98765
+                    {data.contactAddress[0].postalCode}
                   </p>
                 </div>
               </div>
