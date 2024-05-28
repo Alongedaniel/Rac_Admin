@@ -30,10 +30,11 @@ import useCustomGetRequest from "../../utils/hooks/api/useCustomGetRequest";
 
 const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
   const { user } = useAuth()
+  
   const navigate = useNavigate()
   const location = useLocation()
   const id = location?.state?.id
-  const { data, loading } = useCustomGetRequest(`/admin/users/${id}`);
+  const { data, loading } = useCustomGetRequest(`/admin/users/${id ?? user?.user?._id}`);
   console.log(data?.user)
   const [currentTab, setCurrentTab] = useState("Account Information");
   const [openEditProfile, setOpenEditProfile] = useState(false)
@@ -76,7 +77,7 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
               display="inline"
               fontWeight={700}
             >
-              {currentUser ? user?.user?.racId : data?.user?.racId}
+              {data?.user?.racId}
             </Typography>
           </Typography>
         </Box>
@@ -114,9 +115,7 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
                   justifyContent="center"
                 >
                   <Typography fontSize="50px" color="#1D192B">
-                    {currentUser
-                      ? user?.user?.firstName.slice(0, 1)
-                      : data?.user?.firstName.slice(0, 1)}
+                    {data?.user?.firstName.slice(0, 1)}
                   </Typography>
                 </Box>
               </Grid>
@@ -125,14 +124,14 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
                   First Name:
                 </p>
                 <p className="font-roboto  text-[20px] text-brand/100">
-                  {currentUser ? user?.user?.firstName : data?.user?.firstName}
+                  {data?.user?.firstName}
                 </p>
                 <Box mt="8px">
                   <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                     Other Name:
                   </p>
                   <p className="font-roboto  text-[20px] text-brand/100">
-                    {currentUser ? user?.user?.lastName : data?.user?.lastName}
+                    {data?.user?.lastName}
                   </p>
                 </Box>
               </Grid>
@@ -140,27 +139,21 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
                 <Box mb="8px" display={"flex"} alignItems="center" gap="18px">
                   <CallIcon />
                   <Typography>
-                    {
-                      data?.user?.contactAddress[0]?.phoneNumber ? data?.user
-                        ?.countryCode : 'N/A'
-                    }{" "}
-                    {currentUser
-                      ? user?.user?.contactAddress[0]?.phoneNumber
-                      : data?.user?.contactAddress[0]?.phoneNumber}
+                    {data?.user?.contactAddress[0]?.phoneNumber
+                      ? data?.user?.countryCode ??
+                        data?.user?.contactAddress[0]?.countryCode
+                      : "N/A"}{" "}
+                    {data?.user?.contactAddress[0]?.phoneNumber}
                   </Typography>
                 </Box>
                 <Box mb="8px" display={"flex"} alignItems="center" gap="18px">
                   <GmailIcon />
-                  <Typography>
-                    {currentUser ? user?.user?.email : data?.user?.email}
-                  </Typography>
+                  <Typography>{data?.user?.email}</Typography>
                 </Box>
                 <Box display={"flex"} alignItems="center" gap="18px">
                   <Location />
                   <Typography>
-                    {currentUser
-                      ? `${user?.user?.contactAddress[0]?.streetAddress}, ${user?.user?.contactAddress[0]?.city}, ${user?.user?.contactAddress[0]?.state}, ${user?.user?.contactAddress[0]?.country}, ${user?.user?.contactAddress[0]?.postalCode}`
-                      : data?.user?.contactAddress?.length
+                    {data?.user?.contactAddress?.length
                       ? `${
                           data?.user?.contactAddress[0]?.streetAddress ?? ""
                         }, ${data?.user?.contactAddress[0]?.city ?? ""}, ${
@@ -257,7 +250,7 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
                           Email:
                         </p>
                         <p className="font-roboto  text-[20px] text-brand/100">
-                          {currentUser ? user?.user?.email : data?.user?.email}
+                          {data?.user?.email}
                         </p>
                       </Box>
                       <Box>
@@ -313,11 +306,7 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
                         </p>
                         <Box display="flex" gap="10px" alignItems="center">
                           <p className="font-roboto  text-[20px] text-brand/100">
-                            {currentUser
-                              ? user?.user?.isEmailVerified
-                                ? "Verified"
-                                : "Unverified"
-                              : data?.user?.isEmailVerified
+                            {data?.user?.isEmailVerified
                               ? "Verified"
                               : "Unverified"}
                           </p>
@@ -344,13 +333,7 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
                           Role:
                         </p>
                         <p className="font-roboto  text-[20px] text-brand/100">
-                          {currentUser
-                            ? user?.user?.isAmin
-                              ? "Staff"
-                              : "Customer"
-                            : data?.user?.isAmin
-                            ? "Staff"
-                            : "Customer"}
+                          {data?.user?.isAmin ? "Staff" : "Customer"}
                         </p>
                       </Box>
                     </Box>
@@ -392,13 +375,9 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
                           Registered on:
                         </p>
                         <p className="font-roboto  text-[20px] text-brand/100">
-                          {currentUser
-                            ? moment(user?.user?.createdAt).format(
-                                "DD-MM-YYYY HH:mm"
-                              )
-                            : moment(data?.user?.createdAt).format(
-                                "DD-MM-YYYY HH:mm"
-                              )}
+                          {moment(data?.user?.createdAt).format(
+                            "DD-MM-YYYY HH:mm"
+                          )}
                         </p>
                       </Box>
                       <Box mb="16px">
@@ -406,13 +385,9 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
                           Last Login:
                         </p>
                         <p className="font-roboto  text-[20px] text-brand/100">
-                          {currentUser
-                            ? moment(user?.user?.lastLogin).format(
-                                "DD-MM-YYYY HH:mm"
-                              )
-                            : moment(data?.user?.lastLogin).format(
-                                "DD-MM-YYYY HH:mm"
-                              )}
+                          {moment(data?.user?.lastLogin).format(
+                            "DD-MM-YYYY HH:mm"
+                          )}
                         </p>
                       </Box>
                       <Box>
@@ -420,11 +395,9 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
                           Last Logout:
                         </p>
                         <p className="font-roboto  text-[20px] text-brand/100">
-                          {currentUser
-                            ? "22-03-2023 13:05"
-                            : moment(data?.user?.lastLogout).format(
-                                "DD-MM-YYYY HH:mm"
-                              )}
+                          {moment(data?.user?.lastLogout).format(
+                            "DD-MM-YYYY HH:mm"
+                          )}
                         </p>
                       </Box>
                     </Box>
@@ -651,7 +624,7 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
                   >
                     {countryCodes.map((country, i) => (
                       <MenuItem value={country.code} key={i}>
-                        {country.name} {country.code}
+                        {country.code}
                       </MenuItem>
                     ))}
                   </TextField>

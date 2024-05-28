@@ -694,8 +694,8 @@ const SignupForm = () => {
                     placeholder="Enter your country code"
                   >
                     {countryCodes.map((code, i) => (
-                      <MenuItem value={`${code.name} ${code.code}`} key={i}>
-                        {`${code.name} ${code.code}`}
+                      <MenuItem value={code.code} key={i}>
+                        {code.code}
                       </MenuItem>
                     ))}
                   </TextField>
