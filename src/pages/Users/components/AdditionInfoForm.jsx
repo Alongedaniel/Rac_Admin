@@ -4,7 +4,6 @@ import CardWrapper from '../../../components/order/components/CardWrapper';
 import { countryCodes, countries, states, cities } from "../constants";
 
 const AdditionInfoForm = () => {
-    const [addressType, setAddressType] = useState("Personal Address");
   return (
     <Box>
       <TextField
@@ -27,39 +26,7 @@ const AdditionInfoForm = () => {
         // placeholder="Enter your country"
       />
       <Box mt="24px" display="flex" flexDirection="column" gap="16px">
-        <CardWrapper
-          title="Customer’s Personal Address"
-          showRadio={
-            <Radio
-              value="Personal Address"
-              checked={addressType === "Personal Address"}
-              onChange={() => setAddressType("Personal Address")}
-            />
-          }
-        >
-          <Box maxWidth="327px" mt="5px">
-            <Typography color="#49454F" fontSize="14px">
-              +234 8080006321
-            </Typography>
-            <Typography color="#49454F" fontSize="14px">
-              rexoffor@gmail.com
-            </Typography>
-            <Typography color="#49454F" fontSize="14px">
-              29b Osolo Way Opposite Polaris Bank Ajao Estate, ikeja, Lagos
-              State, USA, 075348
-            </Typography>
-          </Box>
-        </CardWrapper>
-        <CardWrapper
-          title="Custom Business Address"
-          showRadio={
-            <Radio
-              value="Business Address"
-              checked={addressType === "Business Address"}
-              onChange={() => setAddressType("Business Address")}
-            />
-          }
-        >
+
           <Box
             display="flex"
             flexDirection="column"
@@ -119,7 +86,7 @@ const AdditionInfoForm = () => {
                     >
                       {countryCodes.map((country, i) => (
                         <MenuItem value={country.code} key={i}>
-                          {country.name} {country.code}
+                          {country.code}
                         </MenuItem>
                       ))}
                     </TextField>
@@ -280,7 +247,6 @@ const AdditionInfoForm = () => {
               // placeholder="Enter your country"
             />
           </Box>
-        </CardWrapper>
       </Box>
     </Box>
   );

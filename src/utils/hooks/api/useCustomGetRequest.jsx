@@ -7,7 +7,7 @@ import axiosInstance from './axiosInstance'
 
 const useCustomGetRequest = (url) => {
     const [data, setData] = useState(null)
-    const [error, setError] = useState(null)
+    const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
     const { bearerToken } = useAuth()
 
@@ -23,13 +23,13 @@ const useCustomGetRequest = (url) => {
         // };
         setLoading(true)
         try {
-            const res = axiosInstance.get(url)
+            const res = await axiosInstance.get(url)
             setData(res.data)
             setError('')
             setLoading(false)
         } catch (e) {
             setError(e.message)
-            setData(null)
+            setData([])
             setLoading(false)
         }
     }

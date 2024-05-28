@@ -181,7 +181,7 @@ const BillingDetailsForm = ({
                     >
                       {countryCodes.map((country, i) => (
                         <MenuItem value={country.code} key={i}>
-                          {country.name} {country.code}
+                          {country.code}
                         </MenuItem>
                       ))}
                     </TextField>
