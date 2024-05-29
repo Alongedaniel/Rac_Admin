@@ -8,15 +8,15 @@ import { Navigate, useLocation } from "react-router-dom";
 const MainLayout = ({ children, title, showFullBar, setShowFullBar }) => {
   const location = useLocation();
   const { isAuthenticated } = useAuth();
-  // if (!isAuthenticated && location.pathname !== "/")
-  //   return (
-  //     <Navigate
-  //       to="/login"
-  //       state={{
-  //         from: location.pathname,
-  //       }}
-  //     />
-  //   );
+  if (!isAuthenticated && location.pathname !== "/")
+    return (
+      <Navigate
+        to="/login"
+        state={{
+          from: location.pathname,
+        }}
+      />
+    );
   return (
     // <Container maxWidth="xl" disableGutters>
     <Box display="flex" minWidth="1200px">
