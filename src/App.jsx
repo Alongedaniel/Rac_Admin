@@ -48,6 +48,7 @@ import ShippingMethods from "./pages/Settings/ShippingMethods";
 import Home from "./pages/Home/Home";
 import { useAuth } from "./utils/contexts/userContext/UserContext";
 import RequireAuth from "./components/Layout/RequireAuth";
+import { resetLogoutTimer } from "./utils/hooks/api/auth/AutoLogout";
 
 function App() {
   const location = useLocation();
@@ -65,10 +66,7 @@ function App() {
     },
   };
   const theme = createTheme(themeOptions);
-  const admin =
-    localStorage.getItem("auth") &&
-    JSON.parse(localStorage.getItem("auth")).isAdmin;
-  console.log(admin);
+  resetLogoutTimer();
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
