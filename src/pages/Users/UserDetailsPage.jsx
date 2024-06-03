@@ -34,8 +34,9 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
   const navigate = useNavigate()
   const location = useLocation()
   const id = location?.state?.id
-  const { data, loading } = useCustomGetRequest(`/admin/users/${id ?? user?.user?._id}`);
-  console.log(data?.user)
+  const { data, loading } = useCustomGetRequest((userType === "Customer" ? `/admin/users/${id}` : `/admin/get-single-staff/${id}`) ?? '');
+  console.log(data)
+  const userData = userType === "Customer" ? data?.user : data?.staffMember
   const [currentTab, setCurrentTab] = useState("Account Information");
   const [openEditProfile, setOpenEditProfile] = useState(false)
   const handleOpenEditProfile = () => setOpenEditProfile(true);
@@ -77,7 +78,7 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
               display="inline"
               fontWeight={700}
             >
-              {data?.user?.racId}
+              {userData?.racId}
             </Typography>
           </Typography>
         </Box>
@@ -115,7 +116,7 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
                   justifyContent="center"
                 >
                   <Typography fontSize="50px" color="#1D192B">
-                    {data?.user?.firstName.slice(0, 1)}
+                    {userData?.firstName.slice(0, 1)}
                   </Typography>
                 </Box>
               </Grid>
@@ -124,14 +125,14 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
                   First Name:
                 </p>
                 <p className="font-roboto  text-[20px] text-brand/100">
-                  {data?.user?.firstName}
+                  {userData?.firstName}
                 </p>
                 <Box mt="8px">
                   <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                     Other Name:
                   </p>
                   <p className="font-roboto  text-[20px] text-brand/100">
-                    {data?.user?.lastName}
+                    {userData?.lastName}
                   </p>
                 </Box>
               </Grid>
@@ -139,29 +140,29 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
                 <Box mb="8px" display={"flex"} alignItems="center" gap="18px">
                   <CallIcon />
                   <Typography>
-                    {data?.user?.contactAddress[0]?.phoneNumber
-                      ? data?.user?.countryCode ??
-                        data?.user?.contactAddress[0]?.countryCode
+                    {userData?.contactAddress[0]?.phoneNumber
+                      ? userData?.countryCode ??
+                        userData?.contactAddress[0]?.countryCode
                       : "N/A"}{" "}
-                    {data?.user?.contactAddress[0]?.phoneNumber}
+                    {userData?.contactAddress[0]?.phoneNumber}
                   </Typography>
                 </Box>
                 <Box mb="8px" display={"flex"} alignItems="center" gap="18px">
                   <GmailIcon />
-                  <Typography>{data?.user?.email}</Typography>
+                  <Typography>{userData?.email}</Typography>
                 </Box>
                 <Box display={"flex"} alignItems="center" gap="18px">
                   <Location />
                   <Typography>
-                    {data?.user?.contactAddress?.length
+                    {userData?.contactAddress?.length
                       ? `${
-                          data?.user?.contactAddress[0]?.streetAddress ?? ""
-                        }, ${data?.user?.contactAddress[0]?.city ?? ""}, ${
-                          data?.user?.contactAddress[0]?.state ?? ""
-                        }, ${data?.user?.contactAddress[0]?.country ?? ""}, ${
-                          data?.user?.contactAddress[0]?.postalCode ?? ""
+                          userData?.contactAddress[0]?.streetAddress ?? ""
+                        }, ${userData?.contactAddress[0]?.city ?? ""}, ${
+                          userData?.contactAddress[0]?.state ?? ""
+                        }, ${userData?.contactAddress[0]?.country ?? ""}, ${
+                          userData?.contactAddress[0]?.postalCode ?? ""
                         }`
-                      : data?.user?.country}
+                      : userData?.country}
                   </Typography>
                 </Box>
               </Grid>
@@ -250,7 +251,7 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
                           Email:
                         </p>
                         <p className="font-roboto  text-[20px] text-brand/100">
-                          {data?.user?.email}
+                          {userData?.email}
                         </p>
                       </Box>
                       <Box>
@@ -258,7 +259,7 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
                           Password:
                         </p>
 
-                        {data?.user?.password.split("").map((password, i) => (
+                        {userData?.password.split("").map((password, i) => (
                           <span
                             key={i}
                             style={{ wordBreak: "break-all" }}
@@ -306,7 +307,7 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
                         </p>
                         <Box display="flex" gap="10px" alignItems="center">
                           <p className="font-roboto  text-[20px] text-brand/100">
-                            {data?.user?.isEmailVerified
+                            {userData?.isEmailVerified
                               ? "Verified"
                               : "Unverified"}
                           </p>
@@ -333,7 +334,7 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
                           Role:
                         </p>
                         <p className="font-roboto  text-[20px] text-brand/100">
-                          {data?.user?.isAmin ? "Staff" : "Customer"}
+                          {userData?.isAdmin ? "Staff" : "Customer"}
                         </p>
                       </Box>
                     </Box>
@@ -375,7 +376,7 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
                           Registered on:
                         </p>
                         <p className="font-roboto  text-[20px] text-brand/100">
-                          {moment(data?.user?.createdAt).format(
+                          {moment(userData?.createdAt).format(
                             "DD-MM-YYYY HH:mm"
                           )}
                         </p>
@@ -385,7 +386,7 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
                           Last Login:
                         </p>
                         <p className="font-roboto  text-[20px] text-brand/100">
-                          {moment(data?.user?.lastLogin).format(
+                          {moment(userData?.lastLogin).format(
                             "DD-MM-YYYY HH:mm"
                           )}
                         </p>
@@ -395,7 +396,7 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
                           Last Logout:
                         </p>
                         <p className="font-roboto  text-[20px] text-brand/100">
-                          {moment(data?.user?.lastLogout).format(
+                          {moment(userData?.lastLogout).format(
                             "DD-MM-YYYY HH:mm"
                           )}
                         </p>

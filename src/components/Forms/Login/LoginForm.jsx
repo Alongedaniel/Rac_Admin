@@ -30,21 +30,24 @@ function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   // const { data: products } = useGetProducts();
-  useEffect(() => {
-    if (success) {
-      setOpen(success ? true : false);
+    useEffect(() => {
+      if (error || success) {
+        setOpen(true);
+      } else setOpen(false);
+    }, [loading]);
+  
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
     }
-    if (error) {
-      setOpenError(error ? true : false);
-    }
-    setTimeout(() => {
-      setSuccess("");
-      setError("");
-    }, 10000);
-  }, [loading]);
+
+    setOpen(false);
+    setError('')
+    setSuccess('')
+  };
 
   const data = {
-    email: email,
+    email: email.toLowerCase(),
     password: password,
   };
 
@@ -87,6 +90,7 @@ function LoginForm() {
             fontSize="22px"
             color="#79747E"
             mb={{ xs: "30px", sm: "60px" }}
+            textAlign="center"
           >
             LOGIN
           </Typography>
@@ -133,7 +137,7 @@ function LoginForm() {
               placeholder="Enter your password"
             />
           </Box>
-          <Box display='flex' justifyContent='center'>
+          <Box display="flex" justifyContent="center">
             <Button
               type="submit"
               disabled={loading}
@@ -188,11 +192,15 @@ function LoginForm() {
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
         autoHideDuration={6000}
-        onClose={() => setOpen(false)}
-        message={success}
-        action={<CloseIcon />}
+        onClose={handleClose}
+        message={success || error}
+        action={
+          <Box onClick={handleClose}>
+            <CloseIcon />
+          </Box>
+        }
       />
-      <Snackbar
+      {/* <Snackbar
         open={openError}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
@@ -200,7 +208,7 @@ function LoginForm() {
         onClose={() => setOpenError(false)}
         message={error}
         action={<CloseIcon />}
-      />
+      /> */}
     </Stack>
     // <div className="h-screen bg-brand/100 flex flex-col items-center p-[20px] justify-center font-roboto">
     //   <div className="text-white">

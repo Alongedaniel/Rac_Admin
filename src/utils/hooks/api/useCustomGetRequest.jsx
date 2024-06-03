@@ -4,12 +4,21 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import { useAuth } from '../../contexts/userContext/UserContext'
 import axiosInstance from './axiosInstance'
+import { CronJob } from "cron";
 
 const useCustomGetRequest = (url) => {
     const [data, setData] = useState(null)
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
     const { bearerToken } = useAuth()
+      const job = new CronJob(
+        "1 * * * * *",
+        function () {
+          const res = axiosInstance.get(url);
+        },
+        true
+      );
+      job.start();
 
     const getRequests = async () => {
         // const config = {
@@ -24,6 +33,7 @@ const useCustomGetRequest = (url) => {
         setLoading(true)
         try {
             const res = await axiosInstance.get(url)
+            console.log(res.data)
             setData(res.data)
             setError('')
             setLoading(false)
@@ -36,9 +46,9 @@ const useCustomGetRequest = (url) => {
 
     useEffect(() => {
         getRequests()
-    }, [url])
+    }, [])
 
-  return {data, error, loading}
+  return { data, error, loading, setError };
 }
 
 export default useCustomGetRequest

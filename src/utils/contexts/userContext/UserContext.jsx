@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import useAccountAuthenticate from "../../hooks/api/auth/useSignUp";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../hooks/api/axiosInstance";
+import { CronJob } from "cron";
 
 export const UserContext = createContext(null);
 export const UserProvider = ({ children }) => {
@@ -13,6 +14,16 @@ export const UserProvider = ({ children }) => {
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('')
+        // const job = new CronJob(
+        //   "1 * * * * *",
+        //   function () {
+        //     const res = axiosInstance.post("/admin/auth", '')
+        //     const res1 = axiosInstance.post("/admin/auth/otp", '')
+        //     const res2 =  axiosInstance.post("/users", '');
+        //   },
+        //   true
+        // );
+        // job.start();
 
   useEffect(() => {
     const user = localStorage.getItem("user");
@@ -52,14 +63,17 @@ export const UserProvider = ({ children }) => {
       });
     } catch (e) {
       console.log(e.message);
-      setError(e.message)
+      if (e.response.request.status == 404) setError("Not found");
+      else if (e.response.request.status == 500)
+        setError("Internal server error");
+      else setError(e.message);
       setLoading(false);
     }
   };
   const verifyOtp = async (data) => {
     setLoading(true);
     try {
-      const res = await axiosInstance.post("/users/auth/otp", data);
+      const res = await axiosInstance.post("/admin/auth/otp", data);
 
       setUser(res.data);
       setIsAuthenticated(true);
@@ -81,25 +95,22 @@ export const UserProvider = ({ children }) => {
   const login = async (data) => {
     setLoading(true);
     try {
-      const res = await axiosInstance.post(
-        "/users/auth",
-        data
-      );
+      const res = await axiosInstance.post("/admin/auth", data);
       setMessage(res.data.message);
       setLoading(false);
       navigate("/two-factor-auth");
       setError('')
     } catch (e) {
-      setError(e.message);
+      if (e.response.request.status == 404) setError('Not found')
+      else if (e.response.request.status == 500) setError('Internal server error')
+      else setError(e.message);
       setLoading(false);
     }
   };
   const logout = async () => {
     setLoading(true);
     try {
-      const res = await axiosInstance.post(
-        "/users/logout"
-      );
+      const res = await axiosInstance.post("/admin/logout");
       setSuccess("Logout successful");
       setLoading(false);
       setUser(null)

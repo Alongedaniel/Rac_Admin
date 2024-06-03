@@ -1,5 +1,5 @@
-import { Box, Button, Menu, MenuItem, Paper, TextField, Typography, useMediaQuery, useTheme } from '@mui/material';
-import React, { useState } from 'react'
+import { Box, Button, Menu, MenuItem, Paper, Snackbar, TextField, Typography, useMediaQuery, useTheme, IconButton, Tooltip, CircularProgress } from '@mui/material';
+import React, { useEffect, useState } from 'react'
 import NewCustomerIcon from '../../assets/icons/NewCustomerIcon';
 import { useNavigate } from 'react-router-dom';
 import ActionButton from '../../components/ActionButton';
@@ -8,18 +8,50 @@ import SearchIcon from '../../assets/icons/SearchIcon';
 import BulkIcon from '../../assets/icons/BulkIcon';
 import OrderTable from '../../components/OrderTable';
 import MoreIcon from '../../assets/icons/MoreIcon';
+import useCustomGetRequest from '../../utils/hooks/api/useCustomGetRequest';
+import CloseIcon from '../../assets/icons/CloseIcon';
+import { bgColor } from './Customer';
+import moment from 'moment';
 
 const Staff = () => {
   const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = useState(null);
     const theme = useTheme();
     const desktop = useMediaQuery(theme.breakpoints.up("xl"));
+    const { data, loading, error, setError } =
+      useCustomGetRequest(`/admin/get-staffs`);
+  console.log(data)
   const open = Boolean(anchorEl);
-  const handleOpenMenu = (e) => {
+  const [thisId, setThisId] = useState("");
+    const menuItems = [
+      "View/Edit user",
+      "Suspend/Delete account",
+      "Manage Orders",
+      "Manage Shipments",
+      "Manage Payments",
+      "Send message",
+    ];
+  const handleOpenMenu = (e, id) => {
     setAnchorEl(e.currentTarget);
+    setThisId(id);
   };
   const handleCloseMenu = () => {
     setAnchorEl(null);
+  };
+  const [openError, setOpenError] = useState(false);
+  useEffect(() => {
+    if (error) {
+      setOpenError(true);
+    } else setOpenError(false);
+  }, [loading]);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenError(false);
+    setError("");
   };
   const HeaderName = ({ header }) => {
     return (
@@ -225,7 +257,8 @@ const Staff = () => {
        //     </Box>
        //   ),
        // },
-       {flex: desktop ? 1 : undefined,
+       {
+         flex: desktop ? 1 : undefined,
          field: "id",
          headerName: <HeaderName header="User Avatar & ID" />,
          width: 210,
@@ -237,7 +270,6 @@ const Staff = () => {
              p="8px"
              borderRadius={"24px"}
              bgcolor="rgba(103, 80, 164, 0.05)"
-             width='100%'
            >
              {" "}
              <Box
@@ -247,16 +279,15 @@ const Staff = () => {
                alignItems={"center"}
                justifyContent="center"
                borderRadius={"100%"}
-               bgcolor={params.row.bg}
+               bgcolor={bgColor[Math.floor(Math.random() * 6)]}
              >
-               {params.row.name.slice(0, 1)}
+               {params.row.firstName?.slice(0, 1).toUpperCase()}
              </Box>
              <Typography
                onClick={() =>
-                 navigate(`user-id_${params.row.id}`, {
+                 navigate(`user-id_${params.row.racId}`, {
                    state: {
-                     order: params.row,
-                     type: "shop for me",
+                     id: params.row._id,
                    },
                  })
                }
@@ -265,22 +296,33 @@ const Staff = () => {
                fontWeight={500}
                color="#000"
              >
-               {params.row.id}
+               {params.row.racId}
              </Typography>
            </Box>
          ),
        },
-       {flex: desktop ? 1 : undefined,
+       {
+         flex: desktop ? 1 : undefined,
          field: "name",
          headerName: <HeaderName header="Name" />,
          width: 170,
+         renderCell: (params) => (
+           <Tooltip title={`${params.row.firstName} ${params.row.lastName}`}>
+             <Typography>
+               {params.row.firstName} {params.row.lastName}
+             </Typography>
+           </Tooltip>
+         ),
        },
-       {flex: desktop ? 1 : undefined,
+       {
+         flex: desktop ? 1 : undefined,
          field: "email",
          headerName: <HeaderName header="Email" />,
          width: 230,
          renderCell: (params) => (
-           <Typography>{truncateEmail(params.row.email ?? "")}</Typography>
+           <Tooltip title={`${params.row.email}`}>
+             <Typography>{truncateEmail(params.row.email ?? "")}</Typography>
+           </Tooltip>
          ),
        },
        // {
@@ -300,7 +342,8 @@ const Staff = () => {
        //     </Typography>
        //   ),
        // },
-       {flex: desktop ? 1 : undefined,
+       {
+         flex: desktop ? 1 : undefined,
          field: "status",
          headerName: <HeaderName header="Status" />,
          // type: "number",
@@ -311,23 +354,32 @@ const Staff = () => {
              fontSize="14px"
              fontWeight={500}
              width="100%"
-             color={
-               params.row.status === "Pending Verification" ? "#49454F" : "#fff"
-             }
+             color="#fff"
              sx={{
-               bgcolor: getStatusBgColor(params.row.status),
+               bgcolor: getStatusBgColor(
+                 params.row.isEmailVerified ? "Verified" : "Unverified"
+               ),
                p: "5px 10px",
                borderRadius: "10px",
              }}
            >
-             {params.row.status}
+             {params.row.isEmailVerified ? "Verified" : "Unverified"}
            </Typography>
          ),
        },
-       {flex: desktop ? 1 : undefined,
+       {
+         flex: desktop ? 1 : undefined,
          field: "location",
          sortable: false,
          headerName: <HeaderName header="Location" />,
+         renderCell: (params) =>
+           params.row.state || params.row.country ? (
+             <Typography>
+               {params.row.state}, {params.row.country}
+             </Typography>
+           ) : (
+             "N/A"
+           ),
          width: 150,
        },
        // {
@@ -358,9 +410,18 @@ const Staff = () => {
        //   ),
        // },
 
-       {flex: desktop ? 1 : undefined,
-         field: "date",
+       {
+         flex: desktop ? 1 : undefined,
+         field: "createdAt",
          headerName: <HeaderName header="Registered On" />,
+         renderCell: (params) =>
+           params.row.createdAt ? (
+             <Typography>
+               {moment(params.row.createdAt).format("DD-MM-YYYY HH:mm")}
+             </Typography>
+           ) : (
+             "N/A"
+           ),
          // type: "number",
          width: 150,
        },
@@ -444,7 +505,8 @@ const Staff = () => {
        //       </Typography>
        //     ),
        //   },
-       {flex: desktop ? 1 : undefined,
+       {
+         flex: desktop ? 1 : undefined,
          field: "actions",
          headerName: <HeaderName header="Actions" />,
          // type: "number",
@@ -458,9 +520,15 @@ const Staff = () => {
                alignItems: "center",
              }}
            >
-             <div onClick={handleOpenMenu}>
+             <IconButton
+               sx={{
+                 bgcolor:
+                   open && thisId === params.row.id ? "#E8DEF8" : undefined,
+               }}
+               onClick={(e) => handleOpenMenu(e, params.row.id)}
+             >
                <MoreIcon />
-             </div>
+             </IconButton>
              <Paper>
                <Menu
                  anchorEl={anchorEl}
@@ -468,26 +536,18 @@ const Staff = () => {
                  onClose={handleCloseMenu}
                  sx={{
                    "& .MuiMenu-paper": { boxShadow: 0, borderRadius: "20px" },
+                   top: "25px",
                  }}
                >
-                 <MenuItem sx={{ height: "56px" }} onClick={handleCloseMenu}>
-                   View Order Details
-                 </MenuItem>
-                 <MenuItem sx={{ height: "56px" }} onClick={handleCloseMenu}>
-                   Check Payment Status
-                 </MenuItem>
-                 <MenuItem
-                   sx={{
-                     display:
-                       params.row.status !== "Items Procured"
-                         ? "none"
-                         : "block",
-                     height: "56px",
-                   }}
-                   onClick={handleCloseMenu}
-                 >
-                   Cancel Order
-                 </MenuItem>
+                 {menuItems.map((menuItem) => (
+                   <MenuItem
+                     key={menuItem}
+                     sx={{ height: "56px" }}
+                     onClick={handleCloseMenu}
+                   >
+                     {menuItem}
+                   </MenuItem>
+                 ))}
                </Menu>
              </Paper>
            </div>
@@ -503,211 +563,227 @@ const Staff = () => {
        //     `${params.row.firstName || ""} ${params.row.lastName || ""}`,
        // },
      ];
-     const rows = [
-       {
-         location: "London, UK",
-         id: "RACS1345671",
-         name: "Rexo Offorex Samuel",
-         status: "Pending Verification",
-         date: "22-03-2023 13:05",
-         email: "refofforexsamuel@gmail.com",
-         actions: "actions",
-         bg: "#7D5260",
-       },
-       {
-         location: "London, UK",
-         id: "RACS1345672",
-         name: "Fexo Offorex Samuel",
-         status: "Suspended",
-         date: "22-03-2023 13:05",
-         email: "refofforexsamuel@gmail.com",
-         actions: "actions",
-         bg: "#F9DEDC",
-       },
-       {
-         location: "London, UK",
-         id: "RACS1345673",
-         name: "Dexo Offorex Samuel",
-         status: "Verified",
-         date: "22-03-2023 13:05",
-         email: "refofforexsamuel@gmail.com",
-         actions: "actions",
-         bg: "#CAC4D0",
-       },
-       {
-         location: "London, UK",
-         id: "RACS1345674",
-         name: "Lexo Offorex Samuel",
-         status: "Unverified",
-         date: "22-03-2023 13:05",
-         email: "refofforexsamuel@gmail.com",
-         actions: "actions",
-         bg: "#FFFFFF",
-       },
-       {
-         location: "London, UK",
-         id: "RACS1345675",
-         name: "Rexo Offorex Samuel",
-         status: "Closed",
-         date: "22-03-2023 13:05",
-         email: "refofforexsamuel@gmail.com",
-         actions: "actions",
-         bg: "#6750A4",
-       },
-       {
-         location: "London, UK",
-         id: "RACS1345676",
-         name: "Rexo Offorex Samuel",
-         status: "Pending Verification",
-         date: "22-03-2023 13:05",
-         email: "refofforexsamuel@gmail.com",
-         actions: "actions",
-         bg: "#7D5260",
-       },
-       {
-         location: "London, UK",
-         id: "RACS1345677",
-         name: "Rexo Offorex Samuel",
-         status: "Pending Verification",
-         date: "22-03-2023 13:05",
-         email: "refofforexsamuel@gmail.com",
-         actions: "actions",
-         bg: "#7D5260",
-       },
-       {
-         location: "London, UK",
-         id: "RACS1345678",
-         name: "Rexo Offorex Samuel",
-         status: "Pending Verification",
-         date: "22-03-2023 13:05",
-         email: "refofforexsamuel@gmail.com",
-         actions: "actions",
-         bg: "#7D5260",
-       },
-       {
-         location: "London, UK",
-         id: "RACS1345679",
-         name: "Rexo Offorex Samuel",
-         status: "Pending Verification",
-         date: "22-03-2023 13:05",
-         email: "refofforexsamuel@gmail.com",
-         actions: "actions",
-         bg: "#7D5260",
-       },
-       {
-         location: "London, UK",
-         id: "RACS1345680",
-         name: "Rexo Offorex Samuel",
-         status: "Pending Verification",
-         date: "22-03-2023 13:05",
-         email: "refofforexsamuel@gmail.com",
-         actions: "actions",
-         bg: "#7D5260",
-       },
-       {
-         location: "London, UK",
-         id: "RACS1345681",
-         name: "Rexo Offorex Samuel",
-         status: "Pending Verification",
-         date: "22-03-2023 13:05",
-         email: "refofforexsamuel@gmail.com",
-         actions: "actions",
-         bg: "#7D5260",
-       },
-       {
-         location: "London, UK",
-         id: "RACS13456682",
-         name: "Rexo Offorex Samuel",
-         status: "Pending Verification",
-         date: "22-03-2023 13:05",
-         email: "refofforexsamuel@gmail.com",
-         actions: "actions",
-         bg: "#7D5260",
-       },
-       {
-         location: "London, UK",
-         id: "RACS1345683",
-         name: "Rexo Offorex Samuel",
-         status: "Pending Verification",
-         date: "22-03-2023 13:05",
-         email: "refofforexsamuel@gmail.com",
-         actions: "actions",
-         bg: "#7D5260",
-       },
-       {
-         location: "London, UK",
-         id: "RACS1345684",
-         name: "Rexo Offorex Samuel",
-         status: "Pending Verification",
-         date: "22-03-2023 13:05",
-         email: "refofforexsamuel@gmail.com",
-         actions: "actions",
-         bg: "#7D5260",
-       },
-       {
-         location: "London, UK",
-         id: "RACS1345685",
-         name: "Rexo Offorex Samuel",
-         status: "Pending Verification",
-         date: "22-03-2023 13:05",
-         email: "refofforexsamuel@gmail.com",
-         actions: "actions",
-         bg: "#7D5260",
-       },
-       {
-         location: "London, UK",
-         id: "RACS1345686",
-         name: "Rexo Offorex Samuel",
-         status: "Pending Verification",
-         date: "22-03-2023 13:05",
-         email: "refofforexsamuel@gmail.com",
-         actions: "actions",
-         bg: "#7D5260",
-       },
-       {
-         location: "London, UK",
-         id: "RACS1345687",
-         name: "Rexo Offorex Samuel",
-         status: "Pending Verification",
-         date: "22-03-2023 13:05",
-         email: "refofforexsamuel@gmail.com",
-         actions: "actions",
-         bg: "#7D5260",
-       },
-       {
-         location: "London, UK",
-         id: "RACS1345688",
-         name: "Rexo Offorex Samuel",
-         status: "Pending Verification",
-         date: "22-03-2023 13:05",
-         email: "refofforexsamuel@gmail.com",
-         actions: "actions",
-         bg: "#7D5260",
-       },
-       {
-         location: "London, UK",
-         id: "RACS1345689",
-         name: "Rexo Offorex Samuel",
-         status: "Pending Verification",
-         date: "22-03-2023 13:05",
-         email: "refofforexsamuel@gmail.com",
-         actions: "actions",
-         bg: "#7D5260",
-       },
-       {
-         location: "London, UK",
-         id: "RACS1345690",
-         name: "Rexo Offorex Samuel",
-         status: "Pending Verification",
-         date: "22-03-2023 13:05",
-         email: "refofforexsamuel@gmail.com",
-         actions: "actions",
-         bg: "#7D5260",
-       },
-     ];
+    //  const rows = [
+    //    {
+    //      location: "London, UK",
+    //      id: "RACS1345671",
+    //      name: "Rexo Offorex Samuel",
+    //      status: "Pending Verification",
+    //      date: "22-03-2023 13:05",
+    //      email: "refofforexsamuel@gmail.com",
+    //      actions: "actions",
+    //      bg: "#7D5260",
+    //    },
+    //    {
+    //      location: "London, UK",
+    //      id: "RACS1345672",
+    //      name: "Fexo Offorex Samuel",
+    //      status: "Suspended",
+    //      date: "22-03-2023 13:05",
+    //      email: "refofforexsamuel@gmail.com",
+    //      actions: "actions",
+    //      bg: "#F9DEDC",
+    //    },
+    //    {
+    //      location: "London, UK",
+    //      id: "RACS1345673",
+    //      name: "Dexo Offorex Samuel",
+    //      status: "Verified",
+    //      date: "22-03-2023 13:05",
+    //      email: "refofforexsamuel@gmail.com",
+    //      actions: "actions",
+    //      bg: "#CAC4D0",
+    //    },
+    //    {
+    //      location: "London, UK",
+    //      id: "RACS1345674",
+    //      name: "Lexo Offorex Samuel",
+    //      status: "Unverified",
+    //      date: "22-03-2023 13:05",
+    //      email: "refofforexsamuel@gmail.com",
+    //      actions: "actions",
+    //      bg: "#FFFFFF",
+    //    },
+    //    {
+    //      location: "London, UK",
+    //      id: "RACS1345675",
+    //      name: "Rexo Offorex Samuel",
+    //      status: "Closed",
+    //      date: "22-03-2023 13:05",
+    //      email: "refofforexsamuel@gmail.com",
+    //      actions: "actions",
+    //      bg: "#6750A4",
+    //    },
+    //    {
+    //      location: "London, UK",
+    //      id: "RACS1345676",
+    //      name: "Rexo Offorex Samuel",
+    //      status: "Pending Verification",
+    //      date: "22-03-2023 13:05",
+    //      email: "refofforexsamuel@gmail.com",
+    //      actions: "actions",
+    //      bg: "#7D5260",
+    //    },
+    //    {
+    //      location: "London, UK",
+    //      id: "RACS1345677",
+    //      name: "Rexo Offorex Samuel",
+    //      status: "Pending Verification",
+    //      date: "22-03-2023 13:05",
+    //      email: "refofforexsamuel@gmail.com",
+    //      actions: "actions",
+    //      bg: "#7D5260",
+    //    },
+    //    {
+    //      location: "London, UK",
+    //      id: "RACS1345678",
+    //      name: "Rexo Offorex Samuel",
+    //      status: "Pending Verification",
+    //      date: "22-03-2023 13:05",
+    //      email: "refofforexsamuel@gmail.com",
+    //      actions: "actions",
+    //      bg: "#7D5260",
+    //    },
+    //    {
+    //      location: "London, UK",
+    //      id: "RACS1345679",
+    //      name: "Rexo Offorex Samuel",
+    //      status: "Pending Verification",
+    //      date: "22-03-2023 13:05",
+    //      email: "refofforexsamuel@gmail.com",
+    //      actions: "actions",
+    //      bg: "#7D5260",
+    //    },
+    //    {
+    //      location: "London, UK",
+    //      id: "RACS1345680",
+    //      name: "Rexo Offorex Samuel",
+    //      status: "Pending Verification",
+    //      date: "22-03-2023 13:05",
+    //      email: "refofforexsamuel@gmail.com",
+    //      actions: "actions",
+    //      bg: "#7D5260",
+    //    },
+    //    {
+    //      location: "London, UK",
+    //      id: "RACS1345681",
+    //      name: "Rexo Offorex Samuel",
+    //      status: "Pending Verification",
+    //      date: "22-03-2023 13:05",
+    //      email: "refofforexsamuel@gmail.com",
+    //      actions: "actions",
+    //      bg: "#7D5260",
+    //    },
+    //    {
+    //      location: "London, UK",
+    //      id: "RACS13456682",
+    //      name: "Rexo Offorex Samuel",
+    //      status: "Pending Verification",
+    //      date: "22-03-2023 13:05",
+    //      email: "refofforexsamuel@gmail.com",
+    //      actions: "actions",
+    //      bg: "#7D5260",
+    //    },
+    //    {
+    //      location: "London, UK",
+    //      id: "RACS1345683",
+    //      name: "Rexo Offorex Samuel",
+    //      status: "Pending Verification",
+    //      date: "22-03-2023 13:05",
+    //      email: "refofforexsamuel@gmail.com",
+    //      actions: "actions",
+    //      bg: "#7D5260",
+    //    },
+    //    {
+    //      location: "London, UK",
+    //      id: "RACS1345684",
+    //      name: "Rexo Offorex Samuel",
+    //      status: "Pending Verification",
+    //      date: "22-03-2023 13:05",
+    //      email: "refofforexsamuel@gmail.com",
+    //      actions: "actions",
+    //      bg: "#7D5260",
+    //    },
+    //    {
+    //      location: "London, UK",
+    //      id: "RACS1345685",
+    //      name: "Rexo Offorex Samuel",
+    //      status: "Pending Verification",
+    //      date: "22-03-2023 13:05",
+    //      email: "refofforexsamuel@gmail.com",
+    //      actions: "actions",
+    //      bg: "#7D5260",
+    //    },
+    //    {
+    //      location: "London, UK",
+    //      id: "RACS1345686",
+    //      name: "Rexo Offorex Samuel",
+    //      status: "Pending Verification",
+    //      date: "22-03-2023 13:05",
+    //      email: "refofforexsamuel@gmail.com",
+    //      actions: "actions",
+    //      bg: "#7D5260",
+    //    },
+    //    {
+    //      location: "London, UK",
+    //      id: "RACS1345687",
+    //      name: "Rexo Offorex Samuel",
+    //      status: "Pending Verification",
+    //      date: "22-03-2023 13:05",
+    //      email: "refofforexsamuel@gmail.com",
+    //      actions: "actions",
+    //      bg: "#7D5260",
+    //    },
+    //    {
+    //      location: "London, UK",
+    //      id: "RACS1345688",
+    //      name: "Rexo Offorex Samuel",
+    //      status: "Pending Verification",
+    //      date: "22-03-2023 13:05",
+    //      email: "refofforexsamuel@gmail.com",
+    //      actions: "actions",
+    //      bg: "#7D5260",
+    //    },
+    //    {
+    //      location: "London, UK",
+    //      id: "RACS1345689",
+    //      name: "Rexo Offorex Samuel",
+    //      status: "Pending Verification",
+    //      date: "22-03-2023 13:05",
+    //      email: "refofforexsamuel@gmail.com",
+    //      actions: "actions",
+    //      bg: "#7D5260",
+    //    },
+    //    {
+    //      location: "London, UK",
+    //      id: "RACS1345690",
+    //      name: "Rexo Offorex Samuel",
+    //      status: "Pending Verification",
+    //      date: "22-03-2023 13:05",
+    //      email: "refofforexsamuel@gmail.com",
+    //      actions: "actions",
+    //      bg: "#7D5260",
+    //    },
+    //  ];
+    const rows = data?.staffMembers?.map((row) => ({
+      ...row,
+      id: row._id,
+      country: row?.contactAddress[0]?.country, // Ensure each row has a unique id
+      state: row?.contactAddress[0]?.state, // Ensure each row has a unique id
+    }));
   return (
     <Box>
-      {rows.length > 0 ? (
+      {loading ? (
+        <Box
+          width="100%"
+          height="80vh"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <CircularProgress />
+        </Box>
+      ) : data?.staffMembers?.length > 0 ? (
         <Box>
           <Box
             display="flex"
@@ -793,6 +869,19 @@ const Staff = () => {
           </Button>
         </Box>
       )}
+      <Snackbar
+        open={openError}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message={error}
+        action={
+          <Box onClick={handleClose}>
+            <CloseIcon />
+          </Box>
+        }
+      />
     </Box>
   );
 }

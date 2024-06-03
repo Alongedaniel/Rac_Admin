@@ -16,8 +16,12 @@ import Tick from "../../../assets/icons/Tick";
 import ArrowLeftPurple from "../../../assets/icons/ArrowLeftPurple";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../utils/contexts/userContext/UserContext";
+import { Country, State, City } from "country-state-city";
 
 const SignupForm = () => {
+  // console.log(Country.getAllCountries())
+  // console.log(State.getStatesOfCountry('AF'))
+  // console.log(City.getCitiesOfState('AF', 'BDS'))
   const [step, setStep] = useState(1);
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
@@ -46,7 +50,7 @@ const SignupForm = () => {
   const data = {
     firstName: firstName,
     lastName: lastName,
-    email: email,
+    email: email.toLowerCase(),
     password: password,
     contactAddress: [
       {
@@ -60,43 +64,55 @@ const SignupForm = () => {
       },
     ],
   };
-  console.log(data);
-  const countries = [
-    "United States",
-    "Canada",
-    "United Kingdom",
-    "Nigeria",
-    "Germany",
-    "France",
-    "Japan",
-    "Italy",
-    "Spain",
-    "Brazil",
-  ];
-  const states = [
-    "Lagos",
-    "Kano",
-    "Oyo",
-    "Rivers",
-    "Kaduna",
-    "Abuja",
-    "Ogun",
-    "Edo",
-    "Enugu",
-    "Delta",
-  ];
-  const cities = [
-    "Oshodi",
-    "Ikeja",
-    "Lekki",
-    "Victoria Island",
-    "Ikoyi",
-    "Ajah",
-    "Surulere",
-    "Epe",
-    "Badagry",
-    "Agege",
-  ];
+
+  // console.log(data);
+  const [selectedCountry, setSelectedCountry] = useState()
+  const [selectedState, setSelectedState] = useState()
+  const [countries, setCountries] = useState(Country.getAllCountries())
+  const [states, setStates] = useState([])
+  const [cities, setCities] = useState([])
+  useEffect(() => {
+    setStates(State.getStatesOfCountry(selectedCountry?.isoCode))
+    setCities(
+      City.getCitiesOfState(selectedCountry?.isoCode, selectedState?.isoCode)
+    );
+  })
+  // const countries = [
+  //   "United States",
+  //   "Canada",
+  //   "United Kingdom",
+  //   "Nigeria",
+  //   "Germany",
+  //   "France",
+  //   "Japan",
+  //   "Italy",
+  //   "Spain",
+  //   "Brazil",
+  // ];
+  // const states = [
+  //   "Lagos",
+  //   "Kano",
+  //   "Oyo",
+  //   "Rivers",
+  //   "Kaduna",
+  //   "Abuja",
+  //   "Ogun",
+  //   "Edo",
+  //   "Enugu",
+  //   "Delta",
+  // ];
+  // const cities = [
+  //   "Oshodi",
+  //   "Ikeja",
+  //   "Lekki",
+  //   "Victoria Island",
+  //   "Ikoyi",
+  //   "Ajah",
+  //   "Surulere",
+  //   "Epe",
+  //   "Badagry",
+  //   "Agege",
+  // ];
   const countryCodes = [
     { name: "Nigeria", code: "+234" },
     { name: "United States", code: "+1" },
@@ -461,7 +477,7 @@ const SignupForm = () => {
               </Box>
               <Button
                 variant="contained"
-                disabled={isValid()}
+                // disabled={isValid()}
                 height="40px"
                 sx={{
                   mt: { xs: "32px", sm: "48px" },
@@ -482,7 +498,7 @@ const SignupForm = () => {
               </Button>
             </Box>
             <Box>
-              <Box mb="12px" display="flex" alignItems={"center"} gap="10px">
+              <Box mb="12px" display="flex" alignItems={"center"} justifyContent='center' gap="10px">
                 <Typography fontSize="14px" color="#fff" fontFamily={"Roboto"}>
                   Already have an account?
                 </Typography>
@@ -562,8 +578,8 @@ const SignupForm = () => {
                   placeholder="Enter your country"
                 >
                   {countries.map((country, i) => (
-                    <MenuItem value={country} key={i}>
-                      {country}
+                    <MenuItem value={country.name} key={i} onClick={() => setSelectedCountry(country)}>
+                      {country.name}
                     </MenuItem>
                   ))}
                 </TextField>
@@ -589,8 +605,8 @@ const SignupForm = () => {
                   placeholder="Enter your state"
                 >
                   {states.map((state, i) => (
-                    <MenuItem value={state} key={i}>
-                      {state}
+                    <MenuItem value={state.name} key={i} onClick={() => setSelectedState(state)}>
+                      {state.name}
                     </MenuItem>
                   ))}
                 </TextField>
@@ -616,8 +632,8 @@ const SignupForm = () => {
                   placeholder="Enter your city"
                 >
                   {cities.map((city, i) => (
-                    <MenuItem value={city} key={i}>
-                      {city}
+                    <MenuItem value={city.name} key={i}>
+                      {city.name}
                     </MenuItem>
                   ))}
                 </TextField>
@@ -675,11 +691,11 @@ const SignupForm = () => {
                     type="text"
                     fullWidth={isSmall ? true : false}
                     label="Country Code"
-                    select
+                    // select
                     required
                     name="countryCode"
-                    value={countryCode}
-                    onChange={(e) => setCountryCode(e.target.value)}
+                    value={selectedCountry?.phoneCode}
+                    // onChange={(e) => setCountryCode(e.target.value)}
                     InputProps={{
                       sx: {
                         borderRadius: "20px", // Apply border radius to the input element
@@ -693,11 +709,11 @@ const SignupForm = () => {
                     }}
                     placeholder="Enter your country code"
                   >
-                    {countryCodes.map((code, i) => (
+                    {/* {countryCodes.map((code, i) => (
                       <MenuItem value={code.code} key={i}>
                         {code.code}
                       </MenuItem>
-                    ))}
+                    ))} */}
                   </TextField>
                   <TextField
                     InputProps={{
