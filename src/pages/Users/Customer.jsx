@@ -1,5 +1,19 @@
-import { Box, Button, CircularProgress, Menu, MenuItem, Paper, TextField, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material';
-import React, { useState } from "react";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Menu,
+  MenuItem,
+  Paper,
+  Snackbar,
+  TextField,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+  useTheme,
+  IconButton,
+} from "@mui/material";
+import React, { useState, useEffect } from "react";
 import NewCustomerIcon from '../../assets/icons/NewCustomerIcon';
 import { useNavigate } from 'react-router-dom';
 import UserTag from '../../assets/icons/UserTag';
@@ -17,12 +31,15 @@ import NewOrderIcon from '../../assets/icons/NewOrderIcon';
 import OrderTable from '../../components/OrderTable';
 import useCustomGetRequest from '../../utils/hooks/api/useCustomGetRequest';
 import moment from 'moment/moment';
+import CloseIcon from '../../assets/icons/CloseIcon';
 
+
+export const bgColor = ["#CAC4D0","#6750A4","#F9DEDC","#7D5260","#fff"
+];
 const Customer = () => {
   const navigate = useNavigate()
-    const { data, loading } = useCustomGetRequest(`/admin/users`);
-  const bgColor = ["#CAC4D0","#6750A4","#F9DEDC","#7D5260","#fff"
-  ];
+    const { data, loading, error, setError } =
+      useCustomGetRequest(`/admin/users`);
   const menuItems = [
     "View/Edit user",
     "Suspend/Delete account",
@@ -31,15 +48,34 @@ const Customer = () => {
     "Manage Payments",
     "Send message",
   ];
+
   const [anchorEl, setAnchorEl] = useState(null);
     const theme = useTheme();
-    const desktop = useMediaQuery(theme.breakpoints.up("xl"));
+  const desktop = useMediaQuery(theme.breakpoints.up("xl"));
+  
   const open = Boolean(anchorEl);
-  const handleOpenMenu = (e) => {
+  const [thisId, setThisId] = useState('')
+  const handleOpenMenu = (e, id) => {
     setAnchorEl(e.currentTarget);
+    setThisId(id)
   };
   const handleCloseMenu = () => {
     setAnchorEl(null);
+  };
+    const [openError, setOpenError] = useState(false);
+  useEffect(() => {
+    if (error) {
+      setOpenError(true);
+    } else setOpenError(false);
+  }, [loading]);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenError(false);
+    setError("");
   };
   const HeaderName = ({ header }) => {
     return (
@@ -286,7 +322,7 @@ const Customer = () => {
               onClick={() =>
                 navigate(`user-id_${params.row.racId}`, {
                   state: {
-                    id: params.row._id
+                    id: params.row._id,
                   },
                 })
               }
@@ -447,12 +483,12 @@ const Customer = () => {
 
       {
         flex: desktop ? 1 : undefined,
-        field: "date",
+        field: "createdAt",
         headerName: <HeaderName header="Registered On" />,
         renderCell: (params) =>
-          params.row.date ? (
+          params.row.createdAt ? (
             <Typography>
-              {moment(params.row.date).format("DD-MM-YYYY HH:mm")}
+              {moment(params.row.createdAt).format("DD-MM-YYYY HH:mm")}
             </Typography>
           ) : (
             "N/A"
@@ -476,9 +512,15 @@ const Customer = () => {
               alignItems: "center",
             }}
           >
-            <div onClick={handleOpenMenu}>
+            <IconButton
+              sx={{
+                bgcolor:
+                  open && thisId === params.row.id ? "#E8DEF8" : undefined,
+              }}
+              onClick={(e) => handleOpenMenu(e, params.row.id)}
+            >
               <MoreIcon />
-            </div>
+            </IconButton>
             <Paper>
               <Menu
                 anchorEl={anchorEl}
@@ -486,10 +528,15 @@ const Customer = () => {
                 onClose={handleCloseMenu}
                 sx={{
                   "& .MuiMenu-paper": { boxShadow: 0, borderRadius: "20px" },
+                  top: "25px",
                 }}
               >
                 {menuItems.map((menuItem) => (
-                  <MenuItem sx={{ height: "56px" }} onClick={handleCloseMenu}>
+                  <MenuItem
+                    key={menuItem}
+                    sx={{ height: "56px" }}
+                    onClick={handleCloseMenu}
+                  >
                     {menuItem}
                   </MenuItem>
                 ))}
@@ -781,7 +828,13 @@ const Customer = () => {
   return (
     <Box>
       {loading ? (
-        <Box width="100%" height="80vh" display="flex" alignItems="center" justifyContent='center'>
+        <Box
+          width="100%"
+          height="80vh"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
           <CircularProgress />
         </Box>
       ) : data?.users?.length > 0 ? (
@@ -879,6 +932,19 @@ const Customer = () => {
           </Button>
         </Box>
       )}
+      <Snackbar
+        open={openError}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message={error}
+        action={
+          <Box onClick={handleClose}>
+            <CloseIcon />
+          </Box>
+        }
+      />
     </Box>
   );
 }

@@ -30,7 +30,7 @@ const PackageDetails = ({type='', order, proceed=false}) => {
           style={{ width: "100%" }}
         >
           {type === "request" &&
-            (order.service === "Auto Import" ? null : (
+            (order?.service === "Auto Import" ? null : (
               <div
                 style={{
                   marginTop: "30px",
@@ -47,7 +47,7 @@ const PackageDetails = ({type='', order, proceed=false}) => {
                     color: "#49454F",
                   }}
                 >
-                  {order.service === "Shop For Me"
+                  {order?.service === "Shop For Me"
                     ? "This is the RAC Facility where the items will be delivered after they are purchased and they will be shipped from here to our pickup office in Nigeria"
                     : "This is the RAC Facility the customer claimed to have dropped the package off at"}
                 </p>
@@ -60,7 +60,7 @@ const PackageDetails = ({type='', order, proceed=false}) => {
                   Origin warehouse:
                 </p>
                 <p className="font-roboto  text-[20px] text-brand/100">
-                  Nigeria(lagos - warehouse)
+                  {order?.origin}
                 </p>
               </div>
             </div>

@@ -13,6 +13,7 @@ import ArrowLeftPurple from "../../../assets/icons/ArrowLeftPurple";
 import ArrowRightWhite from "../../../assets/icons/ArrowRightWhite";
 import SectionHeader from "../../../components/SectionHeader";
 import EyeIconRed from "../../../assets/icons/EyeIconRed";
+import moment from "moment";
 
 const OrderInformation = ({ order, type }) => {
     const [editOrderInfo, setEditOrderInfo] = useState(false);
@@ -54,7 +55,7 @@ const OrderInformation = ({ order, type }) => {
                     className="font-roboto text-[20px]"
                     style={{ color: "#21005D", fontWeight: 400 }}
                   >
-                    {order.customer}
+                    {order?.customer ?? ''}
                   </p>
                 </div>
               </div>
@@ -64,7 +65,7 @@ const OrderInformation = ({ order, type }) => {
                   Order Type:
                 </p>
                 <p className="font-roboto  text-[20px]">
-                  {order.type ?? "Shipment"}
+                  {order?.type ?? "Shipment"}
                 </p>
               </div>
               <div className="col-span-2">
@@ -77,7 +78,7 @@ const OrderInformation = ({ order, type }) => {
                   }}
                   className="font-roboto  text-[20px]"
                 >
-                  {order.status}
+                  {order?.requestStatus}
                 </p>
                 <p
                   style={{
@@ -96,7 +97,7 @@ const OrderInformation = ({ order, type }) => {
                       border: "1px solid #B3261E",
                     }}
                   ></div>
-                  {order.status}
+                  {order?.requestStatus}
                   <Button
                     startIcon={<ShieldIcon />}
                     variant="outlined"
@@ -117,7 +118,7 @@ const OrderInformation = ({ order, type }) => {
               {/* <div></div> */}
               <div>
                 <p className="text-[14px] text-t/100 font-roboto">Service:</p>
-                <p className="font-roboto  text-[20px]">{order.service}</p>
+                <p className="font-roboto  text-[20px]">{order?.service}</p>
               </div>
               {type === "request" ? null : (
                 <>
@@ -139,13 +140,13 @@ const OrderInformation = ({ order, type }) => {
                 <p className="text-[14px] text-t/100 font-roboto">
                   Order Date:
                 </p>
-                <p className="font-roboto  text-[20px]">12/02/2023</p>
+                <p className="font-roboto  text-[20px]">{moment(order?.createdAt).format("DD-MM-YYYY")}</p>
               </div>
               <div>
                 <p className="text-[14px] text-t/100 font-roboto">
                   Order Time:
                 </p>
-                <p className="font-roboto  text-[20px]">9:48am</p>
+                <p className="font-roboto  text-[20px]">{moment(order?.createdAt).format("HH:mm")}</p>
               </div>
             </div>
           </CardWrapper>
@@ -498,7 +499,7 @@ const OrderInformation = ({ order, type }) => {
         onClose={() => setEditOrderInfo(false)}
         title="Edit Order Information"
         type1="Order ID"
-        id1={order.id}
+        id1={order?.id}
       >
         <Box>
           <div className="flex items-center space-x-[10px] ">
@@ -522,7 +523,7 @@ const OrderInformation = ({ order, type }) => {
               label="Assigned Customer"
               fullWidth
               disabled
-              value={order.customer}
+              value={order?.customer}
               // placeholder="Select origin"
               InputProps={{
                 sx: {
@@ -565,7 +566,7 @@ const OrderInformation = ({ order, type }) => {
                   id="service"
                   type="text"
                   label="Service"
-                  defaultValue={order.service}
+                  defaultValue={order?.service}
                   select
                   disabled
                   InputProps={{
@@ -579,7 +580,7 @@ const OrderInformation = ({ order, type }) => {
                   }}
                   // placeholder="Enter your country"
                 >
-                  <MenuItem value={order.service}>{order.service}</MenuItem>
+                  <MenuItem value={order?.service}>{order?.service}</MenuItem>
                 </TextField>
               </Grid>
             </Grid>

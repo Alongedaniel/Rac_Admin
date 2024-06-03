@@ -17,8 +17,7 @@ import OrderRequestComp from "../../components/order/order-request";
 import ArrowLeftPurple from "../../assets/icons/ArrowLeftPurple";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import UserModals from "../Users/components/UserModals";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../../utils/contexts/userContext/UserContext";
 import CloseIcon from "../../assets/icons/CloseIcon";
 
@@ -40,18 +39,18 @@ const Home = () => {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
 
-  useEffect(() => {
-    if (success) {
-      setOpen(success ? true : false);
-    }
-    if (error) {
-      setOpenError(error ? true : false);
-    }
-    setTimeout(() => {
-      setSuccess("");
-      setError("");
-    }, 10000);
-  }, [loading]);
+  // useEffect(() => {
+  //   if (success) {
+  //     setOpen(success ? true : false);
+  //   }
+  //   if (error) {
+  //     setOpenError(error ? true : false);
+  //   }
+  //   setTimeout(() => {
+  //     setSuccess("");
+  //     setError("");
+  //   }, 10000);
+  // }, [loading]);
 
   useEffect(() => {
     const email = localStorage.getItem("email");
@@ -212,7 +211,7 @@ const Home = () => {
           </Typography>
         </Typography>
       </UserModals>
-      <Snackbar
+      {/* <Snackbar
         open={open}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         sx={{
@@ -222,8 +221,8 @@ const Home = () => {
         onClose={() => setOpen(false)}
         message={success}
         action={<CloseIcon />}
-      />
-      <Snackbar
+      /> */}
+      {/* <Snackbar
         open={openError}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         sx={{
@@ -233,7 +232,7 @@ const Home = () => {
         onClose={() => setOpenError(false)}
         message={success}
         action={<CloseIcon />}
-      />
+      /> */}
     </Box>
   );
 };

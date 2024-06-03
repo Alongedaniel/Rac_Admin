@@ -1,13 +1,15 @@
-import React, { useState } from "react";
-import { Box, Container, Stack } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Box, Container, Snackbar, Stack } from "@mui/material";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import { useAuth } from "../../utils/contexts/userContext/UserContext";
 import { Navigate, useLocation } from "react-router-dom";
+import CloseIcon from "../../assets/icons/CloseIcon";
 
 const MainLayout = ({ children, title, showFullBar, setShowFullBar }) => {
   const location = useLocation();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, success, error, setSuccess, setError, loading } =
+    useAuth();
   if (!isAuthenticated && location.pathname !== "/")
     return (
       <Navigate
@@ -17,6 +19,22 @@ const MainLayout = ({ children, title, showFullBar, setShowFullBar }) => {
         }}
       />
     );
+    const [open, setOpen] = useState(false);
+  useEffect(() => {
+    if (error || success) {
+      setOpen(true);
+    } else setOpen(false);
+  }, [loading]);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+    setError("");
+    setSuccess("");
+  };
   return (
     // <Container maxWidth="xl" disableGutters>
     <Box display="flex" minWidth="1200px">
@@ -57,6 +75,19 @@ const MainLayout = ({ children, title, showFullBar, setShowFullBar }) => {
         )}
         <Box width="100%">{children}</Box>
       </Box>
+      <Snackbar
+        open={open}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message={success || error}
+        action={
+          <Box onClick={handleClose}>
+            <CloseIcon />
+          </Box>
+        }
+      />
     </Box>
     // </Container>
   );
