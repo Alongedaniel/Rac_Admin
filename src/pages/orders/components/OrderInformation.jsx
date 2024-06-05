@@ -32,7 +32,7 @@ const OrderInformation = ({ order, type }) => {
             display: "flex",
             alignItems: "center",
             gap: "30px",
-            marginTop: "20px",
+            // marginTop: "20px",
           }}
         >
           <CardWrapper title="Order Information" style={{ width: "100%" }}>
@@ -55,7 +55,7 @@ const OrderInformation = ({ order, type }) => {
                     className="font-roboto text-[20px]"
                     style={{ color: "#21005D", fontWeight: 400 }}
                   >
-                    {order?.customer ?? ''}
+                    {order?.request?.customer ?? "N/A"}
                   </p>
                 </div>
               </div>
@@ -65,7 +65,7 @@ const OrderInformation = ({ order, type }) => {
                   Order Type:
                 </p>
                 <p className="font-roboto  text-[20px]">
-                  {order?.type ?? "Shipment"}
+                  {order?.request?.type ?? "N/A"}
                 </p>
               </div>
               <div className="col-span-2">
@@ -78,7 +78,7 @@ const OrderInformation = ({ order, type }) => {
                   }}
                   className="font-roboto  text-[20px]"
                 >
-                  {order?.requestStatus}
+                  {order?.request?.requestStatus}
                 </p>
                 <p
                   style={{
@@ -97,7 +97,7 @@ const OrderInformation = ({ order, type }) => {
                       border: "1px solid #B3261E",
                     }}
                   ></div>
-                  {order?.requestStatus}
+                  {order?.request?.requestStatus}
                   <Button
                     startIcon={<ShieldIcon />}
                     variant="outlined"
@@ -118,7 +118,7 @@ const OrderInformation = ({ order, type }) => {
               {/* <div></div> */}
               <div>
                 <p className="text-[14px] text-t/100 font-roboto">Service:</p>
-                <p className="font-roboto  text-[20px]">{order?.service}</p>
+                <p className="font-roboto  text-[20px]">{order?.serviceType}</p>
               </div>
               {type === "request" ? null : (
                 <>
@@ -126,13 +126,17 @@ const OrderInformation = ({ order, type }) => {
                     <p className="text-[14px] text-t/100 font-roboto">
                       Shipment Method:
                     </p>
-                    <p className="font-roboto  text-[20px]">Air</p>
+                    <p className="font-roboto  text-[20px]">
+                      {order?.request?.shipmentMethod ?? "N/A"}
+                    </p>
                   </div>
                   <div>
                     <p className="text-[14px] text-t/100 font-roboto">
                       Delivery Company:
                     </p>
-                    <p className="font-roboto  text-[20px]">DHL</p>
+                    <p className="font-roboto  text-[20px]">
+                      {order?.request?.deliveryCompany ?? "N/A"}
+                    </p>
                   </div>
                 </>
               )}
@@ -140,13 +144,17 @@ const OrderInformation = ({ order, type }) => {
                 <p className="text-[14px] text-t/100 font-roboto">
                   Order Date:
                 </p>
-                <p className="font-roboto  text-[20px]">{moment(order?.createdAt).format("DD-MM-YYYY")}</p>
+                <p className="font-roboto  text-[20px]">
+                  {moment(order?.request?.createdAt).format("DD-MM-YYYY")}
+                </p>
               </div>
               <div>
                 <p className="text-[14px] text-t/100 font-roboto">
                   Order Time:
                 </p>
-                <p className="font-roboto  text-[20px]">{moment(order?.createdAt).format("HH:mm")}</p>
+                <p className="font-roboto  text-[20px]">
+                  {moment(order?.request?.createdAt).format("HH:mm")}
+                </p>
               </div>
             </div>
           </CardWrapper>
@@ -499,7 +507,7 @@ const OrderInformation = ({ order, type }) => {
         onClose={() => setEditOrderInfo(false)}
         title="Edit Order Information"
         type1="Order ID"
-        id1={order?.id}
+        id1={order?.request?.id}
       >
         <Box>
           <div className="flex items-center space-x-[10px] ">
@@ -523,7 +531,7 @@ const OrderInformation = ({ order, type }) => {
               label="Assigned Customer"
               fullWidth
               disabled
-              value={order?.customer}
+              value={order?.request?.customer}
               // placeholder="Select origin"
               InputProps={{
                 sx: {
@@ -566,7 +574,7 @@ const OrderInformation = ({ order, type }) => {
                   id="service"
                   type="text"
                   label="Service"
-                  defaultValue={order?.service}
+                  defaultValue={order?.request?.service}
                   select
                   disabled
                   InputProps={{
@@ -580,7 +588,9 @@ const OrderInformation = ({ order, type }) => {
                   }}
                   // placeholder="Enter your country"
                 >
-                  <MenuItem value={order?.service}>{order?.service}</MenuItem>
+                  <MenuItem value={order?.request?.service}>
+                    {order?.request?.service}
+                  </MenuItem>
                 </TextField>
               </Grid>
             </Grid>

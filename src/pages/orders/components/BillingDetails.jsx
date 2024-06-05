@@ -14,8 +14,8 @@ const BillingDetails = ({ order, type = '', proceed = false }) => {
   return (
     <>
       {type === "request" &&
-      order.service !== "Auto Import" &&
-      order.service !== "Shop For Me" ? null : (
+      order?.service !== "Auto Import" &&
+      order?.service !== "Shop For Me" ? null : (
         <div className="">
           <div className="flex items-center space-x-[10px] ">
             <CircleRight />
@@ -25,7 +25,7 @@ const BillingDetails = ({ order, type = '', proceed = false }) => {
           </div>
 
           <div className="flex flex-col space-y-[20px]">
-            {order.service === "Shop For Me" ? null : (
+            {order?.service === "Shop For Me" ? null : (
               <Box
                 sx={{
                   width: "100%",
@@ -120,7 +120,7 @@ const BillingDetails = ({ order, type = '', proceed = false }) => {
                 )}
               </Box>
             )}
-            {order.service === "Auto Import" ? null : (
+            {order?.service === "Auto Import" ? null : (
               <Box
                 sx={{
                   width: "100%",
@@ -132,7 +132,7 @@ const BillingDetails = ({ order, type = '', proceed = false }) => {
               >
                 <CardWrapper title="Payments Information">
                   <div className="grid grid-cols-5 mt-[30px]">
-                    {order.service === "Shop For Me" && (
+                    {order?.service === "Shop For Me" && (
                       <>
                         <div className="col-span-2">
                           <p className="text-[14px] text-t/100 font-roboto text-brand/200">
@@ -161,7 +161,7 @@ const BillingDetails = ({ order, type = '', proceed = false }) => {
                         Total Shipment Cost:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        {order.service === "Shop For Me"
+                        {order?.service === "Shop For Me"
                           ? "Not yet assigned"
                           : "$234,000.00"}
                       </p>
@@ -171,7 +171,7 @@ const BillingDetails = ({ order, type = '', proceed = false }) => {
                         Payment Status:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        {order.service === "Shop For Me" ? "---" : "Processing"}
+                        {order?.service === "Shop For Me" ? "---" : "Processing"}
                       </p>
                     </div>
                   </div>
