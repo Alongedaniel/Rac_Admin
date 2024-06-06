@@ -793,7 +793,7 @@ function OrderHome() {
                 />
                 <ActionButton title="Bulk Actions" icon={<BulkIcon />} />
               </Box>
-              <ActionButton action={() => navigate('/orders/create-new-order')} title="Create new order" icon={<NewOrderIcon />} />
+              <ActionButton action={() => navigate('/orders/create-new-order')} title="Create new request" icon={<NewOrderIcon />} />
             </Box>
             <Box>
               <OrderTable columns={columns} rows={rows} />
