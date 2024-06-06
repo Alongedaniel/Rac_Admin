@@ -844,7 +844,7 @@ function OrderRequestComp({ home = false }) {
               <ActionButton title="Bulk Actions" icon={<BulkIcon />} />
             </Box>
             {/* <Box sx={{ flex: 1 }}> */}
-            <ActionButton title="Create new order" icon={<NewOrderIcon />} />
+            <ActionButton title="Create new request" icon={<NewOrderIcon />} />
             {/* </Box> */}
           </Box>
           <Box>

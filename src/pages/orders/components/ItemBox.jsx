@@ -8,10 +8,11 @@ import PackageDetailsForm from '../../../components/order/components/PackageDeta
 import ArrowLeftPurple from '../../../assets/icons/ArrowLeftPurple';
 import ArrowRightWhite from '../../../assets/icons/ArrowRightWhite';
 
-const ItemBox = ({ order, type = '', proceed = false }) => {
+const ItemBox = ({ order, type = '', proceed = false, item, itemNumber }) => {
   const [open, setOpen] = useState(false);
   return (
     <Box
+      key={item?.id}
       sx={{
         width: "100%",
         display: "flex",
@@ -20,18 +21,18 @@ const ItemBox = ({ order, type = '', proceed = false }) => {
         marginTop: "20px",
       }}
     >
-      <CardWrapper title={` Item - #1`}>
+      <CardWrapper title={` Item - #${itemNumber}`}>
         {type === "request" ? (
           <>
             <div className="grid grid-cols-4 mt-[30px] gap-[20px]">
-              {order.service === "Shop For Me" ? (
+              {order?.serviceType === "shopForMe" ? (
                 <>
                   <div className="col-span-2">
                     <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                       Store:
                     </p>
                     <p className="font-roboto  text-[20px] text-brand/100">
-                      Amazon
+                      {item?.store ?? "N/A"}
                     </p>
                   </div>
                   {/* <div className=""></div> */}
@@ -40,7 +41,7 @@ const ItemBox = ({ order, type = '', proceed = false }) => {
                       Urgent Purchase:
                     </p>
                     <p className="font-roboto  text-[20px] text-brand/100">
-                      No
+                      {item?.urgentPurchase ? "Yes" : "No"}
                     </p>
                   </div>
                   <div className="col-span-4">
@@ -48,11 +49,11 @@ const ItemBox = ({ order, type = '', proceed = false }) => {
                       Item URL:
                     </p>
                     <a
-                      href="https://amazon.com"
+                      href={item?.itemUrl ?? ""}
                       className="font-roboto  text-[20px]"
                       style={{ color: "#B3261E" }}
                     >
-                      amazon.com
+                      {item?.itemUrl ?? "N/A"}
                     </a>
                   </div>
                 </>
@@ -62,17 +63,17 @@ const ItemBox = ({ order, type = '', proceed = false }) => {
                   Item Name:
                 </p>
                 <p className="font-roboto  text-[20px] text-brand/100">
-                  Designer Bags
+                  {item?.itemName ?? "N/A"}
                 </p>
               </div>
               <div></div>
-              {order.service === "Shop For Me" ? (
+              {order?.serviceType === "shopForMe" ? (
                 <div className="">
                   <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                     Item Cost from Store:
                   </p>
                   <p className="font-roboto  text-[20px] text-brand/100">
-                    $45.00
+                    ${item?.cost ?? 0}
                   </p>
                 </div>
               ) : (
@@ -81,7 +82,7 @@ const ItemBox = ({ order, type = '', proceed = false }) => {
                     ID: Tracking ID
                   </p>
                   <p className="font-roboto  text-[20px] text-brand/100">
-                    123456789
+                    {item?.trackingId ?? "N/A"}
                   </p>
                 </div>
               )}
@@ -89,9 +90,11 @@ const ItemBox = ({ order, type = '', proceed = false }) => {
                 <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                   Quantity:
                 </p>
-                <p className="font-roboto  text-[20px] text-brand/100">4</p>
+                <p className="font-roboto  text-[20px] text-brand/100">
+                  {item?.qty ?? "N/A"}
+                </p>
               </div>
-              {order.service === "Shop For Me" ? null : (
+              {order?.serviceType === "shopForMe" ? null : (
                 <>
                   {" "}
                   <div className="">
@@ -99,7 +102,7 @@ const ItemBox = ({ order, type = '', proceed = false }) => {
                       Delivered by:
                     </p>
                     <p className="font-roboto  text-[20px] text-brand/100">
-                      Seller
+                      {item?.deliveredBy ?? "N/A"}
                     </p>
                   </div>
                   <div className=""></div>
@@ -108,7 +111,7 @@ const ItemBox = ({ order, type = '', proceed = false }) => {
                       Item delivery status:
                     </p>
                     <p className="font-roboto  text-[20px] text-brand/100">
-                      Delivered
+                      {item?.deliveryStatus ?? "N/A"}
                     </p>
                   </div>
                 </>
@@ -120,11 +123,13 @@ const ItemBox = ({ order, type = '', proceed = false }) => {
               <div>
                 <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                   Product/Item Picture:
-                  <div className="w-[220px] h-[150px] mt-[10px] rounded-[10px] border"></div>
+                  <div className="w-[220px] h-[150px] mt-[10px] rounded-[10px] border">
+                    <img src={item?.itemImage ?? ''} alt="product" style={{width:'100%', height: '100%'}} />
+                  </div>
                 </p>
               </div>
               <div className=""></div>
-              {order.service === "Shop For Me" ? (
+              {order?.serviceType === "shopForMe" ? (
                 <>
                   <div className=""></div>
                   <div className=""></div>
@@ -136,16 +141,16 @@ const ItemBox = ({ order, type = '', proceed = false }) => {
                   Additional Description:
                 </p>
                 <p className="font-roboto  text-[20px] text-brand/100">
-                  Additonvnv ghss jgsjvsn
+                  {item?.additionalDescription ?? "N/A"}
                 </p>
               </div>
-              {order.service === "Shop For Me" ? null : (
+              {order?.serviceType === "shopForMe" ? null : (
                 <div>
                   <p className="text-[14px] text-t/100 font-roboto text-brand/200 mt-[10px]">
                     Item original cost:
                   </p>
                   <p className="font-roboto  text-[20px] text-brand/100">
-                    $45.00
+                    ${item?.originalCost ?? 0}
                   </p>
                 </div>
               )}
@@ -155,14 +160,16 @@ const ItemBox = ({ order, type = '', proceed = false }) => {
                 <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                   Color:
                 </p>
-                <p className="font-roboto  text-[20px] text-brand/100">Blue</p>
+                <p className="font-roboto  text-[20px] text-brand/100">
+                  {item?.itemColor ?? "N/A"}
+                </p>
               </div>
               <div className="">
                 <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                   Stripes:
                 </p>
                 <p className="font-roboto  text-[20px] text-brand/100">
-                  5 inches
+                  {`${item?.stripes ?? "N/A"} inches`}
                 </p>
               </div>
               <div className=""></div>
@@ -177,7 +184,7 @@ const ItemBox = ({ order, type = '', proceed = false }) => {
                   Product Name:
                 </p>
                 <p className="font-roboto  text-[20px] text-brand/100">
-                  Designer Bags
+                  {item?.itemName ?? "N/A"}
                 </p>
               </div>
               <div></div>
@@ -186,27 +193,31 @@ const ItemBox = ({ order, type = '', proceed = false }) => {
                   Product Original Cost
                 </p>
                 <p className="font-roboto  text-[20px] text-brand/100">
-                  $45.00
+                  ${item?.originalCost ?? "N/A"}
                 </p>
               </div>
               <div className="">
                 <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                   Quantity:
                 </p>
-                <p className="font-roboto  text-[20px] text-brand/100">4</p>
+                <p className="font-roboto  text-[20px] text-brand/100">
+                  {item?.qty ?? "N/A"}
+                </p>
               </div>
               <div className="">
                 <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                   Weight:
                 </p>
-                <p className="font-roboto  text-[20px] text-brand/100">67kg</p>
+                <p className="font-roboto  text-[20px] text-brand/100">
+                  {`${item?.weight}kg` ?? "N/A"}
+                </p>
               </div>
               <div className="">
                 <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                   Height:
                 </p>
                 <p className="font-roboto  text-[20px] text-brand/100">
-                  5 inches
+                  {`${item?.height} inches` ?? "N/A"}
                 </p>
               </div>
               <div className="">
@@ -214,7 +225,7 @@ const ItemBox = ({ order, type = '', proceed = false }) => {
                   Length:
                 </p>
                 <p className="font-roboto  text-[20px] text-brand/100">
-                  5 inches
+                  {`${item?.length} inches` ?? "N/A"}
                 </p>
               </div>
               <div className="">
@@ -222,7 +233,7 @@ const ItemBox = ({ order, type = '', proceed = false }) => {
                   Width:
                 </p>
                 <p className="font-roboto  text-[20px] text-brand/100">
-                  5 inches
+                  {`${item?.width} inches` ?? "N/A"}
                 </p>
               </div>
             </div>
@@ -235,7 +246,7 @@ const ItemBox = ({ order, type = '', proceed = false }) => {
                 Product Description:
               </p>
               <p className="font-roboto  text-[20px] text-brand/100">
-                Additonvnv ghss jgsjvsn
+                {item?.additionalDescription ?? "N/A"}
               </p>
             </div>
             <div className="grid grid-cols-2 mt-[10px] gap-[20px]">
@@ -243,27 +254,33 @@ const ItemBox = ({ order, type = '', proceed = false }) => {
                 <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                   Color:
                 </p>
-                <p className="font-roboto  text-[20px] text-brand/100">Blue</p>
+                <p className="font-roboto  text-[20px] text-brand/100">
+                  {item?.color ?? "N/A"}
+                </p>
               </div>
               <div className="">
                 <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                   Stripes:
                 </p>
                 <p className="font-roboto  text-[20px] text-brand/100">
-                  5 inches
+                  {`${item?.stripes} inches` ?? "N/A"}
                 </p>
               </div>
             </div>
           </>
         )}
       </CardWrapper>
-      {type === "request" && !proceed ? null : <Box onClick={() => setOpen(true)}><EditIcon /></Box>}
+      {type === "request" && !proceed ? null : (
+        <Box onClick={() => setOpen(true)}>
+          <EditIcon />
+        </Box>
+      )}
       <UserModals
         open={open}
         onClose={() => setOpen(false)}
         title="Edit Package Details"
       >
-        <PackageDetailsForm service={order.service} />
+        <PackageDetailsForm service={order?.service} />
         <Box mt="30px">
           <Button
             startIcon={<ArrowLeftPurple />}

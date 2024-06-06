@@ -13,7 +13,7 @@ const ShippingDetails = ({ type='', order, proceed=false }) => {
   const [open, setOpen] = useState(false)
   return (
     <>
-      {type === "request" && order.service !== "Auto Import" ? null : (
+      {type === "request" && order?.service !== "Auto Import" ? null : (
         <div className="">
           <div className="flex items-center space-x-[10px] ">
             <CircleRight />
