@@ -72,15 +72,10 @@ function OrderDetails() {
 
   console.log(data);
 function toTitleCase(str) {
-  // Split the camelCase string into words
   const words = str.match(/[A-Z][a-z]+|[a-z]+/g);
-
-  // Capitalize the first letter of each word
   const titleCasedWords = words.map(
     (word) => word.charAt(0).toUpperCase() + word.slice(1)
   );
-
-  // Join the words with spaces
   return titleCasedWords.join(" ");
 }
   const toggle = (i) => {
