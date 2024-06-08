@@ -12,15 +12,25 @@ import useCustomGetRequest from '../../utils/hooks/api/useCustomGetRequest';
 import CloseIcon from '../../assets/icons/CloseIcon';
 import { bgColor } from './Customer';
 import moment from 'moment';
+import Requests from '../../utils/hooks/api/requests';
 
 const Staff = () => {
   const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = useState(null);
+    const [selectedRow, setSelectedRow] = useState(null);
     const theme = useTheme();
     const desktop = useMediaQuery(theme.breakpoints.up("xl"));
-    const { data, loading, error, setError } =
+    const { data, loading, error, setError, refetch } =
       useCustomGetRequest(`/admin/get-staffs`);
-  console.log(data)
+  
+  const {
+    suspendUser,
+    deleteUser,
+    data: requestData,
+    error: requestError,
+    loading: requestLoading,
+    setData,
+  } = Requests();
   const open = Boolean(anchorEl);
   const [thisId, setThisId] = useState("");
     const menuItems = [
@@ -31,19 +41,21 @@ const Staff = () => {
       "Manage Payments",
       "Send message",
     ];
-  const handleOpenMenu = (e, id) => {
+  const handleOpenMenu = (e, id, row) => {
     setAnchorEl(e.currentTarget);
     setThisId(id);
+    setSelectedRow(row);
   };
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
   const [openError, setOpenError] = useState(false);
   useEffect(() => {
-    if (error) {
+    if (requestData?.message) refetch();
+    if (error || requestData?.message) {
       setOpenError(true);
     } else setOpenError(false);
-  }, [loading]);
+  }, [loading, requestLoading]);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -52,6 +64,7 @@ const Staff = () => {
 
     setOpenError(false);
     setError("");
+    setData(null);
   };
   const HeaderName = ({ header }) => {
     return (
@@ -525,7 +538,7 @@ const Staff = () => {
                  bgcolor:
                    open && thisId === params.row.id ? "#E8DEF8" : undefined,
                }}
-               onClick={(e) => handleOpenMenu(e, params.row.id)}
+               onClick={(e) => handleOpenMenu(e, params.row.id, params.row)}
              >
                <MoreIcon />
              </IconButton>
@@ -539,15 +552,101 @@ const Staff = () => {
                    top: "25px",
                  }}
                >
-                 {menuItems.map((menuItem) => (
-                   <MenuItem
-                     key={menuItem}
-                     sx={{ height: "56px" }}
-                     onClick={handleCloseMenu}
-                   >
-                     {menuItem}
-                   </MenuItem>
-                 ))}
+                 <MenuItem
+                   sx={{ height: "56px" }}
+                   onClick={() => {
+                     navigate(`user-id_${selectedRow.racId}`, {
+                       state: {
+                         id: selectedRow._id,
+                       },
+                     });
+                     handleCloseMenu();
+                   }}
+                 >
+                   View/Edit user
+                 </MenuItem>
+                 <MenuItem
+                   sx={{ height: "56px" }}
+                   onClick={() => {
+                     suspendUser(`/admin/suspend-user/${selectedRow._id}`);
+                     handleCloseMenu();
+                   }}
+                 >
+                   Suspend account
+                 </MenuItem>
+                 <MenuItem
+                   sx={{ height: "56px" }}
+                   onClick={() => {
+                     deleteUser(`/admin/delete-user/${selectedRow._id}`);
+                     handleCloseMenu();
+                   }}
+                 >
+                   Delete account
+                 </MenuItem>
+                 <MenuItem
+                   sx={{ height: "56px" }}
+                   onClick={() => {
+                     navigate(`/orders/users`, {
+                       state: {
+                         name: selectedRow.firstName,
+                         id: selectedRow._id,
+                       },
+                     });
+                     handleCloseMenu();
+                   }}
+                 >
+                   Manage Orders
+                 </MenuItem>
+                 <MenuItem
+                   sx={{ height: "56px" }}
+                   onClick={() => {
+                     navigate(`/order-requests/users`, {
+                       state: {
+                         name: selectedRow.firstName,
+                         id: selectedRow._id,
+                       },
+                     });
+                     handleCloseMenu();
+                   }}
+                 >
+                   Manage Requests
+                 </MenuItem>
+                 <MenuItem
+                   sx={{ height: "56px" }}
+                   onClick={() => {
+                     navigate(`/shipments/users`, {
+                       state: {
+                         name: selectedRow.firstName,
+                         id: selectedRow._id,
+                       },
+                     });
+                     handleCloseMenu();
+                   }}
+                 >
+                   Manage Shipments
+                 </MenuItem>
+                 <MenuItem
+                   sx={{ height: "56px" }}
+                   onClick={() => {
+                     navigate(`/payment-history/users`, {
+                       state: {
+                         name: selectedRow.firstName,
+                         id: selectedRow._id,
+                       },
+                     });
+                     handleCloseMenu();
+                   }}
+                 >
+                   Manage Payments
+                 </MenuItem>
+                 <MenuItem
+                   sx={{ height: "56px" }}
+                   onClick={() => {
+                     handleCloseMenu();
+                   }}
+                 >
+                   Send message
+                 </MenuItem>
                </Menu>
              </Paper>
            </div>

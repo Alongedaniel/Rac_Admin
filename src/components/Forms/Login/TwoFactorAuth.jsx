@@ -47,7 +47,7 @@ const TwoFactorAuth = () => {
 
 
   const data = {
-    email: email,
+    email: email.toLowerCase(),
     otp: otp,
   };
 

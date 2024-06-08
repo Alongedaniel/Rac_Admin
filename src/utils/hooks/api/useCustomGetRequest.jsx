@@ -43,12 +43,16 @@ const useCustomGetRequest = (url) => {
             setLoading(false)
         }
     }
+  
+  const refetch = () => {
+    getRequests();
+  }
 
     useEffect(() => {
         getRequests()
     }, [])
 
-  return { data, error, loading, setError };
+  return { data, error, loading, setError, setLoading, setData, refetch };
 }
 
 export default useCustomGetRequest

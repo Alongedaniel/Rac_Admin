@@ -1,7 +1,7 @@
 import { BsThreeDots } from "react-icons/bs";
 // import { Menu, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Fragment, useEffect, useState } from "react";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useOrderRequestQuery } from "../../services/routes/order";
 import {
   Box,
@@ -10,6 +10,7 @@ import {
   Menu,
   MenuItem,
   Paper,
+  Snackbar,
   TextField,
   Tooltip,
   Typography,
@@ -24,16 +25,38 @@ import MoreIcon from "../../assets/icons/MoreIcon";
 import FilterIcons from "../../assets/icons/FilterIcons";
 import useCustomGetRequest from "../../utils/hooks/api/useCustomGetRequest";
 import moment from "moment";
+import CloseIcon from "../../assets/icons/CloseIcon";
 
-function OrderRequestComp({ home = false }) {
-  const { data, loading } = useCustomGetRequest(`/admin/all-pending-requests`);
+function OrderRequestComp({ home = false, all = false }) {
+  const location = useLocation();
+  const userId = location?.state?.id;
+  const { data, loading, setError, error } = useCustomGetRequest(
+    all ? `/admin/all-pending-requests` : `/admin/user-orders/${userId}`
+  );
   console.log(data);
+  const [openError, setOpenError] = useState(false);
+  const [selectedRow, setSelectedRow] = useState(null)
+  useEffect(() => {
+    if (error) {
+      setOpenError(true);
+    } else setOpenError(false);
+  }, [loading]);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenError(false);
+    setError("");
+  };
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [thisId, setThisId] = useState("");
-  const handleOpenMenu = (e, id) => {
+  const handleOpenMenu = (e, id, row) => {
     setAnchorEl(e.currentTarget);
     setThisId(id);
+    setSelectedRow(row)
   };
   const handleCloseMenu = () => {
     setAnchorEl(null);
@@ -92,7 +115,7 @@ function OrderRequestComp({ home = false }) {
       renderCell: (params) => (
         <Typography
           onClick={() =>
-            navigate(`request-id_${params.row.id}`, {
+            navigate(`/order-requests/request-id_${params.row.id}`, {
               state: {
                 order: params.row,
                 type: "request",
@@ -175,6 +198,7 @@ function OrderRequestComp({ home = false }) {
         <Typography
           fontSize="14px"
           fontWeight={500}
+          // textTransform="capitalize"
           color="#000"
           p="5px 10px"
           sx={{
@@ -302,7 +326,7 @@ function OrderRequestComp({ home = false }) {
             sx={{
               bgcolor: open && thisId === params.row.id ? "#E8DEF8" : undefined,
             }}
-            onClick={(e) => handleOpenMenu(e, params.row.id)}
+            onClick={(e) => handleOpenMenu(e, params.row.id, params.row)}
           >
             <MoreIcon />
           </IconButton>
@@ -316,7 +340,19 @@ function OrderRequestComp({ home = false }) {
                 top: "25px",
               }}
             >
-              <MenuItem sx={{ height: "56px" }} onClick={handleCloseMenu}>
+              <MenuItem
+                sx={{ height: "56px" }}
+                onClick={() => {
+                  navigate(`/order-requests/request-id_${selectedRow.id}`, {
+                    state: {
+                      order: params.row,
+                      type: "request",
+                      requestId: selectedRow._id,
+                    },
+                  });
+                  handleCloseMenu();
+                }}
+              >
                 View Order Request Details
               </MenuItem>
               {params.row.requestStatus === "Not Responded" && (
@@ -350,30 +386,49 @@ function OrderRequestComp({ home = false }) {
     //     `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     // },
   ];
-  
 
-  const exports = (data?.data?.allExportRequests ?? [])?.map((request) => ({
+  const exports = (
+    data?.data?.allExportRequests ??
+    data?.exportOrders ??
+    []
+  )?.map((request) => ({
     ...request,
-    service: 'Export',
+    service: "Export",
   }));
-  const imports = (data?.data?.allImportRequests ?? [])?.map((request) => ({
+  const imports = (
+    data?.data?.allImportRequests ??
+    data?.importOrders ??
+    []
+  )?.map((request) => ({
     ...request,
-    service: 'Import',
+    service: "Import",
   }));
-  const autoImports = (data?.data?.allAutoImportRequests ?? [])?.map((request) => ({
+  const autoImports = (
+    data?.data?.allAutoImportRequests ??
+    data?.autoImportOrders ??
+    []
+  )?.map((request) => ({
     ...request,
     service: "Auto Import",
   }));
-  const shopForMe = (data?.data?.allSfmRequests ?? [])?.map((request) => ({
-    ...request,
-    service: 'Shop For Me',
-  }));
+  const shopForMe = (data?.data?.allSfmRequests ?? data?.sfmOrders ?? [])?.map(
+    (request) => ({
+      ...request,
+      service: "Shop For Me",
+    })
+  );
 
-
-  const rows = [...imports, ...exports, ...autoImports, ...shopForMe].map((row) => ({
-    ...row,
-    id: row.requestId,
-  }));
+  const rows = [...imports, ...exports, ...autoImports, ...shopForMe].map(
+    (row) => ({
+      ...row,
+      id: row.requestId,
+      requestStatus: row.requestStatus
+        .split(" ")
+        .map((x, i) => x.charAt(0).toUpperCase() + x.slice(1).toLowerCase())
+        .join(" "),
+      
+    })
+  );
 
   // const rows = [
   //   {
@@ -859,6 +914,19 @@ function OrderRequestComp({ home = false }) {
           </button>
         </div>
       )}
+      <Snackbar
+        open={openError}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message={error}
+        action={
+          <Box onClick={handleClose}>
+            <CloseIcon />
+          </Box>
+        }
+      />
     </>
   );
 }

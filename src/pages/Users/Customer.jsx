@@ -32,42 +32,41 @@ import OrderTable from '../../components/OrderTable';
 import useCustomGetRequest from '../../utils/hooks/api/useCustomGetRequest';
 import moment from 'moment/moment';
 import CloseIcon from '../../assets/icons/CloseIcon';
+import Requests from "../../utils/hooks/api/requests";
 
 
 export const bgColor = ["#CAC4D0","#6750A4","#F9DEDC","#7D5260","#fff"
 ];
 const Customer = () => {
   const navigate = useNavigate()
-    const { data, loading, error, setError } =
+    const { data, loading, error, setError, refetch } =
       useCustomGetRequest(`/admin/users`);
-  const menuItems = [
-    "View/Edit user",
-    "Suspend/Delete account",
-    "Manage Orders",
-    "Manage Shipments",
-    "Manage Payments",
-    "Send message",
-  ];
+  
+  const { suspendUser, deleteUser, data: requestData, error: requestError, loading: requestLoading, setData } = Requests()
 
   const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedRow, setSelectedRow] = useState(null)
     const theme = useTheme();
   const desktop = useMediaQuery(theme.breakpoints.up("xl"));
   
   const open = Boolean(anchorEl);
   const [thisId, setThisId] = useState('')
-  const handleOpenMenu = (e, id) => {
+  const handleOpenMenu = (e, id, row) => {
     setAnchorEl(e.currentTarget);
     setThisId(id)
+    setSelectedRow(row)
   };
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
-    const [openError, setOpenError] = useState(false);
+  const [openError, setOpenError] = useState(false);
   useEffect(() => {
-    if (error) {
+    if (requestData?.message)
+      refetch()
+    if (error || requestData?.message) {
       setOpenError(true);
     } else setOpenError(false);
-  }, [loading]);
+  }, [loading, requestLoading]);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -76,6 +75,7 @@ const Customer = () => {
 
     setOpenError(false);
     setError("");
+    setData(null)
   };
   const HeaderName = ({ header }) => {
     return (
@@ -517,7 +517,7 @@ const Customer = () => {
                 bgcolor:
                   open && thisId === params.row.id ? "#E8DEF8" : undefined,
               }}
-              onClick={(e) => handleOpenMenu(e, params.row.id)}
+              onClick={(e) => handleOpenMenu(e, params.row.id, params.row)}
             >
               <MoreIcon />
             </IconButton>
@@ -531,15 +531,102 @@ const Customer = () => {
                   top: "25px",
                 }}
               >
-                {menuItems.map((menuItem) => (
-                  <MenuItem
-                    key={menuItem}
-                    sx={{ height: "56px" }}
-                    onClick={handleCloseMenu}
-                  >
-                    {menuItem}
-                  </MenuItem>
-                ))}
+                <MenuItem
+                  sx={{ height: "56px" }}
+                  onClick={() => {
+                    navigate(`user-id_${selectedRow.racId}`, {
+                      state: {
+                        id: selectedRow._id,
+                      },
+                    });
+                    handleCloseMenu();
+                  }}
+                >
+                  View/Edit user
+                </MenuItem>
+                <MenuItem
+                  sx={{ height: "56px" }}
+                  onClick={() => {
+                    suspendUser(`/admin/suspend-user/${selectedRow._id}`);
+                    handleCloseMenu();
+                  }}
+                >
+                  Suspend account
+                </MenuItem>
+                <MenuItem
+                  sx={{ height: "56px" }}
+                  onClick={() => {
+                    deleteUser(`/admin/delete-user/${selectedRow._id}`);
+                    handleCloseMenu();
+                  }}
+                >
+                  Delete account
+                </MenuItem>
+                <MenuItem
+                  sx={{ height: "56px" }}
+                  onClick={() => {
+                    navigate(`/orders/users`, {
+                      state: {
+                        name: selectedRow.firstName,
+                        id: selectedRow._id,
+                      },
+                    });
+                    handleCloseMenu();
+                  }}
+                >
+                  Manage Orders
+                </MenuItem>
+                <MenuItem
+                  sx={{ height: "56px" }}
+                  onClick={() => {
+                    navigate(`/order-requests/users`, {
+                      state: {
+                        name: selectedRow.firstName,
+                        id: selectedRow._id
+                      },
+                    });
+                    handleCloseMenu();
+                  }}
+                >
+                  Manage Requests
+                </MenuItem>
+                <MenuItem
+                  sx={{ height: "56px" }}
+                  onClick={() => {
+                    navigate(`/shipments/users`, {
+                      state: {
+                        name: selectedRow.firstName,
+                        id: selectedRow._id
+                        
+                      },
+                    });
+                    handleCloseMenu();
+                  }}
+                >
+                  Manage Shipments
+                </MenuItem>
+                <MenuItem
+                  sx={{ height: "56px" }}
+                  onClick={() => {
+                    navigate(`/payment-history/users`, {
+                      state: {
+                        name: selectedRow.firstName,
+                        id: selectedRow._id,
+                      },
+                    });
+                    handleCloseMenu();
+                  }}
+                >
+                  Manage Payments
+                </MenuItem>
+                <MenuItem
+                  sx={{ height: "56px" }}
+                  onClick={() => {
+                    handleCloseMenu();
+                  }}
+                >
+                  Send message
+                </MenuItem>
               </Menu>
             </Paper>
           </div>
@@ -818,8 +905,9 @@ const Customer = () => {
   //   },
   // ];
 
-  const rows = data?.users?.map((row) => ({
+  const rows = data?.users?.filter((row) => row.isAdmin === false)?.map((row) => ({
     ...row,
+    racId: row.racId,
     id: row._id,
     country: row?.contactAddress[0]?.country, // Ensure each row has a unique id
     state: row?.contactAddress[0]?.state, // Ensure each row has a unique id
@@ -938,7 +1026,7 @@ const Customer = () => {
         sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
         autoHideDuration={6000}
         onClose={handleClose}
-        message={error}
+        message={error || requestData?.message}
         action={
           <Box onClick={handleClose}>
             <CloseIcon />

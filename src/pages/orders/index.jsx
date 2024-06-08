@@ -33,8 +33,8 @@ function Orders({children, showFullBar}) {
             borderBottomRightRadius: "30px",
           }}
         >
-          <CustomLink to="/orders">Orders</CustomLink>
           <CustomLink to="/order-requests">Requests</CustomLink>
+          <CustomLink to="/orders">Orders</CustomLink>
           <CustomLink to="/order-drafts">Draft</CustomLink>
         </div>
       </Box>
