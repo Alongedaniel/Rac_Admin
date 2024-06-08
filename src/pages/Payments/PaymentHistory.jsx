@@ -1,21 +1,44 @@
-import { Box, Button, Menu, MenuItem, Paper, TextField, Tooltip, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import { Box, Button, Menu, MenuItem, Paper, Snackbar, TextField, Tooltip, Typography } from '@mui/material'
+import React, { useEffect, useState } from 'react'
 import ActionButton from '../../components/ActionButton';
 import SearchIcon from '../../assets/icons/SearchIcon';
 import BulkIcon from '../../assets/icons/BulkIcon';
 import OrderTable from '../../components/OrderTable';
 import ShopIcon from '../../assets/icons/ShopIcon';
 import FilterIcons from '../../assets/icons/FilterIcons';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import CheckIcon from '../../assets/icons/CheckIcon';
 import ProcessIcon from '../../assets/icons/ProcessIcon';
 import CloseSquare from '../../assets/icons/CloseSquare';
 import CheckMoreIcon from '../../assets/icons/CheckMoreIcon';
 import MoreIcon from '../../assets/icons/MoreIcon';
 import ReverseIcon from '../../assets/icons/ReverseIcon';
+import useCustomGetRequest from '../../utils/hooks/api/useCustomGetRequest';
+import CloseIcon from '../../assets/icons/CloseIcon';
 
-const PaymentHistory = () => {
-     const [anchorEl, setAnchorEl] = useState(null);
+const PaymentHistory = ({all=false}) => {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const location = useLocation()
+  const userId = location?.state?.id
+  const { data, loading, setError, error } = useCustomGetRequest(
+    all ? `` : `/admin/user-payment-history/${userId}`
+  );
+  console.log(data)
+    const [openError, setOpenError] = useState(false);
+    useEffect(() => {
+      if (error) {
+        setOpenError(true);
+      } else setOpenError(false);
+    }, [loading]);
+
+    const handleClose = (event, reason) => {
+      if (reason === "clickaway") {
+        return;
+      }
+
+      setOpenError(false);
+      setError("");
+    };
      const open = Boolean(anchorEl);
      const handleOpenMenu = (e) => {
        setAnchorEl(e.currentTarget);
@@ -435,7 +458,9 @@ const PaymentHistory = () => {
               />
             </Box> */}
           </Box>
-          <Box><OrderTable columns={columns} rows={rows} /></Box>
+          <Box>
+            <OrderTable columns={columns} rows={rows} />
+          </Box>
         </Box>
       ) : (
         <Box
@@ -479,6 +504,19 @@ const PaymentHistory = () => {
           </Button>
         </Box>
       )}
+      <Snackbar
+        open={openError}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message={error}
+        action={
+          <Box onClick={handleClose}>
+            <CloseIcon />
+          </Box>
+        }
+      />
     </Box>
   );
 }

@@ -57,6 +57,7 @@ import CustomStepper from "../../components/CustomStepper";
 import SectionHeader from "../../components/SectionHeader";
 import useCustomGetRequest from "../../utils/hooks/api/useCustomGetRequest";
 import moment from "moment";
+import OrderPricing from "../../components/order/components/OrderPricing";
 
 function OrderDetails() {
   const location = useLocation();
@@ -70,7 +71,13 @@ function OrderDetails() {
   const { data } = useCustomGetRequest(`/admin/get-request-by-id/${requestId}`);
 
   console.log(data);
-
+function toTitleCase(str) {
+  const words = str.match(/[A-Z][a-z]+|[a-z]+/g);
+  const titleCasedWords = words.map(
+    (word) => word.charAt(0).toUpperCase() + word.slice(1)
+  );
+  return titleCasedWords.join(" ");
+}
   const toggle = (i) => {
     setDrop((prevFaq) => (prevFaq === i ? null : i));
   };
@@ -300,7 +307,7 @@ function OrderDetails() {
                               Service:
                             </p>
                             <p className="font-roboto  text-[20px]">
-                              {data?.serviceType}
+                              {toTitleCase(data?.serviceType)}
                             </p>
                           </div>
                           <div></div>
@@ -340,9 +347,7 @@ function OrderDetails() {
                               Order Time:
                             </p>
                             <p className="font-roboto  text-[20px]">
-                              {moment(data?.request?.createdAt).format(
-                                "HH:mm"
-                              )}
+                              {moment(data?.request?.createdAt).format("HH:mm")}
                             </p>
                           </div>
                         </div>
@@ -436,7 +441,7 @@ function OrderDetails() {
                       />
                     </>
                   ) : data?.serviceType === "shopForMe" ? (
-                    <PaymentInformation toggle={toggle} drop={drop} />
+                    <OrderPricing service={toTitleCase(data?.serviceType)} />
                   ) : (
                     <Box>
                       <div className="flex items-center space-x-[10px] ">

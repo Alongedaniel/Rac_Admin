@@ -49,6 +49,8 @@ import Home from "./pages/Home/Home";
 import { useAuth } from "./utils/contexts/userContext/UserContext";
 import RequireAuth from "./components/Layout/RequireAuth";
 import { resetLogoutTimer } from "./utils/hooks/api/auth/AutoLogout";
+import OrderHome from "./components/order";
+import OrderRequestComp from "./components/order/order-request";
 
 function App() {
   const location = useLocation();
@@ -96,12 +98,24 @@ function App() {
             />
 
             <Route
-              path="/shipment"
+              path="/shipments"
               element={
                 <MainLayout
                   showFullBar={showFullBar}
                   setShowFullBar={setShowFullBar}
                   title="Shipments"
+                >
+                  <ShipmentHistory all />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/shipments/users"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title={`${location?.state?.name}'s Shipments`}
                 >
                   <ShipmentHistory />
                 </MainLayout>
@@ -131,7 +145,7 @@ function App() {
               }
             /> */}
             <Route
-              path="/shipment/:shippingid"
+              path="/shipments/:shippingid"
               element={
                 <MainLayout
                   showFullBar={showFullBar}
@@ -171,6 +185,18 @@ function App() {
                   showFullBar={showFullBar}
                   setShowFullBar={setShowFullBar}
                   title="Payment History"
+                >
+                  <PaymentHistory all />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/payment-history/users"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title={`${location?.state?.name}'s Payment History`}
                 >
                   <PaymentHistory />
                 </MainLayout>
@@ -408,6 +434,22 @@ function App() {
               }
             />
             <Route
+              path="/orders/users"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title={`${location?.state?.name}'s Orders`}
+                >
+                  <Box
+                    sx={{ px: "50px", pt: "30px", mb: "16px", height: "100%" }}
+                  >
+                    <OrderHome />
+                  </Box>
+                </MainLayout>
+              }
+            />
+            <Route
               path="orders/:orderid/add_shipment_details_shop_for_me"
               element={
                 <MainLayout
@@ -518,6 +560,22 @@ function App() {
                   <Orders>
                     <OrderRequests />
                   </Orders>
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/order-requests/users"
+              element={
+                <MainLayout
+                  showFullBar={showFullBar}
+                  setShowFullBar={setShowFullBar}
+                  title={`${location?.state?.name}'s Requested Orders`}
+                >
+                  <Box
+                    sx={{ px: "50px", pt: "30px", mb: "16px", height: "100%" }}
+                  >
+                    <OrderRequestComp />
+                  </Box>
                 </MainLayout>
               }
             />

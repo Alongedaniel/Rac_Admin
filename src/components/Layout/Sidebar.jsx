@@ -195,13 +195,13 @@ const links = [
   {
     id: 3,
     title: "Orders",
-    to: "/orders",
+    to: "/order-requests",
     icon: <OrderIcon />
   },
   {
     id: 4,
-    title: "Shipment",
-    to: "/shipment",
+    title: "Shipments",
+    to: "/shipments",
     icon: <ShipmentIcon />
   },
   {

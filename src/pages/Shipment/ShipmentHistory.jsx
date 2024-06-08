@@ -1,5 +1,5 @@
-import { Box, Button, Menu, MenuItem, Paper, TextField, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material'
-import React, { useState } from 'react'
+import { Box, Button, Menu, MenuItem, Paper, Snackbar, TextField, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material'
+import React, { useEffect, useState } from 'react'
 import ActionButton from '../../components/ActionButton';
 import SearchIcon from '../../assets/icons/SearchIcon';
 import BulkIcon from '../../assets/icons/BulkIcon';
@@ -7,7 +7,7 @@ import NewOrderIcon from '../../assets/icons/NewOrderIcon';
 import FilterIcons from '../../assets/icons/FilterIcons';
 import OrderTable from '../../components/OrderTable';
 import laptop from '../../assets/images/laptop.png'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import UserTag from '../../assets/icons/UserTag';
 import MoreIcon from '../../assets/icons/MoreIcon';
 import CheckMoreIcon from '../../assets/icons/CheckMoreIcon';
@@ -18,12 +18,35 @@ import NewShipmentIcon from '../../assets/icons/NewShipmentIcon';
 import TrackShipmentIcon from '../../assets/icons/TrackShipmentIcon';
 import PackageDetailsInfo from '../../components/order/components/PackageDetailsInfo';
 import UserModals from '../Users/components/UserModals';
+import useCustomGetRequest from '../../utils/hooks/api/useCustomGetRequest';
+import CloseIcon from '../../assets/icons/CloseIcon';
 
-const ShipmentHistory = () => {
+const ShipmentHistory = ({all=false}) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [service, setService] = useState('');
   const [packageDetails, setPackageDetails] = useState(false);
-    const theme = useTheme();
+  const theme = useTheme();
+  const location = useLocation();
+  const userId = location?.state?.id
+  const { data, loading, setError, error } = useCustomGetRequest(
+    all ? `` : `/admin/get-shipments/${userId}`
+  );
+  console.log(data)
+      const [openError, setOpenError] = useState(false);
+      useEffect(() => {
+        if (error) {
+          setOpenError(true);
+        } else setOpenError(false);
+      }, [loading]);
+
+      const handleClose = (event, reason) => {
+        if (reason === "clickaway") {
+          return;
+        }
+
+        setOpenError(false);
+        setError("");
+      };
     const desktop = useMediaQuery(theme.breakpoints.up("xl"));
     const open = Boolean(anchorEl);
     const handleOpenMenu = (e) => {
@@ -792,7 +815,7 @@ const ShipmentHistory = () => {
                 title="Track shipment"
                 icon={<TrackShipmentIcon />}
                 bg="#4F378B"
-                action={() => navigate('track-shipment')}
+                action={() => navigate("track-shipment")}
               />
               <ActionButton
                 action={() => navigate("add-new-shipment")}
@@ -858,6 +881,19 @@ const ShipmentHistory = () => {
       >
         <PackageDetailsInfo service={service} view={true} />
       </UserModals>
+      <Snackbar
+        open={openError}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message={error}
+        action={
+          <Box onClick={handleClose}>
+            <CloseIcon />
+          </Box>
+        }
+      />
     </Box>
   );
 }
