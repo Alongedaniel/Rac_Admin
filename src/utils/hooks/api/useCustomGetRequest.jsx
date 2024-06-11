@@ -11,14 +11,14 @@ const useCustomGetRequest = (url) => {
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
     const { bearerToken } = useAuth()
-      const job = new CronJob(
-        "1 * * * * *",
-        function () {
-          const res = axiosInstance.get(url);
-        },
-        true
-      );
-      job.start();
+      // const job = new CronJob(
+      //   "1 * * * * *",
+      //   function () {
+      //     const res = axiosInstance.get(url);
+      //   },
+      //   true
+      // );
+      // job.start();
 
     const getRequests = async () => {
         // const config = {
@@ -33,13 +33,15 @@ const useCustomGetRequest = (url) => {
         setLoading(true)
         try {
             const res = await axiosInstance.get(url)
-            console.log(res.data)
             setData(res.data)
             setError('')
             setLoading(false)
         } catch (e) {
-            setError(e.message)
-            setData([])
+          if (e?.response?.request?.status === 401)
+            setError('Token expired, Login again');
+          else
+            setError(e?.response?.data?.message);
+            setData(null)
             setLoading(false)
         }
     }
@@ -50,7 +52,7 @@ const useCustomGetRequest = (url) => {
 
     useEffect(() => {
         getRequests()
-    }, [])
+    }, [url])
 
   return { data, error, loading, setError, setLoading, setData, refetch };
 }

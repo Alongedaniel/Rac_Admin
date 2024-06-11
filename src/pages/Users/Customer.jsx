@@ -62,7 +62,9 @@ const Customer = () => {
   const [openError, setOpenError] = useState(false);
   useEffect(() => {
     if (requestData?.message)
-      refetch()
+      setTimeout(() => {
+        refetch();
+      }, 6000)
     if (error || requestData?.message) {
       setOpenError(true);
     } else setOpenError(false);
@@ -505,13 +507,7 @@ const Customer = () => {
         width: 70,
         sortable: false,
         renderCell: (params) => (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+          <div>
             <IconButton
               sx={{
                 bgcolor:
@@ -526,13 +522,24 @@ const Customer = () => {
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleCloseMenu}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
                 sx={{
-                  "& .MuiMenu-paper": { boxShadow: 0, borderRadius: "20px" },
-                  top: "25px",
+                  "& .MuiMenu-paper": {
+                    borderRadius: "20px",
+                    boxShadow: "0px 4px 10px 4px rgba(0, 0, 0, 0.1)",
+                  },
+                  left: { xs: "-90px", sm: "-190px" },
                 }}
               >
                 <MenuItem
-                  sx={{ height: "56px" }}
+                  sx={{ cursor: 'pointer', height: "56px" }}
                   onClick={() => {
                     navigate(`user-id_${selectedRow.racId}`, {
                       state: {
@@ -545,7 +552,7 @@ const Customer = () => {
                   View/Edit user
                 </MenuItem>
                 <MenuItem
-                  sx={{ height: "56px" }}
+                  sx={{ cursor: 'pointer', height: "56px" }}
                   onClick={() => {
                     suspendUser(`/admin/suspend-user/${selectedRow._id}`);
                     handleCloseMenu();
@@ -554,7 +561,7 @@ const Customer = () => {
                   Suspend account
                 </MenuItem>
                 <MenuItem
-                  sx={{ height: "56px" }}
+                  sx={{ cursor: 'pointer', height: "56px" }}
                   onClick={() => {
                     deleteUser(`/admin/delete-user/${selectedRow._id}`);
                     handleCloseMenu();
@@ -563,7 +570,7 @@ const Customer = () => {
                   Delete account
                 </MenuItem>
                 <MenuItem
-                  sx={{ height: "56px" }}
+                  sx={{ cursor: 'pointer', height: "56px" }}
                   onClick={() => {
                     navigate(`/orders/users`, {
                       state: {
@@ -577,12 +584,12 @@ const Customer = () => {
                   Manage Orders
                 </MenuItem>
                 <MenuItem
-                  sx={{ height: "56px" }}
+                  sx={{ cursor: 'pointer', height: "56px" }}
                   onClick={() => {
                     navigate(`/order-requests/users`, {
                       state: {
                         name: selectedRow.firstName,
-                        id: selectedRow._id
+                        id: selectedRow._id,
                       },
                     });
                     handleCloseMenu();
@@ -591,13 +598,12 @@ const Customer = () => {
                   Manage Requests
                 </MenuItem>
                 <MenuItem
-                  sx={{ height: "56px" }}
+                  sx={{ cursor: 'pointer', height: "56px" }}
                   onClick={() => {
                     navigate(`/shipments/users`, {
                       state: {
                         name: selectedRow.firstName,
-                        id: selectedRow._id
-                        
+                        id: selectedRow._id,
                       },
                     });
                     handleCloseMenu();
@@ -606,7 +612,7 @@ const Customer = () => {
                   Manage Shipments
                 </MenuItem>
                 <MenuItem
-                  sx={{ height: "56px" }}
+                  sx={{ cursor: 'pointer', height: "56px" }}
                   onClick={() => {
                     navigate(`/payment-history/users`, {
                       state: {
@@ -620,7 +626,7 @@ const Customer = () => {
                   Manage Payments
                 </MenuItem>
                 <MenuItem
-                  sx={{ height: "56px" }}
+                  sx={{ cursor: 'pointer', height: "56px" }}
                   onClick={() => {
                     handleCloseMenu();
                   }}

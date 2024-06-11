@@ -51,7 +51,10 @@ const Staff = () => {
   };
   const [openError, setOpenError] = useState(false);
   useEffect(() => {
-    if (requestData?.message) refetch();
+    if (requestData?.message)
+      setTimeout(() => {
+        refetch();
+      }, 6000);
     if (error || requestData?.message) {
       setOpenError(true);
     } else setOpenError(false);
@@ -915,7 +918,7 @@ const Staff = () => {
               <ActionButton title="Bulk Actions" icon={<BulkIcon />} />
             </Box>
             <ActionButton
-              action={() => navigate("/orders/create-new-order")}
+              action={() => navigate("adding-new-staff")}
               title="Add new staff"
               icon={<NewCustomerIcon />}
             />
