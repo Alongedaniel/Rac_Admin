@@ -138,7 +138,7 @@ const Home = () => {
             See all
           </Button>
         </Box>
-        <OrderRequestComp home />
+        <OrderRequestComp home all />
       </Box>
       <UserModals
         open={isAuthenticated ? false : openModal}

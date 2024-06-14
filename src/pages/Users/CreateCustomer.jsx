@@ -31,6 +31,7 @@ const CreateCustomer = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -48,6 +49,7 @@ const CreateCustomer = () => {
     firstName: firstName,
     lastName: lastName,
     email: email,
+    password: 'PassWord123',
     contactAddress: [
       {
         country: country,
@@ -57,8 +59,15 @@ const CreateCustomer = () => {
         countryCode: countryCode,
         phoneNumber: phoneNumber,
         postalCode: postalCode,
-      },
-    ],
+      }
+    ]
+  };
+
+  const handleClose = () => {
+
+    setOpenError(false);
+    setError("");
+    setSuccess('');
   };
 
   console.log(data);
@@ -81,15 +90,18 @@ const CreateCustomer = () => {
     setLoading(true);
     try {
       const res = await axiosInstance.post("/admin/users/add-new-user", data);
-      console.log(res);
-      setUser(res);
+      console.log(res.data.user);
+      setSuccess(res.data.message);
+      setUser(res.data.user);
       setError("");
       setLoading(false);
       handleNext()
+      setOpenError(true);
     } catch (e) {
       console.log(e);
       setError(e.response.data.message);
-      setUser(null);
+      setSuccess(null);
+      setUser(null)
       setLoading(false);
       setOpenError(true)
     }
@@ -113,7 +125,7 @@ const CreateCustomer = () => {
                 display="inline"
                 fontWeight={700}
               >
-                RACS1234567
+                {user?.racId}
               </Typography>
             </Typography>
           </Box>
@@ -288,13 +300,17 @@ const CreateCustomer = () => {
                     height: "40px",
                     borderRadius: "100px",
                     textTransform: "none",
-                    }}
-                    disabled={loading}
+                  }}
+                  disabled={loading}
                   onClick={() => {
                     if (!finish) createNewUser();
                   }}
                 >
-                  {loading ? <CircularProgress /> : 'Confirm & Create new Customer'}
+                  {loading ? (
+                    <CircularProgress />
+                  ) : (
+                    "Confirm & Create new Customer"
+                  )}
                 </Button>
               </>
             )}
@@ -324,13 +340,15 @@ const CreateCustomer = () => {
       <Snackbar
         open={openError}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        sx={{
-          "& .MuiSnackbarContent-root": { borderRadius: "30px", top: "130px" },
-        }}
+        sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
         autoHideDuration={6000}
-        onClose={() => setOpenError(false)}
-        message={error}
-        action={<CloseIcon />}
+        onClose={handleClose}
+        message={error || success}
+        action={
+          <Box onClick={handleClose}>
+            <CloseIcon />
+          </Box>
+        }
       />
     </Box>
   );

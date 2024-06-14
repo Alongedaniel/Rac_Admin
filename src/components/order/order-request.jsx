@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useOrderRequestQuery } from "../../services/routes/order";
 import {
   Box,
+  Button,
   CircularProgress,
   IconButton,
   Menu,
@@ -26,6 +27,20 @@ import FilterIcons from "../../assets/icons/FilterIcons";
 import useCustomGetRequest from "../../utils/hooks/api/useCustomGetRequest";
 import moment from "moment";
 import CloseIcon from "../../assets/icons/CloseIcon";
+import NewCustomerIcon from "../../assets/icons/NewCustomerIcon";
+
+ export const GetCustomerName = ({ id }) => {
+    const { data: customer, loading } = useCustomGetRequest(
+      `/admin/users/${id}` ?? ""
+    );
+    return (
+      <Typography color="#21005D">
+        {customer
+          ? `${customer?.user?.firstName} ${customer?.user?.lastName}`
+          : "N/A"}
+      </Typography>
+    );
+  };
 
 function OrderRequestComp({ home = false, all = false }) {
   const location = useLocation();
@@ -105,6 +120,7 @@ function OrderRequestComp({ home = false, all = false }) {
         return null;
     }
   };
+
   const navigate = useNavigate();
   const columns = [
     {
@@ -151,8 +167,8 @@ function OrderRequestComp({ home = false, all = false }) {
           color="#21005D"
           sx={{ display: "flex", alignItems: "center", gap: "5px" }}
         >
-          {params.row.customer && <UserTag />}
-          {params.row.customer ?? "N/A"}
+          {<GetCustomerName id={params.row.user} /> && <UserTag />}
+          <GetCustomerName id={params.row.user} />
         </Typography>
       ),
     },
@@ -315,13 +331,7 @@ function OrderRequestComp({ home = false, all = false }) {
       width: 70,
       sortable: false,
       renderCell: (params) => (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <Box position='relative'>
           <IconButton
             sx={{
               bgcolor: open && thisId === params.row.id ? "#E8DEF8" : undefined,
@@ -334,10 +344,21 @@ function OrderRequestComp({ home = false, all = false }) {
             <Menu
               anchorEl={anchorEl}
               open={open}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              transformOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
               onClose={handleCloseMenu}
               sx={{
-                "& .MuiMenu-paper": { boxShadow: 0, borderRadius: "20px" },
-                top: "25px",
+                "& .MuiMenu-paper": {
+                  borderRadius: "20px",
+                  boxShadow: "0px 4px 10px 4px rgba(0, 0, 0, 0.1)",
+                },
+                left: {xs: "-100px", sm:"-150px"},
               }}
             >
               <MenuItem
@@ -372,7 +393,7 @@ function OrderRequestComp({ home = false, all = false }) {
               )}
             </Menu>
           </Paper>
-        </div>
+        </Box>
       ),
     },
     // {
@@ -907,12 +928,47 @@ function OrderRequestComp({ home = false, all = false }) {
           </Box>
         </Box>
       ) : (
-        <div className="flex flex-col items-center space-y-[30px] font-roboto mt-[-15%]">
-          <p>You don’t have any order yet, would you like to create one now?</p>
-          <button className="bg-brand/200 text-white w-fit p-[10px_15px] rounded-full">
-            Add new order
-          </button>
-        </div>
+            <Box
+          display="flex"
+          sx={{
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "30px",
+          }}
+          width="100%"
+          height="70vh"
+        >
+          <Typography
+            sx={{
+              width: "460px",
+              textAlign: "center",
+              fontSize: "22px",
+              color: "#000",
+            }}
+          >
+            You don’t have any order yet, would you like to create one now?
+          </Typography>
+          <Button
+            onClick={() => navigate("adding-new-customer")}
+            variant="contained"
+            startIcon={<NewCustomerIcon />}
+            sx={{
+              width: "fit-content",
+              p: "10px 24px",
+              bgcolor: "#6750A4",
+              fontSize: "14px",
+              fontWeight: 500,
+              textTransform: "capitalize",
+              "&:hover": {
+                bgcolor: "#6750A4",
+              },
+              borderRadius: "100px",
+            }}
+          >
+            Add new request
+          </Button>
+        </Box>
       )}
       <Snackbar
         open={openError}

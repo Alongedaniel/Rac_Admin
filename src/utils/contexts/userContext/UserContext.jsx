@@ -64,9 +64,7 @@ export const UserProvider = ({ children }) => {
     } catch (e) {
       console.log(e.message);
       if (e.response.request.status == 404) setError("Not found");
-      else if (e.response.request.status == 500)
-        setError("Internal server error");
-      else setError(e.message);
+      else setError(e?.response?.data?.message);
       setLoading(false);
     }
   };
@@ -87,7 +85,7 @@ export const UserProvider = ({ children }) => {
       setSuccess('Account verification successful')
       setLoading(false);
     } catch (e) {
-      setError(e.response.data)
+      setError(e?.response?.data?.message);
       setLoading(false);
     }
   };
@@ -101,9 +99,10 @@ export const UserProvider = ({ children }) => {
       navigate("/two-factor-auth");
       setError('')
     } catch (e) {
-      if (e.response.request.status == 404) setError('Not found')
-      else if (e.response.request.status == 500) setError('Internal server error')
-      else setError(e.message);
+      console.log(e)
+      if (e?.response?.request?.status == 404) setError('Not found')
+      else if (e?.response.request?.status == 500) setError("Invalid credentials");
+      else setError(e?.response?.data?.message);
       setLoading(false);
     }
   };
@@ -121,7 +120,9 @@ export const UserProvider = ({ children }) => {
       localStorage.removeItem("jwtToken");
       localStorage.removeItem("isAuthenticated");
     } catch (e) {
-      console.log(e.message);
+      if (e?.response?.request?.status === 401)
+        setError("Token expired, Login again");
+      else setError(e?.response?.data?.message);
       setLoading(false);
     }
   };

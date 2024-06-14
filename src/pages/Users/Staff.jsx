@@ -51,7 +51,10 @@ const Staff = () => {
   };
   const [openError, setOpenError] = useState(false);
   useEffect(() => {
-    if (requestData?.message) refetch();
+    if (requestData?.message)
+      setTimeout(() => {
+        refetch();
+      }, 6000);
     if (error || requestData?.message) {
       setOpenError(true);
     } else setOpenError(false);
@@ -547,9 +550,20 @@ const Staff = () => {
                  anchorEl={anchorEl}
                  open={open}
                  onClose={handleCloseMenu}
+                 anchorOrigin={{
+                   vertical: "top",
+                   horizontal: "left",
+                 }}
+                 transformOrigin={{
+                   vertical: "top",
+                   horizontal: "left",
+                 }}
                  sx={{
-                   "& .MuiMenu-paper": { boxShadow: 0, borderRadius: "20px" },
-                   top: "25px",
+                   "& .MuiMenu-paper": {
+                     borderRadius: "20px",
+                     boxShadow: "0px 4px 10px 4px rgba(0, 0, 0, 0.1)",
+                   },
+                   left: { xs: "-90px", sm: "-190px" },
                  }}
                >
                  <MenuItem
@@ -915,7 +929,7 @@ const Staff = () => {
               <ActionButton title="Bulk Actions" icon={<BulkIcon />} />
             </Box>
             <ActionButton
-              action={() => navigate("/orders/create-new-order")}
+              action={() => navigate("adding-new-staff")}
               title="Add new staff"
               icon={<NewCustomerIcon />}
             />
