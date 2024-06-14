@@ -29,6 +29,19 @@ import moment from "moment";
 import CloseIcon from "../../assets/icons/CloseIcon";
 import NewCustomerIcon from "../../assets/icons/NewCustomerIcon";
 
+ export const GetCustomerName = ({ id }) => {
+    const { data: customer, loading } = useCustomGetRequest(
+      `/admin/users/${id}` ?? ""
+    );
+    return (
+      <Typography color="#21005D">
+        {customer
+          ? `${customer?.user?.firstName} ${customer?.user?.lastName}`
+          : "N/A"}
+      </Typography>
+    );
+  };
+
 function OrderRequestComp({ home = false, all = false }) {
   const location = useLocation();
   const userId = location?.state?.id;
@@ -107,14 +120,7 @@ function OrderRequestComp({ home = false, all = false }) {
         return null;
     }
   };
-  const GetCustomerName = ({ id }) => {
-    const { data: customer, loading } = useCustomGetRequest(`/admin/users/${id}` ?? '')
-    return (
-      <Typography color="#21005D">
-        {customer ? `${customer?.user?.firstName} ${customer?.user?.lastName}` : 'N/A'}
-      </Typography>
-    );
-  }
+
   const navigate = useNavigate();
   const columns = [
     {

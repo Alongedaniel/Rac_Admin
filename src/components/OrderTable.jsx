@@ -58,6 +58,7 @@ const OrderTable = ({ rows, columns, pageSize = 10, height = "75vh" }) => {
         maxHeight: '75vh',
         bgcolor: "#fff",
         borderRadius: "20px",
+        boxShadow: 'inset 4px 0 10px -4px rgba(0, 0, 0, 0.2), inset -4px 0 10px -4px rgba(0, 0, 0, 0.2)'
       }}
     />
     // </div>
