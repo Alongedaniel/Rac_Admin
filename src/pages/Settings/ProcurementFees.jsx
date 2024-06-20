@@ -19,141 +19,224 @@ const ProcurementFees = () => {
     ];
   return (
     <Box p="24px 40px">
-      <Box p="24px" borderRadius="20px" bgcolor="#fff" >
+      <Box p="24px" borderRadius="20px" bgcolor="#fff">
         <IconButton onClick={() => navigate(-1)} sx={{ mb: "10px" }}>
           <ArrowBack />
         </IconButton>
-        <Typography fontSize="24px" color="#1C1B1F" mb="8px">
-          Procurement Fees
-        </Typography>
-        <Typography fontSize="16px" color="#1D192B" mb="24px">
-          These costs apply to shop for me orders only
-        </Typography>
-        <PaymentsTable rows={rows} columns={columns} allColored>
-          <Box display="flex">
-            <TableValue width="143px" value={"$15"} setValue={() => {}} />
+        <Box
+          p="24px"
+          border="1px solid #CAC4D0"
+          borderRadius={"20px"}
+          mb="24px"
+        >
+          <Typography fontSize="24px" color="#1C1B1F" mb="8px">
+            Other Charges
+          </Typography>
+          <Typography fontSize="16px" color="#1D192B" mb="24px">
+            These urgent purchase fee below charges apply to each individual
+            Item that needs an urgent purchase
+          </Typography>
+          <Box>
             <Box
-              alignSelf={"flex-end"}
-              width="238px"
-              height="46px"
-              bgcolor="#FFECF1"
-              display="flex"
-              alignItems="flex-end"
               pl="16px"
-              borderBottom="1px solid #E7E0EC"
-              pb="8px"
+              py="18px"
+              borderRadius="8px"
+              borderTop="1px solid #79747E"
+              borderLeft="1px solid #79747E"
             >
-              <Typography fontSize="14px" fontWeight={500} color="#060C2C">
-                {`Flat Rate`}
+              <Typography fontSize="14px" fontWeight={500} color="#1D192B">
+                Urgent Purchase Fee ($)
               </Typography>
             </Box>
+            <PaymentsTable rows={[]} columns={[]} allColored>
+              <Box display="flex">
+                <TableValue width="190px" value={"$5"} setValue={() => {}} />
+                <Box
+                  alignSelf={"flex-end"}
+                  width="100%"
+                  height="46px"
+                  bgcolor="#FFECF1"
+                  display="flex"
+                  alignItems="flex-end"
+                  pl="16px"
+                  borderBottom="1px solid #E7E0EC"
+                  pb="8px"
+                >
+                  <Typography fontSize="14px" fontWeight={500} color="#060C2C">
+                    {`Flat rate`}
+                  </Typography>
+                </Box>
+              </Box>
+              <Box mt="24px" display="flex" alignItems="center" gap="10px">
+                <Button
+                  variant="outlined"
+                  sx={{
+                    color: "#6750A4",
+                    height: "40px",
+                    borderRadius: "100px",
+                    textTransform: "none",
+                    fontSize: "14px",
+                    fontWeight: 500,
+                    border: "1px solid #6750A4",
+                    width: "174px",
+                  }}
+                  startIcon={<CloseCircle color="#6750A4" />}
+                >
+                  Discard Changes
+                </Button>
+                <Button
+                  variant="contained"
+                  sx={{
+                    color: "#fff",
+                    height: "40px",
+                    borderRadius: "100px",
+                    textTransform: "none",
+                    fontSize: "14px",
+                    fontWeight: 500,
+                    bgcolor: "#6750A4",
+                    width: "172px",
+                  }}
+                  startIcon={<ArrowRightWhite />}
+                >
+                  Save Changes
+                </Button>
+              </Box>
+            </PaymentsTable>
           </Box>
-          <Box display="flex">
-            <TableValue width="143px" value={"10%"} setValue={() => {}} />
-            <Box
-              alignSelf={"flex-end"}
-              width="238px"
-              height="46px"
-              bgcolor="#FFECF1"
-              display="flex"
-              alignItems="flex-end"
-              pl="16px"
-              borderBottom="1px solid #E7E0EC"
-              pb="8px"
-            >
-              <Typography fontSize="14px" fontWeight={500} color="#060C2C">
-                {`* {Total Value of Items}`}
-              </Typography>
+        </Box>
+        <Box p="24px" border="1px solid #CAC4D0" borderRadius={"20px"}>
+          <Typography fontSize="24px" color="#1C1B1F" mb="8px">
+            Procurement Fees
+          </Typography>
+          <Typography fontSize="16px" color="#1D192B" mb="24px">
+            These costs apply to shop for me orders only
+          </Typography>
+          <PaymentsTable rows={rows} columns={columns} allColored>
+            <Box display="flex">
+              <TableValue width="143px" value={"$15"} setValue={() => {}} />
+              <Box
+                alignSelf={"flex-end"}
+                width="238px"
+                height="46px"
+                bgcolor="#FFECF1"
+                display="flex"
+                alignItems="flex-end"
+                pl="16px"
+                borderBottom="1px solid #E7E0EC"
+                pb="8px"
+              >
+                <Typography fontSize="14px" fontWeight={500} color="#060C2C">
+                  {`Flat Rate`}
+                </Typography>
+              </Box>
             </Box>
-          </Box>
-          <Box display="flex">
-            <TableValue width="143px" value={"8%"} setValue={() => {}} />
-            <Box
-              alignSelf={"flex-end"}
-              width="238px"
-              height="46px"
-              bgcolor="#FFECF1"
-              display="flex"
-              alignItems="flex-end"
-              pl="16px"
-              borderBottom="1px solid #E7E0EC"
-              pb="8px"
-            >
-              <Typography fontSize="14px" fontWeight={500} color="#060C2C">
-                {`* {Total Value of Items}`}
-              </Typography>
+            <Box display="flex">
+              <TableValue width="143px" value={"10%"} setValue={() => {}} />
+              <Box
+                alignSelf={"flex-end"}
+                width="238px"
+                height="46px"
+                bgcolor="#FFECF1"
+                display="flex"
+                alignItems="flex-end"
+                pl="16px"
+                borderBottom="1px solid #E7E0EC"
+                pb="8px"
+              >
+                <Typography fontSize="14px" fontWeight={500} color="#060C2C">
+                  {`* {Total Value of Items}`}
+                </Typography>
+              </Box>
             </Box>
-          </Box>
-          <Box display="flex">
-            <TableValue width="143px" value={"7%"} setValue={() => {}} />
-            <Box
-              alignSelf={"flex-end"}
-              width="238px"
-              height="46px"
-              bgcolor="#FFECF1"
-              display="flex"
-              alignItems="flex-end"
-              pl="16px"
-              borderBottom="1px solid #E7E0EC"
-              pb="8px"
-            >
-              <Typography fontSize="14px" fontWeight={500} color="#060C2C">
-                {`* {Total Value of Items}`}
-              </Typography>
+            <Box display="flex">
+              <TableValue width="143px" value={"8%"} setValue={() => {}} />
+              <Box
+                alignSelf={"flex-end"}
+                width="238px"
+                height="46px"
+                bgcolor="#FFECF1"
+                display="flex"
+                alignItems="flex-end"
+                pl="16px"
+                borderBottom="1px solid #E7E0EC"
+                pb="8px"
+              >
+                <Typography fontSize="14px" fontWeight={500} color="#060C2C">
+                  {`* {Total Value of Items}`}
+                </Typography>
+              </Box>
             </Box>
-          </Box>
-          <Box display="flex">
-            <TableValue width="143px" value={"5%"} setValue={() => {}} />
-            <Box
-              alignSelf={"flex-end"}
-              width="238px"
-              height="46px"
-              bgcolor="#FFECF1"
-              display="flex"
-              alignItems="flex-end"
-              pl="16px"
-              borderBottom="1px solid #E7E0EC"
-              pb="8px"
-            >
-              <Typography fontSize="14px" fontWeight={500} color="#060C2C">
-                {`* {Total Value of Items}`}
-              </Typography>
+            <Box display="flex">
+              <TableValue width="143px" value={"7%"} setValue={() => {}} />
+              <Box
+                alignSelf={"flex-end"}
+                width="238px"
+                height="46px"
+                bgcolor="#FFECF1"
+                display="flex"
+                alignItems="flex-end"
+                pl="16px"
+                borderBottom="1px solid #E7E0EC"
+                pb="8px"
+              >
+                <Typography fontSize="14px" fontWeight={500} color="#060C2C">
+                  {`* {Total Value of Items}`}
+                </Typography>
+              </Box>
             </Box>
+            <Box display="flex">
+              <TableValue width="143px" value={"5%"} setValue={() => {}} />
+              <Box
+                alignSelf={"flex-end"}
+                width="238px"
+                height="46px"
+                bgcolor="#FFECF1"
+                display="flex"
+                alignItems="flex-end"
+                pl="16px"
+                borderBottom="1px solid #E7E0EC"
+                pb="8px"
+              >
+                <Typography fontSize="14px" fontWeight={500} color="#060C2C">
+                  {`* {Total Value of Items}`}
+                </Typography>
+              </Box>
+            </Box>
+          </PaymentsTable>
+          <Box mt="24px" display="flex" alignItems="center" gap="10px">
+            <Button
+              variant="outlined"
+              sx={{
+                color: "#6750A4",
+                height: "40px",
+                borderRadius: "100px",
+                textTransform: "none",
+                fontSize: "14px",
+                fontWeight: 500,
+                border: "1px solid #6750A4",
+                width: "174px",
+              }}
+              startIcon={<CloseCircle color="#6750A4" />}
+            >
+              Discard Changes
+            </Button>
+            <Button
+              variant="contained"
+              sx={{
+                color: "#fff",
+                height: "40px",
+                borderRadius: "100px",
+                textTransform: "none",
+                fontSize: "14px",
+                fontWeight: 500,
+                bgcolor: "#6750A4",
+                width: "172px",
+              }}
+              startIcon={<ArrowRightWhite />}
+            >
+              Save Changes
+            </Button>
           </Box>
-        </PaymentsTable>
-        <Box mt="24px" display="flex" alignItems="center" gap="10px">
-          <Button
-            variant="outlined"
-            sx={{
-              color: "#6750A4",
-              height: "40px",
-              borderRadius: "100px",
-              textTransform: "none",
-              fontSize: "14px",
-              fontWeight: 500,
-              border: "1px solid #6750A4",
-              width: "174px",
-            }}
-            startIcon={<CloseCircle color="#6750A4" />}
-          >
-            Discard Changes
-          </Button>
-          <Button
-            variant="contained"
-            sx={{
-              color: "#fff",
-              height: "40px",
-              borderRadius: "100px",
-              textTransform: "none",
-              fontSize: "14px",
-              fontWeight: 500,
-              bgcolor: "#6750A4",
-              width: "172px",
-            }}
-            startIcon={<ArrowRightWhite />}
-          >
-            Save Changes
-          </Button>
         </Box>
       </Box>
     </Box>
