@@ -14,12 +14,12 @@ const Requests = () => {
             setError("");
             setLoading(false);
         } catch (e) {
-            setError(e.message);
+            setError(e?.response?.data?.message);
             setData(null);
             setLoading(false);
         }
     }
-    const approveOrderRequest = async (url, data) => {
+    const customPutRequest = async (url, data) => {
         setLoading(true);
         try {
             const res = await axiosInstance.put(url, data);
@@ -28,35 +28,7 @@ const Requests = () => {
             setError("");
             setLoading(false);
         } catch (e) {
-            setError(e.message);
-            setData(null);
-            setLoading(false);
-        }
-    }
-    const UpdateGeneralCharges = async (url, data) => {
-        setLoading(true);
-        try {
-            const res = await axiosInstance.put(url, data);
-            // console.log(res.message);
-            setData(res.data);
-            setError("");
-            setLoading(false);
-        } catch (e) {
-            setError(e.message);
-            setData(null);
-            setLoading(false);
-        }
-    }
-    const updateImportRate = async (url, data) => {
-        setLoading(true);
-        try {
-            const res = await axiosInstance.put(url, data);
-            // console.log(res.message);
-            setData(res.data);
-            setError("");
-            setLoading(false);
-        } catch (e) {
-            setError(e.message);
+            setError(e?.response?.data?.message);
             setData(null);
             setLoading(false);
         }
@@ -70,7 +42,7 @@ const Requests = () => {
          setError("");
          setLoading(false);
        } catch (e) {
-         setError(e.message);
+         setError(e?.response?.data?.message);
          setData('');
          setLoading(false);
        }
@@ -82,9 +54,8 @@ const Requests = () => {
     loading,
     deleteUser,
     setData,
-    approveOrderRequest,
-    UpdateGeneralCharges,
-    updateImportRate,
+      customPutRequest,
+    setError
   };
 }
 

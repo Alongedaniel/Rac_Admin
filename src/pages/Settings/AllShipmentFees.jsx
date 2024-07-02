@@ -26,8 +26,7 @@ const AllShipmentFees = () => {
     loading,
     data,
     setError,
-    UpdateGeneralCharges,
-    updateImportRate,
+    customPutRequest,
   } = Requests();
   const [value, setValue] = useState("0.1");
   const [shipmentValue, setShipmentValue] = useState("2000");
@@ -173,6 +172,7 @@ const AllShipmentFees = () => {
                     maxWidth="160px"
                     value={`${storageCharge}`}
                     setValue={setStorageCharge}
+                    percentage
                   />
                   <Box
                     width="100%"
@@ -212,6 +212,7 @@ const AllShipmentFees = () => {
                     maxWidth="160px"
                     value={`${insuranceCharge}`}
                     setValue={setInsuranceCharge}
+                    percentage
                   />
                   <Box
                     width="100%"
@@ -253,6 +254,7 @@ const AllShipmentFees = () => {
                     maxWidth="160px"
                     value={`${paymentMethodSurcharge}`}
                     setValue={setPaymentMethodSurcharge}
+                    percentage
                   />
                   <Box
                     width="100%"
@@ -292,6 +294,7 @@ const AllShipmentFees = () => {
                     maxWidth="160px"
                     value={`${vat}`}
                     setValue={setVat}
+                    percentage
                   />
                   <Box
                     width="100%"
@@ -347,7 +350,7 @@ const AllShipmentFees = () => {
               }}
               startIcon={<ArrowRightWhite />}
               onClick={() =>
-                UpdateGeneralCharges(`/settings/general-charges-update`, {
+                customPutRequest(`/settings/general-charges-update`, {
                   storageCharge: Number(storageCharge),
                   insuranceCharge: Number(insuranceCharge),
                   paymentMethodSurcharge: Number(paymentMethodSurcharge),
@@ -1042,6 +1045,7 @@ const AllShipmentFees = () => {
                       maxWidth="160px"
                       value={usBelow4}
                       setValue={setUsBelow4}
+                      dollar
                     />
                     <Box
                       width="100%"
@@ -1105,6 +1109,7 @@ const AllShipmentFees = () => {
                       maxWidth="160px"
                       value={ukBelow4}
                       setValue={setUkBelow4}
+                      dollar
                     />
                     <Box
                       width="100%"
@@ -1163,6 +1168,7 @@ const AllShipmentFees = () => {
                     maxWidth="160px"
                     value={ukBelow4CustomClearing}
                     setValue={setUkBelow4CustomClearing}
+                    dollar
                   />
                   <Box
                     width="100%"
@@ -1350,7 +1356,12 @@ const AllShipmentFees = () => {
                 width: "172px",
               }}
               startIcon={<ArrowRightWhite />}
-              onClick={() => updateImportRate("/settings/import-rate-update", updateImportShippingRate)}
+              onClick={() =>
+                customPutRequest(
+                  "/settings/import-rate-update",
+                  updateImportShippingRate
+                )
+              }
             >
               Save Changes
             </Button>

@@ -179,7 +179,7 @@ function OrderDetails() {
   const [deliveryCompany, setDeliveryCompany] = useState("");
   const [discountValue, setDiscountValue] = useState(0);
   const [warehouseCost, setWarehouseCost] = useState(0)
-  const { approveOrderRequest, loading, error, data: procurement, setError } = Requests()
+  const { customPutRequest, loading, error, data: procurement, setError } = Requests()
 
     const totalCost = () => {
       let total = 0;
@@ -218,7 +218,7 @@ function OrderDetails() {
 
   const approveOrder = async () => {
     if (shipmentMethod && deliveryCompany && data?.serviceType && discountValue && totalCost() && warehouseCost)
-      approveOrderRequest(
+      customPutRequest(
         `/sfmRequests/admin/update-request-fees/${data?.request?._id}`,
         approveRequestData
       );

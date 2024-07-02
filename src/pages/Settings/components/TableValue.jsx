@@ -6,7 +6,7 @@ import { CheckmarkIcon } from "react-hot-toast";
 import CheckIcon from "../../../assets/icons/CheckIcon";
 import TickCircle from "../../../assets/icons/TickCircle";
 
-const TableValue = ({value, setValue, ...props}) => {
+const TableValue = ({value, setValue, percentage=false, dollar=false, weight=false, ...props}) => {
   const [edit, setEdit] = useState(false);
   const [hover, setHover] = useState(false);
   const onHover = () => {
@@ -75,7 +75,9 @@ const TableValue = ({value, setValue, ...props}) => {
             color="#1C1B1F"
             flex={1}
           >
-            {value}%
+            {dollar && "$"}
+            {value}
+            {percentage && "%"}
           </Typography>
         )}
       </Box>
