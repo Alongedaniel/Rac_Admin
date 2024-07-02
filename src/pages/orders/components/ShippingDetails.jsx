@@ -9,11 +9,12 @@ import ShippingDetailsForm from '../../../components/order/components/ShippingDe
 import ArrowLeftPurple from '../../../assets/icons/ArrowLeftPurple';
 import ArrowRightWhite from '../../../assets/icons/ArrowRightWhite';
 
-const ShippingDetails = ({ type='', order, proceed=false }) => {
+const ShippingDetails = ({ type='', order, proceed=false, isRequest='' }) => {
   const [open, setOpen] = useState(false)
   return (
     <>
-      {type === "request" && order?.service !== "Auto Import" ? null : (
+      {type === "request" ||
+      (isRequest && order?.service !== "Auto Import") ? null : (
         <div className="">
           <div className="flex items-center space-x-[10px] ">
             <CircleRight />
@@ -110,7 +111,7 @@ const ShippingDetails = ({ type='', order, proceed=false }) => {
                   </div>
                 </div>
               </CardWrapper>
-              {type === "request" && !proceed ? null : (
+              {(type === "request" || isRequest ) && !proceed ? null : (
                 <Box onClick={() => setOpen(true)}>
                   <EditIcon />
                 </Box>
@@ -123,7 +124,7 @@ const ShippingDetails = ({ type='', order, proceed=false }) => {
             title="Edit Shipping Details"
           >
             <ShippingDetailsForm />
-            <Box >
+            <Box>
               <Button
                 startIcon={<ArrowLeftPurple />}
                 variant="outlined"

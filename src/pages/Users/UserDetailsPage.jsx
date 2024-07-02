@@ -33,7 +33,7 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
   
   const navigate = useNavigate()
   const location = useLocation()
-  const id = location?.state?.id
+  const {id} = useParams()
   const { data, loading } = useCustomGetRequest((userType === "Customer" ? `/admin/users/${id}` : `/admin/get-single-staff/${id}`) ?? '');
   console.log(data)
   const userData = userType === "Customer" ? data?.user : data?.staffMember

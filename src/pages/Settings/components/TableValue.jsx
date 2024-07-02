@@ -75,7 +75,7 @@ const TableValue = ({value, setValue, ...props}) => {
             color="#1C1B1F"
             flex={1}
           >
-            {value}
+            {value}%
           </Typography>
         )}
       </Box>

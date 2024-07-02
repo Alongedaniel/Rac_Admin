@@ -564,7 +564,7 @@ function App() {
               }
             />
             <Route
-              path="/order-requests/users"
+              path="/order-requests/users/:userid"
               element={
                 <MainLayout
                   showFullBar={showFullBar}

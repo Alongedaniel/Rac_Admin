@@ -44,9 +44,10 @@ import NewCustomerIcon from "../../assets/icons/NewCustomerIcon";
 
 function OrderRequestComp({ home = false, all = false }) {
   const location = useLocation();
-  const userId = location?.state?.id;
+  const { userid } = useParams()
+  console.log(userid)
   const { data, loading, setError, error } = useCustomGetRequest(
-    all ? `/admin/all-pending-requests` : `/admin/user-orders/${userId}`
+    all ? `/admin/all-pending-requests` : `/admin/user-orders/${userid}`
   );
   console.log(data);
   const [openError, setOpenError] = useState(false);
@@ -131,13 +132,7 @@ function OrderRequestComp({ home = false, all = false }) {
       renderCell: (params) => (
         <Typography
           onClick={() =>
-            navigate(`/order-requests/request-id_${params.row.id}`, {
-              state: {
-                order: params.row,
-                type: "request",
-                requestId: params.row._id,
-              },
-            })
+            navigate(`/order-requests/${params.row._id}`)
           }
           sx={{ cursor: "pointer" }}
           fontSize="14px"

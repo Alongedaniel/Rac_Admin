@@ -7,7 +7,7 @@ import ItemBox from './ItemBox';
 import ProductBox from './ProductBox';
 import CardWrapper from '../../../components/order/components/CardWrapper';
 
-const PackageDetails = ({type='', order, proceed=false}) => {
+const PackageDetails = ({ type = "", order, proceed = false, isRequest }) => {
   return (
     <div className="">
       <div className="flex items-center space-x-[10px] ">
@@ -29,7 +29,7 @@ const PackageDetails = ({type='', order, proceed=false}) => {
           title="Package Origin/Shipment location"
           style={{ width: "100%" }}
         >
-          {type === "request" &&
+          {(type === "request" || isRequest) &&
             (order?.request?.service === "Auto Import" ? null : (
               <div
                 style={{
@@ -53,7 +53,7 @@ const PackageDetails = ({type='', order, proceed=false}) => {
                 </p>
               </div>
             ))}
-          {type === "request" ? (
+          {type === "request" || isRequest ? (
             <div className="grid grid-cols-2 mt-[20px]">
               <div className="">
                 <p className="text-[14px] text-t/100 font-roboto text-brand/200">
@@ -69,7 +69,7 @@ const PackageDetails = ({type='', order, proceed=false}) => {
               {" "}
               <div className="mt-[30px]">
                 <p className="text-[14px] text-t/100 font-roboto">Origin:</p>
-                <p className="font-roboto  text-[20px]">{order.location}</p>
+                <p className="font-roboto  text-[20px]">{order?.location}</p>
               </div>
               <div className=" mt-[40px] ">
                 <p className="text-brand/200">Origin Address</p>
@@ -129,17 +129,23 @@ const PackageDetails = ({type='', order, proceed=false}) => {
             </>
           )}
         </CardWrapper>
-        {type === "request" && !proceed ? null : <EditIcon />}
+        {(type === "request" || isRequest) && !proceed ? null : <EditIcon />}
       </Box>
       {order?.service === "Auto Import" ? (
         <ProductBox proceed={proceed} order={order} type={type} />
       ) : (
         order?.request?.requestItems?.map((item, i) => (
-          <ItemBox proceed={proceed} order={order} item={item} type={type} itemNumber={i + 1} />
+          <ItemBox
+            proceed={proceed}
+            order={order}
+            item={item}
+            type={type}
+            itemNumber={i + 1}
+          />
         ))
       )}
     </div>
   );
-}
+};
 
 export default PackageDetails

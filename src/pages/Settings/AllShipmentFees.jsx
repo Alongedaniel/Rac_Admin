@@ -1,5 +1,14 @@
-import { Box, Button, Grid, IconButton, Typography } from "@mui/material";
-import React, { useState } from "react";
+import {
+  Backdrop,
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  IconButton,
+  Snackbar,
+  Typography,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TableValue from "./components/TableValue";
 import CloseCircle from "../../assets/icons/CloseCircle";
@@ -7,51 +16,137 @@ import ArrowRightWhite from "../../assets/icons/ArrowRightWhite";
 import ArrowBack from "../../assets/icons/ArrowBack";
 import PaymentsTable from "./components/PaymentsTable";
 import WeightSymbol from "./components/WeightSymbol";
+import Requests from "../../utils/hooks/api/requests";
+import CloseIcon from "../../assets/icons/CloseIcon";
 
 const AllShipmentFees = () => {
   const navigate = useNavigate();
-    const [value, setValue] = useState("0.1");
-    const [shipmentValue, setShipmentValue] = useState("2000");
-    const columns = [
-      "Weight (kg)",
-      "Zone 1 (₦)",
-      "Zone 2 (₦)",
-      "Zone 3 (₦)",
-      "Zone 4 (₦)",
-      "Zone 5 (₦)",
-      "Zone 6 (₦)",
-      "Zone 7 (₦)",
-      "Zone 8 (₦)",
-    ];
-    const rows = [
-      "0.5 - 0.9",
-      "1 - 2",
-      "3",
-      "4",
-      "5",
-      "6",
-      "7",
-      "8",
-      "9",
-      "10",
-      "11 - 20",
-      "21 - 30",
-    ];
+  const {
+    error,
+    loading,
+    data,
+    setError,
+    UpdateGeneralCharges,
+    updateImportRate,
+  } = Requests();
+  const [value, setValue] = useState("0.1");
+  const [shipmentValue, setShipmentValue] = useState("2000");
+  const [discard, setDiscard] = useState(false);
+  const [openError, setOpenError] = useState(false);
+  useEffect(() => {
+    if (error || data?.message) {
+      setOpenError(true);
+    } else setOpenError(false);
+  }, [loading]);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenError(false);
+    setError("");
+  };
+  const columns = [
+    "Weight (kg)",
+    "Zone 1 (₦)",
+    "Zone 2 (₦)",
+    "Zone 3 (₦)",
+    "Zone 4 (₦)",
+    "Zone 5 (₦)",
+    "Zone 6 (₦)",
+    "Zone 7 (₦)",
+    "Zone 8 (₦)",
+  ];
+  const rows = [
+    "0.5 - 0.9",
+    "1 - 2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11 - 20",
+    "21 - 30",
+  ];
+  const [storageCharge, setStorageCharge] = useState(0);
+  const [insuranceCharge, setInsuranceCharge] = useState(0);
+  const [paymentMethodSurcharge, setPaymentMethodSurcharge] = useState(0);
+  const [vat, setVat] = useState(0);
+  const [usAbove4, setUsAbove4] = useState(0)
+  const [usBelow4, setUsBelow4] = useState(0)
+  const [ukAbove4, setUkAbove4] = useState(0)
+  const [ukBelow4, setUkBelow4] = useState(0)
+  const [ukBelow4CustomClearing, setUkBelow4CustomClearing] = useState(0)
+  const [dubaiAbove, setDubaiAbove] = useState(0)
+  const [chinaAbove, setChinaAbove] = useState(0)
+  const [chinaAboveCustomClearing, setChinaAboveCustomClearing] = useState(0)
+
+  
+
+  const updateImportShippingRate = {
+    unitedStates: [
+      {
+        weightRange: "0.5-4",
+        rate: Number(usBelow4),
+      },
+      {
+        weightRange: "above 4",
+        rate: Number(usAbove4),
+      },
+    ],
+    unitedKingdom: [
+      {
+        weight: "0.5-4",
+        rate: Number(ukBelow4),
+        customClearingPortHandling: Number(ukBelow4CustomClearing),
+      },
+      {
+        weight: "above 4",
+        rate: Number(ukAbove4),
+      },
+    ],
+    dubai: {
+      rate: Number(dubaiAbove),
+    },
+    china: [
+      {
+        weight: "above 0.5",
+        rate: Number(chinaAbove),
+        customClearingPortHandling: Number(chinaAboveCustomClearing),
+      },
+    ],
+  };
+
+
+  useEffect(() => {
+    setInsuranceCharge(3);
+    setPaymentMethodSurcharge(5);
+    setStorageCharge(4);
+    setVat(2);
+    setUsAbove4(0);
+    setUsBelow4(0);
+    setUkAbove4(0);
+    setUkBelow4(0);
+    setDubaiAbove(0)
+    setChinaAbove(0)
+    setChinaAboveCustomClearing(0);
+    setUkBelow4CustomClearing(0);
+    setDiscard(false);
+  }, [discard]);
   return (
     <Box p="24px 40px">
-      <Box p="24px" borderRadius="20px" bgcolor="#fff" maxWidth='1300px'>
+      <Box p="24px" borderRadius="20px" bgcolor="#fff" maxWidth="1300px">
         <IconButton onClick={() => navigate(-1)} sx={{ mb: "10px" }}>
           <ArrowBack />
         </IconButton>
         <Typography fontSize="24px" color="#1C1B1F" mb="24px">
           All Shipment Fees
         </Typography>
-        <Box
-          p="24px"
-          borderRadius="20px"
-          border="1px solid #CAC4D0"
-          mb="24px"
-        >
+        <Box p="24px" borderRadius="20px" border="1px solid #CAC4D0" mb="24px">
           <Typography fontSize="22px" color="#1C1B1F" mb="16px">
             General Charges
           </Typography>
@@ -76,8 +171,8 @@ const AllShipmentFees = () => {
                   <TableValue
                     minWidth="160px"
                     maxWidth="160px"
-                    value={`${value}%`}
-                    setValue={setValue}
+                    value={`${storageCharge}`}
+                    setValue={setStorageCharge}
                   />
                   <Box
                     width="100%"
@@ -115,8 +210,8 @@ const AllShipmentFees = () => {
                   <TableValue
                     minWidth="160px"
                     maxWidth="160px"
-                    value={`${value}%`}
-                    setValue={setValue}
+                    value={`${insuranceCharge}`}
+                    setValue={setInsuranceCharge}
                   />
                   <Box
                     width="100%"
@@ -156,8 +251,8 @@ const AllShipmentFees = () => {
                   <TableValue
                     minWidth="160px"
                     maxWidth="160px"
-                    value={`${value}%`}
-                    setValue={setValue}
+                    value={`${paymentMethodSurcharge}`}
+                    setValue={setPaymentMethodSurcharge}
                   />
                   <Box
                     width="100%"
@@ -195,8 +290,8 @@ const AllShipmentFees = () => {
                   <TableValue
                     minWidth="160px"
                     maxWidth="160px"
-                    value={`${value}%`}
-                    setValue={setValue}
+                    value={`${vat}`}
+                    setValue={setVat}
                   />
                   <Box
                     width="100%"
@@ -234,6 +329,7 @@ const AllShipmentFees = () => {
                 width: "174px",
               }}
               startIcon={<CloseCircle color="#6750A4" />}
+              onClick={() => setDiscard(true)}
             >
               Discard Changes
             </Button>
@@ -250,17 +346,20 @@ const AllShipmentFees = () => {
                 width: "172px",
               }}
               startIcon={<ArrowRightWhite />}
+              onClick={() =>
+                UpdateGeneralCharges(`/settings/general-charges-update`, {
+                  storageCharge: Number(storageCharge),
+                  insuranceCharge: Number(insuranceCharge),
+                  paymentMethodSurcharge: Number(paymentMethodSurcharge),
+                  vat: Number(vat),
+                })
+              }
             >
               Save Changes
             </Button>
           </Box>
         </Box>
-        <Box
-          p="24px"
-          borderRadius="20px"
-          border="1px solid #CAC4D0"
-          mb="24px"
-        >
+        <Box p="24px" borderRadius="20px" border="1px solid #CAC4D0" mb="24px">
           <Typography fontSize="22px" color="#1C1B1F" mb="16px">
             Export Shipping rates
           </Typography>
@@ -906,12 +1005,7 @@ const AllShipmentFees = () => {
             </Button>
           </Box>
         </Box>
-        <Box
-          p="24px"
-          borderRadius="20px"
-          border="1px solid #CAC4D0"
-          mb="24px"
-        >
+        <Box p="24px" borderRadius="20px" border="1px solid #CAC4D0" mb="24px">
           <Typography fontSize="22px" color="#1C1B1F" mb="16px">
             Import Shipping rates
           </Typography>
@@ -946,8 +1040,8 @@ const AllShipmentFees = () => {
                     <TableValue
                       minWidth="160px"
                       maxWidth="160px"
-                      value={"70"}
-                      setValue={() => {}}
+                      value={usBelow4}
+                      setValue={setUsBelow4}
                     />
                     <Box
                       width="100%"
@@ -977,8 +1071,8 @@ const AllShipmentFees = () => {
                     <TableValue
                       minWidth="160px"
                       maxWidth="160px"
-                      value={"5.5"}
-                      setValue={() => {}}
+                      value={usAbove4}
+                      setValue={setUsAbove4}
                     />
                     <WeightSymbol />
                   </Box>
@@ -1009,8 +1103,8 @@ const AllShipmentFees = () => {
                     <TableValue
                       minWidth="160px"
                       maxWidth="160px"
-                      value={"70"}
-                      setValue={() => {}}
+                      value={ukBelow4}
+                      setValue={setUkBelow4}
                     />
                     <Box
                       width="100%"
@@ -1040,8 +1134,8 @@ const AllShipmentFees = () => {
                     <TableValue
                       minWidth="160px"
                       maxWidth="160px"
-                      value={"5.5"}
-                      setValue={() => {}}
+                      value={ukAbove4}
+                      setValue={setUkAbove4}
                     />
                     <WeightSymbol />
                   </Box>
@@ -1067,8 +1161,8 @@ const AllShipmentFees = () => {
                   <TableValue
                     minWidth="160px"
                     maxWidth="160px"
-                    value="20"
-                    setValue={() => {}}
+                    value={ukBelow4CustomClearing}
+                    setValue={setUkBelow4CustomClearing}
                   />
                   <Box
                     width="100%"
@@ -1129,8 +1223,8 @@ const AllShipmentFees = () => {
                     <TableValue
                       minWidth="160px"
                       maxWidth="160px"
-                      value={"5.5"}
-                      setValue={() => {}}
+                      value={dubaiAbove}
+                      setValue={setDubaiAbove}
                     />
                     <WeightSymbol />
                   </Box>
@@ -1161,8 +1255,8 @@ const AllShipmentFees = () => {
                     <TableValue
                       minWidth="160px"
                       maxWidth="160px"
-                      value={"5.5"}
-                      setValue={() => {}}
+                      value={chinaAbove}
+                      setValue={setChinaAbove}
                     />
                     <WeightSymbol />
                   </Box>
@@ -1188,8 +1282,8 @@ const AllShipmentFees = () => {
                   <TableValue
                     minWidth="160px"
                     maxWidth="160px"
-                    value="20"
-                    setValue={() => {}}
+                    value={chinaAboveCustomClearing}
+                    setValue={setChinaAboveCustomClearing}
                   />
                   <Box
                     width="100%"
@@ -1239,6 +1333,7 @@ const AllShipmentFees = () => {
                 width: "174px",
               }}
               startIcon={<CloseCircle color="#6750A4" />}
+              onClick={() => setDiscard(true)}
             >
               Discard Changes
             </Button>
@@ -1255,6 +1350,7 @@ const AllShipmentFees = () => {
                 width: "172px",
               }}
               startIcon={<ArrowRightWhite />}
+              onClick={() => updateImportRate("/settings/import-rate-update", updateImportShippingRate)}
             >
               Save Changes
             </Button>
@@ -1279,6 +1375,22 @@ const AllShipmentFees = () => {
           Back to Settings
         </Button>
       </Box>
+      <Snackbar
+        open={openError}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message={error || data?.message}
+        action={
+          <Box onClick={handleClose}>
+            <CloseIcon />
+          </Box>
+        }
+      />
+      <Backdrop sx={{ color: "#fff", zIndex: 999 }} open={loading}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Box>
   );
 };

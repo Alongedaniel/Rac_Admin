@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { IoChevronUpCircleOutline } from "react-icons/io5";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import CircleRight from "../../assets/icons/CircleRight";
 import EditIcon from "../../assets/icons/EditIcon";
 import {
+  Backdrop,
   Box,
   Button,
+  CircularProgress,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -13,6 +15,7 @@ import {
   MenuItem,
   Radio,
   RadioGroup,
+  Snackbar,
   Step,
   StepLabel,
   Stepper,
@@ -58,26 +61,30 @@ import SectionHeader from "../../components/SectionHeader";
 import useCustomGetRequest from "../../utils/hooks/api/useCustomGetRequest";
 import moment from "moment";
 import OrderPricing from "../../components/order/components/OrderPricing";
+import Requests from "../../utils/hooks/api/requests";
+import CloseIcon from "../../assets/icons/CloseIcon";
 
 function OrderDetails() {
   const location = useLocation();
   const navigate = useNavigate();
-  const requestId = location?.state?.requestId;
+  // const requestId = location.state?.requestId;
+    const { requestid } = useParams();
   // const order = location?.state?.order;
   const type = location?.state?.type;
+  console.log(type)
   const theme = useTheme();
   const [drop, setDrop] = useState(null);
   const [saveAsDraft, setSaveAsDraft] = useState(false);
-  const { data } = useCustomGetRequest(`/admin/get-request-by-id/${requestId}`);
+  const { data } = useCustomGetRequest(`/admin/get-request-by-id/${requestid}`);
 
   console.log(data);
-function toTitleCase(str) {
-  const words = str.match(/[A-Z][a-z]+|[a-z]+/g);
-  const titleCasedWords = words.map(
-    (word) => word.charAt(0).toUpperCase() + word.slice(1)
-  );
-  return titleCasedWords.join(" ");
-}
+  const toTitleCase = (str) => {
+    const words = str.match(/[A-Z][a-z]+|[a-z]+/g);
+    const titleCasedWords = words.map(
+      (word) => word.charAt(0).toUpperCase() + word.slice(1)
+    );
+    return titleCasedWords.join(" ");
+  };
   const toggle = (i) => {
     setDrop((prevFaq) => (prevFaq === i ? null : i));
   };
@@ -167,6 +174,60 @@ function toTitleCase(str) {
   const shipmentMethods = ["Road", "Air", "Rail", "Sea"];
   const deliveryCompanies = ["DHL", "Gokada", "Glovo"];
 
+
+  const [shipmentMethod, setShipmentMethod] = useState("");
+  const [deliveryCompany, setDeliveryCompany] = useState("");
+  const [discountValue, setDiscountValue] = useState(0);
+  const [warehouseCost, setWarehouseCost] = useState(0)
+  const { approveOrderRequest, loading, error, data: procurement, setError } = Requests()
+
+    const totalCost = () => {
+      let total = 0;
+      if (data?.serviceType === 'shopForMe')
+        data?.request?.requestItems?.map(
+          (x) => (total += x.shippingCost + x.originalCost)
+        );
+      return total;
+  };
+  
+    const [openError, setOpenError] = useState(false);
+    useEffect(() => {
+      if (error) {
+        setOpenError(true);
+      } else setOpenError(false);
+    }, [loading]);
+
+    const handleClose = (event, reason) => {
+      if (reason === "clickaway") {
+        return;
+      }
+
+      setOpenError(false);
+      setError("");
+    };
+
+  const approveRequestData = {
+    shipmentMethod: shipmentMethod,
+    deliveryCompany: deliveryCompany,
+    serviceType: data?.serviceType,
+    discount: discountValue,
+    totalItemCostFromStore: totalCost(),
+    totalShippingToOriginWarehouse: warehouseCost,
+  };
+  console.log(approveRequestData);
+
+  const approveOrder = async () => {
+    if (shipmentMethod && deliveryCompany && data?.serviceType && discountValue && totalCost() && warehouseCost)
+      approveOrderRequest(
+        `/sfmRequests/admin/update-request-fees/${data?.request?._id}`,
+        approveRequestData
+      );
+  }
+
+  useEffect(() => {
+    approveOrder();
+  }, [shipmentMethod, deliveryCompany, discountValue, warehouseCost]);
+
   useEffect(() => {
     window.scroll(0, 0);
   }, [activeStep, proceed]);
@@ -248,9 +309,7 @@ function toTitleCase(str) {
                             <p className="text-[14px] text-t/100 font-roboto">
                               Order Type:
                             </p>
-                            <p className="font-roboto  text-[20px]">
-                              {data?.request?.type ?? "N/A"}
-                            </p>
+                            <p className="font-roboto  text-[20px]">Shipment</p>
                           </div>
                           {/* <div className="col-span-3">
                         <p className="text-[14px] text-t/100 font-roboto">
@@ -371,6 +430,10 @@ function toTitleCase(str) {
                               type="text"
                               label="Shipment Method"
                               defaultValue={"Air"}
+                              value={shipmentMethod}
+                              onChange={(e) =>
+                                setShipmentMethod(e.target.value)
+                              }
                               select
                               InputProps={{
                                 sx: {
@@ -397,6 +460,10 @@ function toTitleCase(str) {
                               type="text"
                               label="Delivery Company"
                               defaultValue={"DHL"}
+                              value={deliveryCompany}
+                              onChange={(e) =>
+                                setDeliveryCompany(e.target.value)
+                              }
                               select
                               InputProps={{
                                 sx: {
@@ -436,12 +503,20 @@ function toTitleCase(str) {
                     <>
                       <ShippingDetails
                         proceed={proceed}
-                        order={order}
+                        order={data}
                         type={type}
                       />
                     </>
                   ) : data?.serviceType === "shopForMe" ? (
-                    <OrderPricing service={toTitleCase(data?.serviceType)} />
+                    <OrderPricing
+                      service={toTitleCase(data?.serviceType)}
+                      requestItems={data?.request?.requestItems}
+                      procurement={procurement}
+                      setDiscountValue={setDiscountValue}
+                      discountValue={discountValue}
+                      warehouseCost={warehouseCost}
+                      setWarehouseCost={setWarehouseCost}
+                    />
                   ) : (
                     <Box>
                       <div className="flex items-center space-x-[10px] ">
@@ -646,7 +721,7 @@ function toTitleCase(str) {
                     <>
                       <BillingDetails
                         proceed={proceed}
-                        order={order}
+                        order={data}
                         type={type}
                       />
                       <Box mt="30px">
@@ -802,10 +877,10 @@ function toTitleCase(str) {
                           </Typography>
                           {saveAsDraft ? (
                             <Typography pl="14px" fontSize="20px">
-                              To complete the approval of this request, please
+                              {`To complete the approval of this request, please
                               navigate to the "Drafts" tab in the order history.
                               Locate this request using its ID or any associated
-                              information.
+                              information.`}
                             </Typography>
                           ) : null}
                           {saveAsDraft ? null : (
@@ -919,10 +994,10 @@ function toTitleCase(str) {
                         </Typography>
                         {saveAsDraft ? (
                           <Typography pl="14px" fontSize="20px">
-                            To complete the approval of this request, please
+                            {`To complete the approval of this request, please
                             navigate to the "Drafts" tab in the order history.
                             Locate this request using its ID or any associated
-                            information.
+                            information.`}
                           </Typography>
                         ) : null}
                         {saveAsDraft ? null : (
@@ -1082,16 +1157,25 @@ function toTitleCase(str) {
         </p> */}
 
               <p className="font-roboto text-[24px]">
-                <span>{type === "request" ? "Request ID:" : "Order ID:"}</span>{" "}
+                <span>
+                  {type === "request" || requestid
+                    ? "Request ID:"
+                    : "Order ID:"}
+                </span>{" "}
                 <span className="font-[700]">{data?.request?.requestId}</span>
               </p>
 
               <div className="flex flex-col space-y-[40px] font-roboto">
-                <OrderInformation order={data} type={type} />
-                {type === "request" ? (
+                <OrderInformation
+                  order={data}
+                  type={type}
+                  isRequest={requestid}
+                />
+                {type === "request" || requestid ? (
                   <>
                     {data?.service === "Auto Import" ? null : (
                       <ShippingDetails
+                        isRequest={requestid}
                         order={data}
                         type={type}
                         toggle={toggle}
@@ -1100,6 +1184,7 @@ function toTitleCase(str) {
                     )}
                     <PackageDetails
                       order={data}
+                      isRequest={requestid}
                       type={type}
                       toggle={toggle}
                       drop={drop}
@@ -1109,6 +1194,7 @@ function toTitleCase(str) {
                       <BillingDetails
                         order={data}
                         type={type}
+                        isRequest={requestid}
                         toggle={toggle}
                         drop={drop}
                       />
@@ -1134,7 +1220,7 @@ function toTitleCase(str) {
                   </>
                 )}
 
-                {type === "request" ? (
+                {type === "request" || requestid ? (
                   <Box display="flex" alignItems="center" gap="10px">
                     <Button
                       startIcon={<ArrowLeftPurple />}
@@ -1295,6 +1381,25 @@ function toTitleCase(str) {
           )}
         </div>
       )}
+      <Snackbar
+        open={openError}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message={error}
+        action={
+          <Box onClick={handleClose}>
+            <CloseIcon />
+          </Box>
+        }
+      />
+      <Backdrop
+        sx={{ color: "#fff", zIndex: 999 }}
+        open={loading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </>
   );
 }
