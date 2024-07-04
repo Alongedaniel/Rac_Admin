@@ -53,19 +53,19 @@ const ProcurementFees = () => {
         processingFee: Number(range1),
       },
       {
-        amountRange: "151 - 1000",
+        amountRange: "151-1000",
         processingFee: Number(range2),
       },
       {
-        amountRange: "1001 - 5000",
+        amountRange: "1001-5000",
         processingFee: Number(range3),
       },
       {
-        amountRange: "5001 - 10000",
+        amountRange: "5001-10000",
         processingFee: Number(range4),
       },
       {
-        amountRange: "10001 - 1M",
+        amountRange: "10001-1000000",
         processingFee: Number(range5),
       },
     ],

@@ -40,8 +40,6 @@ const OrderPricing = ({
   discountValue,
   setDiscountValue,
 }) => {
-  console.log(requestItems);
-  console.log(service);
   const [discountType, setDiscoutType] = useState("");
   const totalShopForMeCost = () => {
     let total = 0;

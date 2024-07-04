@@ -71,7 +71,6 @@ function OrderDetails() {
     const { requestid } = useParams();
   // const order = location?.state?.order;
   const type = location?.state?.type;
-  console.log(type)
   const theme = useTheme();
   const [drop, setDrop] = useState(null);
   const [saveAsDraft, setSaveAsDraft] = useState(false);
@@ -508,7 +507,8 @@ function OrderDetails() {
                       />
                     </>
                   ) : data?.serviceType === "shopForMe" ? (
-                    <OrderPricing
+                            <OrderPricing
+                              id={data?.request?._id}
                       service={toTitleCase(data?.serviceType)}
                       requestItems={data?.request?.requestItems}
                       procurement={procurement}
