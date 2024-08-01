@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, Typography } from '@mui/material'
+import { Backdrop, Box, Button, CircularProgress, IconButton, Snackbar, Typography } from '@mui/material'
 import React from 'react'
 import ArrowBack from '../../assets/icons/ArrowBack';
 import { useNavigate } from 'react-router-dom';
@@ -6,6 +6,10 @@ import PaymentsTable from './components/PaymentsTable';
 import TableValue from './components/TableValue';
 import CloseCircle from '../../assets/icons/CloseCircle';
 import ArrowRightWhite from '../../assets/icons/ArrowRightWhite';
+import Requests from "../../utils/hooks/api/requests";
+import CloseIcon from "../../assets/icons/CloseIcon";
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 const ProcurementFees = () => {
     const navigate = useNavigate()
@@ -17,6 +21,64 @@ const ProcurementFees = () => {
       "5001 - 10000",
       "10001 - 1M",
     ];
+  const { customPutRequest, data, loading, error, setError } = Requests()
+  const [urgentPurchaseFee, setUrgentPurchaseFee] = useState(0)
+  const [range1, setRange1] = useState(0)
+  const [range2, setRange2] = useState(0)
+  const [range3, setRange3] = useState(0)
+  const [range4, setRange4] = useState(0)
+  const [range5, setRange5] = useState(0)
+   const [discard, setDiscard] = useState(false);
+  const [openError, setOpenError] = useState(false);
+  console.log(discard)
+   useEffect(() => {
+     if (error || data?.message) {
+       setOpenError(true);
+     } else setOpenError(false);
+   }, [loading]);
+
+   const handleClose = (event, reason) => {
+     if (reason === "clickaway") {
+       return;
+     }
+
+     setOpenError(false);
+     setError("");
+   };
+  
+  const ProcurementFeesUpdateData = {
+    updates: [
+      {
+        amountRange: "1-150",
+        processingFee: Number(range1),
+      },
+      {
+        amountRange: "151-1000",
+        processingFee: Number(range2),
+      },
+      {
+        amountRange: "1001-5000",
+        processingFee: Number(range3),
+      },
+      {
+        amountRange: "5001-10000",
+        processingFee: Number(range4),
+      },
+      {
+        amountRange: "10001-1000000",
+        processingFee: Number(range5),
+      },
+    ],
+  };
+  
+  useEffect(() => {
+    setUrgentPurchaseFee(0)
+    setRange1(0)
+    setRange2(0)
+    setRange3(0)
+    setRange4(0)
+    setRange5(0)
+    }, [discard]);
   return (
     <Box p="24px 40px">
       <Box p="24px" borderRadius="20px" bgcolor="#fff">
@@ -50,7 +112,12 @@ const ProcurementFees = () => {
             </Box>
             <PaymentsTable rows={[]} columns={[]} allColored>
               <Box display="flex">
-                <TableValue width="190px" value={"$5"} setValue={() => {}} />
+                <TableValue
+                  width="190px"
+                  value={urgentPurchaseFee}
+                  dollar
+                  setValue={setUrgentPurchaseFee}
+                />
                 <Box
                   alignSelf={"flex-end"}
                   width="100%"
@@ -81,6 +148,7 @@ const ProcurementFees = () => {
                     width: "174px",
                   }}
                   startIcon={<CloseCircle color="#6750A4" />}
+                  onClick={() => setDiscard(!discard)}
                 >
                   Discard Changes
                 </Button>
@@ -97,6 +165,11 @@ const ProcurementFees = () => {
                     width: "172px",
                   }}
                   startIcon={<ArrowRightWhite />}
+                  onClick={() =>
+                    customPutRequest("/settings/urgent-purchase-fee", {
+                      urgentPurchaseFee: Number(urgentPurchaseFee),
+                    })
+                  }
                 >
                   Save Changes
                 </Button>
@@ -113,7 +186,12 @@ const ProcurementFees = () => {
           </Typography>
           <PaymentsTable rows={rows} columns={columns} allColored>
             <Box display="flex">
-              <TableValue width="143px" value={"$15"} setValue={() => {}} />
+              <TableValue
+                width="143px"
+                value={range1}
+                dollar
+                setValue={setRange1}
+              />
               <Box
                 alignSelf={"flex-end"}
                 width="238px"
@@ -131,7 +209,12 @@ const ProcurementFees = () => {
               </Box>
             </Box>
             <Box display="flex">
-              <TableValue width="143px" value={"10%"} setValue={() => {}} />
+              <TableValue
+                width="143px"
+                value={range2}
+                dollar
+                setValue={setRange2}
+              />
               <Box
                 alignSelf={"flex-end"}
                 width="238px"
@@ -149,7 +232,12 @@ const ProcurementFees = () => {
               </Box>
             </Box>
             <Box display="flex">
-              <TableValue width="143px" value={"8%"} setValue={() => {}} />
+              <TableValue
+                width="143px"
+                value={range3}
+                dollar
+                setValue={setRange3}
+              />
               <Box
                 alignSelf={"flex-end"}
                 width="238px"
@@ -167,7 +255,12 @@ const ProcurementFees = () => {
               </Box>
             </Box>
             <Box display="flex">
-              <TableValue width="143px" value={"7%"} setValue={() => {}} />
+              <TableValue
+                width="143px"
+                value={range4}
+                dollar
+                setValue={setRange4}
+              />
               <Box
                 alignSelf={"flex-end"}
                 width="238px"
@@ -185,7 +278,12 @@ const ProcurementFees = () => {
               </Box>
             </Box>
             <Box display="flex">
-              <TableValue width="143px" value={"5%"} setValue={() => {}} />
+              <TableValue
+                width="143px"
+                value={range5}
+                dollar
+                setValue={setRange5}
+              />
               <Box
                 alignSelf={"flex-end"}
                 width="238px"
@@ -217,6 +315,7 @@ const ProcurementFees = () => {
                 width: "174px",
               }}
               startIcon={<CloseCircle color="#6750A4" />}
+              onClick={() => setDiscard(!discard)}
             >
               Discard Changes
             </Button>
@@ -233,12 +332,34 @@ const ProcurementFees = () => {
                 width: "172px",
               }}
               startIcon={<ArrowRightWhite />}
+              onClick={() =>
+                customPutRequest(
+                  "/settings/processing-fee-update",
+                  ProcurementFeesUpdateData
+                )
+              }
             >
               Save Changes
             </Button>
           </Box>
         </Box>
       </Box>
+      <Snackbar
+        open={openError}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message={error || data?.message}
+        action={
+          <Box onClick={handleClose}>
+            <CloseIcon />
+          </Box>
+        }
+      />
+      <Backdrop sx={{ color: "#fff", zIndex: 999 }} open={loading}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Box>
   );
 }

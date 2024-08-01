@@ -14,7 +14,21 @@ const Requests = () => {
             setError("");
             setLoading(false);
         } catch (e) {
-            setError(e.message);
+            setError(e?.response?.data?.message);
+            setData(null);
+            setLoading(false);
+        }
+    }
+    const customPutRequest = async (url, data) => {
+        setLoading(true);
+        try {
+            const res = await axiosInstance.put(url, data);
+            // console.log(res.message);
+            setData(res.data);
+            setError("");
+            setLoading(false);
+        } catch (e) {
+            setError(e?.response?.data?.message);
             setData(null);
             setLoading(false);
         }
@@ -28,12 +42,21 @@ const Requests = () => {
          setError("");
          setLoading(false);
        } catch (e) {
-         setError(e.message);
+         setError(e?.response?.data?.message);
          setData('');
          setLoading(false);
        }
   }
-  return { suspendUser, data, error, loading, deleteUser, setData };
+  return {
+    suspendUser,
+    data,
+    error,
+    loading,
+    deleteUser,
+    setData,
+      customPutRequest,
+    setError
+  };
 }
 
 export default Requests

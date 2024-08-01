@@ -301,11 +301,7 @@ const Staff = () => {
              </Box>
              <Typography
                onClick={() =>
-                 navigate(`user-id_${params.row.racId}`, {
-                   state: {
-                     id: params.row._id,
-                   },
-                 })
+                 navigate(`${params.row._id}`)
                }
                sx={{ cursor: "pointer" }}
                fontSize="14px"
@@ -614,12 +610,7 @@ const Staff = () => {
                  <MenuItem
                    sx={{ height: "56px" }}
                    onClick={() => {
-                     navigate(`/order-requests/users`, {
-                       state: {
-                         name: selectedRow.firstName,
-                         id: selectedRow._id,
-                       },
-                     });
+                     navigate(`/order-requests/users/${selectedRow._id}`);
                      handleCloseMenu();
                    }}
                  >
@@ -628,12 +619,7 @@ const Staff = () => {
                  <MenuItem
                    sx={{ height: "56px" }}
                    onClick={() => {
-                     navigate(`/shipments/users`, {
-                       state: {
-                         name: selectedRow.firstName,
-                         id: selectedRow._id,
-                       },
-                     });
+                     navigate(`/shipments/users/${selectedRow._id}`);
                      handleCloseMenu();
                    }}
                  >

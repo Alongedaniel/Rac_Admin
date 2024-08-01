@@ -9,11 +9,11 @@ import BillingDetailsForm from '../../../components/order/components/BillingDeta
 import ArrowLeftPurple from '../../../assets/icons/ArrowLeftPurple';
 import ArrowRightWhite from '../../../assets/icons/ArrowRightWhite';
 
-const BillingDetails = ({ order, type = '', proceed = false }) => {
+const BillingDetails = ({ order, type = "", proceed = false, isRequest }) => {
   const [open, setOpen] = useState(false);
   return (
     <>
-      {type === "request" &&
+      {(type === "request" || isRequest) &&
       order?.service !== "Auto Import" &&
       order?.service !== "Shop For Me" ? null : (
         <div className="">
@@ -113,7 +113,8 @@ const BillingDetails = ({ order, type = '', proceed = false }) => {
                     </div>
                   </div>
                 </CardWrapper>
-                {(type === "request" && !proceed) || proceed ? null : (
+                {((type === "request" || isRequest) && !proceed) ||
+                proceed ? null : (
                   <Box onClick={() => setOpen(true)}>
                     <EditIcon />
                   </Box>
@@ -171,12 +172,14 @@ const BillingDetails = ({ order, type = '', proceed = false }) => {
                         Payment Status:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        {order?.service === "Shop For Me" ? "---" : "Processing"}
+                        {order?.service === "Shop For Me"
+                          ? "---"
+                          : "Processing"}
                       </p>
                     </div>
                   </div>
                 </CardWrapper>
-                {type === "request" ? null : <EditIcon />}
+                {type === "request" || isRequest ? null : <EditIcon />}
               </Box>
             )}
           </div>
@@ -222,6 +225,6 @@ const BillingDetails = ({ order, type = '', proceed = false }) => {
       )}
     </>
   );
-}
+};
 
 export default BillingDetails

@@ -32,64 +32,97 @@ const OrderPricing = ({
   setClearingCost = () => {},
   setDutyFee = () => {},
   service = "",
-  shopForMe=false
+  shopForMe = false,
+  requestItems = [],
+  procurement,
+  warehouseCost,
+  setWarehouseCost,
+  discountValue,
+  setDiscountValue,
 }) => {
-  const shopForMeItems = [
-    {
-      image: laptop,
-      itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
-      itemLink: "htttp/jjnkkukja.jhgyja...",
-      itemCost: "$88.99",
-      urgentPurchase: "No",
-      quantity: 3,
-      totalItemValue: "$112.49",
-    },
-    {
-      image: laptop,
-      itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
-      itemLink: "htttp/jjnkkukja.jhgyja...",
-      itemCost: "$88.99",
-      urgentPurchase: "No",
-      quantity: 3,
-      totalItemValue: "$112.49",
-    },
-    {
-      image: laptop,
-      itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
-      itemLink: "htttp/jjnkkukja.jhgyja...",
-      itemCost: "$88.99",
-      urgentPurchase: "No",
-      quantity: 3,
-      totalItemValue: "$112.49",
-    },
-    {
-      image: laptop,
-      itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
-      itemLink: "htttp/jjnkkukja.jhgyja...",
-      itemCost: "$88.99",
-      urgentPurchase: "No",
-      quantity: 3,
-      totalItemValue: "$112.49",
-    },
-    {
-      image: laptop,
-      itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
-      itemLink: "htttp/jjnkkukja.jhgyja...",
-      itemCost: "$88.99",
-      urgentPurchase: "No",
-      quantity: 3,
-      totalItemValue: "$112.49",
-    },
-    {
-      image: laptop,
-      itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
-      itemLink: "htttp/jjnkkukja.jhgyja...",
-      itemCost: "$88.99",
-      urgentPurchase: "No",
-      quantity: 3,
-      totalItemValue: "$112.49",
-    },
-  ];
+  const [discountType, setDiscoutType] = useState("");
+  const totalShopForMeCost = () => {
+    let total = 0;
+    requestItems.map((x) => (total += x.shippingCost + x.originalCost));
+    return total;
+  };
+  const overallCost =
+    procurement?.totalProcessingFee ||
+    0 + procurement?.totalUrgentPurchaseCost ||
+    0 + procurement?.orderVat ||
+    0 + procurement?.orderPaymentMethodSurcharge ||
+    0 + totalShopForMeCost();
+  const [checked, setChecked] = useState(false);
+  const calcDiscount = () => {
+    let newValue
+    if (discountValue > 0)
+      if(discountType === "Percentage")
+        newValue = overallCost - ((overallCost * discountValue) / 100);
+      else
+        if (discountValue < overallCost)
+          newValue = overallCost - discountValue
+        else
+          newValue = 0
+    else
+      newValue = overallCost  
+    return newValue
+  }
+  // const shopForMeItems = [
+  //   {
+  //     image: laptop,
+  //     itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
+  //     itemLink: "htttp/jjnkkukja.jhgyja...",
+  //     itemCost: "$88.99",
+  //     urgentPurchase: "No",
+  //     quantity: 3,
+  //     totalItemValue: "$112.49",
+  //   },
+  //   {
+  //     image: laptop,
+  //     itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
+  //     itemLink: "htttp/jjnkkukja.jhgyja...",
+  //     itemCost: "$88.99",
+  //     urgentPurchase: "No",
+  //     quantity: 3,
+  //     totalItemValue: "$112.49",
+  //   },
+  //   {
+  //     image: laptop,
+  //     itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
+  //     itemLink: "htttp/jjnkkukja.jhgyja...",
+  //     itemCost: "$88.99",
+  //     urgentPurchase: "No",
+  //     quantity: 3,
+  //     totalItemValue: "$112.49",
+  //   },
+  //   {
+  //     image: laptop,
+  //     itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
+  //     itemLink: "htttp/jjnkkukja.jhgyja...",
+  //     itemCost: "$88.99",
+  //     urgentPurchase: "No",
+  //     quantity: 3,
+  //     totalItemValue: "$112.49",
+  //   },
+  //   {
+  //     image: laptop,
+  //     itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
+  //     itemLink: "htttp/jjnkkukja.jhgyja...",
+  //     itemCost: "$88.99",
+  //     urgentPurchase: "No",
+  //     quantity: 3,
+  //     totalItemValue: "$112.49",
+  //   },
+  //   {
+  //     image: laptop,
+  //     itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
+  //     itemLink: "htttp/jjnkkukja.jhgyja...",
+  //     itemCost: "$88.99",
+  //     urgentPurchase: "No",
+  //     quantity: 3,
+  //     totalItemValue: "$112.49",
+  //   },
+  // ];
   const autoImportItems = [
     {
       image: car,
@@ -381,7 +414,7 @@ const OrderPricing = ({
           </Grid>
         )}
         {service === "Shop For Me"
-          ? shopForMeItems.map((item, i) => (
+          ? requestItems.map((item, i) => (
               <Grid
                 key={i}
                 sx={{ bgcolor: "#fff", borderBottom: "1px solid #79747E" }}
@@ -396,7 +429,7 @@ const OrderPricing = ({
                   sx={{ display: "flex", alignItems: "center", gap: "10px" }}
                 >
                   <img
-                    src={item.image}
+                    src={item.itemImage}
                     alt="car"
                     style={{ width: "61px", height: "54px" }}
                   />
@@ -419,7 +452,7 @@ const OrderPricing = ({
                 >
                   <Typography fontSize={"14px"} fontWeight={600}>
                     <a
-                      href={item.itemLink}
+                      href={item.itemUrl}
                       style={{
                         textDecoration: "none",
                         color: "#6750A4",
@@ -427,7 +460,7 @@ const OrderPricing = ({
                         fontWeight: 500,
                       }}
                     >
-                      {item.itemLink}
+                      {item.itemUrl}
                     </a>
                   </Typography>
                 </Grid>
@@ -441,7 +474,7 @@ const OrderPricing = ({
                   }}
                 >
                   <Typography fontSize={"14px"} fontWeight={600}>
-                    {item.itemCost}
+                    {item.originalCost}
                   </Typography>
                 </Grid>
                 <Grid
@@ -454,7 +487,7 @@ const OrderPricing = ({
                   }}
                 >
                   <Typography fontSize={"14px"} fontWeight={600}>
-                    {item.urgentPurchase}
+                    {item.urgentPurchase ? "Yes" : "No"}
                   </Typography>
                 </Grid>
                 <Grid
@@ -467,7 +500,7 @@ const OrderPricing = ({
                   }}
                 >
                   <Typography fontSize={"14px"} fontWeight={600}>
-                    {item.quantity}
+                    {item.qty}
                   </Typography>
                 </Grid>
                 <Grid
@@ -480,7 +513,7 @@ const OrderPricing = ({
                   }}
                 >
                   <Typography fontSize={"14px"} fontWeight={600}>
-                    {item.totalItemValue}
+                    {item.shippingCost + item.originalCost}
                   </Typography>
                 </Grid>
               </Grid>
@@ -673,7 +706,7 @@ const OrderPricing = ({
                 </Typography>
                 <Typography fontSize={"20px"} color="#1C1B1F">
                   {service === "Shop For Me"
-                    ? shopForMeItems.length
+                    ? requestItems.length
                     : items.length}
                 </Typography>
               </Grid>
@@ -700,7 +733,10 @@ const OrderPricing = ({
                   Total Declared Value:
                 </Typography>
                 <Typography fontSize={"20px"} color="#1C1B1F">
-                  $345.00
+                  $
+                  {service === "Shop For Me"
+                    ? `${totalShopForMeCost()}`
+                    : "345.00"}
                 </Typography>
               </Grid>
             </>
@@ -747,7 +783,8 @@ const OrderPricing = ({
                     Total Item(s) Cost from Store(s):
                   </Typography>
                   <Typography fontSize={"20px"} color="#1C1B1F">
-                    $23.00
+                    $
+                    {service === "Shop For Me" ? totalShopForMeCost() : "23.00"}
                   </Typography>
                 </Grid>
                 <Grid item xs={4}>
@@ -755,7 +792,7 @@ const OrderPricing = ({
                     Total Processing Fee:
                   </Typography>
                   <Typography fontSize={"20px"} color="#1C1B1F">
-                    $23.00
+                    ${procurement?.totalProcessingFee ?? 0}
                   </Typography>
                 </Grid>
                 <Grid item xs={4}>
@@ -763,7 +800,7 @@ const OrderPricing = ({
                     Total Urgent Purchase Fee:
                   </Typography>
                   <Typography fontSize={"20px"} color="#1C1B1F">
-                    $23.00
+                    ${procurement?.totalUrgentPurchaseCost ?? 0}
                   </Typography>
                 </Grid>
               </Grid>
@@ -773,7 +810,7 @@ const OrderPricing = ({
                     Payment Method Surcharge:
                   </Typography>
                   <Typography fontSize={"20px"} color="#1C1B1F">
-                    $23.00
+                    ${procurement?.orderPaymentMethodSurcharge ?? 0}
                   </Typography>
                 </Grid>
                 <Grid item xs={4}>
@@ -781,7 +818,7 @@ const OrderPricing = ({
                     VAT:
                   </Typography>
                   <Typography fontSize={"20px"} color="#1C1B1F">
-                    $23.00
+                    ${procurement?.orderVat ?? 0}
                   </Typography>
                 </Grid>
                 <Grid item xs={4}></Grid>
@@ -791,9 +828,10 @@ const OrderPricing = ({
                 required
                 sx={{ fontSize: "16px", color: "#1C1B1F" }}
                 id="warehouse-cost"
-                type="text"
-                // value={shippingCost}
-                // onChange={(e) => setShippingCost(e.target.value)}
+                // type="number"
+                type="number"
+                value={warehouseCost}
+                onChange={(e) => setWarehouseCost(parseInt(e.target.value, 10))}
                 label="Total Shipping to Origin Warehouse cost"
                 InputProps={{
                   startAdornment: <DollarIcon />,
@@ -1094,10 +1132,14 @@ const OrderPricing = ({
             >
               <Box
                 // maxWidth="384px"
+                alignSelf="flex-start"
                 width="100%"
-                height="168px"
+                // height="168px"
+                overflow="hidden"
+                height={checked ? "168px" : "60px"}
                 border="1px solid #CAC4D0"
                 p="22px 20px"
+                py={checked ? "22px" : "10px"}
                 borderRadius="20px"
               >
                 <div
@@ -1105,6 +1147,14 @@ const OrderPricing = ({
                 >
                   <p className="text-[20px]">Discounts</p>
                   <Switch
+                    checked={checked}
+                    onChange={(e) => {
+                      setChecked(e.target.checked);
+                      if (checked) {
+                        setDiscoutType("");
+                        setDiscountValue(0);
+                      }
+                    }}
                     sx={{
                       root: {
                         width: 50,
@@ -1163,11 +1213,17 @@ const OrderPricing = ({
                             value="%"
                             control={<Radio color="primary" />}
                             label="%"
+                            onChange={() => setDiscoutType("Percentage")}
+                            disabled={!checked}
+                            checked={discountType === "Percentage"}
                           />
                           <FormControlLabel
                             value="$"
                             control={<Radio color="primary" />}
                             label="$"
+                            onChange={() => setDiscoutType("Dollar")}
+                            disabled={!checked}
+                            checked={discountType === "Dollar"}
                           />
                         </Box>
                       </RadioGroup>
@@ -1177,12 +1233,17 @@ const OrderPricing = ({
                     <TextField
                       id="discount"
                       sx={{ fontSize: "16px", color: "#1C1B1F" }}
-                      // type="number"
+                      type="number"
                       label="Discount"
+                      disabled={discountType === ""}
                       fullWidth
+                      value={discountValue}
+                      onChange={(e) =>
+                        setDiscountValue(parseInt(e.target.value, 10))
+                      }
                       // placeholder="Select origin"
                       InputProps={{
-                        startAdornment: <PercentageIcon />,
+                        startAdornment: discountType === 'Percentage' ? <PercentageIcon /> : <DollarIcon />,
                         sx: {
                           // maxWidth: "540px",
                           borderRadius: "20px", // Apply border radius to the input element
@@ -1210,13 +1271,13 @@ const OrderPricing = ({
                 <Box mt="30px">
                   {" "}
                   <Typography fontSize={"20px"} color="#fff" fontWeight={400}>
-                    $126.00
+                    ${service === "Shop For Me" ? calcDiscount() : "126.00"}
                   </Typography>
                   <Typography fontSize={"14px"} color="#EADDFF">
                     The Naira Equivalent that will be charged if paid now is
                     <Typography display="inline" fontWeight={500}>
                       {" "}
-                      ₦20,000
+                      ₦{(calcDiscount() / 1650).toFixed(3)}
                     </Typography>
                   </Typography>
                 </Box>
@@ -1297,9 +1358,8 @@ const OrderPricing = ({
         {service === "Shop For Me" && !shopForMe && (
           <CardWrapper
             mt="20px"
-            title={service === "Auto Import"
-                ? "Clearing Cost"
-                : "Shipping Cost"
+            title={
+              service === "Auto Import" ? "Clearing Cost" : "Shipping Cost"
             }
           >
             <Box

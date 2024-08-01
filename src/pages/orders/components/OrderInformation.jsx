@@ -14,10 +14,12 @@ import ArrowRightWhite from "../../../assets/icons/ArrowRightWhite";
 import SectionHeader from "../../../components/SectionHeader";
 import EyeIconRed from "../../../assets/icons/EyeIconRed";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 
-const OrderInformation = ({ order, type }) => {
-    const [editOrderInfo, setEditOrderInfo] = useState(false);
-  return type === "request" ? (
+const OrderInformation = ({ order, type, isRequest }) => {
+  const navigate = useNavigate();
+  const [editOrderInfo, setEditOrderInfo] = useState(false);
+  return type === "request" || isRequest ? (
     <>
       <div className="flex items-center space-x-[10px] ">
         <CircleRight />
@@ -64,17 +66,17 @@ const OrderInformation = ({ order, type }) => {
                 <p className="text-[14px] text-t/100 font-roboto">
                   Order Type:
                 </p>
-                <p className="font-roboto  text-[20px]">
-                  {order?.request?.type ?? "N/A"}
-                </p>
+                <p className="font-roboto  text-[20px]">Shipment</p>
               </div>
               <div className="col-span-2">
                 <p className="text-[14px] text-t/100 font-roboto">
-                  {type === "request" ? "Request Status:" : "Order Status:"}
+                  {type === "request" || isRequest
+                    ? "Request Status:"
+                    : "Order Status:"}
                 </p>
                 <p
                   style={{
-                    display: type === "request" ? "none" : "block",
+                    display: type === "request" || isRequest ? "none" : "block",
                   }}
                   className="font-roboto  text-[20px]"
                 >
@@ -82,7 +84,7 @@ const OrderInformation = ({ order, type }) => {
                 </p>
                 <p
                   style={{
-                    display: type === "request" ? "flex" : "none",
+                    display: type === "request" || isRequest ? "flex" : "none",
                     gap: "5px",
                     alignItems: "center",
                   }}
@@ -120,7 +122,7 @@ const OrderInformation = ({ order, type }) => {
                 <p className="text-[14px] text-t/100 font-roboto">Service:</p>
                 <p className="font-roboto  text-[20px]">{order?.serviceType}</p>
               </div>
-              {type === "request" ? null : (
+              {type === "request" || isRequest ? null : (
                 <>
                   <div>
                     <p className="text-[14px] text-t/100 font-roboto">
@@ -158,13 +160,13 @@ const OrderInformation = ({ order, type }) => {
               </div>
             </div>
           </CardWrapper>
-          {type === "request" ? null : (
+          {type === "request" || isRequest ? null : (
             <Box onClick={() => setEditOrderInfo(true)}>
               <EditIcon />
             </Box>
           )}
         </Box>
-        {type === "request" ? null : (
+        {type === "request" || isRequest ? null : (
           <Box
             sx={{
               width: "100%",
@@ -228,7 +230,7 @@ const OrderInformation = ({ order, type }) => {
                 </div>
               </div>
             </CardWrapper>
-            {type === "request" ? null : <EditIcon />}
+            {type === "request" || isRequest ? null : <EditIcon />}
           </Box>
         )}
         {/* {type === "request" ? null : (
