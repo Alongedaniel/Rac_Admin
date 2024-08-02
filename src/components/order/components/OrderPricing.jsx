@@ -34,6 +34,7 @@ const OrderPricing = ({
   service = "",
   shopForMe = false,
   requestItems = [],
+  data = {},
   procurement,
   warehouseCost,
   setWarehouseCost,
@@ -43,7 +44,7 @@ const OrderPricing = ({
   const [discountType, setDiscoutType] = useState("");
   const totalShopForMeCost = () => {
     let total = 0;
-    requestItems.map((x) => (total += x.shippingCost + x.originalCost));
+    requestItems.map((x) => (total += (x.qty * x.originalCost)));
     return total;
   };
   const overallCost =
@@ -513,7 +514,7 @@ const OrderPricing = ({
                   }}
                 >
                   <Typography fontSize={"14px"} fontWeight={600}>
-                    {item.shippingCost + item.originalCost}
+                    {(item.qty * item.originalCost).toFixed()}
                   </Typography>
                 </Grid>
               </Grid>
@@ -792,7 +793,7 @@ const OrderPricing = ({
                     Total Processing Fee:
                   </Typography>
                   <Typography fontSize={"20px"} color="#1C1B1F">
-                    ${procurement?.totalProcessingFee ?? 0}
+                    ${data?.totalProcessingFee.toFixed()}
                   </Typography>
                 </Grid>
                 <Grid item xs={4}>
@@ -800,7 +801,7 @@ const OrderPricing = ({
                     Total Urgent Purchase Fee:
                   </Typography>
                   <Typography fontSize={"20px"} color="#1C1B1F">
-                    ${procurement?.totalUrgentPurchaseCost ?? 0}
+                    ${data?.totalUrgentPurchaseCost}
                   </Typography>
                 </Grid>
               </Grid>
@@ -818,7 +819,7 @@ const OrderPricing = ({
                     VAT:
                   </Typography>
                   <Typography fontSize={"20px"} color="#1C1B1F">
-                    ${procurement?.orderVat ?? 0}
+                    ${data?.orderVat}
                   </Typography>
                 </Grid>
                 <Grid item xs={4}></Grid>
@@ -1277,7 +1278,7 @@ const OrderPricing = ({
                     The Naira Equivalent that will be charged if paid now is
                     <Typography display="inline" fontWeight={500}>
                       {" "}
-                      ₦{(calcDiscount() / 1650).toFixed(3)}
+                      ₦{(calcDiscount() * 1650).toFixed()}
                     </Typography>
                   </Typography>
                 </Box>
