@@ -184,7 +184,7 @@ function OrderDetails() {
       let total = 0;
       if (data?.serviceType === 'shopForMe')
         data?.request?.requestItems?.map(
-          (x) => (total += x.shippingCost + x.originalCost)
+          (x) => (total += x.qty * x.originalCost)
         );
       return total;
   };
@@ -218,14 +218,11 @@ function OrderDetails() {
   const approveOrder = async () => {
     if (shipmentMethod && deliveryCompany && data?.serviceType && discountValue && totalCost() && warehouseCost)
       customPutRequest(
-        `/sfmRequests/admin/update-request-fees/${data?.request?._id}`,
+        `/admin/update-request-fees/${data?.request?._id}`,
         approveRequestData
       );
+    handleNext();
   }
-
-  useEffect(() => {
-    approveOrder();
-  }, [shipmentMethod, deliveryCompany, discountValue, warehouseCost]);
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -511,6 +508,7 @@ function OrderDetails() {
                               id={data?.request?._id}
                       service={toTitleCase(data?.serviceType)}
                       requestItems={data?.request?.requestItems}
+                      data={data?.request}
                       procurement={procurement}
                       setDiscountValue={setDiscountValue}
                       discountValue={discountValue}
@@ -1117,7 +1115,9 @@ function OrderDetails() {
                             textTransform: "none",
                           }}
                           onClick={() => {
-                            if (!finish) handleNext();
+                            if (!finish) {
+                              approveOrder()
+                            };
                           }}
                         >
                           Finish Request Approval
