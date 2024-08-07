@@ -15,6 +15,7 @@ import SectionHeader from "../../../components/SectionHeader";
 import EyeIconRed from "../../../assets/icons/EyeIconRed";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+import { toTitleCase } from "../order-details";
 
 const OrderInformation = ({ order, type, isRequest }) => {
   const navigate = useNavigate();
@@ -120,7 +121,9 @@ const OrderInformation = ({ order, type, isRequest }) => {
               {/* <div></div> */}
               <div>
                 <p className="text-[14px] text-t/100 font-roboto">Service:</p>
-                <p className="font-roboto  text-[20px]">{order?.serviceType}</p>
+                <p className="font-roboto  text-[20px]">
+                  {toTitleCase(order?.serviceType)}
+                </p>
               </div>
               {type === "request" || isRequest ? null : (
                 <>

@@ -8,14 +8,16 @@ import UserModals from '../../Users/components/UserModals';
 import BillingDetailsForm from '../../../components/order/components/BillingDetailsForm';
 import ArrowLeftPurple from '../../../assets/icons/ArrowLeftPurple';
 import ArrowRightWhite from '../../../assets/icons/ArrowRightWhite';
+import { toTitleCase } from '../order-details';
 
-const BillingDetails = ({ order, type = "", proceed = false, isRequest }) => {
+const BillingDetails = ({ order, type = "", proceed = false, isRequest, totalCost }) => {
   const [open, setOpen] = useState(false);
+  const serviceType = toTitleCase(order?.serviceType)
   return (
     <>
       {(type === "request" || isRequest) &&
-      order?.service !== "Auto Import" &&
-      order?.service !== "Shop For Me" ? null : (
+      serviceType !== "Auto Import" &&
+      serviceType !== "Shop For Me" ? null : (
         <div className="">
           <div className="flex items-center space-x-[10px] ">
             <CircleRight />
@@ -25,7 +27,7 @@ const BillingDetails = ({ order, type = "", proceed = false, isRequest }) => {
           </div>
 
           <div className="flex flex-col space-y-[20px]">
-            {order?.service === "Shop For Me" ? null : (
+            {serviceType === "Shop For Me" ? null : (
               <Box
                 sx={{
                   width: "100%",
@@ -121,7 +123,7 @@ const BillingDetails = ({ order, type = "", proceed = false, isRequest }) => {
                 )}
               </Box>
             )}
-            {order?.service === "Auto Import" ? null : (
+            {serviceType === "Auto Import" ? null : (
               <Box
                 sx={{
                   width: "100%",
@@ -133,14 +135,14 @@ const BillingDetails = ({ order, type = "", proceed = false, isRequest }) => {
               >
                 <CardWrapper title="Payments Information">
                   <div className="grid grid-cols-5 mt-[30px]">
-                    {order?.service === "Shop For Me" && (
+                    {serviceType === "Shop For Me" && (
                       <>
                         <div className="col-span-2">
                           <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                             Total Procurement Cost:
                           </p>
                           <p className="font-roboto  text-[20px] text-brand/100">
-                            $234,000.00
+                            ${totalCost ?? "234,000.00"}
                           </p>
                         </div>
                         <div className="">
@@ -162,7 +164,7 @@ const BillingDetails = ({ order, type = "", proceed = false, isRequest }) => {
                         Total Shipment Cost:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        {order?.service === "Shop For Me"
+                        {serviceType === "Shop For Me"
                           ? "Not yet assigned"
                           : "$234,000.00"}
                       </p>
@@ -172,7 +174,7 @@ const BillingDetails = ({ order, type = "", proceed = false, isRequest }) => {
                         Payment Status:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        {order?.service === "Shop For Me"
+                        {serviceType === "Shop For Me"
                           ? "---"
                           : "Processing"}
                       </p>

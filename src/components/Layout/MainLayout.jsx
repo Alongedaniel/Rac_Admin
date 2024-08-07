@@ -49,6 +49,7 @@ const MainLayout = ({ children, title, showFullBar, setShowFullBar }) => {
           top={0}
           position="fixed"
           zIndex={9999}
+          sx={{transition: 'all .5s ease'}}
         >
           <Sidebar showFullBar={showFullBar} setShowFullBar={setShowFullBar} />
         </Box>

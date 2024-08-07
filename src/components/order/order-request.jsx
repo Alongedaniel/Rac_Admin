@@ -923,7 +923,7 @@ function OrderRequestComp({ home = false, all = false }) {
           </Box>
         </Box>
       ) : (
-            <Box
+        <Box
           display="flex"
           sx={{
             flexDirection: "column",
@@ -945,7 +945,7 @@ function OrderRequestComp({ home = false, all = false }) {
             You don’t have any order yet, would you like to create one now?
           </Typography>
           <Button
-            onClick={() => navigate("adding-new-customer")}
+            onClick={() => navigate("/orders/create-new-order")}
             variant="contained"
             startIcon={<NewCustomerIcon />}
             sx={{
