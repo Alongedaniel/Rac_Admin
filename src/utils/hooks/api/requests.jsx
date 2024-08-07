@@ -5,6 +5,7 @@ const Requests = () => {
     const [data, setData] = useState(null);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState(false);
     const suspendUser = async (url) => {
         setLoading(true);
         try {
@@ -25,11 +26,13 @@ const Requests = () => {
             const res = await axiosInstance.put(url, data);
             // console.log(res.message);
             setData(res.data);
-            setError("");
+          setError("");
+          setSuccess(true);
             setLoading(false);
         } catch (e) {
             setError(e?.response?.data?.message);
-            setData(null);
+          setData(null);
+          setSuccess(false);
             setLoading(false);
         }
     }
@@ -55,7 +58,8 @@ const Requests = () => {
     deleteUser,
     setData,
       customPutRequest,
-    setError
+    setError,
+    success
   };
 }
 

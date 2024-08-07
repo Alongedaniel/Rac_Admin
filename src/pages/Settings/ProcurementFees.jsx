@@ -10,8 +10,12 @@ import Requests from "../../utils/hooks/api/requests";
 import CloseIcon from "../../assets/icons/CloseIcon";
 import { useState } from 'react';
 import { useEffect } from 'react';
+import useCustomGetRequest from '../../utils/hooks/api/useCustomGetRequest';
 
 const ProcurementFees = () => {
+  const { data: procurement, loading: procLoading } = useCustomGetRequest(
+    "/settings/urgent-purchase-fee/processing-fee"
+  );
     const navigate = useNavigate()
     const columns = ["Amount ($)", "Processing Fee ($)"];
     const rows = [
@@ -72,13 +76,13 @@ const ProcurementFees = () => {
   };
   
   useEffect(() => {
-    setUrgentPurchaseFee(0)
-    setRange1(0)
-    setRange2(0)
-    setRange3(0)
-    setRange4(0)
-    setRange5(0)
-    }, [discard]);
+    setUrgentPurchaseFee(procurement?.data?.urgentPurchaseFee);
+    setRange1(procurement?.data?.procurementFees[0].processingFee);
+    setRange2(procurement?.data?.procurementFees[1].processingFee);
+    setRange3(procurement?.data?.procurementFees[2].processingFee);
+    setRange4(procurement?.data?.procurementFees[3].processingFee);
+    setRange5(procurement?.data?.procurementFees[4].processingFee);
+  }, [procLoading]);
   return (
     <Box p="24px 40px">
       <Box p="24px" borderRadius="20px" bgcolor="#fff">
@@ -148,7 +152,7 @@ const ProcurementFees = () => {
                     width: "174px",
                   }}
                   startIcon={<CloseCircle color="#6750A4" />}
-                  onClick={() => setDiscard(!discard)}
+                  // onClick={() => setDiscard(!discard)}
                 >
                   Discard Changes
                 </Button>
@@ -315,7 +319,7 @@ const ProcurementFees = () => {
                 width: "174px",
               }}
               startIcon={<CloseCircle color="#6750A4" />}
-              onClick={() => setDiscard(!discard)}
+              // onClick={() => setDiscard(!discard)}
             >
               Discard Changes
             </Button>

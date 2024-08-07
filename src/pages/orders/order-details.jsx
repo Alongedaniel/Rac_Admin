@@ -64,6 +64,14 @@ import OrderPricing from "../../components/order/components/OrderPricing";
 import Requests from "../../utils/hooks/api/requests";
 import CloseIcon from "../../assets/icons/CloseIcon";
 
+export const toTitleCase = (str) => {
+  const words = str?.match(/[A-Z][a-z]+|[a-z]+/g);
+  const titleCasedWords = words?.map(
+    (word) => word.charAt(0).toUpperCase() + word.slice(1)
+  );
+  return titleCasedWords?.join(" ");
+};
+
 function OrderDetails() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -77,13 +85,7 @@ function OrderDetails() {
   const { data } = useCustomGetRequest(`/admin/get-request-by-id/${requestid}`);
 
   console.log(data);
-  const toTitleCase = (str) => {
-    const words = str.match(/[A-Z][a-z]+|[a-z]+/g);
-    const titleCasedWords = words.map(
-      (word) => word.charAt(0).toUpperCase() + word.slice(1)
-    );
-    return titleCasedWords.join(" ");
-  };
+  
   const toggle = (i) => {
     setDrop((prevFaq) => (prevFaq === i ? null : i));
   };
@@ -178,7 +180,7 @@ function OrderDetails() {
   const [deliveryCompany, setDeliveryCompany] = useState("");
   const [discountValue, setDiscountValue] = useState(0);
   const [warehouseCost, setWarehouseCost] = useState(0)
-  const { customPutRequest, loading, error, data: procurement, setError } = Requests()
+  const { customPutRequest, loading, error, data: procurement, setError, success } = Requests()
 
     const totalCost = () => {
       let total = 0;
@@ -206,22 +208,29 @@ function OrderDetails() {
     };
 
   const approveRequestData = {
+    requestStatus: data?.request?.requestStatus,
+    discount: discountValue,
+    serviceType: data?.serviceType,
+    totalShippingToOriginWarehouse: warehouseCost,
     shipmentMethod: shipmentMethod,
     deliveryCompany: deliveryCompany,
-    serviceType: data?.serviceType,
-    discount: discountValue,
-    totalItemCostFromStore: totalCost(),
-    totalShippingToOriginWarehouse: warehouseCost,
   };
+
   console.log(approveRequestData);
 
   const approveOrder = async () => {
     if (shipmentMethod && deliveryCompany && data?.serviceType && discountValue && totalCost() && warehouseCost)
-      customPutRequest(
-        `/admin/update-request-fees/${data?.request?._id}`,
+      {customPutRequest(
+        `/admin/admin/update-request-status/${data?.request?._id}`,
         approveRequestData
-      );
-    handleNext();
+    );
+      if (success)
+        handleNext();
+    }
+    else {
+      setOpenError(true)
+      setError('Please input all fields')
+        }
   }
 
   useEffect(() => {
@@ -504,8 +513,8 @@ function OrderDetails() {
                       />
                     </>
                   ) : data?.serviceType === "shopForMe" ? (
-                            <OrderPricing
-                              id={data?.request?._id}
+                    <OrderPricing
+                      id={data?.request?._id}
                       service={toTitleCase(data?.serviceType)}
                       requestItems={data?.request?.requestItems}
                       data={data?.request}
@@ -734,22 +743,19 @@ function OrderDetails() {
                       <OrderInformation
                         order={data}
                         type={type}
-                        toggle={toggle}
-                        drop={drop}
+                        isRequest={requestid}
                       />
                       <PackageDetails
                         order={data}
+                        isRequest={requestid}
                         type={type}
-                        toggle={toggle}
-                        drop={drop}
                       />
                       {data?.serviceType === "shopForMe" ? (
                         <>
                           <BillingDetails
                             order={data}
                             type={type}
-                            toggle={toggle}
-                            drop={drop}
+                            totalCost={totalCost() - discountValue}
                           />
                         </>
                       ) : null}
@@ -778,10 +784,9 @@ function OrderDetails() {
                         drop={drop}
                       />
                       <BillingDetails
+                        totalCost={totalCost()}
                         order={data}
                         type={type}
-                        toggle={toggle}
-                        drop={drop}
                       />
                     </Box>
                   ) : (
@@ -814,7 +819,7 @@ function OrderDetails() {
                           </Box>
                         </Box>
                       </Box>
-                      {data?.serviceType === "Shop For Me" && !saveAsDraft ? (
+                      {data?.serviceType === "shopForMe" && !saveAsDraft ? (
                         <div
                           style={{
                             marginTop: "30px",
@@ -1116,8 +1121,9 @@ function OrderDetails() {
                           }}
                           onClick={() => {
                             if (!finish) {
-                              approveOrder()
-                            };
+                              approveOrder();
+                              // console.log('clicked')
+                            }
                           }}
                         >
                           Finish Request Approval
@@ -1159,10 +1165,16 @@ function OrderDetails() {
               <p className="font-roboto text-[24px]">
                 <span>
                   {type === "request" || requestid
-                    ? "Request ID:"
+                    ? "Request ID: "
                     : "Order ID:"}
                 </span>{" "}
-                <span className="font-[700]">{data?.request?.requestId}</span>
+                <span className="font-[700]">
+                  {data?.request?.requestId ? (
+                    data?.request?.requestId
+                  ) : (
+                    <CircularProgress size={20} />
+                  )}
+                </span>
               </p>
 
               <div className="flex flex-col space-y-[40px] font-roboto">
@@ -1189,7 +1201,7 @@ function OrderDetails() {
                       toggle={toggle}
                       drop={drop}
                     />
-                    {data?.service === "Auto Import" ||
+                    {/* {data?.service === "Auto Import" ||
                     data?.service === "Shop For Me" ? null : (
                       <BillingDetails
                         order={data}
@@ -1198,11 +1210,11 @@ function OrderDetails() {
                         toggle={toggle}
                         drop={drop}
                       />
-                    )}
+                    )} */}
                   </>
                 ) : (
                   <>
-                    <PackageDetailsInfo
+                    {/* <PackageDetailsInfo
                       order={data}
                       service={data?.service}
                       type={type}
@@ -1216,7 +1228,7 @@ function OrderDetails() {
                       order={data}
                       service={data?.service}
                       type={type}
-                    />
+                    /> */}
                   </>
                 )}
 
@@ -1394,10 +1406,7 @@ function OrderDetails() {
           </Box>
         }
       />
-      <Backdrop
-        sx={{ color: "#fff", zIndex: 999 }}
-        open={loading}
-      >
+      <Backdrop sx={{ color: "#fff", zIndex: 999 }} open={loading}>
         <CircularProgress color="inherit" />
       </Backdrop>
     </>

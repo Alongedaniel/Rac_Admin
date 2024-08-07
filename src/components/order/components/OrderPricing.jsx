@@ -793,7 +793,7 @@ const OrderPricing = ({
                     Total Processing Fee:
                   </Typography>
                   <Typography fontSize={"20px"} color="#1C1B1F">
-                    ${data?.totalProcessingFee.toFixed()}
+                    ${data?.totalProcessingFee.toFixed(1)}
                   </Typography>
                 </Grid>
                 <Grid item xs={4}>
@@ -1148,7 +1148,7 @@ const OrderPricing = ({
                 >
                   <p className="text-[20px]">Discounts</p>
                   <Switch
-                    checked={checked}
+                    checked={checked || discountValue.length}
                     onChange={(e) => {
                       setChecked(e.target.checked);
                       if (checked) {

@@ -91,14 +91,16 @@ function Sidebar({ showFullBar, setShowFullBar }) {
             ? "rounded-r-[10px] bg-[#E6E1E514] w-[100%] p-[10px] flex items-center space-x-[10px]"
             : "rounded-r-[10px] bg-[#E6E1E514] w-[100%] p-[10px] flex items-center "
         }
-        style={{cursor: 'pointer'}}
+        style={{ cursor: "pointer" }}
         onClick={handleClick}
       >
         <div
-          className="h-[40px] w-[40px] bg-gray-300 flex items-center
-         justify-center rounded-full font-roboto text-[20px] font-[500]"
+          className="h-[30px] w-[30px] bg-gray-300 flex items-center
+         justify-center rounded-full "
         >
-          {user?.user?.firstName.slice(0, 1)}
+          <p className="font-roboto text-[20px] font-[500]">
+            {user?.user?.firstName.slice(0, 1)}
+          </p>
         </div>
         {showFullBar && (
           <Box display={{ xs: "none", lg: "block" }} sx={{ color: "#fff" }}>
@@ -113,7 +115,10 @@ function Sidebar({ showFullBar, setShowFullBar }) {
           </Box>
         )}
       </div>
-      <div className="mt-[20px] grow flex flex-col justify-between" style={{height:'100%',overflow: 'auto'}}>
+      <div
+        className="mt-[20px] grow flex flex-col justify-between"
+        style={{ height: "100%", overflow: "auto" }}
+      >
         <Box
           // height="100%"
           // maxHeight={{ xs: "200px", lg: "400px", xl: "100%" }}

@@ -18,8 +18,13 @@ import PaymentsTable from "./components/PaymentsTable";
 import WeightSymbol from "./components/WeightSymbol";
 import Requests from "../../utils/hooks/api/requests";
 import CloseIcon from "../../assets/icons/CloseIcon";
+import useCustomGetRequest from "../../utils/hooks/api/useCustomGetRequest";
 
 const AllShipmentFees = () => {
+    const { data: shipments, loading: shipLoading } = useCustomGetRequest(
+      "/settings/general-charges"
+    );
+    console.log(shipments);
   const navigate = useNavigate();
   const {
     error,
@@ -179,6 +184,128 @@ const AllShipmentFees = () => {
   const [zone94, setZone94] = useState(0);
   const [zone95, setZone95] = useState(0);
   const [zone96, setZone96] = useState(0);
+
+  useEffect(() => {
+    setStorageCharge(shipments?.data?.generalCharges?.storageCharge)
+    setInsuranceCharge(shipments?.data?.generalCharges?.insuranceCharge);
+    setPaymentMethodSurcharge(shipments?.data?.generalCharges?.paymentMethodSurcharge);
+    setVat(shipments?.data?.generalCharges?.vat);
+    setUsBelow4(shipments?.data?.importShippingRates?.unitedStates[0]?.rate)
+    setUsAbove4(shipments?.data?.importShippingRates?.unitedStates[1]?.rate)
+    setUkBelow4(shipments?.data?.importShippingRates?.unitedKingdom[0]?.rate)
+    setUkAbove4(shipments?.data?.importShippingRates?.unitedKingdom[1]?.rate)
+    setUkBelow4CustomClearing(shipments?.data?.importShippingRates?.unitedKingdom[1]?.customClearingPortHandling)
+    setDubaiAbove(shipments?.data?.importShippingRates?.dubai[0]?.rate)
+    setChinaAbove(shipments?.data?.importShippingRates?.china[0]?.rate)
+    setChinaAboveCustomClearing(shipments?.data?.importShippingRates?.china[0]?.customClearingPortHandling)
+    setZone1(shipments?.data?.exportShippingRates[0]?.zone1);
+    setZone2(shipments?.data?.exportShippingRates[0]?.zone2);
+    setZone3(shipments?.data?.exportShippingRates[0]?.zone3);
+    setZone4(shipments?.data?.exportShippingRates[0]?.zone4);
+    setZone5(shipments?.data?.exportShippingRates[0]?.zone5);
+    setZone6(shipments?.data?.exportShippingRates[0]?.zone6);
+    setZone7(shipments?.data?.exportShippingRates[0]?.zone7);
+    setZone8(shipments?.data?.exportShippingRates[0]?.zone8);
+
+    setZone9(shipments?.data?.exportShippingRates[1]?.zone1);
+    setZone10(shipments?.data?.exportShippingRates[1]?.zone2);
+    setZone11(shipments?.data?.exportShippingRates[1]?.zone3);
+    setZone12(shipments?.data?.exportShippingRates[1]?.zone4);
+    setZone13(shipments?.data?.exportShippingRates[1]?.zone5);
+    setZone14(shipments?.data?.exportShippingRates[1]?.zone6);
+    setZone15(shipments?.data?.exportShippingRates[1]?.zone7);
+    setZone16(shipments?.data?.exportShippingRates[1]?.zone8);
+
+    setZone17(shipments?.data?.exportShippingRates[2]?.zone1);
+    setZone18(shipments?.data?.exportShippingRates[2]?.zone2);
+    setZone19(shipments?.data?.exportShippingRates[2]?.zone3);
+    setZone20(shipments?.data?.exportShippingRates[2]?.zone4);
+    setZone21(shipments?.data?.exportShippingRates[2]?.zone5);
+    setZone22(shipments?.data?.exportShippingRates[2]?.zone6);
+    setZone23(shipments?.data?.exportShippingRates[2]?.zone7);
+    setZone24(shipments?.data?.exportShippingRates[2]?.zone8);
+
+    setZone25(shipments?.data?.exportShippingRates[3]?.zone1);
+    setZone26(shipments?.data?.exportShippingRates[3]?.zone2);
+    setZone27(shipments?.data?.exportShippingRates[3]?.zone3);
+    setZone28(shipments?.data?.exportShippingRates[3]?.zone4);
+    setZone29(shipments?.data?.exportShippingRates[3]?.zone5);
+    setZone30(shipments?.data?.exportShippingRates[3]?.zone6);
+    setZone31(shipments?.data?.exportShippingRates[3]?.zone7);
+    setZone32(shipments?.data?.exportShippingRates[3]?.zone8);
+
+    setZone33(shipments?.data?.exportShippingRates[4]?.zone1);
+    setZone34(shipments?.data?.exportShippingRates[4]?.zone2);
+    setZone35(shipments?.data?.exportShippingRates[4]?.zone3);
+    setZone36(shipments?.data?.exportShippingRates[4]?.zone4);
+    setZone37(shipments?.data?.exportShippingRates[4]?.zone5);
+    setZone38(shipments?.data?.exportShippingRates[4]?.zone6);
+    setZone39(shipments?.data?.exportShippingRates[4]?.zone7);
+    setZone40(shipments?.data?.exportShippingRates[4]?.zone8);
+
+    setZone41(shipments?.data?.exportShippingRates[5]?.zone1);
+    setZone42(shipments?.data?.exportShippingRates[5]?.zone2);
+    setZone43(shipments?.data?.exportShippingRates[5]?.zone3);
+    setZone44(shipments?.data?.exportShippingRates[5]?.zone4);
+    setZone45(shipments?.data?.exportShippingRates[5]?.zone5);
+    setZone46(shipments?.data?.exportShippingRates[5]?.zone6);
+    setZone47(shipments?.data?.exportShippingRates[5]?.zone7);
+    setZone48(shipments?.data?.exportShippingRates[5]?.zone8);
+
+    setZone49(shipments?.data?.exportShippingRates[6]?.zone1);
+    setZone50(shipments?.data?.exportShippingRates[6]?.zone2);
+    setZone51(shipments?.data?.exportShippingRates[6]?.zone3);
+    setZone52(shipments?.data?.exportShippingRates[6]?.zone4);
+    setZone53(shipments?.data?.exportShippingRates[6]?.zone5);
+    setZone54(shipments?.data?.exportShippingRates[6]?.zone6);
+    setZone55(shipments?.data?.exportShippingRates[6]?.zone7);
+    setZone56(shipments?.data?.exportShippingRates[6]?.zone8);
+
+    setZone57(shipments?.data?.exportShippingRates[7]?.zone1);
+    setZone58(shipments?.data?.exportShippingRates[7]?.zone2);
+    setZone59(shipments?.data?.exportShippingRates[7]?.zone3);
+    setZone60(shipments?.data?.exportShippingRates[7]?.zone4);
+    setZone61(shipments?.data?.exportShippingRates[7]?.zone5);
+    setZone62(shipments?.data?.exportShippingRates[7]?.zone6);
+    setZone63(shipments?.data?.exportShippingRates[7]?.zone7);
+    setZone64(shipments?.data?.exportShippingRates[7]?.zone8);
+
+    setZone65(shipments?.data?.exportShippingRates[8]?.zone1);
+    setZone66(shipments?.data?.exportShippingRates[8]?.zone2);
+    setZone67(shipments?.data?.exportShippingRates[8]?.zone3);
+    setZone68(shipments?.data?.exportShippingRates[8]?.zone4);
+    setZone69(shipments?.data?.exportShippingRates[8]?.zone5);
+    setZone70(shipments?.data?.exportShippingRates[8]?.zone6);
+    setZone71(shipments?.data?.exportShippingRates[8]?.zone7);
+    setZone72(shipments?.data?.exportShippingRates[8]?.zone8);
+
+    setZone73(shipments?.data?.exportShippingRates[9]?.zone1);
+    setZone74(shipments?.data?.exportShippingRates[9]?.zone2);
+    setZone75(shipments?.data?.exportShippingRates[9]?.zone3);
+    setZone76(shipments?.data?.exportShippingRates[9]?.zone4);
+    setZone77(shipments?.data?.exportShippingRates[9]?.zone5);
+    setZone78(shipments?.data?.exportShippingRates[9]?.zone6);
+    setZone79(shipments?.data?.exportShippingRates[9]?.zone7);
+    setZone80(shipments?.data?.exportShippingRates[9]?.zone8);
+
+    setZone81(shipments?.data?.exportShippingRates[10]?.zone1);
+    setZone82(shipments?.data?.exportShippingRates[10]?.zone2);
+    setZone83(shipments?.data?.exportShippingRates[10]?.zone3);
+    setZone84(shipments?.data?.exportShippingRates[10]?.zone4);
+    setZone85(shipments?.data?.exportShippingRates[10]?.zone5);
+    setZone86(shipments?.data?.exportShippingRates[10]?.zone6);
+    setZone87(shipments?.data?.exportShippingRates[10]?.zone7);
+    setZone88(shipments?.data?.exportShippingRates[10]?.zone8);
+
+    setZone89(shipments?.data?.exportShippingRates[11]?.zone1);
+    setZone90(shipments?.data?.exportShippingRates[11]?.zone2);
+    setZone91(shipments?.data?.exportShippingRates[11]?.zone3);
+    setZone92(shipments?.data?.exportShippingRates[11]?.zone4);
+    setZone93(shipments?.data?.exportShippingRates[11]?.zone5);
+    setZone94(shipments?.data?.exportShippingRates[11]?.zone6);
+    setZone95(shipments?.data?.exportShippingRates[11]?.zone7);
+    setZone96(shipments?.data?.exportShippingRates[11]?.zone8);
+  }, [shipLoading])
 
   const updateExportShippingRates = {
     updates: [
@@ -377,22 +504,6 @@ const AllShipmentFees = () => {
     ],
   };
 
-
-  useEffect(() => {
-    setInsuranceCharge(3);
-    setPaymentMethodSurcharge(5);
-    setStorageCharge(4);
-    setVat(2);
-    setUsAbove4(0);
-    setUsBelow4(0);
-    setUkAbove4(0);
-    setUkBelow4(0);
-    setDubaiAbove(0)
-    setChinaAbove(0)
-    setChinaAboveCustomClearing(0);
-    setUkBelow4CustomClearing(0);
-    setDiscard(false);
-  }, [discard]);
   return (
     <Box p="24px 40px">
       <Box p="24px" borderRadius="20px" bgcolor="#fff" maxWidth="1300px">
@@ -427,7 +538,7 @@ const AllShipmentFees = () => {
                   <TableValue
                     minWidth="160px"
                     maxWidth="160px"
-                    value={`${storageCharge}`}
+                    value={storageCharge}
                     setValue={setStorageCharge}
                     percentage
                   />
@@ -467,7 +578,7 @@ const AllShipmentFees = () => {
                   <TableValue
                     minWidth="160px"
                     maxWidth="160px"
-                    value={`${insuranceCharge}`}
+                    value={insuranceCharge}
                     setValue={setInsuranceCharge}
                     percentage
                   />
@@ -509,7 +620,7 @@ const AllShipmentFees = () => {
                   <TableValue
                     minWidth="160px"
                     maxWidth="160px"
-                    value={`${paymentMethodSurcharge}`}
+                    value={paymentMethodSurcharge}
                     setValue={setPaymentMethodSurcharge}
                     percentage
                   />
@@ -549,7 +660,7 @@ const AllShipmentFees = () => {
                   <TableValue
                     minWidth="160px"
                     maxWidth="160px"
-                    value={`${vat}`}
+                    value={vat}
                     setValue={setVat}
                     percentage
                   />
