@@ -76,7 +76,7 @@ function OrderDetails() {
   const location = useLocation();
   const navigate = useNavigate();
   // const requestId = location.state?.requestId;
-    const { requestid } = useParams();
+  const { requestid } = useParams();
   // const order = location?.state?.order;
   const type = location?.state?.type;
   const theme = useTheme();
@@ -85,7 +85,7 @@ function OrderDetails() {
   const { data } = useCustomGetRequest(`/admin/get-request-by-id/${requestid}`);
 
   console.log(data);
-  
+
   const toggle = (i) => {
     setDrop((prevFaq) => (prevFaq === i ? null : i));
   };
@@ -175,37 +175,43 @@ function OrderDetails() {
   const shipmentMethods = ["Road", "Air", "Rail", "Sea"];
   const deliveryCompanies = ["DHL", "Gokada", "Glovo"];
 
-
   const [shipmentMethod, setShipmentMethod] = useState("");
   const [deliveryCompany, setDeliveryCompany] = useState("");
   const [discountValue, setDiscountValue] = useState(0);
-  const [warehouseCost, setWarehouseCost] = useState(0)
-  const { customPutRequest, loading, error, data: procurement, setError, success } = Requests()
+  const [warehouseCost, setWarehouseCost] = useState(0);
+  const {
+    customPutRequest,
+    loading,
+    error,
+    data: procurement,
+    setError,
+    success,
+  } = Requests();
 
-    const totalCost = () => {
-      let total = 0;
-      if (data?.serviceType === 'shopForMe')
-        data?.request?.requestItems?.map(
-          (x) => (total += x.qty * x.originalCost)
-        );
-      return total;
+  const totalCost = () => {
+    let total = 0;
+    if (data?.serviceType === "shopForMe")
+      data?.request?.requestItems?.map(
+        (x) => (total += x.qty * x.originalCost)
+      );
+    return total;
   };
-  
-    const [openError, setOpenError] = useState(false);
-    useEffect(() => {
-      if (error) {
-        setOpenError(true);
-      } else setOpenError(false);
-    }, [loading]);
 
-    const handleClose = (event, reason) => {
-      if (reason === "clickaway") {
-        return;
-      }
+  const [openError, setOpenError] = useState(false);
+  useEffect(() => {
+    if (error) {
+      setOpenError(true);
+    } else setOpenError(false);
+  }, [loading]);
 
-      setOpenError(false);
-      setError("");
-    };
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenError(false);
+    setError("");
+  };
 
   const approveRequestData = {
     requestStatus: data?.request?.requestStatus,
@@ -219,19 +225,23 @@ function OrderDetails() {
   console.log(approveRequestData);
 
   const approveOrder = async () => {
-    if (shipmentMethod && deliveryCompany && data?.serviceType && discountValue && totalCost() && warehouseCost)
-      {customPutRequest(
+    if (
+      shipmentMethod &&
+      deliveryCompany &&
+      data?.serviceType &&
+      totalCost() &&
+      warehouseCost
+    ) {
+      customPutRequest(
         `/admin/admin/update-request-status/${data?.request?._id}`,
         approveRequestData
-    );
-      if (success)
-        handleNext();
+      );
+      if (success) handleNext();
+    } else {
+      setOpenError(true);
+      setError("Please input all fields");
     }
-    else {
-      setOpenError(true)
-      setError('Please input all fields')
-        }
-  }
+  };
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -1396,7 +1406,12 @@ function OrderDetails() {
       <Snackbar
         open={openError}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
+        sx={{
+          "& .MuiSnackbarContent-root": {
+            borderRadius: "30px",
+            maxWidth: "300px",
+          },
+        }}
         autoHideDuration={6000}
         onClose={handleClose}
         message={error}

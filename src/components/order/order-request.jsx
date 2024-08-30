@@ -29,29 +29,29 @@ import moment from "moment";
 import CloseIcon from "../../assets/icons/CloseIcon";
 import NewCustomerIcon from "../../assets/icons/NewCustomerIcon";
 
- export const GetCustomerName = ({ id }) => {
-    const { data: customer, loading } = useCustomGetRequest(
-      `/admin/users/${id}` ?? ""
-    );
-    return (
-      <Typography color="#21005D">
-        {customer
-          ? `${customer?.user?.firstName} ${customer?.user?.lastName}`
-          : "N/A"}
-      </Typography>
-    );
-  };
+export const GetCustomerName = ({ id }) => {
+  const { data: customer, loading } = useCustomGetRequest(
+    `/admin/users/${id}` ?? ""
+  );
+  return (
+    <Typography color="#21005D">
+      {customer
+        ? `${customer?.user?.firstName} ${customer?.user?.lastName}`
+        : "N/A"}
+    </Typography>
+  );
+};
 
 function OrderRequestComp({ home = false, all = false }) {
   const location = useLocation();
-  const { userid } = useParams()
-  console.log(userid)
+  const { userid } = useParams();
+  console.log(userid);
   const { data, loading, setError, error } = useCustomGetRequest(
     all ? `/admin/all-pending-requests` : `/admin/user-orders/${userid}`
   );
   console.log(data);
   const [openError, setOpenError] = useState(false);
-  const [selectedRow, setSelectedRow] = useState(null)
+  const [selectedRow, setSelectedRow] = useState(null);
   useEffect(() => {
     if (error) {
       setOpenError(true);
@@ -72,7 +72,7 @@ function OrderRequestComp({ home = false, all = false }) {
   const handleOpenMenu = (e, id, row) => {
     setAnchorEl(e.currentTarget);
     setThisId(id);
-    setSelectedRow(row)
+    setSelectedRow(row);
   };
   const handleCloseMenu = () => {
     setAnchorEl(null);
@@ -131,9 +131,7 @@ function OrderRequestComp({ home = false, all = false }) {
       width: 105,
       renderCell: (params) => (
         <Typography
-          onClick={() =>
-            navigate(`/order-requests/${params.row._id}`)
-          }
+          onClick={() => navigate(`/order-requests/${params.row._id}`)}
           sx={{ cursor: "pointer" }}
           fontSize="14px"
           fontWeight={500}
@@ -326,7 +324,7 @@ function OrderRequestComp({ home = false, all = false }) {
       width: 70,
       sortable: false,
       renderCell: (params) => (
-        <Box position='relative'>
+        <Box position="relative">
           <IconButton
             sx={{
               bgcolor: open && thisId === params.row.id ? "#E8DEF8" : undefined,
@@ -353,7 +351,7 @@ function OrderRequestComp({ home = false, all = false }) {
                   borderRadius: "20px",
                   boxShadow: "0px 4px 10px 4px rgba(0, 0, 0, 0.1)",
                 },
-                left: {xs: "-100px", sm:"-150px"},
+                left: { xs: "-100px", sm: "-150px" },
               }}
             >
               <MenuItem
@@ -442,7 +440,6 @@ function OrderRequestComp({ home = false, all = false }) {
         .split(" ")
         .map((x, i) => x.charAt(0).toUpperCase() + x.slice(1).toLowerCase())
         .join(" "),
-      
     })
   );
 
@@ -968,7 +965,12 @@ function OrderRequestComp({ home = false, all = false }) {
       <Snackbar
         open={openError}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
+        sx={{
+          "& .MuiSnackbarContent-root": {
+            borderRadius: "30px",
+            maxWidth: "300px",
+          },
+        }}
         autoHideDuration={6000}
         onClose={handleClose}
         message={error}

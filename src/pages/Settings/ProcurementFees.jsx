@@ -1,55 +1,63 @@
-import { Backdrop, Box, Button, CircularProgress, IconButton, Snackbar, Typography } from '@mui/material'
-import React from 'react'
-import ArrowBack from '../../assets/icons/ArrowBack';
-import { useNavigate } from 'react-router-dom';
-import PaymentsTable from './components/PaymentsTable';
-import TableValue from './components/TableValue';
-import CloseCircle from '../../assets/icons/CloseCircle';
-import ArrowRightWhite from '../../assets/icons/ArrowRightWhite';
+import {
+  Backdrop,
+  Box,
+  Button,
+  CircularProgress,
+  IconButton,
+  Snackbar,
+  Typography,
+} from "@mui/material";
+import React from "react";
+import ArrowBack from "../../assets/icons/ArrowBack";
+import { useNavigate } from "react-router-dom";
+import PaymentsTable from "./components/PaymentsTable";
+import TableValue from "./components/TableValue";
+import CloseCircle from "../../assets/icons/CloseCircle";
+import ArrowRightWhite from "../../assets/icons/ArrowRightWhite";
 import Requests from "../../utils/hooks/api/requests";
 import CloseIcon from "../../assets/icons/CloseIcon";
-import { useState } from 'react';
-import { useEffect } from 'react';
-import useCustomGetRequest from '../../utils/hooks/api/useCustomGetRequest';
+import { useState } from "react";
+import { useEffect } from "react";
+import useCustomGetRequest from "../../utils/hooks/api/useCustomGetRequest";
 
 const ProcurementFees = () => {
   const { data: procurement, loading: procLoading } = useCustomGetRequest(
     "/settings/urgent-purchase-fee/processing-fee"
   );
-    const navigate = useNavigate()
-    const columns = ["Amount ($)", "Processing Fee ($)"];
-    const rows = [
-      "1 - 150",
-      "151 - 1000",
-      "1001 - 5000",
-      "5001 - 10000",
-      "10001 - 1M",
-    ];
-  const { customPutRequest, data, loading, error, setError } = Requests()
-  const [urgentPurchaseFee, setUrgentPurchaseFee] = useState(0)
-  const [range1, setRange1] = useState(0)
-  const [range2, setRange2] = useState(0)
-  const [range3, setRange3] = useState(0)
-  const [range4, setRange4] = useState(0)
-  const [range5, setRange5] = useState(0)
-   const [discard, setDiscard] = useState(false);
+  const navigate = useNavigate();
+  const columns = ["Amount ($)", "Processing Fee ($)"];
+  const rows = [
+    "1 - 150",
+    "151 - 1000",
+    "1001 - 5000",
+    "5001 - 10000",
+    "10001 - 1M",
+  ];
+  const { customPutRequest, data, loading, error, setError } = Requests();
+  const [urgentPurchaseFee, setUrgentPurchaseFee] = useState(0);
+  const [range1, setRange1] = useState(0);
+  const [range2, setRange2] = useState(0);
+  const [range3, setRange3] = useState(0);
+  const [range4, setRange4] = useState(0);
+  const [range5, setRange5] = useState(0);
+  const [discard, setDiscard] = useState(false);
   const [openError, setOpenError] = useState(false);
-  console.log(discard)
-   useEffect(() => {
-     if (error || data?.message) {
-       setOpenError(true);
-     } else setOpenError(false);
-   }, [loading]);
+  console.log(discard);
+  useEffect(() => {
+    if (error || data?.message) {
+      setOpenError(true);
+    } else setOpenError(false);
+  }, [loading]);
 
-   const handleClose = (event, reason) => {
-     if (reason === "clickaway") {
-       return;
-     }
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
 
-     setOpenError(false);
-     setError("");
-   };
-  
+    setOpenError(false);
+    setError("");
+  };
+
   const ProcurementFeesUpdateData = {
     updates: [
       {
@@ -74,7 +82,7 @@ const ProcurementFees = () => {
       },
     ],
   };
-  
+
   useEffect(() => {
     setUrgentPurchaseFee(procurement?.data?.urgentPurchaseFee);
     setRange1(procurement?.data?.procurementFees[0].processingFee);
@@ -351,7 +359,12 @@ const ProcurementFees = () => {
       <Snackbar
         open={openError}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
+        sx={{
+          "& .MuiSnackbarContent-root": {
+            borderRadius: "30px",
+            maxWidth: "300px",
+          },
+        }}
         autoHideDuration={6000}
         onClose={handleClose}
         message={error || data?.message}
@@ -366,6 +379,6 @@ const ProcurementFees = () => {
       </Backdrop>
     </Box>
   );
-}
+};
 
-export default ProcurementFees
+export default ProcurementFees;

@@ -19,7 +19,7 @@ const MainLayout = ({ children, title, showFullBar, setShowFullBar }) => {
         }}
       />
     );
-    const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     if (error || success) {
       setOpen(true);
@@ -49,7 +49,7 @@ const MainLayout = ({ children, title, showFullBar, setShowFullBar }) => {
           top={0}
           position="fixed"
           zIndex={9999}
-          sx={{transition: 'all .5s ease'}}
+          sx={{ transition: "all .5s ease" }}
         >
           <Sidebar showFullBar={showFullBar} setShowFullBar={setShowFullBar} />
         </Box>
@@ -79,7 +79,12 @@ const MainLayout = ({ children, title, showFullBar, setShowFullBar }) => {
       <Snackbar
         open={open}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
+        sx={{
+          "& .MuiSnackbarContent-root": {
+            borderRadius: "30px",
+            maxWidth: "300px",
+          },
+        }}
         autoHideDuration={6000}
         onClose={handleClose}
         message={success || error}

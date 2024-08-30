@@ -49,7 +49,7 @@ const CreateCustomer = () => {
     firstName: firstName,
     lastName: lastName,
     email: email,
-    password: 'PassWord123',
+    password: "PassWord123",
     contactAddress: [
       {
         country: country,
@@ -59,15 +59,14 @@ const CreateCustomer = () => {
         countryCode: countryCode,
         phoneNumber: phoneNumber,
         postalCode: postalCode,
-      }
-    ]
+      },
+    ],
   };
 
   const handleClose = () => {
-
     setOpenError(false);
     setError("");
-    setSuccess('');
+    setSuccess("");
   };
 
   console.log(data);
@@ -95,15 +94,15 @@ const CreateCustomer = () => {
       setUser(res.data.user);
       setError("");
       setLoading(false);
-      handleNext()
+      handleNext();
       setOpenError(true);
     } catch (e) {
       console.log(e);
       setError(e.response.data.message);
       setSuccess(null);
-      setUser(null)
+      setUser(null);
       setLoading(false);
-      setOpenError(true)
+      setOpenError(true);
     }
   };
 
@@ -340,7 +339,12 @@ const CreateCustomer = () => {
       <Snackbar
         open={openError}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
+        sx={{
+          "& .MuiSnackbarContent-root": {
+            borderRadius: "30px",
+            maxWidth: "300px",
+          },
+        }}
         autoHideDuration={6000}
         onClose={handleClose}
         message={error || success}
