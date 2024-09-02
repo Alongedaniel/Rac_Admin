@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 
 const TwoFactorAuth = () => {
   const [step, setStep] = useState(1);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [openError, setOpenError] = useState(false);
   const { loading, verifyOtp, isAuthenticated, message, error, setError } =
@@ -32,12 +32,9 @@ const TwoFactorAuth = () => {
       setOpenError(error.length > 0 ? true : false);
     }
 
-
     setTimeout(() => {
       setError("");
     }, 10000);
-
-    
   }, [loading]);
 
   useEffect(() => {
@@ -45,12 +42,10 @@ const TwoFactorAuth = () => {
     if (email) setEmail(JSON.parse(email));
   }, [otp]);
 
-
   const data = {
     email: email.toLowerCase(),
     otp: otp,
   };
-
 
   return (
     <Stack
@@ -184,7 +179,12 @@ const TwoFactorAuth = () => {
       <Snackbar
         open={openError}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
+        sx={{
+          "& .MuiSnackbarContent-root": {
+            borderRadius: "30px",
+            maxWidth: "300px",
+          },
+        }}
         autoHideDuration={6000}
         onClose={() => setOpenError(false)}
         message={error}

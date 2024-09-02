@@ -21,18 +21,12 @@ import CloseIcon from "../../assets/icons/CloseIcon";
 import useCustomGetRequest from "../../utils/hooks/api/useCustomGetRequest";
 
 const AllShipmentFees = () => {
-    const { data: shipments, loading: shipLoading } = useCustomGetRequest(
-      "/settings/general-charges"
-    );
-    console.log(shipments);
+  const { data: shipments, loading: shipLoading } = useCustomGetRequest(
+    "/settings/general-charges"
+  );
+  console.log(shipments);
   const navigate = useNavigate();
-  const {
-    error,
-    loading,
-    data,
-    setError,
-    customPutRequest,
-  } = Requests();
+  const { error, loading, data, setError, customPutRequest } = Requests();
   const [value, setValue] = useState("0.1");
   const [shipmentValue, setShipmentValue] = useState("2000");
   const [discard, setDiscard] = useState(false);
@@ -80,14 +74,14 @@ const AllShipmentFees = () => {
   const [insuranceCharge, setInsuranceCharge] = useState(0);
   const [paymentMethodSurcharge, setPaymentMethodSurcharge] = useState(0);
   const [vat, setVat] = useState(0);
-  const [usAbove4, setUsAbove4] = useState(0)
-  const [usBelow4, setUsBelow4] = useState(0)
-  const [ukAbove4, setUkAbove4] = useState(0)
-  const [ukBelow4, setUkBelow4] = useState(0)
-  const [ukBelow4CustomClearing, setUkBelow4CustomClearing] = useState(0)
-  const [dubaiAbove, setDubaiAbove] = useState(0)
-  const [chinaAbove, setChinaAbove] = useState(0)
-  const [chinaAboveCustomClearing, setChinaAboveCustomClearing] = useState(0)
+  const [usAbove4, setUsAbove4] = useState(0);
+  const [usBelow4, setUsBelow4] = useState(0);
+  const [ukAbove4, setUkAbove4] = useState(0);
+  const [ukBelow4, setUkBelow4] = useState(0);
+  const [ukBelow4CustomClearing, setUkBelow4CustomClearing] = useState(0);
+  const [dubaiAbove, setDubaiAbove] = useState(0);
+  const [chinaAbove, setChinaAbove] = useState(0);
+  const [chinaAboveCustomClearing, setChinaAboveCustomClearing] = useState(0);
   const [zone1, setZone1] = useState(0);
   const [zone2, setZone2] = useState(0);
   const [zone3, setZone3] = useState(0);
@@ -186,18 +180,25 @@ const AllShipmentFees = () => {
   const [zone96, setZone96] = useState(0);
 
   useEffect(() => {
-    setStorageCharge(shipments?.data?.generalCharges?.storageCharge)
+    setStorageCharge(shipments?.data?.generalCharges?.storageCharge);
     setInsuranceCharge(shipments?.data?.generalCharges?.insuranceCharge);
-    setPaymentMethodSurcharge(shipments?.data?.generalCharges?.paymentMethodSurcharge);
+    setPaymentMethodSurcharge(
+      shipments?.data?.generalCharges?.paymentMethodSurcharge
+    );
     setVat(shipments?.data?.generalCharges?.vat);
-    setUsBelow4(shipments?.data?.importShippingRates?.unitedStates[0]?.rate)
-    setUsAbove4(shipments?.data?.importShippingRates?.unitedStates[1]?.rate)
-    setUkBelow4(shipments?.data?.importShippingRates?.unitedKingdom[0]?.rate)
-    setUkAbove4(shipments?.data?.importShippingRates?.unitedKingdom[1]?.rate)
-    setUkBelow4CustomClearing(shipments?.data?.importShippingRates?.unitedKingdom[1]?.customClearingPortHandling)
-    setDubaiAbove(shipments?.data?.importShippingRates?.dubai[0]?.rate)
-    setChinaAbove(shipments?.data?.importShippingRates?.china[0]?.rate)
-    setChinaAboveCustomClearing(shipments?.data?.importShippingRates?.china[0]?.customClearingPortHandling)
+    setUsBelow4(shipments?.data?.importShippingRates?.unitedStates[0]?.rate);
+    setUsAbove4(shipments?.data?.importShippingRates?.unitedStates[1]?.rate);
+    setUkBelow4(shipments?.data?.importShippingRates?.unitedKingdom[0]?.rate);
+    setUkAbove4(shipments?.data?.importShippingRates?.unitedKingdom[1]?.rate);
+    setUkBelow4CustomClearing(
+      shipments?.data?.importShippingRates?.unitedKingdom[1]
+        ?.customClearingPortHandling
+    );
+    setDubaiAbove(shipments?.data?.importShippingRates?.dubai[0]?.rate);
+    setChinaAbove(shipments?.data?.importShippingRates?.china[0]?.rate);
+    setChinaAboveCustomClearing(
+      shipments?.data?.importShippingRates?.china[0]?.customClearingPortHandling
+    );
     setZone1(shipments?.data?.exportShippingRates[0]?.zone1);
     setZone2(shipments?.data?.exportShippingRates[0]?.zone2);
     setZone3(shipments?.data?.exportShippingRates[0]?.zone3);
@@ -305,7 +306,7 @@ const AllShipmentFees = () => {
     setZone94(shipments?.data?.exportShippingRates[11]?.zone6);
     setZone95(shipments?.data?.exportShippingRates[11]?.zone7);
     setZone96(shipments?.data?.exportShippingRates[11]?.zone8);
-  }, [shipLoading])
+  }, [shipLoading]);
 
   const updateExportShippingRates = {
     updates: [
@@ -492,7 +493,7 @@ const AllShipmentFees = () => {
       },
     ],
     dubai: {
-      weight: 'above 0.5',
+      weight: "above 0.5",
       rate: Number(dubaiAbove),
     },
     china: [
@@ -1774,7 +1775,12 @@ const AllShipmentFees = () => {
       <Snackbar
         open={openError}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
+        sx={{
+          "& .MuiSnackbarContent-root": {
+            borderRadius: "30px",
+            maxWidth: "300px",
+          },
+        }}
         autoHideDuration={6000}
         onClose={handleClose}
         message={error || data?.message}

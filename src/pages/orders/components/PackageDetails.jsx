@@ -6,8 +6,9 @@ import { Box } from '@mui/material';
 import ItemBox from './ItemBox';
 import ProductBox from './ProductBox';
 import CardWrapper from '../../../components/order/components/CardWrapper';
+import { toTitleCase } from '../order-details';
 
-const PackageDetails = ({ type = "", order, proceed = false, isRequest }) => {
+const PackageDetails = ({ type = "", order, proceed = false, isRequest = false }) => {
   return (
     <div className="">
       <div className="flex items-center space-x-[10px] ">
@@ -30,7 +31,8 @@ const PackageDetails = ({ type = "", order, proceed = false, isRequest }) => {
           style={{ width: "100%" }}
         >
           {(type === "request" || isRequest) &&
-            (order?.request?.service === "Auto Import" ? null : (
+            (toTitleCase(order?.request?.serviceType) ===
+            "Auto Import" ? null : (
               <div
                 style={{
                   marginTop: "30px",
@@ -137,6 +139,7 @@ const PackageDetails = ({ type = "", order, proceed = false, isRequest }) => {
         order?.request?.requestItems?.map((item, i) => (
           <ItemBox
             proceed={proceed}
+            isRequest={isRequest}
             order={order}
             item={item}
             type={type}

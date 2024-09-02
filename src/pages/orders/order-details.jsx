@@ -76,7 +76,7 @@ function OrderDetails() {
   const location = useLocation();
   const navigate = useNavigate();
   // const requestId = location.state?.requestId;
-    const { requestid } = useParams();
+  const { requestid } = useParams();
   // const order = location?.state?.order;
   const type = location?.state?.type;
   const theme = useTheme();
@@ -85,7 +85,7 @@ function OrderDetails() {
   const { data } = useCustomGetRequest(`/admin/get-request-by-id/${requestid}`);
 
   console.log(data);
-  
+
   const toggle = (i) => {
     setDrop((prevFaq) => (prevFaq === i ? null : i));
   };
@@ -175,37 +175,47 @@ function OrderDetails() {
   const shipmentMethods = ["Road", "Air", "Rail", "Sea"];
   const deliveryCompanies = ["DHL", "Gokada", "Glovo"];
 
-
   const [shipmentMethod, setShipmentMethod] = useState("");
   const [deliveryCompany, setDeliveryCompany] = useState("");
   const [discountValue, setDiscountValue] = useState(0);
-  const [warehouseCost, setWarehouseCost] = useState(0)
-  const { customPutRequest, loading, error, data: procurement, setError, success } = Requests()
+  const [warehouseCost, setWarehouseCost] = useState(0);
+  const {
+    customPutRequest,
+    loading,
+    error,
+    data: procurement,
+    setError,
+    success,
+  } = Requests();
 
-    const totalCost = () => {
-      let total = 0;
-      if (data?.serviceType === 'shopForMe')
-        data?.request?.requestItems?.map(
-          (x) => (total += x.qty * x.originalCost)
-        );
-      return total;
+  const totalCost = () => {
+    let total = 0;
+    if (data?.serviceType === "shopForMe")
+      data?.request?.requestItems?.map(
+        (x) => (total += x.qty * x.originalCost)
+      );
+    return total;
   };
-  
-    const [openError, setOpenError] = useState(false);
-    useEffect(() => {
-      if (error) {
-        setOpenError(true);
-      } else setOpenError(false);
-    }, [loading]);
 
-    const handleClose = (event, reason) => {
-      if (reason === "clickaway") {
-        return;
-      }
+  const customer =
+    data?.customerData?.firstName + ' ' + data?.customerData?.lastName
 
-      setOpenError(false);
-      setError("");
-    };
+  const [openError, setOpenError] = useState(false);
+  useEffect(() => {
+    if (error) {
+      setOpenError(true);
+    } else setOpenError(false);
+    if (success) handleNext();
+  }, [loading]);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenError(false);
+    setError("");
+  };
 
   const approveRequestData = {
     requestStatus: data?.request?.requestStatus,
@@ -219,19 +229,22 @@ function OrderDetails() {
   console.log(approveRequestData);
 
   const approveOrder = async () => {
-    if (shipmentMethod && deliveryCompany && data?.serviceType && discountValue && totalCost() && warehouseCost)
-      {customPutRequest(
+    if (
+      shipmentMethod &&
+      deliveryCompany &&
+      data?.serviceType &&
+      totalCost() &&
+      warehouseCost
+    ) {
+      customPutRequest(
         `/admin/admin/update-request-status/${data?.request?._id}`,
         approveRequestData
-    );
-      if (success)
-        handleNext();
+      );
+    } else {
+      setOpenError(true);
+      setError("Please input all fields");
     }
-    else {
-      setOpenError(true)
-      setError('Please input all fields')
-        }
-  }
+  };
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -305,7 +318,7 @@ function OrderDetails() {
                                 className="font-roboto text-[20px]"
                                 style={{ color: "#21005D", fontWeight: 400 }}
                               >
-                                {data?.request?.customer ?? "N/A"}
+                                {customer ?? "N/A"}
                               </p>
                             </div>
                           </div>
@@ -375,7 +388,7 @@ function OrderDetails() {
                             </p>
                           </div>
                           <div></div>
-                          {type === "request" ? null : (
+                          {type === "request" || requestid ? null : (
                             <>
                               <div>
                                 <p className="text-[14px] text-t/100 font-roboto">
@@ -497,6 +510,7 @@ function OrderDetails() {
                   data?.serviceType === "shopForMe" ? (
                     <PackageDetails
                       proceed={proceed}
+                      isRequest={Boolean(requestid)}
                       order={data}
                       type={type}
                     />
@@ -518,7 +532,6 @@ function OrderDetails() {
                       service={toTitleCase(data?.serviceType)}
                       requestItems={data?.request?.requestItems}
                       data={data?.request}
-                      procurement={procurement}
                       setDiscountValue={setDiscountValue}
                       discountValue={discountValue}
                       warehouseCost={warehouseCost}
@@ -747,15 +760,15 @@ function OrderDetails() {
                       />
                       <PackageDetails
                         order={data}
-                        isRequest={requestid}
+                        isRequest={Boolean(requestid)}
                         type={type}
                       />
                       {data?.serviceType === "shopForMe" ? (
                         <>
                           <BillingDetails
-                            order={data}
+                            order={data?.request}
                             type={type}
-                            totalCost={totalCost() - discountValue}
+                            totalCost={totalCost()}
                           />
                         </>
                       ) : null}
@@ -772,6 +785,7 @@ function OrderDetails() {
                       />
 
                       <PackageDetails
+                        isRequest={Boolean(requestid)}
                         order={data}
                         type={type}
                         toggle={toggle}
@@ -783,11 +797,7 @@ function OrderDetails() {
                         toggle={toggle}
                         drop={drop}
                       />
-                      <BillingDetails
-                        totalCost={totalCost()}
-                        order={data}
-                        type={type}
-                      />
+                      <BillingDetails totalCost={0} order={data} type={type} />
                     </Box>
                   ) : (
                     <Box width="100%">
@@ -813,8 +823,12 @@ function OrderDetails() {
                             </Typography>
                             <Typography fontSize="20px" color="#fff">
                               {saveAsDraft
-                                ? `You have just saved this ${data?.serviceType} request to draft. The customer will not be informed about this order until this request has been approved.`
-                                : `You have just successfully approved this ${data?.serviceType} order request`}
+                                ? `You have just saved this ${toTitleCase(
+                                    data?.serviceType
+                                  )} request to draft. The customer will not be informed about this order until this request has been approved.`
+                                : `You have just successfully approved this ${toTitleCase(
+                                    data?.serviceType
+                                  )} order request`}
                             </Typography>
                           </Box>
                         </Box>
@@ -1196,7 +1210,7 @@ function OrderDetails() {
                     )}
                     <PackageDetails
                       order={data}
-                      isRequest={requestid}
+                      isRequest={Boolean(requestid)}
                       type={type}
                       toggle={toggle}
                       drop={drop}
@@ -1396,7 +1410,12 @@ function OrderDetails() {
       <Snackbar
         open={openError}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
+        sx={{
+          "& .MuiSnackbarContent-root": {
+            borderRadius: "30px",
+            maxWidth: "300px",
+          },
+        }}
         autoHideDuration={6000}
         onClose={handleClose}
         message={error}

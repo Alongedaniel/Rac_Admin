@@ -28,30 +28,31 @@ import useCustomGetRequest from "../../utils/hooks/api/useCustomGetRequest";
 import moment from "moment";
 import CloseIcon from "../../assets/icons/CloseIcon";
 import NewCustomerIcon from "../../assets/icons/NewCustomerIcon";
+import { toTitleCase } from "../../pages/orders/order-details";
 
- export const GetCustomerName = ({ id }) => {
-    const { data: customer, loading } = useCustomGetRequest(
-      `/admin/users/${id}` ?? ""
-    );
-    return (
-      <Typography color="#21005D">
-        {customer
-          ? `${customer?.user?.firstName} ${customer?.user?.lastName}`
-          : "N/A"}
-      </Typography>
-    );
-  };
+export const GetCustomerName = ({ id }) => {
+  const { data: customer, loading } = useCustomGetRequest(
+    `/admin/users/${id}` ?? ""
+  );
+  return (
+    <Typography color="#21005D">
+      {customer
+        ? `${customer?.user?.firstName} ${customer?.user?.lastName}`
+        : "N/A"}
+    </Typography>
+  );
+};
 
 function OrderRequestComp({ home = false, all = false }) {
   const location = useLocation();
-  const { userid } = useParams()
-  console.log(userid)
+  const { userid } = useParams();
+  console.log(userid);
   const { data, loading, setError, error } = useCustomGetRequest(
-    all ? `/admin/all-pending-requests` : `/admin/user-orders/${userid}`
+    all ? `/cross-service/all-services` : `/admin/user-orders/${userid}`
   );
   console.log(data);
   const [openError, setOpenError] = useState(false);
-  const [selectedRow, setSelectedRow] = useState(null)
+  const [selectedRow, setSelectedRow] = useState(null);
   useEffect(() => {
     if (error) {
       setOpenError(true);
@@ -72,7 +73,7 @@ function OrderRequestComp({ home = false, all = false }) {
   const handleOpenMenu = (e, id, row) => {
     setAnchorEl(e.currentTarget);
     setThisId(id);
-    setSelectedRow(row)
+    setSelectedRow(row);
   };
   const handleCloseMenu = () => {
     setAnchorEl(null);
@@ -131,9 +132,7 @@ function OrderRequestComp({ home = false, all = false }) {
       width: 105,
       renderCell: (params) => (
         <Typography
-          onClick={() =>
-            navigate(`/order-requests/${params.row._id}`)
-          }
+          onClick={() => navigate(`/order-requests/${params.row._id}`)}
           sx={{ cursor: "pointer" }}
           fontSize="14px"
           fontWeight={500}
@@ -145,9 +144,13 @@ function OrderRequestComp({ home = false, all = false }) {
     },
     {
       flex: 1,
-      field: "service",
+      field: "serviceType",
       headerName: <HeaderName header="Service" />,
       width: 120,
+      renderCell: (params) =>(
+          <Typography>
+            {toTitleCase(params.row.serviceType)}
+          </Typography>)
     },
     {
       flex: 1,
@@ -326,7 +329,7 @@ function OrderRequestComp({ home = false, all = false }) {
       width: 70,
       sortable: false,
       renderCell: (params) => (
-        <Box position='relative'>
+        <Box position="relative">
           <IconButton
             sx={{
               bgcolor: open && thisId === params.row.id ? "#E8DEF8" : undefined,
@@ -353,7 +356,7 @@ function OrderRequestComp({ home = false, all = false }) {
                   borderRadius: "20px",
                   boxShadow: "0px 4px 10px 4px rgba(0, 0, 0, 0.1)",
                 },
-                left: {xs: "-100px", sm:"-150px"},
+                left: { xs: "-100px", sm: "-150px" },
               }}
             >
               <MenuItem
@@ -403,38 +406,38 @@ function OrderRequestComp({ home = false, all = false }) {
     // },
   ];
 
-  const exports = (
-    data?.data?.allExportRequests ??
-    data?.exportOrders ??
-    []
-  )?.map((request) => ({
-    ...request,
-    service: "Export",
-  }));
-  const imports = (
-    data?.data?.allImportRequests ??
-    data?.importOrders ??
-    []
-  )?.map((request) => ({
-    ...request,
-    service: "Import",
-  }));
-  const autoImports = (
-    data?.data?.allAutoImportRequests ??
-    data?.autoImportOrders ??
-    []
-  )?.map((request) => ({
-    ...request,
-    service: "Auto Import",
-  }));
-  const shopForMe = (data?.data?.allSfmRequests ?? data?.sfmOrders ?? [])?.map(
-    (request) => ({
-      ...request,
-      service: "Shop For Me",
-    })
-  );
+  // const exports = (
+  //   data?.data?.allExportRequests ??
+  //   data?.exportOrders ??
+  //   []
+  // )?.map((request) => ({
+  //   ...request,
+  //   service: "Export",
+  // }));
+  // const imports = (
+  //   data?.data?.allImportRequests ??
+  //   data?.importOrders ??
+  //   []
+  // )?.map((request) => ({
+  //   ...request,
+  //   service: "Import",
+  // }));
+  // const autoImports = (
+  //   data?.data?.allAutoImportRequests ??
+  //   data?.autoImportOrders ??
+  //   []
+  // )?.map((request) => ({
+  //   ...request,
+  //   service: "Auto Import",
+  // }));
+  // const shopForMe = (data?.data?.allSfmRequests ?? data?.sfmOrders ?? [])?.map(
+  //   (request) => ({
+  //     ...request,
+  //     service: "Shop For Me",
+  //   })
+  // );
 
-  const rows = [...imports, ...exports, ...autoImports, ...shopForMe].map(
+  const rows = data?.requests[0]?.allData?.map(
     (row) => ({
       ...row,
       id: row.requestId,
@@ -442,433 +445,10 @@ function OrderRequestComp({ home = false, all = false }) {
         .split(" ")
         .map((x, i) => x.charAt(0).toUpperCase() + x.slice(1).toLowerCase())
         .join(" "),
-      
     })
   );
 
-  // const rows = [
-  //   {
-  //     id: "R78607",
-  //     service: "Import",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Not Responded",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78617",
-  //     service: "Auto Import",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Responded",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78627",
-  //     service: "Shop For Me",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Declined",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78637",
-  //     service: "Export",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Not Responded",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78647",
-  //     service: "Import",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Responded",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78657",
-  //     service: "Auto Import",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Declined",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78667",
-  //     service: "Export",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Not Responded",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78677",
-  //     service: "Shop For Me",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Responded",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78687",
-  //     service: "Shop For Me",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Declined",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78697",
-  //     service: "Shop For Me",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Not Responded",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78608",
-  //     service: "Import",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Responded",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78618",
-  //     service: "Auto Import",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Declined",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78628",
-  //     service: "Export",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Responded",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78638",
-  //     service: "Shop For Me",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Not Responded",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78607",
-  //     service: "Import",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Not Responded",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78617",
-  //     service: "Auto Import",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Responded",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78627",
-  //     service: "Shop For Me",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Declined",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78637",
-  //     service: "Export",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Not Responded",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78647",
-  //     service: "Import",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Responded",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78657",
-  //     service: "Auto Import",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Declined",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78667",
-  //     service: "Export",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Not Responded",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78677",
-  //     service: "Shop For Me",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Responded",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78687",
-  //     service: "Shop For Me",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Declined",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78697",
-  //     service: "Shop For Me",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Not Responded",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78608",
-  //     service: "Import",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Responded",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78618",
-  //     service: "Auto Import",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Declined",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78628",
-  //     service: "Export",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Responded",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78638",
-  //     service: "Shop For Me",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Not Responded",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78607",
-  //     service: "Import",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Not Responded",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78617",
-  //     service: "Auto Import",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Responded",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78627",
-  //     service: "Shop For Me",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Declined",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78637",
-  //     service: "Export",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Not Responded",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78647",
-  //     service: "Import",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Responded",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78657",
-  //     service: "Auto Import",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Declined",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78667",
-  //     service: "Export",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Not Responded",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78677",
-  //     service: "Shop For Me",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Responded",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78687",
-  //     service: "Shop For Me",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Declined",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78697",
-  //     service: "Shop For Me",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Not Responded",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78608",
-  //     service: "Import",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Responded",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78618",
-  //     service: "Auto Import",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Declined",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78628",
-  //     service: "Export",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Responded",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-  //   {
-  //     id: "R78638",
-  //     service: "Shop For Me",
-  //     customer: "Rexo Offorex",
-  //     location: "Lagos, Nigeria",
-  //     status: "Not Responded",
-  //     date: "22-03-2023 13:05",
-  //     staff: "Micheal Sam obalodu",
-  //     actions: "actions",
-  //   },
-
-  // ];
+ 
   console.log(rows);
   return (
     <>
@@ -968,7 +548,12 @@ function OrderRequestComp({ home = false, all = false }) {
       <Snackbar
         open={openError}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
+        sx={{
+          "& .MuiSnackbarContent-root": {
+            borderRadius: "30px",
+            maxWidth: "300px",
+          },
+        }}
         autoHideDuration={6000}
         onClose={handleClose}
         message={error}
