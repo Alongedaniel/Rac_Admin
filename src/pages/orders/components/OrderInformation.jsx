@@ -20,6 +20,11 @@ import { toTitleCase } from "../order-details";
 const OrderInformation = ({ order, type, isRequest }) => {
   const navigate = useNavigate();
   const [editOrderInfo, setEditOrderInfo] = useState(false);
+    const customer =
+      order?.customerData?.firstName +
+      " " +
+      order?.customerData?.lastName;
+  console.log(order)
   return type === "request" || isRequest ? (
     <>
       <div className="flex items-center space-x-[10px] ">
@@ -58,7 +63,7 @@ const OrderInformation = ({ order, type, isRequest }) => {
                     className="font-roboto text-[20px]"
                     style={{ color: "#21005D", fontWeight: 400 }}
                   >
-                    {order?.request?.customer ?? "N/A"}
+                    {customer ?? "N/A"}
                   </p>
                 </div>
               </div>
@@ -101,7 +106,7 @@ const OrderInformation = ({ order, type, isRequest }) => {
                     }}
                   ></div>
                   {order?.request?.requestStatus}
-                  <Button
+                  {/* <Button
                     startIcon={<ShieldIcon />}
                     variant="outlined"
                     sx={{
@@ -115,7 +120,7 @@ const OrderInformation = ({ order, type, isRequest }) => {
                     onClick={() => navigate("/orders")}
                   >
                     Proceed with confirmation
-                  </Button>
+                  </Button> */}
                 </p>
               </div>
               {/* <div></div> */}

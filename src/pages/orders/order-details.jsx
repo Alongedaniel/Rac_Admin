@@ -197,11 +197,15 @@ function OrderDetails() {
     return total;
   };
 
+  const customer =
+    data?.customerData?.firstName + ' ' + data?.customerData?.lastName
+
   const [openError, setOpenError] = useState(false);
   useEffect(() => {
     if (error) {
       setOpenError(true);
     } else setOpenError(false);
+    if (success) handleNext();
   }, [loading]);
 
   const handleClose = (event, reason) => {
@@ -236,7 +240,6 @@ function OrderDetails() {
         `/admin/admin/update-request-status/${data?.request?._id}`,
         approveRequestData
       );
-      if (success) handleNext();
     } else {
       setOpenError(true);
       setError("Please input all fields");
@@ -315,7 +318,7 @@ function OrderDetails() {
                                 className="font-roboto text-[20px]"
                                 style={{ color: "#21005D", fontWeight: 400 }}
                               >
-                                {data?.request?.customer ?? "N/A"}
+                                {customer ?? "N/A"}
                               </p>
                             </div>
                           </div>
@@ -385,7 +388,7 @@ function OrderDetails() {
                             </p>
                           </div>
                           <div></div>
-                          {type === "request" ? null : (
+                          {type === "request" || requestid ? null : (
                             <>
                               <div>
                                 <p className="text-[14px] text-t/100 font-roboto">
@@ -507,6 +510,7 @@ function OrderDetails() {
                   data?.serviceType === "shopForMe" ? (
                     <PackageDetails
                       proceed={proceed}
+                      isRequest={Boolean(requestid)}
                       order={data}
                       type={type}
                     />
@@ -528,7 +532,6 @@ function OrderDetails() {
                       service={toTitleCase(data?.serviceType)}
                       requestItems={data?.request?.requestItems}
                       data={data?.request}
-                      procurement={procurement}
                       setDiscountValue={setDiscountValue}
                       discountValue={discountValue}
                       warehouseCost={warehouseCost}
@@ -757,15 +760,15 @@ function OrderDetails() {
                       />
                       <PackageDetails
                         order={data}
-                        isRequest={requestid}
+                        isRequest={Boolean(requestid)}
                         type={type}
                       />
                       {data?.serviceType === "shopForMe" ? (
                         <>
                           <BillingDetails
-                            order={data}
+                            order={data?.request}
                             type={type}
-                            totalCost={totalCost() - discountValue}
+                            totalCost={totalCost()}
                           />
                         </>
                       ) : null}
@@ -782,6 +785,7 @@ function OrderDetails() {
                       />
 
                       <PackageDetails
+                        isRequest={Boolean(requestid)}
                         order={data}
                         type={type}
                         toggle={toggle}
@@ -793,11 +797,7 @@ function OrderDetails() {
                         toggle={toggle}
                         drop={drop}
                       />
-                      <BillingDetails
-                        totalCost={totalCost()}
-                        order={data}
-                        type={type}
-                      />
+                      <BillingDetails totalCost={0} order={data} type={type} />
                     </Box>
                   ) : (
                     <Box width="100%">
@@ -823,8 +823,12 @@ function OrderDetails() {
                             </Typography>
                             <Typography fontSize="20px" color="#fff">
                               {saveAsDraft
-                                ? `You have just saved this ${data?.serviceType} request to draft. The customer will not be informed about this order until this request has been approved.`
-                                : `You have just successfully approved this ${data?.serviceType} order request`}
+                                ? `You have just saved this ${toTitleCase(
+                                    data?.serviceType
+                                  )} request to draft. The customer will not be informed about this order until this request has been approved.`
+                                : `You have just successfully approved this ${toTitleCase(
+                                    data?.serviceType
+                                  )} order request`}
                             </Typography>
                           </Box>
                         </Box>
@@ -1206,7 +1210,7 @@ function OrderDetails() {
                     )}
                     <PackageDetails
                       order={data}
-                      isRequest={requestid}
+                      isRequest={Boolean(requestid)}
                       type={type}
                       toggle={toggle}
                       drop={drop}

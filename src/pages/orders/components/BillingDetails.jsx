@@ -9,10 +9,16 @@ import BillingDetailsForm from '../../../components/order/components/BillingDeta
 import ArrowLeftPurple from '../../../assets/icons/ArrowLeftPurple';
 import ArrowRightWhite from '../../../assets/icons/ArrowRightWhite';
 import { toTitleCase } from '../order-details';
+import currencyFormatter from '../../../components/CurrencyFormatter';
 
 const BillingDetails = ({ order, type = "", proceed = false, isRequest, totalCost }) => {
   const [open, setOpen] = useState(false);
   const serviceType = toTitleCase(order?.serviceType)
+    const overallCost =
+      order?.totalProcessingFee +
+      order?.totalUrgentPurchaseCost +
+      order?.orderVat +
+      totalCost;
   return (
     <>
       {(type === "request" || isRequest) &&
@@ -142,7 +148,8 @@ const BillingDetails = ({ order, type = "", proceed = false, isRequest, totalCos
                             Total Procurement Cost:
                           </p>
                           <p className="font-roboto  text-[20px] text-brand/100">
-                            ${totalCost ?? "234,000.00"}
+                            {currencyFormatter.format(overallCost) ??
+                              "$234,000.00"}
                           </p>
                         </div>
                         <div className="">
@@ -174,9 +181,7 @@ const BillingDetails = ({ order, type = "", proceed = false, isRequest, totalCos
                         Payment Status:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        {serviceType === "Shop For Me"
-                          ? "---"
-                          : "Processing"}
+                        {serviceType === "Shop For Me" ? "---" : "Processing"}
                       </p>
                     </div>
                   </div>

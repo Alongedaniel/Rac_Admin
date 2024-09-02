@@ -25,9 +25,9 @@ const Requests = () => {
         try {
             const res = await axiosInstance.put(url, data);
             // console.log(res.message);
+            setSuccess(true);
             setData(res.data);
           setError("");
-          setSuccess(true);
             setLoading(false);
         } catch (e) {
             setError(e?.response?.data?.message);
