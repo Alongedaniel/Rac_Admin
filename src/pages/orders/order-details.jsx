@@ -545,7 +545,8 @@ function OrderDetails() {
                       requestItems={data?.request?.requestItems}
                       data={data?.request}
                       setDiscountValue={setDiscountValue}
-                      discountValue={discountValue}
+                              discountValue={discountValue}
+                              
                       warehouseCost={warehouseCost}
                       setWarehouseCost={setWarehouseCost}
                     />
