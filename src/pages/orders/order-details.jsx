@@ -180,8 +180,8 @@ function OrderDetails() {
   const [discountValue, setDiscountValue] = useState(0);
   const [warehouseCost, setWarehouseCost] = useState(0);
   const [productName, setProductName] = useState("");
-    const [originalCost, setOriginalCost] = useState("");
-    const [productDescription, setProductDescription] = useState("");
+  const [originalCost, setOriginalCost] = useState("");
+  const [productDescription, setProductDescription] = useState("");
   const {
     customPutRequest,
     loading,
@@ -201,7 +201,7 @@ function OrderDetails() {
   };
 
   const customer =
-    data?.customerData?.firstName + ' ' + data?.customerData?.lastName
+    data?.customerData?.firstName + " " + data?.customerData?.lastName;
 
   const [openError, setOpenError] = useState(false);
   useEffect(() => {
@@ -545,8 +545,7 @@ function OrderDetails() {
                       requestItems={data?.request?.requestItems}
                       data={data?.request}
                       setDiscountValue={setDiscountValue}
-                              discountValue={discountValue}
-                              
+                      discountValue={discountValue}
                       warehouseCost={warehouseCost}
                       setWarehouseCost={setWarehouseCost}
                     />
