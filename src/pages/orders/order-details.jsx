@@ -179,6 +179,9 @@ function OrderDetails() {
   const [deliveryCompany, setDeliveryCompany] = useState("");
   const [discountValue, setDiscountValue] = useState(0);
   const [warehouseCost, setWarehouseCost] = useState(0);
+  const [productName, setProductName] = useState("");
+    const [originalCost, setOriginalCost] = useState("");
+    const [productDescription, setProductDescription] = useState("");
   const {
     customPutRequest,
     loading,
@@ -515,7 +518,16 @@ function OrderDetails() {
                       type={type}
                     />
                   ) : (
-                    <PackageDetailsForm />
+                    <PackageDetailsForm
+                      order={data}
+                      service={toTitleCase(data?.serviceType)}
+                      setProductName={setProductName}
+                      productName={productName}
+                      setOriginalCost={setOriginalCost}
+                      originalCost={originalCost}
+                      productDescription={productDescription}
+                      setProductDescription={setProductDescription}
+                    />
                   )
                 ) : activeStep === 2 ? (
                   data?.serviceType === "Auto Import" ? (
