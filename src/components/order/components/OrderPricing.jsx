@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CircleRight from "../../../assets/icons/CircleRight";
 import {
   Box,
@@ -49,9 +49,23 @@ const OrderPricing = ({
     return total;
   };
   const overallCost =
-    data?.totalProcessingFee + data?.totalUrgentPurchaseCost + data?.orderVat + totalShopForMeCost();
+    data?.totalProcessingFee +
+    data?.totalUrgentPurchaseCost +
+    data?.orderVat +
+    (Number(warehouseCost) || 0) +
+    totalShopForMeCost();
   
-  console.log(typeof data?.totalProcessingFee);
+  useEffect(() => {
+    if (warehouseCost.length === 0 || warehouseCost < 0) {
+      setWarehouseCost(0)
+    }
+    // if (warehouseCost.length > 1) {
+    //   const cost = warehouseCost.slice(2, warehouseCost.length);
+    //   setWarehouseCost(cost);
+    // }
+  }, [warehouseCost])
+  
+  console.log(typeof warehouseCost, warehouseCost);
   const [checked, setChecked] = useState(false);
   const calcDiscount = () => {
     let newValue;
@@ -854,7 +868,7 @@ const OrderPricing = ({
                 // type="number"
                 type="number"
                 value={warehouseCost}
-                onChange={(e) => setWarehouseCost(parseInt(e.target.value, 10))}
+                onChange={(e) => setWarehouseCost(e.target.value)}
                 label="Total Shipping to Origin Warehouse cost"
                 InputProps={{
                   startAdornment: <DollarIcon />,
