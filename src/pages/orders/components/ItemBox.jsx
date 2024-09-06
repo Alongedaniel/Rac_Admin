@@ -10,9 +10,17 @@ import ArrowRightWhite from '../../../assets/icons/ArrowRightWhite';
 import { toTitleCase } from '../order-details';
 import currencyFormatter from '../../../components/CurrencyFormatter';
 
-const ItemBox = ({ order, type = '', proceed = false, item, itemNumber, isRequest }) => {
+const ItemBox = ({
+  order,
+  type = "",
+  proceed = false,
+  item,
+  itemNumber,
+  isRequest,
+  activeStep,
+}) => {
   const [open, setOpen] = useState(false);
-  const service = toTitleCase(order?.serviceType)
+  const service = toTitleCase(order?.serviceType);
   // console.log(order)
 
   return (
@@ -78,7 +86,7 @@ const ItemBox = ({ order, type = '', proceed = false, item, itemNumber, isReques
                     Item Cost from Store:
                   </p>
                   <p className="font-roboto  text-[20px] text-brand/100">
-                   { currencyFormatter.format(item?.originalCost ?? 0)}
+                    {currencyFormatter.format(item?.originalCost ?? 0)}
                   </p>
                 </div>
               ) : (
@@ -132,7 +140,11 @@ const ItemBox = ({ order, type = '', proceed = false, item, itemNumber, isReques
                     <img
                       src={item?.itemImage ?? ""}
                       alt="product"
-                      style={{ width: "100%", height: "100%", objectFit: 'cover' }}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
                     />
                   </div>
                 </p>
@@ -150,7 +162,9 @@ const ItemBox = ({ order, type = '', proceed = false, item, itemNumber, isReques
                   Additional Description:
                 </p>
                 <p className="font-roboto  text-[20px] text-brand/100">
-                  {service === 'Shop For Me' ? item?.additionalDescription : item?.itemDescription ?? "N/A"}
+                  {service === "Shop For Me"
+                    ? item?.additionalDescription
+                    : item?.itemDescription ?? "N/A"}
                 </p>
               </div>
               {service === "Shop For Me" ? null : (
@@ -164,7 +178,7 @@ const ItemBox = ({ order, type = '', proceed = false, item, itemNumber, isReques
                 </div>
               )}
             </div>
-            <div className="grid grid-cols-4 mt-[10px] gap-[20px]">
+            {/* <div className="grid grid-cols-4 mt-[10px] gap-[20px]">
               <div className="">
                 <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                   Color:
@@ -183,7 +197,7 @@ const ItemBox = ({ order, type = '', proceed = false, item, itemNumber, isReques
               </div>
               <div className=""></div>
               <div className=""></div>
-            </div>
+            </div> */}
           </>
         ) : (
           <>
@@ -279,7 +293,7 @@ const ItemBox = ({ order, type = '', proceed = false, item, itemNumber, isReques
           </>
         )}
       </CardWrapper>
-      {(type === "request" || isRequest) && !proceed ? null : (
+      {!activeStep && !proceed ? null : (
         <Box onClick={() => setOpen(true)}>
           <EditIcon />
         </Box>
@@ -324,6 +338,6 @@ const ItemBox = ({ order, type = '', proceed = false, item, itemNumber, isReques
       </UserModals>
     </Box>
   );
-}
+};
 
 export default ItemBox

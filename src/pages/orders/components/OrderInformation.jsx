@@ -16,15 +16,13 @@ import EyeIconRed from "../../../assets/icons/EyeIconRed";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { toTitleCase } from "../order-details";
+import { getStatusBgColor } from "../../../components/order/order-request";
 
-const OrderInformation = ({ order, type, isRequest }) => {
+const OrderInformation = ({ order, type, isRequest, activeStep, deliveryCompany, shipmentMethod }) => {
   const navigate = useNavigate();
   const [editOrderInfo, setEditOrderInfo] = useState(false);
-    const customer =
-      order?.customerData?.firstName +
-      " " +
-      order?.customerData?.lastName;
-  console.log(order)
+  const customer =
+    order?.customerData?.firstName + " " + order?.customerData?.lastName;
   return type === "request" || isRequest ? (
     <>
       <div className="flex items-center space-x-[10px] ">
@@ -74,39 +72,48 @@ const OrderInformation = ({ order, type, isRequest }) => {
                 </p>
                 <p className="font-roboto  text-[20px]">Shipment</p>
               </div>
-              <div className="col-span-2">
-                <p className="text-[14px] text-t/100 font-roboto">
-                  {type === "request" || isRequest
-                    ? "Request Status:"
-                    : "Order Status:"}
-                </p>
-                <p
-                  style={{
-                    display: type === "request" || isRequest ? "none" : "block",
-                  }}
-                  className="font-roboto  text-[20px]"
-                >
-                  {order?.request?.requestStatus}
-                </p>
-                <p
-                  style={{
-                    display: type === "request" || isRequest ? "flex" : "none",
-                    gap: "5px",
-                    alignItems: "center",
-                  }}
-                  className="font-roboto  text-[20px] text-brand/200"
-                >
-                  <div
+              {(type === "request" || isRequest) && activeStep !== 3 ? (
+                <div className="col-span-2">
+                  <p className="text-[14px] text-t/100 font-roboto">
+                    {type === "request" || isRequest
+                      ? "Request Status:"
+                      : "Order Status:"}
+                  </p>
+                  <p
                     style={{
-                      width: "12px",
-                      height: "12px",
-                      backgroundColor: "#fff",
-                      borderRadius: "100%",
-                      border: "1px solid #B3261E",
+                      display:
+                        type === "request" || isRequest ? "none" : "block",
                     }}
-                  ></div>
-                  {order?.request?.requestStatus}
-                  {/* <Button
+                    className="font-roboto  text-[20px]"
+                  >
+                    {order?.request?.requestStatus}
+                  </p>
+                  <p
+                    style={{
+                      display:
+                        type === "request" || isRequest ? "flex" : "none",
+                      gap: "5px",
+                      alignItems: "center",
+                      borderRadius: "10px",
+                      width: "fit-content",
+                      padding: "5px 10px",
+                      ...getStatusBgColor(
+                        toTitleCase(order?.request?.requestStatus)
+                      ),
+                    }}
+                    className="font-roboto  text-[20px] text-brand/200"
+                  >
+                    <div
+                      style={{
+                        width: "12px",
+                        height: "12px",
+                        backgroundColor: "#fff",
+                        borderRadius: "100%",
+                        border: "1px solid #B3261E",
+                      }}
+                    ></div>
+                    {order?.request?.requestStatus}
+                    {/* <Button
                     startIcon={<ShieldIcon />}
                     variant="outlined"
                     sx={{
@@ -121,8 +128,9 @@ const OrderInformation = ({ order, type, isRequest }) => {
                   >
                     Proceed with confirmation
                   </Button> */}
-                </p>
-              </div>
+                  </p>
+                </div>
+              ) : null}
               {/* <div></div> */}
               <div>
                 <p className="text-[14px] text-t/100 font-roboto">Service:</p>
@@ -130,45 +138,53 @@ const OrderInformation = ({ order, type, isRequest }) => {
                   {toTitleCase(order?.serviceType)}
                 </p>
               </div>
-              {type === "request" || isRequest ? null : (
+              {(type === "request" || isRequest) && activeStep !== 3 ? null : (
+                <div></div>
+              )}
+              {(type === "request" || isRequest) && activeStep !== 3 ? null : (
                 <>
                   <div>
                     <p className="text-[14px] text-t/100 font-roboto">
                       Shipment Method:
                     </p>
                     <p className="font-roboto  text-[20px]">
-                      {order?.request?.shipmentMethod ?? "N/A"}
+                      {shipmentMethod ?? "N/A"}
                     </p>
                   </div>
+                  <div></div>
                   <div>
                     <p className="text-[14px] text-t/100 font-roboto">
                       Delivery Company:
                     </p>
                     <p className="font-roboto  text-[20px]">
-                      {order?.request?.deliveryCompany ?? "N/A"}
+                      {deliveryCompany ?? "N/A"}
                     </p>
                   </div>
                 </>
               )}
-              <div>
-                <p className="text-[14px] text-t/100 font-roboto">
-                  Order Date:
-                </p>
-                <p className="font-roboto  text-[20px]">
-                  {moment(order?.request?.createdAt).format("DD-MM-YYYY")}
-                </p>
-              </div>
-              <div>
-                <p className="text-[14px] text-t/100 font-roboto">
-                  Order Time:
-                </p>
-                <p className="font-roboto  text-[20px]">
-                  {moment(order?.request?.createdAt).format("HH:mm")}
-                </p>
-              </div>
+              {(type === "request" || isRequest) && activeStep !== 3 ? (
+                <>
+                  <div>
+                    <p className="text-[14px] text-t/100 font-roboto">
+                      Order Request Date:
+                    </p>
+                    <p className="font-roboto  text-[20px]">
+                      {moment(order?.request?.createdAt).format("DD-MM-YYYY")}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-[14px] text-t/100 font-roboto">
+                      Order Request Time:
+                    </p>
+                    <p className="font-roboto  text-[20px]">
+                      {moment(order?.request?.createdAt).format("HH:mm")}
+                    </p>
+                  </div>
+                </>
+              ) : null}
             </div>
           </CardWrapper>
-          {type === "request" || isRequest ? null : (
+          {(type === "request" || isRequest) && activeStep !== 3 ? null : (
             <Box onClick={() => setEditOrderInfo(true)}>
               <EditIcon />
             </Box>

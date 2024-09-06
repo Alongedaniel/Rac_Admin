@@ -43,6 +43,31 @@ export const GetCustomerName = ({ id }) => {
   );
 };
 
+export const getStatusBgColor = (status) => {
+  switch (status) {
+    case "Responded":
+      return {
+        backgroundColor: "#DF5000",
+        borderColor: "transparent",
+        color: "#fff",
+      }; // yellow
+    case "Not Responded":
+      return {
+        backgroundColor: "#CAC4D0",
+        borderColor: "transparent",
+        color: "#49454F",
+      };
+    case "Declined":
+      return {
+        backgroundColor: "#FFFFFF",
+        border: "1px solid #DF5000",
+        color: "#DF5000",
+      };
+    default:
+      return null;
+  }
+};
+
 function OrderRequestComp({ home = false, all = false }) {
   const location = useLocation();
   const { userid } = useParams();
@@ -98,30 +123,6 @@ function OrderRequestComp({ home = false, all = false }) {
       </Typography>
     );
   };
-  const getStatusBgColor = (status) => {
-    switch (status) {
-      case "Responded":
-        return {
-          bgcolor: "#DF5000",
-          borderColor: "transparent",
-          color: "#fff",
-        }; // yellow
-      case "Not Responded":
-        return {
-          bgcolor: "#CAC4D0",
-          borderColor: "transparent",
-          color: "#49454F",
-        };
-      case "Declined":
-        return {
-          bgcolor: "#FFFFFF",
-          border: "1px solid #DF5000",
-          color: "#DF5000",
-        };
-      default:
-        return null;
-    }
-  };
 
   const navigate = useNavigate();
   const columns = [
@@ -133,10 +134,12 @@ function OrderRequestComp({ home = false, all = false }) {
       renderCell: (params) => (
         <Typography
           onClick={() => navigate(`/order-requests/${params.row._id}`)}
-          sx={{ cursor: "pointer" }}
+          sx={{ cursor: "pointer", display: 'flex', alignItems: 'center' }}
           fontSize="14px"
           fontWeight={500}
           color="#000"
+          width={"100%"}
+          height={"100%"}
         >
           {params.row.id}
         </Typography>
@@ -147,17 +150,16 @@ function OrderRequestComp({ home = false, all = false }) {
       field: "serviceType",
       headerName: <HeaderName header="Service" />,
       width: 120,
-      renderCell: (params) =>(
-          <Typography>
-            {toTitleCase(params.row.serviceType)}
-          </Typography>)
+      renderCell: (params) => (
+        <Typography>{toTitleCase(params.row.serviceType)}</Typography>
+      ),
     },
     {
       flex: 1,
       field: "customer",
       headerName: <HeaderName header="Customer" />,
       // type: "number",
-      width: 150,
+      width: 190,
       renderCell: (params) => (
         <Typography
           fontSize="14px"
@@ -210,6 +212,7 @@ function OrderRequestComp({ home = false, all = false }) {
       sortable: false,
       renderCell: (params) => (
         <Typography
+          onClick={() => navigate(`/order-requests/${params.row._id}`)}
           fontSize="14px"
           fontWeight={500}
           // textTransform="capitalize"
@@ -217,7 +220,8 @@ function OrderRequestComp({ home = false, all = false }) {
           p="5px 10px"
           sx={{
             borderRadius: "10px",
-            width: "120px",
+      width: "120px",
+            cursor: 'pointer',
             ...getStatusBgColor(params.row.requestStatus),
           }}
         >
@@ -437,18 +441,15 @@ function OrderRequestComp({ home = false, all = false }) {
   //   })
   // );
 
-  const rows = data?.requests[0]?.allData?.map(
-    (row) => ({
-      ...row,
-      id: row.requestId,
-      requestStatus: row.requestStatus
-        .split(" ")
-        .map((x, i) => x.charAt(0).toUpperCase() + x.slice(1).toLowerCase())
-        .join(" "),
-    })
-  );
+  const rows = data?.requests[0]?.allData?.map((row) => ({
+    ...row,
+    id: row.requestId,
+    requestStatus: row.requestStatus
+      .split(" ")
+      .map((x, i) => x.charAt(0).toUpperCase() + x.slice(1).toLowerCase())
+      .join(" "),
+  }));
 
- 
   console.log(rows);
   return (
     <>
@@ -551,7 +552,7 @@ function OrderRequestComp({ home = false, all = false }) {
         sx={{
           "& .MuiSnackbarContent-root": {
             borderRadius: "30px",
-            maxWidth: "300px",
+            width: "fit-content",
           },
         }}
         autoHideDuration={6000}
