@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CircleRight from "../../../assets/icons/CircleRight";
 import {
   Box,
@@ -23,6 +23,8 @@ import car from "../../../assets/images/car.png";
 import laptop from "../../../assets/images/laptop.png";
 import XCloseIcon from "../../../assets/icons/XCloseIcon";
 import AddIcon from "../../../assets/icons/AddIcon";
+import currencyFormatter from "../../CurrencyFormatter";
+import nairaCurrencyFormatter from "../../NairaCurrencyFormatter";
 
 const OrderPricing = ({
   shippingCost = "",
@@ -35,39 +37,57 @@ const OrderPricing = ({
   shopForMe = false,
   requestItems = [],
   data = {},
-  procurement,
   warehouseCost,
   setWarehouseCost,
   discountValue,
   setDiscountValue,
+  required,
 }) => {
   const [discountType, setDiscoutType] = useState("");
   const totalShopForMeCost = () => {
     let total = 0;
-    requestItems.map((x) => (total += (x.qty * x.originalCost)));
+    requestItems.map((x) => (total += x.qty * x.originalCost));
     return total;
   };
   const overallCost =
-    procurement?.totalProcessingFee ||
-    0 + procurement?.totalUrgentPurchaseCost ||
-    0 + procurement?.orderVat ||
-    0 + procurement?.orderPaymentMethodSurcharge ||
-    0 + totalShopForMeCost();
+    data?.totalProcessingFee +
+    data?.totalUrgentPurchaseCost +
+    data?.orderVat +
+    (Number(warehouseCost) || 0) +
+    totalShopForMeCost();
+  
+  
+
+  useEffect(() => {
+    if (warehouseCost.length === 0 || Number(warehouseCost) < 0) {
+      setWarehouseCost(0);
+    }
+    
+    if (warehouseCost.length > 1 && warehouseCost[0] === '0') {
+      const formatCost = setTimeout(() => {
+       const cost = warehouseCost.slice(1, warehouseCost.length);
+       setWarehouseCost(cost);
+      }, 100)
+      return () => clearTimeout(formatCost);
+    }
+
+  }, [warehouseCost]);
+
+  console.log(typeof warehouseCost, warehouseCost);
   const [checked, setChecked] = useState(false);
+
+  console.log(checked)
   const calcDiscount = () => {
-    let newValue
+    let newValue;
     if (discountValue > 0)
-      if(discountType === "Percentage")
-        newValue = overallCost - ((overallCost * discountValue) / 100);
-      else
-        if (discountValue < overallCost)
-          newValue = overallCost - discountValue
-        else
-          newValue = 0
-    else
-      newValue = overallCost  
-    return newValue
-  }
+      if (discountType === "Percentage")
+        newValue = overallCost - (overallCost * discountValue) / 100;
+      else if (discountValue < overallCost)
+        newValue = overallCost - discountValue;
+      else newValue = 0;
+    else newValue = overallCost;
+    return newValue;
+  };
   // const shopForMeItems = [
   //   {
   //     image: laptop,
@@ -191,6 +211,8 @@ const OrderPricing = ({
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
   };
+
+  let totalItems = 0;
 
   const theme = useTheme();
   return (
@@ -432,14 +454,20 @@ const OrderPricing = ({
                   <img
                     src={item.itemImage}
                     alt="car"
-                    style={{ width: "61px", height: "54px" }}
+                    style={{
+                      width: "61px",
+                      height: "54px",
+                      objectFit: "cover",
+                    }}
                   />
                   <Typography
                     fontSize={"14px"}
                     fontWeight={600}
                     color="#1D192B"
                   >
-                    {item.itemName}
+                    {item.itemName.length > 20
+                      ? item?.itemName?.slice(0, 20) + "..."
+                      : item?.itemName}
                   </Typography>
                 </Grid>
                 <Grid
@@ -461,7 +489,9 @@ const OrderPricing = ({
                         fontWeight: 500,
                       }}
                     >
-                      {item.itemUrl}
+                      {item.itemUrl.length > 20
+                        ? item?.itemUrl?.slice(0, 20) + "..."
+                        : item?.itemUrl}
                     </a>
                   </Typography>
                 </Grid>
@@ -514,7 +544,7 @@ const OrderPricing = ({
                   }}
                 >
                   <Typography fontSize={"14px"} fontWeight={600}>
-                    {(item.qty * item.originalCost).toFixed()}
+                    {currencyFormatter.format(item.qty * item.originalCost)}
                   </Typography>
                 </Grid>
               </Grid>
@@ -535,14 +565,20 @@ const OrderPricing = ({
                   <img
                     src={item.image}
                     alt="car"
-                    style={{ width: "61px", height: "54px" }}
+                    style={{
+                      width: "61px",
+                      height: "54px",
+                      objectFit: "cover",
+                    }}
                   />
                   <Typography
                     fontSize={"14px"}
                     fontWeight={600}
                     color="#1D192B"
                   >
-                    {item.itemName}
+                    {item.itemName.length > 20
+                      ? item?.itemName?.slice(0, 20) + "..."
+                      : item?.itemName}
                   </Typography>
                 </Grid>
                 <Grid
@@ -601,14 +637,20 @@ const OrderPricing = ({
                   <img
                     src={item.image}
                     alt="car"
-                    style={{ width: "61px", height: "54px" }}
+                    style={{
+                      width: "61px",
+                      height: "54px",
+                      objectFit: "cover",
+                    }}
                   />
                   <Typography
                     fontSize={"14px"}
                     fontWeight={600}
                     color="#1D192B"
                   >
-                    {item.itemName}
+                    {item.itemName.length > 20
+                      ? item?.itemName?.slice(0, 20) + "..."
+                      : item?.itemName}
                   </Typography>
                 </Grid>
                 <Grid
@@ -647,7 +689,7 @@ const OrderPricing = ({
                   }}
                 >
                   <Typography fontSize={"14px"} fontWeight={600}>
-                    {item.totalItemValue}
+                    {item.totalItemValue * item.quantity}
                   </Typography>
                 </Grid>
               </Grid>
@@ -707,7 +749,7 @@ const OrderPricing = ({
                 </Typography>
                 <Typography fontSize={"20px"} color="#1C1B1F">
                   {service === "Shop For Me"
-                    ? requestItems.length
+                    ? requestItems?.map((x) => (x.qty += totalItems))
                     : items.length}
                 </Typography>
               </Grid>
@@ -716,7 +758,7 @@ const OrderPricing = ({
                   Total Gross Weight:
                 </Typography>
                 <Typography fontSize={"20px"} color="#1C1B1F">
-                  30lbs
+                  N/A
                 </Typography>
               </Grid>
               {/* <Grid item xs={3}></Grid> */}
@@ -734,9 +776,8 @@ const OrderPricing = ({
                   Total Declared Value:
                 </Typography>
                 <Typography fontSize={"20px"} color="#1C1B1F">
-                  $
                   {service === "Shop For Me"
-                    ? `${totalShopForMeCost()}`
+                    ? currencyFormatter.format(Number(totalShopForMeCost()))
                     : "345.00"}
                 </Typography>
               </Grid>
@@ -784,8 +825,9 @@ const OrderPricing = ({
                     Total Item(s) Cost from Store(s):
                   </Typography>
                   <Typography fontSize={"20px"} color="#1C1B1F">
-                    $
-                    {service === "Shop For Me" ? totalShopForMeCost() : "23.00"}
+                    {service === "Shop For Me"
+                      ? currencyFormatter.format(Number(totalShopForMeCost()))
+                      : "23.00"}
                   </Typography>
                 </Grid>
                 <Grid item xs={4}>
@@ -793,7 +835,7 @@ const OrderPricing = ({
                     Total Processing Fee:
                   </Typography>
                   <Typography fontSize={"20px"} color="#1C1B1F">
-                    ${data?.totalProcessingFee.toFixed(1)}
+                    {currencyFormatter.format(Number(data?.totalProcessingFee))}
                   </Typography>
                 </Grid>
                 <Grid item xs={4}>
@@ -801,7 +843,9 @@ const OrderPricing = ({
                     Total Urgent Purchase Fee:
                   </Typography>
                   <Typography fontSize={"20px"} color="#1C1B1F">
-                    ${data?.totalUrgentPurchaseCost}
+                    {currencyFormatter.format(
+                      Number(data?.totalUrgentPurchaseCost)
+                    )}
                   </Typography>
                 </Grid>
               </Grid>
@@ -811,7 +855,9 @@ const OrderPricing = ({
                     Payment Method Surcharge:
                   </Typography>
                   <Typography fontSize={"20px"} color="#1C1B1F">
-                    ${procurement?.orderPaymentMethodSurcharge ?? 0}
+                    {currencyFormatter.format(
+                      Number(data?.orderPaymentMethodSurcharge ?? 0)
+                    )}
                   </Typography>
                 </Grid>
                 <Grid item xs={4}>
@@ -819,7 +865,7 @@ const OrderPricing = ({
                     VAT:
                   </Typography>
                   <Typography fontSize={"20px"} color="#1C1B1F">
-                    ${data?.orderVat}
+                    {currencyFormatter.format(Number(data?.orderVat))}
                   </Typography>
                 </Grid>
                 <Grid item xs={4}></Grid>
@@ -827,12 +873,27 @@ const OrderPricing = ({
               <TextField
                 fullWidth
                 required
-                sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                sx={{
+                  fontSize: "16px",
+                  color: "#1C1B1F",
+                  "& .MuiInputLabel-root": {
+                    color: required && !warehouseCost ? "#B3261E" : "#1C1B1F",
+                  },
+                  "& .MuiInputLabel-root.Mui-focused": {
+                    color: required && !warehouseCost ? "#B3261E" : "#79747E",
+                  },
+                  "& .MuiOutlinedInput-root": {
+                    "&.Mui-focused fieldset": {
+                      borderColor:
+                        required && !warehouseCost ? "#B3261E" : "#79747E", // Border color when focused
+                    },
+                  },
+                }}
                 id="warehouse-cost"
                 // type="number"
-                type="number"
+                type="text"
                 value={warehouseCost}
-                onChange={(e) => setWarehouseCost(parseInt(e.target.value, 10))}
+                onChange={(e) => setWarehouseCost(e.target.value)}
                 label="Total Shipping to Origin Warehouse cost"
                 InputProps={{
                   startAdornment: <DollarIcon />,
@@ -1149,8 +1210,8 @@ const OrderPricing = ({
                   <p className="text-[20px]">Discounts</p>
                   <Switch
                     checked={checked || discountValue.length}
-                    onChange={(e) => {
-                      setChecked(e.target.checked);
+                    onClick={() => {
+                      setChecked(true);
                       if (checked) {
                         setDiscoutType("");
                         setDiscountValue(0);
@@ -1244,7 +1305,12 @@ const OrderPricing = ({
                       }
                       // placeholder="Select origin"
                       InputProps={{
-                        startAdornment: discountType === 'Percentage' ? <PercentageIcon /> : <DollarIcon />,
+                        startAdornment:
+                          discountType === "Percentage" ? (
+                            <PercentageIcon />
+                          ) : (
+                            <DollarIcon />
+                          ),
                         sx: {
                           // maxWidth: "540px",
                           borderRadius: "20px", // Apply border radius to the input element
@@ -1267,18 +1333,22 @@ const OrderPricing = ({
                 borderRadius="20px"
               >
                 <Typography fontSize={"16px"} color="#fff" fontWeight={500}>
-                  Total Shipment Cost
+                  {service === "Shop For Me"
+                    ? "Total Procurement Cost"
+                    : "Total Shipment Cost"}
                 </Typography>
                 <Box mt="30px">
                   {" "}
                   <Typography fontSize={"20px"} color="#fff" fontWeight={400}>
-                    ${service === "Shop For Me" ? calcDiscount() : "126.00"}
+                    {service === "Shop For Me"
+                      ? currencyFormatter.format(Number(calcDiscount()))
+                      : "126.00"}
                   </Typography>
                   <Typography fontSize={"14px"} color="#EADDFF">
                     The Naira Equivalent that will be charged if paid now is
                     <Typography display="inline" fontWeight={500}>
                       {" "}
-                      ₦{(calcDiscount() * 1650).toFixed()}
+                      {nairaCurrencyFormatter.format(calcDiscount() * 1650)}
                     </Typography>
                   </Typography>
                 </Box>

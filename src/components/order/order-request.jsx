@@ -28,30 +28,56 @@ import useCustomGetRequest from "../../utils/hooks/api/useCustomGetRequest";
 import moment from "moment";
 import CloseIcon from "../../assets/icons/CloseIcon";
 import NewCustomerIcon from "../../assets/icons/NewCustomerIcon";
+import { toTitleCase } from "../../pages/orders/order-details";
 
- export const GetCustomerName = ({ id }) => {
-    const { data: customer, loading } = useCustomGetRequest(
-      `/admin/users/${id}` ?? ""
-    );
-    return (
-      <Typography color="#21005D">
-        {customer
-          ? `${customer?.user?.firstName} ${customer?.user?.lastName}`
-          : "N/A"}
-      </Typography>
-    );
-  };
+export const GetCustomerName = ({ id }) => {
+  const { data: customer, loading } = useCustomGetRequest(
+    `/admin/users/${id}` ?? ""
+  );
+  return (
+    <Typography color="#21005D">
+      {customer
+        ? `${customer?.user?.firstName} ${customer?.user?.lastName}`
+        : "N/A"}
+    </Typography>
+  );
+};
+
+export const getStatusBgColor = (status) => {
+  switch (status) {
+    case "Responded":
+      return {
+        backgroundColor: "#DF5000",
+        borderColor: "transparent",
+        color: "#fff",
+      }; // yellow
+    case "Not Responded":
+      return {
+        backgroundColor: "#CAC4D0",
+        borderColor: "transparent",
+        color: "#49454F",
+      };
+    case "Declined":
+      return {
+        backgroundColor: "#FFFFFF",
+        border: "1px solid #DF5000",
+        color: "#DF5000",
+      };
+    default:
+      return null;
+  }
+};
 
 function OrderRequestComp({ home = false, all = false }) {
   const location = useLocation();
-  const { userid } = useParams()
-  console.log(userid)
+  const { userid } = useParams();
+  console.log(userid);
   const { data, loading, setError, error } = useCustomGetRequest(
-    all ? `/admin/all-pending-requests` : `/admin/user-orders/${userid}`
+    all ? `/cross-service/all-services` : `/admin/user-orders/${userid}`
   );
   console.log(data);
   const [openError, setOpenError] = useState(false);
-  const [selectedRow, setSelectedRow] = useState(null)
+  const [selectedRow, setSelectedRow] = useState(null);
   useEffect(() => {
     if (error) {
       setOpenError(true);
@@ -72,7 +98,7 @@ function OrderRequestComp({ home = false, all = false }) {
   const handleOpenMenu = (e, id, row) => {
     setAnchorEl(e.currentTarget);
     setThisId(id);
-    setSelectedRow(row)
+    setSelectedRow(row);
   };
   const handleCloseMenu = () => {
     setAnchorEl(null);
@@ -97,30 +123,6 @@ function OrderRequestComp({ home = false, all = false }) {
       </Typography>
     );
   };
-  const getStatusBgColor = (status) => {
-    switch (status) {
-      case "Responded":
-        return {
-          bgcolor: "#DF5000",
-          borderColor: "transparent",
-          color: "#fff",
-        }; // yellow
-      case "Not Responded":
-        return {
-          bgcolor: "#CAC4D0",
-          borderColor: "transparent",
-          color: "#49454F",
-        };
-      case "Declined":
-        return {
-          bgcolor: "#FFFFFF",
-          border: "1px solid #DF5000",
-          color: "#DF5000",
-        };
-      default:
-        return null;
-    }
-  };
 
   const navigate = useNavigate();
   const columns = [
@@ -131,9 +133,7 @@ function OrderRequestComp({ home = false, all = false }) {
       width: 105,
       renderCell: (params) => (
         <Typography
-          onClick={() =>
-            navigate(`/order-requests/${params.row._id}`)
-          }
+          onClick={() => navigate(`/order-requests/${params.row._id}`)}
           sx={{ cursor: "pointer" }}
           fontSize="14px"
           fontWeight={500}
@@ -145,9 +145,12 @@ function OrderRequestComp({ home = false, all = false }) {
     },
     {
       flex: 1,
-      field: "service",
+      field: "serviceType",
       headerName: <HeaderName header="Service" />,
       width: 120,
+      renderCell: (params) => (
+        <Typography>{toTitleCase(params.row.serviceType)}</Typography>
+      ),
     },
     {
       flex: 1,
@@ -326,7 +329,7 @@ function OrderRequestComp({ home = false, all = false }) {
       width: 70,
       sortable: false,
       renderCell: (params) => (
-        <Box position='relative'>
+        <Box position="relative">
           <IconButton
             sx={{
               bgcolor: open && thisId === params.row.id ? "#E8DEF8" : undefined,
@@ -353,7 +356,7 @@ function OrderRequestComp({ home = false, all = false }) {
                   borderRadius: "20px",
                   boxShadow: "0px 4px 10px 4px rgba(0, 0, 0, 0.1)",
                 },
-                left: {xs: "-100px", sm:"-150px"},
+                left: { xs: "-100px", sm: "-150px" },
               }}
             >
               <MenuItem
@@ -403,48 +406,45 @@ function OrderRequestComp({ home = false, all = false }) {
     // },
   ];
 
-  const exports = (
-    data?.data?.allExportRequests ??
-    data?.exportOrders ??
-    []
-  )?.map((request) => ({
-    ...request,
-    service: "Export",
-  }));
-  const imports = (
-    data?.data?.allImportRequests ??
-    data?.importOrders ??
-    []
-  )?.map((request) => ({
-    ...request,
-    service: "Import",
-  }));
-  const autoImports = (
-    data?.data?.allAutoImportRequests ??
-    data?.autoImportOrders ??
-    []
-  )?.map((request) => ({
-    ...request,
-    service: "Auto Import",
-  }));
-  const shopForMe = (data?.data?.allSfmRequests ?? data?.sfmOrders ?? [])?.map(
-    (request) => ({
-      ...request,
-      service: "Shop For Me",
-    })
-  );
+  // const exports = (
+  //   data?.data?.allExportRequests ??
+  //   data?.exportOrders ??
+  //   []
+  // )?.map((request) => ({
+  //   ...request,
+  //   service: "Export",
+  // }));
+  // const imports = (
+  //   data?.data?.allImportRequests ??
+  //   data?.importOrders ??
+  //   []
+  // )?.map((request) => ({
+  //   ...request,
+  //   service: "Import",
+  // }));
+  // const autoImports = (
+  //   data?.data?.allAutoImportRequests ??
+  //   data?.autoImportOrders ??
+  //   []
+  // )?.map((request) => ({
+  //   ...request,
+  //   service: "Auto Import",
+  // }));
+  // const shopForMe = (data?.data?.allSfmRequests ?? data?.sfmOrders ?? [])?.map(
+  //   (request) => ({
+  //     ...request,
+  //     service: "Shop For Me",
+  //   })
+  // );
 
-  const rows = [...imports, ...exports, ...autoImports, ...shopForMe].map(
-    (row) => ({
-      ...row,
-      id: row.requestId,
-      requestStatus: row.requestStatus
-        .split(" ")
-        .map((x, i) => x.charAt(0).toUpperCase() + x.slice(1).toLowerCase())
-        .join(" "),
-      
-    })
-  );
+  const rows = data?.requests[0]?.allData?.map((row) => ({
+    ...row,
+    id: row.requestId,
+    requestStatus: row.requestStatus
+      .split(" ")
+      .map((x, i) => x.charAt(0).toUpperCase() + x.slice(1).toLowerCase())
+      .join(" "),
+  }));
 
   console.log(rows);
   return (
@@ -545,7 +545,12 @@ function OrderRequestComp({ home = false, all = false }) {
       <Snackbar
         open={openError}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
+        sx={{
+          "& .MuiSnackbarContent-root": {
+            borderRadius: "30px",
+            width: "fit-content",
+          },
+        }}
         autoHideDuration={6000}
         onClose={handleClose}
         message={error}

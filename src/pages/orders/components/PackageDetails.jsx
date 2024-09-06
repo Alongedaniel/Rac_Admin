@@ -6,8 +6,15 @@ import { Box } from '@mui/material';
 import ItemBox from './ItemBox';
 import ProductBox from './ProductBox';
 import CardWrapper from '../../../components/order/components/CardWrapper';
+import { toTitleCase } from '../order-details';
 
-const PackageDetails = ({ type = "", order, proceed = false, isRequest }) => {
+const PackageDetails = ({
+  type = "",
+  order,
+  proceed = false,
+  isRequest = false,
+  activeStep,
+}) => {
   return (
     <div className="">
       <div className="flex items-center space-x-[10px] ">
@@ -29,30 +36,29 @@ const PackageDetails = ({ type = "", order, proceed = false, isRequest }) => {
           title="Package Origin/Shipment location"
           style={{ width: "100%" }}
         >
-          {(type === "request" || isRequest) &&
-            (order?.request?.service === "Auto Import" ? null : (
-              <div
+          {(type === "request" || isRequest) && activeStep === 3 ? null : (
+            <div
+              style={{
+                marginTop: "30px",
+                width: "100%",
+                backgroundColor: "#F2B8B5",
+                padding: "10px 14px",
+                borderRadius: "20px",
+              }}
+            >
+              <p
                 style={{
-                  marginTop: "30px",
-                  width: "100%",
-                  backgroundColor: "#F2B8B5",
-                  padding: "10px",
-                  borderRadius: "100px",
+                  fontSize: "14px",
+                  fontWeight: 500,
+                  color: "#49454F",
                 }}
               >
-                <p
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: 500,
-                    color: "#49454F",
-                  }}
-                >
-                  {order?.request?.service === "Shop For Me"
-                    ? "This is the RAC Facility where the items will be delivered after they are purchased and they will be shipped from here to our pickup office in Nigeria"
-                    : "This is the RAC Facility the customer claimed to have dropped the package off at"}
-                </p>
-              </div>
-            ))}
+                {toTitleCase(order?.request?.serviceType) === "Shop For Me"
+                  ? "This is the RAC Facility where the items will be delivered after they are purchased and they will be shipped from here to our pickup office in Nigeria"
+                  : "This is the RAC Facility the customer claimed to have dropped the package off at"}
+              </p>
+            </div>
+          )}
           {type === "request" || isRequest ? (
             <div className="grid grid-cols-2 mt-[20px]">
               <div className="">
@@ -129,14 +135,20 @@ const PackageDetails = ({ type = "", order, proceed = false, isRequest }) => {
             </>
           )}
         </CardWrapper>
-        {(type === "request" || isRequest) && !proceed ? null : <EditIcon />}
+        {(type === "request" || isRequest) &&
+        !proceed &&
+        activeStep !== 3 ? null : (
+          <EditIcon />
+        )}
       </Box>
       {order?.service === "Auto Import" ? (
         <ProductBox proceed={proceed} order={order} type={type} />
       ) : (
         order?.request?.requestItems?.map((item, i) => (
           <ItemBox
+            activeStep={activeStep}
             proceed={proceed}
+            isRequest={isRequest}
             order={order}
             item={item}
             type={type}

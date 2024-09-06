@@ -6,7 +6,7 @@ import { CheckmarkIcon } from "react-hot-toast";
 import CheckIcon from "../../../assets/icons/CheckIcon";
 import TickCircle from "../../../assets/icons/TickCircle";
 
-const TableValue = ({value, setValue, percentage=false, dollar=false, weight=false, ...props}) => {
+const TableValue = ({value, setValue, percentage=false, dollar=false, weight=false, loading, ...props}) => {
   const [edit, setEdit] = useState(false);
   const [hover, setHover] = useState(false);
   const onHover = () => {
@@ -17,7 +17,7 @@ const TableValue = ({value, setValue, percentage=false, dollar=false, weight=fal
   };
   return (
     <>
-      {!value ? (
+      {loading ? (
         <Box
           height="56px"
           width="100%"
@@ -60,9 +60,6 @@ const TableValue = ({value, setValue, percentage=false, dollar=false, weight=fal
               </Typography>
             ) : null}
             {edit ? (
-              !value ? (
-                <CircularProgress />
-              ) : (
                 <TextField
                   variant="standard"
                   autoFocus={edit}
@@ -79,12 +76,12 @@ const TableValue = ({value, setValue, percentage=false, dollar=false, weight=fal
                       border: "none", // Remove border
                     },
                   }}
+                  type='number'
                   InputProps={{ disableUnderline: true }}
                   fullWidth
                   value={value}
                   onChange={(e) => setValue(e.target.value)}
                 />
-              )
             ) : (
               <Typography
                 fontSize="16px"
@@ -94,7 +91,7 @@ const TableValue = ({value, setValue, percentage=false, dollar=false, weight=fal
                 flex={1}
               >
                 {dollar && "$"}
-                {value}
+                {value ?? 0}
                 {percentage && "%"}
               </Typography>
             )}

@@ -1,895 +1,900 @@
-import { Box, Button, Menu, MenuItem, Paper, Snackbar, TextField, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import ActionButton from '../../components/ActionButton';
-import SearchIcon from '../../assets/icons/SearchIcon';
-import BulkIcon from '../../assets/icons/BulkIcon';
-import NewOrderIcon from '../../assets/icons/NewOrderIcon';
-import FilterIcons from '../../assets/icons/FilterIcons';
-import OrderTable from '../../components/OrderTable';
-import laptop from '../../assets/images/laptop.png'
-import { useLocation, useNavigate } from 'react-router-dom';
-import UserTag from '../../assets/icons/UserTag';
-import MoreIcon from '../../assets/icons/MoreIcon';
-import CheckMoreIcon from '../../assets/icons/CheckMoreIcon';
-import CloseSquare from '../../assets/icons/CloseSquare';
-import ProcessIcon from '../../assets/icons/ProcessIcon';
-import CheckIcon from '../../assets/icons/CheckIcon';
-import NewShipmentIcon from '../../assets/icons/NewShipmentIcon';
-import TrackShipmentIcon from '../../assets/icons/TrackShipmentIcon';
-import PackageDetailsInfo from '../../components/order/components/PackageDetailsInfo';
-import UserModals from '../Users/components/UserModals';
-import useCustomGetRequest from '../../utils/hooks/api/useCustomGetRequest';
-import CloseIcon from '../../assets/icons/CloseIcon';
-import { GetCustomerName } from '../../components/order/order-request';
-import moment from 'moment';
+import {
+  Box,
+  Button,
+  Menu,
+  MenuItem,
+  Paper,
+  Snackbar,
+  TextField,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
+import ActionButton from "../../components/ActionButton";
+import SearchIcon from "../../assets/icons/SearchIcon";
+import BulkIcon from "../../assets/icons/BulkIcon";
+import NewOrderIcon from "../../assets/icons/NewOrderIcon";
+import FilterIcons from "../../assets/icons/FilterIcons";
+import OrderTable from "../../components/OrderTable";
+import laptop from "../../assets/images/laptop.png";
+import { useLocation, useNavigate } from "react-router-dom";
+import UserTag from "../../assets/icons/UserTag";
+import MoreIcon from "../../assets/icons/MoreIcon";
+import CheckMoreIcon from "../../assets/icons/CheckMoreIcon";
+import CloseSquare from "../../assets/icons/CloseSquare";
+import ProcessIcon from "../../assets/icons/ProcessIcon";
+import CheckIcon from "../../assets/icons/CheckIcon";
+import NewShipmentIcon from "../../assets/icons/NewShipmentIcon";
+import TrackShipmentIcon from "../../assets/icons/TrackShipmentIcon";
+import PackageDetailsInfo from "../../components/order/components/PackageDetailsInfo";
+import UserModals from "../Users/components/UserModals";
+import useCustomGetRequest from "../../utils/hooks/api/useCustomGetRequest";
+import CloseIcon from "../../assets/icons/CloseIcon";
+import { GetCustomerName } from "../../components/order/order-request";
+import moment from "moment";
 
-const ShipmentHistory = ({all=false}) => {
-    const [anchorEl, setAnchorEl] = useState(null);
-    const [service, setService] = useState('');
+const ShipmentHistory = ({ all = false }) => {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [service, setService] = useState("");
   const [packageDetails, setPackageDetails] = useState(false);
   const theme = useTheme();
   const location = useLocation();
-  const userId = location?.state?.id
+  const userId = location?.state?.id;
   const { data, loading, setError, error } = useCustomGetRequest(
     all ? `/admin/manage-all-shipment` : `/admin/get-shipments/${userId}`
   );
-  console.log(data)
-      const [openError, setOpenError] = useState(false);
-      useEffect(() => {
-        if (error) {
-          setOpenError(true);
-        } else setOpenError(false);
-      }, [loading]);
+  console.log(data);
+  const [openError, setOpenError] = useState(false);
+  useEffect(() => {
+    if (error) {
+      setOpenError(true);
+    } else setOpenError(false);
+  }, [loading]);
 
-      const handleClose = (event, reason) => {
-        if (reason === "clickaway") {
-          return;
-        }
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
 
-        setOpenError(false);
-        setError("");
-      };
-    const desktop = useMediaQuery(theme.breakpoints.up("xl"));
-    const open = Boolean(anchorEl);
-    const handleOpenMenu = (e) => {
-      setAnchorEl(e.currentTarget);
-    };
-    const handleCloseMenu = () => {
-      setAnchorEl(null);
-    };
-    const HeaderName = ({ header }) => {
-      return (
-        <Typography fontSize="14px" fontWeight={500} color="#000">
-          {header}
-        </Typography>
-      );
-    };
-    const Tip = ({ text1 = "", text2 = "", text3 = "" }) => {
-      return (
+    setOpenError(false);
+    setError("");
+  };
+  const desktop = useMediaQuery(theme.breakpoints.up("xl"));
+  const open = Boolean(anchorEl);
+  const handleOpenMenu = (e) => {
+    setAnchorEl(e.currentTarget);
+  };
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+  const HeaderName = ({ header }) => {
+    return (
+      <Typography fontSize="14px" fontWeight={500} color="#000">
+        {header}
+      </Typography>
+    );
+  };
+  const Tip = ({ text1 = "", text2 = "", text3 = "" }) => {
+    return (
+      <Typography fontSize="12px" fontWeight={500} color="#F4EFF4">
+        {text1}
         <Typography fontSize="12px" fontWeight={500} color="#F4EFF4">
-          {text1}
-          <Typography fontSize="12px" fontWeight={500} color="#F4EFF4">
-            {text2}
-          </Typography>{" "}
-          <Typography fontSize="12px" fontWeight={500} color="#F4EFF4">
-            {text3}
-          </Typography>
+          {text2}
+        </Typography>{" "}
+        <Typography fontSize="12px" fontWeight={500} color="#F4EFF4">
+          {text3}
         </Typography>
-      );
-    };
-    const getPackagingBgColor = (packaging) => {
-      switch (packaging) {
-        case "Packaging In Progress":
-          return "#B3261E";
-        case "Packaging Completed":
-          return "#21005D";
-        default:
-          return null;
-      }
-    };
-    const getStatusBgColor = (status) => {
-      switch (status) {
-        case "Cancelled":
-          return "#B3261E"; // yellow
-        case "In Transit":
-          return "#6750A4";
-        case "Arrived Destination":
-          return "#21005D";
-        case "Cleared":
-          return "#21005D";
-        case "Delivered":
-          return "#21005D";
-        case "Processing":
-          return "#79747E";
-        case "Not Started":
-          return "#CAC4D0";
-        default:
-          return null;
-      }
-    };
-    const navigate = useNavigate();
-    const columns = [
-      {
-        field: "image",
-        flex: desktop ? 1 : undefined,
-        headerName: <HeaderName header="Package(s) Image" />,
-        width: 170,
-        sortable: false,
-        renderCell: (params) => (
-          <img
-            onClick={() => {
-              setPackageDetails(true);
-              setService(params.row.service);
-            }}
-            src={
-              params.row.requestItems[0].carImage ??
-              params.row.requestItems[0].itemImage
-            }
-            alt=""
-            style={{ width: "110px", height: "50px", cursor: "pointer" }}
-          />
-        ),
-      },
-      {
-        field: "id",
-        headerName: <HeaderName header="Shipment ID" />,
-        width: 170,
-        flex: desktop ? 1 : undefined,
-        renderCell: (params) => (
-          <Typography
-            onClick={() =>
-              navigate(`shipping-id_${params.row.trackingId}`, {
-                state: {
-                  order: params.row,
-                },
-              })
-            }
-            sx={{ cursor: "pointer" }}
-            fontSize="14px"
-            fontWeight={500}
-            color="#000"
-          >
-            {params.row.trackingId}
-          </Typography>
-        ),
-      },
-      {
-        flex: desktop ? 1 : undefined,
-        field: "customer",
-        headerName: <HeaderName header="Customer" />,
-        // type: "number",
-        width: 170,
-        renderCell: (params) => (
-          <Typography
-            fontSize="14px"
-            fontWeight={500}
-            color="#21005D"
-            sx={{ display: "flex", alignItems: "center", gap: "5px" }}
-          >
-            {<GetCustomerName id={params.row.user} /> && <UserTag />}
-            <GetCustomerName id={params.row.user} />
-          </Typography>
-        ),
-      },
-      {
-        flex: desktop ? 1 : undefined,
-        field: "service",
-        headerName: <HeaderName header="Service" />,
-        width: 150,
-      },
-      //   {
-      //     field: "shipId",
-      //     headerName: <HeaderName header="Shipment ID" />,
-      //     width: 115,
-      //   },
-      {
-        flex: desktop ? 1 : undefined,
-        field: "shippingMethod",
-        sortable: false,
-        headerName: <HeaderName header="Shipping Method" />,
-        width: 150,
-        renderCell: (params) => (
-          <Typography
-            sx={{ cursor: "pointer" }}
-            fontSize="14px"
-            fontWeight={500}
-            color="#000"
-          >
-            {params.row.shippingMethod ?? "N/A"}
-          </Typography>
-        ),
-      },
-      {
-        flex: desktop ? 1 : undefined,
-        field: "shipmentMethod",
-        sortable: false,
-        headerName: <HeaderName header="Shipment Method" />,
-        width: 150,
-        renderCell: (params) => (
-          <Typography
-            sx={{ cursor: "pointer" }}
-            fontSize="14px"
-            fontWeight={500}
-            color="#000"
-          >
-            {params.row.shipmentMethod ?? "N/A"}
-          </Typography>
-        ),
-      },
-      {
-        flex: desktop ? 1 : undefined,
-        field: "status",
-        headerName: <HeaderName header="Status" />,
-        // type: "number",
-        width: 170,
-        sortable: false,
-        renderCell: (params) => (
-          <Typography
-            fontSize="14px"
-            fontWeight={500}
-            width="100%"
-            color="#000"
-            sx={{
-              bgcolor: getStatusBgColor(params.row.orderStatus),
-              p: "5px 10px",
-              borderRadius: "10px",
-            }}
-          >
-            {params.row.orderStatus ?? params.row.requestStatus}
-          </Typography>
-        ),
-      },
-      {
-        flex: desktop ? 1 : undefined,
-        field: "origin",
-        sortable: false,
-        headerName: <HeaderName header="Origin" />,
-        width: 150,
-      },
+      </Typography>
+    );
+  };
+  const getPackagingBgColor = (packaging) => {
+    switch (packaging) {
+      case "Packaging In Progress":
+        return "#B3261E";
+      case "Packaging Completed":
+        return "#21005D";
+      default:
+        return null;
+    }
+  };
+  const getStatusBgColor = (status) => {
+    switch (status) {
+      case "Cancelled":
+        return "#B3261E"; // yellow
+      case "In Transit":
+        return "#6750A4";
+      case "Arrived Destination":
+        return "#21005D";
+      case "Cleared":
+        return "#21005D";
+      case "Delivered":
+        return "#21005D";
+      case "Processing":
+        return "#79747E";
+      case "Not Started":
+        return "#CAC4D0";
+      default:
+        return null;
+    }
+  };
+  const navigate = useNavigate();
+  const columns = [
+    {
+      field: "image",
+      flex: desktop ? 1 : undefined,
+      headerName: <HeaderName header="Package(s) Image" />,
+      width: 170,
+      sortable: false,
+      renderCell: (params) => (
+        <img
+          onClick={() => {
+            setPackageDetails(true);
+            setService(params.row.service);
+          }}
+          src={
+            params.row.requestItems[0].carImage ??
+            params.row.requestItems[0].itemImage
+          }
+          alt=""
+          style={{ width: "110px", height: "50px", cursor: "pointer" }}
+        />
+      ),
+    },
+    {
+      field: "id",
+      headerName: <HeaderName header="Shipment ID" />,
+      width: 170,
+      flex: desktop ? 1 : undefined,
+      renderCell: (params) => (
+        <Typography
+          onClick={() =>
+            navigate(`shipping-id_${params.row.trackingId}`, {
+              state: {
+                order: params.row,
+              },
+            })
+          }
+          sx={{ cursor: "pointer" }}
+          fontSize="14px"
+          fontWeight={500}
+          color="#000"
+        >
+          {params.row.trackingId}
+        </Typography>
+      ),
+    },
+    {
+      flex: desktop ? 1 : undefined,
+      field: "customer",
+      headerName: <HeaderName header="Customer" />,
+      // type: "number",
+      width: 170,
+      renderCell: (params) => (
+        <Typography
+          fontSize="14px"
+          fontWeight={500}
+          color="#21005D"
+          sx={{ display: "flex", alignItems: "center", gap: "5px" }}
+        >
+          {<GetCustomerName id={params.row.user} /> && <UserTag />}
+          <GetCustomerName id={params.row.user} />
+        </Typography>
+      ),
+    },
+    {
+      flex: desktop ? 1 : undefined,
+      field: "service",
+      headerName: <HeaderName header="Service" />,
+      width: 150,
+    },
+    //   {
+    //     field: "shipId",
+    //     headerName: <HeaderName header="Shipment ID" />,
+    //     width: 115,
+    //   },
+    {
+      flex: desktop ? 1 : undefined,
+      field: "shippingMethod",
+      sortable: false,
+      headerName: <HeaderName header="Shipping Method" />,
+      width: 150,
+      renderCell: (params) => (
+        <Typography
+          sx={{ cursor: "pointer" }}
+          fontSize="14px"
+          fontWeight={500}
+          color="#000"
+        >
+          {params.row.shippingMethod ?? "N/A"}
+        </Typography>
+      ),
+    },
+    {
+      flex: desktop ? 1 : undefined,
+      field: "shipmentMethod",
+      sortable: false,
+      headerName: <HeaderName header="Shipment Method" />,
+      width: 150,
+      renderCell: (params) => (
+        <Typography
+          sx={{ cursor: "pointer" }}
+          fontSize="14px"
+          fontWeight={500}
+          color="#000"
+        >
+          {params.row.shipmentMethod ?? "N/A"}
+        </Typography>
+      ),
+    },
+    {
+      flex: desktop ? 1 : undefined,
+      field: "status",
+      headerName: <HeaderName header="Status" />,
+      // type: "number",
+      width: 170,
+      sortable: false,
+      renderCell: (params) => (
+        <Typography
+          fontSize="14px"
+          fontWeight={500}
+          width="100%"
+          color="#000"
+          sx={{
+            bgcolor: getStatusBgColor(params.row.orderStatus),
+            p: "5px 10px",
+            borderRadius: "10px",
+          }}
+        >
+          {params.row.orderStatus ?? params.row.requestStatus}
+        </Typography>
+      ),
+    },
+    {
+      flex: desktop ? 1 : undefined,
+      field: "origin",
+      sortable: false,
+      headerName: <HeaderName header="Origin" />,
+      width: 150,
+    },
 
-      {
-        flex: desktop ? 1 : undefined,
-        field: "destination",
-        headerName: <HeaderName header="Destination" />,
-        // type: "number",
-        width: 150,
-        sortable: false,
-        renderCell: (params) => (
-          <Tooltip title={<Tip text1={params.row.destination ?? "N/A"} />}>
-            <Typography
-              sx={{ cursor: "pointer" }}
-              fontSize="14px"
-              fontWeight={500}
-              color="#000"
+    {
+      flex: desktop ? 1 : undefined,
+      field: "destination",
+      headerName: <HeaderName header="Destination" />,
+      // type: "number",
+      width: 150,
+      sortable: false,
+      renderCell: (params) => (
+        <Tooltip title={<Tip text1={params.row.destination ?? "N/A"} />}>
+          <Typography
+            sx={{ cursor: "pointer" }}
+            fontSize="14px"
+            fontWeight={500}
+            color="#000"
+          >
+            {params.row.destination ?? "N/A"}
+          </Typography>
+        </Tooltip>
+      ),
+    },
+
+    {
+      flex: desktop ? 1 : undefined,
+      field: "date",
+      headerName: <HeaderName header="Shipment Date" />,
+      // type: "number",
+      width: 170,
+      renderCell: (params) => (
+        <Typography
+          sx={{ cursor: "pointer" }}
+          fontSize="14px"
+          fontWeight={500}
+          color="#000"
+        >
+          {moment(params.row.createdAt).format("DD-MM-YYYY HH:mm")}
+        </Typography>
+      ),
+    },
+    {
+      flex: desktop ? 1 : undefined,
+      field: "cost",
+      headerName: <HeaderName header="Total Cost" />,
+      // type: "number",
+      width: 150,
+      renderCell: (params) => (
+        <Typography
+          fontSize="14px"
+          fontWeight={500}
+          color="#000"
+          sx={{ display: "flex", alignItems: "center", gap: "5px" }}
+        >
+          {params.row.status === "Not Started" ||
+          params.row.status === "Cleared" ||
+          params.row.status === "Delivered" ||
+          params.row.status === "Cancelled" ? (
+            <Tooltip title={<Tip text1="Shipping cost: Paid" />}>
+              <div>
+                <CheckIcon />
+              </div>
+            </Tooltip>
+          ) : params.row.status === "In Transit" ? (
+            <Tooltip title={<Tip text1="Shipping cost: Processing" />}>
+              <div>
+                <ProcessIcon />
+              </div>
+            </Tooltip>
+          ) : params.row.status === "Processing" ? (
+            <Tooltip title={<Tip text1="Shipping cost: Cancelled" />}>
+              <div>
+                <CloseSquare />
+              </div>
+            </Tooltip>
+          ) : (
+            <Tooltip
+              title={<Tip text1="Shipping cost: To be paid upon clearing" />}
             >
-              {params.row.destination ?? "N/A"}
-            </Typography>
-          </Tooltip>
-        ),
-      },
+              <div>
+                <CheckMoreIcon />
+              </div>
+            </Tooltip>
+          )}
+          ${params.row.totalShippingCost ?? params.row.shippingCost ?? 0}
+        </Typography>
+      ),
+    },
+    {
+      flex: desktop ? 1 : undefined,
+      field: "packaging",
+      headerName: <HeaderName header="Packaging" />,
+      // type: "number",
+      width: 190,
+      sortable: false,
+      renderCell: (params) => (
+        <Typography
+          fontSize="14px"
+          fontWeight={500}
+          color="#000"
+          sx={{
+            width: "100%",
+            bgcolor: getPackagingBgColor(params.row.packaging),
+            p: "5px 10px",
+            borderRadius: "10px",
+          }}
+        >
+          N/A
+        </Typography>
+      ),
+    },
+    {
+      flex: desktop ? 1 : undefined,
+      field: "staff",
+      headerName: <HeaderName header="Staff In Charge" />,
+      // type: "number",
+      width: 170,
+      renderCell: (params) => (
+        <Typography
+          // sx={{ cursor: "pointer" }}
+          fontSize="14px"
+          fontWeight={500}
+          color="#000"
+        >
+          N/A
+        </Typography>
+      ),
+    },
+    {
+      flex: desktop ? 1 : undefined,
+      field: "deliveryCompany",
+      headerName: <HeaderName header="Delivery Company" />,
+      // type: "number",
+      width: 150,
+      sortable: false,
+      renderCell: (params) => (
+        <Typography
+          // sx={{ cursor: "pointer" }}
+          fontSize="14px"
+          fontWeight={500}
+          color="#000"
+        >
+          N/A
+        </Typography>
+      ),
+    },
+    {
+      flex: desktop ? 1 : undefined,
+      field: "dispatchCompany",
+      headerName: <HeaderName header="Dispatch Company" />,
+      // type: "number",
+      width: 150,
+      sortable: false,
+      renderCell: (params) => (
+        <Typography
+          // sx={{ cursor: "pointer" }}
+          fontSize="14px"
+          fontWeight={500}
+          color="#000"
+        >
+          N/A
+        </Typography>
+      ),
+    },
 
-      {
-        flex: desktop ? 1 : undefined,
-        field: "date",
-        headerName: <HeaderName header="Shipment Date" />,
-        // type: "number",
-        width: 170,
-        renderCell: (params) => (
-          <Typography
-            sx={{ cursor: "pointer" }}
-            fontSize="14px"
-            fontWeight={500}
-            color="#000"
-          >
-            {moment(params.row.createdAt).format("DD-MM-YYYY HH:mm")}
-          </Typography>
-        ),
-      },
-      {
-        flex: desktop ? 1 : undefined,
-        field: "cost",
-        headerName: <HeaderName header="Total Cost" />,
-        // type: "number",
-        width: 150,
-        renderCell: (params) => (
-          <Typography
-            fontSize="14px"
-            fontWeight={500}
-            color="#000"
-            sx={{ display: "flex", alignItems: "center", gap: "5px" }}
-          >
-            {params.row.status === "Not Started" ||
-            params.row.status === "Cleared" ||
-            params.row.status === "Delivered" ||
-            params.row.status === "Cancelled" ? (
-              <Tooltip title={<Tip text1="Shipping cost: Paid" />}>
-                <div>
-                  <CheckIcon />
-                </div>
-              </Tooltip>
-            ) : params.row.status === "In Transit" ? (
-              <Tooltip title={<Tip text1="Shipping cost: Processing" />}>
-                <div>
-                  <ProcessIcon />
-                </div>
-              </Tooltip>
-            ) : params.row.status === "Processing" ? (
-              <Tooltip title={<Tip text1="Shipping cost: Cancelled" />}>
-                <div>
-                  <CloseSquare />
-                </div>
-              </Tooltip>
-            ) : (
-              <Tooltip
-                title={<Tip text1="Shipping cost: To be paid upon clearing" />}
-              >
-                <div>
-                  <CheckMoreIcon />
-                </div>
-              </Tooltip>
-            )}
-            ${params.row.totalShippingCost ?? params.row.shippingCost ?? 0}
-          </Typography>
-        ),
-      },
-      {
-        flex: desktop ? 1 : undefined,
-        field: "packaging",
-        headerName: <HeaderName header="Packaging" />,
-        // type: "number",
-        width: 190,
-        sortable: false,
-        renderCell: (params) => (
-          <Typography
-            fontSize="14px"
-            fontWeight={500}
-            color="#000"
-            sx={{
-              width: "100%",
-              bgcolor: getPackagingBgColor(params.row.packaging),
-              p: "5px 10px",
-              borderRadius: "10px",
-            }}
-          >
-            N/A
-          </Typography>
-        ),
-      },
-      {
-        flex: desktop ? 1 : undefined,
-        field: "staff",
-        headerName: <HeaderName header="Staff In Charge" />,
-        // type: "number",
-        width: 170,
-        renderCell: (params) => (
-          <Typography
-            // sx={{ cursor: "pointer" }}
-            fontSize="14px"
-            fontWeight={500}
-            color="#000"
-          >
-            N/A
-          </Typography>
-        ),
-      },
-      {
-        flex: desktop ? 1 : undefined,
-        field: "deliveryCompany",
-        headerName: <HeaderName header="Delivery Company" />,
-        // type: "number",
-        width: 150,
-        sortable: false,
-        renderCell: (params) => (
-          <Typography
-            // sx={{ cursor: "pointer" }}
-            fontSize="14px"
-            fontWeight={500}
-            color="#000"
-          >
-            N/A
-          </Typography>
-        ),
-      },
-      {
-        flex: desktop ? 1 : undefined,
-        field: "dispatchCompany",
-        headerName: <HeaderName header="Dispatch Company" />,
-        // type: "number",
-        width: 150,
-        sortable: false,
-        renderCell: (params) => (
-          <Typography
-            // sx={{ cursor: "pointer" }}
-            fontSize="14px"
-            fontWeight={500}
-            color="#000"
-          >
-            N/A
-          </Typography>
-        ),
-      },
-
-      {
-        flex: desktop ? 1 : undefined,
-        field: "actions",
-        headerName: <HeaderName header="Actions" />,
-        // type: "number",
-        width: 70,
-        sortable: false,
-        renderCell: (params) => (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <div onClick={handleOpenMenu}>
-              <MoreIcon />
-            </div>
-            <Paper>
-              <Menu
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleCloseMenu}
-                sx={{
-                  "& .MuiMenu-paper": { boxShadow: 0, borderRadius: "20px" },
-                }}
-              >
-                <MenuItem sx={{ height: "56px" }} onClick={handleCloseMenu}>
-                  View Order Details
-                </MenuItem>
-                <MenuItem sx={{ height: "56px" }} onClick={handleCloseMenu}>
-                  Check Payment Status
-                </MenuItem>
-                <MenuItem
-                  sx={{
-                    display:
-                      params.row.status !== "Processed" ? "none" : "block",
-                    height: "56px",
-                  }}
-                  onClick={handleCloseMenu}
-                >
-                  Cancel Order
-                </MenuItem>
-              </Menu>
-            </Paper>
+    {
+      flex: desktop ? 1 : undefined,
+      field: "actions",
+      headerName: <HeaderName header="Actions" />,
+      // type: "number",
+      width: 70,
+      sortable: false,
+      renderCell: (params) => (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div onClick={handleOpenMenu}>
+            <MoreIcon />
           </div>
-        ),
-      },
-      // {
-      //   field: "fullName",
-      //   headerName: "Full name",
-      //   description: "This column has a value getter and is not sortable.",
-      //   sortable: false,
-      //   width: 160,
-      //   valueGetter: (params) =>
-      //     `${params.row.firstName || ""} ${params.row.lastName || ""}`,
-      // },
-    ];
-    const exports = (
-      data?.data?.exportOrders ??
-      data?.exportOrders ??
-      []
-    )?.map((request) => ({
+          <Paper>
+            <Menu
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleCloseMenu}
+              sx={{
+                "& .MuiMenu-paper": { boxShadow: 0, borderRadius: "20px" },
+              }}
+            >
+              <MenuItem sx={{ height: "56px" }} onClick={handleCloseMenu}>
+                View Order Details
+              </MenuItem>
+              <MenuItem sx={{ height: "56px" }} onClick={handleCloseMenu}>
+                Check Payment Status
+              </MenuItem>
+              <MenuItem
+                sx={{
+                  display: params.row.status !== "Processed" ? "none" : "block",
+                  height: "56px",
+                }}
+                onClick={handleCloseMenu}
+              >
+                Cancel Order
+              </MenuItem>
+            </Menu>
+          </Paper>
+        </div>
+      ),
+    },
+    // {
+    //   field: "fullName",
+    //   headerName: "Full name",
+    //   description: "This column has a value getter and is not sortable.",
+    //   sortable: false,
+    //   width: 160,
+    //   valueGetter: (params) =>
+    //     `${params.row.firstName || ""} ${params.row.lastName || ""}`,
+    // },
+  ];
+  const exports = (data?.data?.exportOrders ?? data?.exportOrders ?? [])?.map(
+    (request) => ({
       ...request,
       service: "Export",
-    }));
-    const imports = (
-      data?.data?.importOrders ??
-      data?.importOrders ??
-      []
-    )?.map((request) => ({
+    })
+  );
+  const imports = (data?.data?.importOrders ?? data?.importOrders ?? [])?.map(
+    (request) => ({
       ...request,
       service: "Import",
-    }));
-    const autoImports = (
-      data?.data?.autoImportOrders ??
-      data?.autoImportOrders ??
-      []
-    )?.map((request) => ({
-      ...request,
-      service: "Auto Import",
-    }));
-    const shopForMe = (
-      data?.data?.sfmOrders ??
-      data?.sfmOrders ??
-      []
-    )?.map((request) => ({
+    })
+  );
+  const autoImports = (
+    data?.data?.autoImportOrders ??
+    data?.autoImportOrders ??
+    []
+  )?.map((request) => ({
+    ...request,
+    service: "Auto Import",
+  }));
+  const shopForMe = (data?.data?.sfmOrders ?? data?.sfmOrders ?? [])?.map(
+    (request) => ({
       ...request,
       service: "Shop For Me",
-    }));
+    })
+  );
 
-    const rows = [...imports, ...exports, ...autoImports, ...shopForMe].map(
-      (row) => ({
-        ...row,
-        id: row.requestId,
-        requestStatus: row.requestStatus
-          .split(" ")
-          .map((x, i) => x.charAt(0).toUpperCase() + x.slice(1).toLowerCase())
-          .join(" "),
-      })
-    );
-    // const rows = [
-    //   {
-    //     image: laptop,
-    //     service: "Shop For Me",
-    //     id: "SH08756",
-    //     customer: "Rexo Offorex",
-    //     shippingMethod: "Basic",
-    //     shipmentMethod: "Air",
-    //     destination: "Lagos, Nigeria",
-    //     status: "Delivered",
-    //     origin: "London, UK",
-    //     date: "22-03-2023 13:05",
-    //     cost: "$107.76",
-    //     deliveryCompany: "---",
-    //     dispatchCompany: "---",
-    //     staff: "Micheal Sam obalodu",
-    //     packaging: "Packaging In Progress",
-    //     actions: "actions",
-    //   },
-    //   {
-    //     image: laptop,
-    //     service: "Shop For Me",
-    //     id: "SH08757",
-    //     customer: "Rexo Offorex",
-    //     shippingMethod: "Custom",
-    //     shipmentMethod: "Rail",
-    //     destination: "Lagos, Nigeria",
-    //     status: "Cleared",
-    //     origin: "London, UK",
-    //     date: "22-03-2023 13:05",
-    //     cost: "$107.76",
-    //     deliveryCompany: "---",
-    //     dispatchCompany: "---",
-    //     staff: "Micheal Sam obalodu",
-    //     packaging: "Packaging Completed",
-    //     actions: "actions",
-    //   },
-    //   {
-    //     image: laptop,
-    //     service: "Import",
-    //     id: "SH08758",
-    //     customer: "Rexo Offorex",
-    //     shippingMethod: "Basic",
-    //     shipmentMethod: "Air",
-    //     destination: "Lagos, Nigeria",
-    //     status: "Not Started",
-    //     origin: "London, UK",
-    //     date: "22-03-2023 13:05",
-    //     cost: "$107.76",
-    //     deliveryCompany: "---",
-    //     dispatchCompany: "---",
-    //     staff: "Micheal Sam obalodu",
-    //     packaging: "Packaging In Progress",
-    //     actions: "actions",
-    //   },
-    //   {
-    //     image: laptop,
-    //     service: "Auto Import",
-    //     id: "SH08759",
-    //     customer: "Rexo Offorex",
-    //     shippingMethod: "Custom",
-    //     shipmentMethod: "Road",
-    //     destination: "Lagos, Nigeria",
-    //     status: "Cancelled",
-    //     origin: "London, UK",
-    //     date: "22-03-2023 13:05",
-    //     cost: "$107.76",
-    //     deliveryCompany: "---",
-    //     dispatchCompany: "---",
-    //     staff: "Micheal Sam obalodu",
-    //     packaging: "Packaging Completed",
-    //     actions: "actions",
-    //   },
-    //   {
-    //     image: laptop,
-    //     service: "Export",
-    //     id: "SH08760",
-    //     customer: "Rexo Offorex",
-    //     shippingMethod: "Basic",
-    //     shipmentMethod: "Rail",
-    //     destination: "Lagos, Nigeria",
-    //     status: "Arrived Destination",
-    //     origin: "London, UK",
-    //     date: "22-03-2023 13:05",
-    //     cost: "$107.76",
-    //     deliveryCompany: "---",
-    //     dispatchCompany: "---",
-    //     staff: "Micheal Sam obalodu",
-    //     packaging: "Packaging In Progress",
-    //     actions: "actions",
-    //   },
-    //   {
-    //     image: laptop,
-    //     service: "Shop For Me",
-    //     id: "SH08761",
-    //     customer: "Rexo Offorex",
-    //     shippingMethod: "Custom",
-    //     shipmentMethod: "Air",
-    //     destination: "Lagos, Nigeria",
-    //     status: "In Transit",
-    //     origin: "London, UK",
-    //     date: "22-03-2023 13:05",
-    //     cost: "$107.76",
-    //     deliveryCompany: "---",
-    //     dispatchCompany: "---",
-    //     staff: "Micheal Sam obalodu",
-    //     packaging: "Packaging Completed",
-    //     actions: "actions",
-    //   },
-    //   {
-    //     image: laptop,
-    //     service: "Import",
-    //     id: "SH08762",
-    //     customer: "Rexo Offorex",
-    //     shippingMethod: "Basic",
-    //     shipmentMethod: "Road",
-    //     destination: "Lagos, Nigeria",
-    //     status: "Processing",
-    //     origin: "London, UK",
-    //     date: "22-03-2023 13:05",
-    //     cost: "$107.76",
-    //     deliveryCompany: "---",
-    //     dispatchCompany: "---",
-    //     staff: "Micheal Sam obalodu",
-    //     packaging: "Packaging In Progress",
-    //     actions: "actions",
-    //   },
-    //   {
-    //     image: laptop,
-    //     service: "Auto Import",
-    //     id: "SH08763",
-    //     customer: "Rexo Offorex",
-    //     shippingMethod: "Custom",
-    //     shipmentMethod: "Rail",
-    //     destination: "Lagos, Nigeria",
-    //     status: "Delivered",
-    //     origin: "London, UK",
-    //     date: "22-03-2023 13:05",
-    //     cost: "$107.76",
-    //     deliveryCompany: "---",
-    //     dispatchCompany: "---",
-    //     staff: "Micheal Sam obalodu",
-    //     packaging: "Packaging Completed",
-    //     actions: "actions",
-    //   },
-    //   {
-    //     image: laptop,
-    //     service: "Export",
-    //     id: "SH08764",
-    //     customer: "Rexo Offorex",
-    //     shippingMethod: "Basic",
-    //     shipmentMethod: "Air",
-    //     destination: "Lagos, Nigeria",
-    //     status: "Cleared",
-    //     origin: "London, UK",
-    //     date: "22-03-2023 13:05",
-    //     cost: "$107.76",
-    //     deliveryCompany: "---",
-    //     dispatchCompany: "---",
-    //     staff: "Micheal Sam obalodu",
-    //     packaging: "Packaging Completed",
-    //     actions: "actions",
-    //   },
-    //   {
-    //     image: laptop,
-    //     service: "Shop For Me",
-    //     id: "SH08765",
-    //     customer: "Rexo Offorex",
-    //     shippingMethod: "Custom",
-    //     shipmentMethod: "Road",
-    //     destination: "Lagos, Nigeria",
-    //     status: "Not Started",
-    //     origin: "London, UK",
-    //     date: "22-03-2023 13:05",
-    //     cost: "$107.76",
-    //     deliveryCompany: "---",
-    //     dispatchCompany: "---",
-    //     staff: "Micheal Sam obalodu",
-    //     packaging: "Packaging In Progress",
-    //     actions: "actions",
-    //   },
-    //   {
-    //     image: laptop,
-    //     service: "Import",
-    //     id: "SH08766",
-    //     customer: "Rexo Offorex",
-    //     shippingMethod: "Basic",
-    //     shipmentMethod: "Rail",
-    //     destination: "Lagos, Nigeria",
-    //     status: "Cancelled",
-    //     origin: "London, UK",
-    //     date: "22-03-2023 13:05",
-    //     cost: "$107.76",
-    //     deliveryCompany: "---",
-    //     dispatchCompany: "---",
-    //     staff: "Micheal Sam obalodu",
-    //     packaging: "Packaging Completed",
-    //     actions: "actions",
-    //   },
-    //   {
-    //     image: laptop,
-    //     service: "Auto Import",
-    //     id: "SH08767",
-    //     customer: "Rexo Offorex",
-    //     shippingMethod: "Custom",
-    //     shipmentMethod: "Air",
-    //     destination: "Lagos, Nigeria",
-    //     status: "Arrived Destination",
-    //     origin: "London, UK",
-    //     date: "22-03-2023 13:05",
-    //     cost: "$107.76",
-    //     deliveryCompany: "---",
-    //     dispatchCompany: "---",
-    //     staff: "Micheal Sam obalodu",
-    //     packaging: "Packaging In Progress",
-    //     actions: "actions",
-    //   },
-    //   {
-    //     image: laptop,
-    //     service: "Export",
-    //     id: "SH08768",
-    //     customer: "Rexo Offorex",
-    //     shippingMethod: "Basic",
-    //     shipmentMethod: "Road",
-    //     destination: "Lagos, Nigeria",
-    //     status: "In Transit",
-    //     origin: "London, UK",
-    //     date: "22-03-2023 13:05",
-    //     cost: "$107.76",
-    //     deliveryCompany: "---",
-    //     dispatchCompany: "---",
-    //     staff: "Micheal Sam obalodu",
-    //     packaging: "Packaging Completed",
-    //     actions: "actions",
-    //   },
-    //   {
-    //     image: laptop,
-    //     service: "Shop For Me",
-    //     id: "SH08769",
-    //     customer: "Rexo Offorex",
-    //     shippingMethod: "Custom",
-    //     shipmentMethod: "Air",
-    //     destination: "Lagos, Nigeria",
-    //     status: "Processing",
-    //     origin: "London, UK",
-    //     date: "22-03-2023 13:05",
-    //     cost: "$107.76",
-    //     deliveryCompany: "---",
-    //     dispatchCompany: "---",
-    //     staff: "Micheal Sam obalodu",
-    //     packaging: "Packaging Completed",
-    //     actions: "actions",
-    //   },
-    //   {
-    //     image: laptop,
-    //     service: "Export",
-    //     id: "SH08770",
-    //     customer: "Rexo Offorex",
-    //     shippingMethod: "Basic",
-    //     shipmentMethod: "Rail",
-    //     destination: "Lagos, Nigeria",
-    //     status: "Delivered",
-    //     origin: "London, UK",
-    //     date: "22-03-2023 13:05",
-    //     cost: "$107.76",
-    //     deliveryCompany: "---",
-    //     dispatchCompany: "---",
-    //     staff: "Micheal Sam obalodu",
-    //     packaging: "Packaging In Progress",
-    //     actions: "actions",
-    //   },
-    //   {
-    //     image: laptop,
-    //     service: "Import",
-    //     id: "SH08771",
-    //     customer: "Rexo Offorex",
-    //     shippingMethod: "Custom",
-    //     shipmentMethod: "Road",
-    //     destination: "Lagos, Nigeria",
-    //     status: "Cleared",
-    //     origin: "London, UK",
-    //     date: "22-03-2023 13:05",
-    //     cost: "$107.76",
-    //     deliveryCompany: "---",
-    //     dispatchCompany: "---",
-    //     staff: "Micheal Sam obalodu",
-    //     packaging: "Packaging Completed",
-    //     actions: "actions",
-    //   },
-    //   {
-    //     image: laptop,
-    //     service: "Shop For Me",
-    //     id: "SH08772",
-    //     customer: "Rexo Offorex",
-    //     shippingMethod: "Basic",
-    //     shipmentMethod: "Air",
-    //     destination: "Lagos, Nigeria",
-    //     status: "Not Started",
-    //     origin: "London, UK",
-    //     date: "22-03-2023 13:05",
-    //     cost: "$107.76",
-    //     deliveryCompany: "---",
-    //     dispatchCompany: "---",
-    //     staff: "Micheal Sam obalodu",
-    //     packaging: "Packaging In Progress",
-    //     actions: "actions",
-    //   },
-    //   {
-    //     image: laptop,
-    //     service: "Auto Import",
-    //     id: "SH08773",
-    //     customer: "Rexo Offorex",
-    //     shippingMethod: "Custom",
-    //     shipmentMethod: "Air",
-    //     destination: "Lagos, Nigeria",
-    //     status: "Cancelled",
-    //     origin: "London, UK",
-    //     date: "22-03-2023 13:05",
-    //     cost: "$107.76",
-    //     deliveryCompany: "---",
-    //     dispatchCompany: "---",
-    //     staff: "Micheal Sam obalodu",
-    //     packaging: "Packaging Completed",
-    //     actions: "actions",
-    //   },
-    //   {
-    //     image: laptop,
-    //     service: "Import",
-    //     id: "SH08774",
-    //     customer: "Rexo Offorex",
-    //     shippingMethod: "Basic",
-    //     shipmentMethod: "Rail",
-    //     destination: "Lagos, Nigeria",
-    //     status: "Arrived Destination",
-    //     origin: "London, UK",
-    //     date: "22-03-2023 13:05",
-    //     cost: "$107.76",
-    //     deliveryCompany: "---",
-    //     dispatchCompany: "---",
-    //     staff: "Micheal Sam obalodu",
-    //     packaging: "Packaging In Progress",
-    //     actions: "actions",
-    //   },
-    //   {
-    //     image: laptop,
-    //     service: "Export",
-    //     id: "SH08775",
-    //     customer: "Rexo Offorex",
-    //     shippingMethod: "Custom",
-    //     shipmentMethod: "Road",
-    //     destination: "Lagos, Nigeria",
-    //     status: "In Transit",
-    //     origin: "London, UK",
-    //     date: "22-03-2023 13:05",
-    //     cost: "$107.76",
-    //     deliveryCompany: "---",
-    //     dispatchCompany: "---",
-    //     staff: "Micheal Sam obalodu",
-    //     packaging: "Packaging Completed",
-    //     actions: "actions",
-    //   },
-    //   {
-    //     image: laptop,
-    //     service: "Shop For Me",
-    //     id: "SH08776",
-    //     customer: "Rexo Offorex",
-    //     shippingMethod: "Basic",
-    //     shipmentMethod: "Air",
-    //     destination: "Lagos, Nigeria",
-    //     status: "Processing",
-    //     origin: "London, UK",
-    //     date: "22-03-2023 13:05",
-    //     cost: "$107.76",
-    //     deliveryCompany: "---",
-    //     dispatchCompany: "---",
-    //     staff: "Micheal Sam obalodu",
-    //     packaging: "Packaging In Progress",
-    //     actions: "actions",
-    //   },
-    // ];
+  const rows = [...imports, ...exports, ...autoImports, ...shopForMe].map(
+    (row) => ({
+      ...row,
+      id: row.requestId,
+      requestStatus: row.requestStatus
+        .split(" ")
+        .map((x, i) => x.charAt(0).toUpperCase() + x.slice(1).toLowerCase())
+        .join(" "),
+    })
+  );
+  // const rows = [
+  //   {
+  //     image: laptop,
+  //     service: "Shop For Me",
+  //     id: "SH08756",
+  //     customer: "Rexo Offorex",
+  //     shippingMethod: "Basic",
+  //     shipmentMethod: "Air",
+  //     destination: "Lagos, Nigeria",
+  //     status: "Delivered",
+  //     origin: "London, UK",
+  //     date: "22-03-2023 13:05",
+  //     cost: "$107.76",
+  //     deliveryCompany: "---",
+  //     dispatchCompany: "---",
+  //     staff: "Micheal Sam obalodu",
+  //     packaging: "Packaging In Progress",
+  //     actions: "actions",
+  //   },
+  //   {
+  //     image: laptop,
+  //     service: "Shop For Me",
+  //     id: "SH08757",
+  //     customer: "Rexo Offorex",
+  //     shippingMethod: "Custom",
+  //     shipmentMethod: "Rail",
+  //     destination: "Lagos, Nigeria",
+  //     status: "Cleared",
+  //     origin: "London, UK",
+  //     date: "22-03-2023 13:05",
+  //     cost: "$107.76",
+  //     deliveryCompany: "---",
+  //     dispatchCompany: "---",
+  //     staff: "Micheal Sam obalodu",
+  //     packaging: "Packaging Completed",
+  //     actions: "actions",
+  //   },
+  //   {
+  //     image: laptop,
+  //     service: "Import",
+  //     id: "SH08758",
+  //     customer: "Rexo Offorex",
+  //     shippingMethod: "Basic",
+  //     shipmentMethod: "Air",
+  //     destination: "Lagos, Nigeria",
+  //     status: "Not Started",
+  //     origin: "London, UK",
+  //     date: "22-03-2023 13:05",
+  //     cost: "$107.76",
+  //     deliveryCompany: "---",
+  //     dispatchCompany: "---",
+  //     staff: "Micheal Sam obalodu",
+  //     packaging: "Packaging In Progress",
+  //     actions: "actions",
+  //   },
+  //   {
+  //     image: laptop,
+  //     service: "Auto Import",
+  //     id: "SH08759",
+  //     customer: "Rexo Offorex",
+  //     shippingMethod: "Custom",
+  //     shipmentMethod: "Road",
+  //     destination: "Lagos, Nigeria",
+  //     status: "Cancelled",
+  //     origin: "London, UK",
+  //     date: "22-03-2023 13:05",
+  //     cost: "$107.76",
+  //     deliveryCompany: "---",
+  //     dispatchCompany: "---",
+  //     staff: "Micheal Sam obalodu",
+  //     packaging: "Packaging Completed",
+  //     actions: "actions",
+  //   },
+  //   {
+  //     image: laptop,
+  //     service: "Export",
+  //     id: "SH08760",
+  //     customer: "Rexo Offorex",
+  //     shippingMethod: "Basic",
+  //     shipmentMethod: "Rail",
+  //     destination: "Lagos, Nigeria",
+  //     status: "Arrived Destination",
+  //     origin: "London, UK",
+  //     date: "22-03-2023 13:05",
+  //     cost: "$107.76",
+  //     deliveryCompany: "---",
+  //     dispatchCompany: "---",
+  //     staff: "Micheal Sam obalodu",
+  //     packaging: "Packaging In Progress",
+  //     actions: "actions",
+  //   },
+  //   {
+  //     image: laptop,
+  //     service: "Shop For Me",
+  //     id: "SH08761",
+  //     customer: "Rexo Offorex",
+  //     shippingMethod: "Custom",
+  //     shipmentMethod: "Air",
+  //     destination: "Lagos, Nigeria",
+  //     status: "In Transit",
+  //     origin: "London, UK",
+  //     date: "22-03-2023 13:05",
+  //     cost: "$107.76",
+  //     deliveryCompany: "---",
+  //     dispatchCompany: "---",
+  //     staff: "Micheal Sam obalodu",
+  //     packaging: "Packaging Completed",
+  //     actions: "actions",
+  //   },
+  //   {
+  //     image: laptop,
+  //     service: "Import",
+  //     id: "SH08762",
+  //     customer: "Rexo Offorex",
+  //     shippingMethod: "Basic",
+  //     shipmentMethod: "Road",
+  //     destination: "Lagos, Nigeria",
+  //     status: "Processing",
+  //     origin: "London, UK",
+  //     date: "22-03-2023 13:05",
+  //     cost: "$107.76",
+  //     deliveryCompany: "---",
+  //     dispatchCompany: "---",
+  //     staff: "Micheal Sam obalodu",
+  //     packaging: "Packaging In Progress",
+  //     actions: "actions",
+  //   },
+  //   {
+  //     image: laptop,
+  //     service: "Auto Import",
+  //     id: "SH08763",
+  //     customer: "Rexo Offorex",
+  //     shippingMethod: "Custom",
+  //     shipmentMethod: "Rail",
+  //     destination: "Lagos, Nigeria",
+  //     status: "Delivered",
+  //     origin: "London, UK",
+  //     date: "22-03-2023 13:05",
+  //     cost: "$107.76",
+  //     deliveryCompany: "---",
+  //     dispatchCompany: "---",
+  //     staff: "Micheal Sam obalodu",
+  //     packaging: "Packaging Completed",
+  //     actions: "actions",
+  //   },
+  //   {
+  //     image: laptop,
+  //     service: "Export",
+  //     id: "SH08764",
+  //     customer: "Rexo Offorex",
+  //     shippingMethod: "Basic",
+  //     shipmentMethod: "Air",
+  //     destination: "Lagos, Nigeria",
+  //     status: "Cleared",
+  //     origin: "London, UK",
+  //     date: "22-03-2023 13:05",
+  //     cost: "$107.76",
+  //     deliveryCompany: "---",
+  //     dispatchCompany: "---",
+  //     staff: "Micheal Sam obalodu",
+  //     packaging: "Packaging Completed",
+  //     actions: "actions",
+  //   },
+  //   {
+  //     image: laptop,
+  //     service: "Shop For Me",
+  //     id: "SH08765",
+  //     customer: "Rexo Offorex",
+  //     shippingMethod: "Custom",
+  //     shipmentMethod: "Road",
+  //     destination: "Lagos, Nigeria",
+  //     status: "Not Started",
+  //     origin: "London, UK",
+  //     date: "22-03-2023 13:05",
+  //     cost: "$107.76",
+  //     deliveryCompany: "---",
+  //     dispatchCompany: "---",
+  //     staff: "Micheal Sam obalodu",
+  //     packaging: "Packaging In Progress",
+  //     actions: "actions",
+  //   },
+  //   {
+  //     image: laptop,
+  //     service: "Import",
+  //     id: "SH08766",
+  //     customer: "Rexo Offorex",
+  //     shippingMethod: "Basic",
+  //     shipmentMethod: "Rail",
+  //     destination: "Lagos, Nigeria",
+  //     status: "Cancelled",
+  //     origin: "London, UK",
+  //     date: "22-03-2023 13:05",
+  //     cost: "$107.76",
+  //     deliveryCompany: "---",
+  //     dispatchCompany: "---",
+  //     staff: "Micheal Sam obalodu",
+  //     packaging: "Packaging Completed",
+  //     actions: "actions",
+  //   },
+  //   {
+  //     image: laptop,
+  //     service: "Auto Import",
+  //     id: "SH08767",
+  //     customer: "Rexo Offorex",
+  //     shippingMethod: "Custom",
+  //     shipmentMethod: "Air",
+  //     destination: "Lagos, Nigeria",
+  //     status: "Arrived Destination",
+  //     origin: "London, UK",
+  //     date: "22-03-2023 13:05",
+  //     cost: "$107.76",
+  //     deliveryCompany: "---",
+  //     dispatchCompany: "---",
+  //     staff: "Micheal Sam obalodu",
+  //     packaging: "Packaging In Progress",
+  //     actions: "actions",
+  //   },
+  //   {
+  //     image: laptop,
+  //     service: "Export",
+  //     id: "SH08768",
+  //     customer: "Rexo Offorex",
+  //     shippingMethod: "Basic",
+  //     shipmentMethod: "Road",
+  //     destination: "Lagos, Nigeria",
+  //     status: "In Transit",
+  //     origin: "London, UK",
+  //     date: "22-03-2023 13:05",
+  //     cost: "$107.76",
+  //     deliveryCompany: "---",
+  //     dispatchCompany: "---",
+  //     staff: "Micheal Sam obalodu",
+  //     packaging: "Packaging Completed",
+  //     actions: "actions",
+  //   },
+  //   {
+  //     image: laptop,
+  //     service: "Shop For Me",
+  //     id: "SH08769",
+  //     customer: "Rexo Offorex",
+  //     shippingMethod: "Custom",
+  //     shipmentMethod: "Air",
+  //     destination: "Lagos, Nigeria",
+  //     status: "Processing",
+  //     origin: "London, UK",
+  //     date: "22-03-2023 13:05",
+  //     cost: "$107.76",
+  //     deliveryCompany: "---",
+  //     dispatchCompany: "---",
+  //     staff: "Micheal Sam obalodu",
+  //     packaging: "Packaging Completed",
+  //     actions: "actions",
+  //   },
+  //   {
+  //     image: laptop,
+  //     service: "Export",
+  //     id: "SH08770",
+  //     customer: "Rexo Offorex",
+  //     shippingMethod: "Basic",
+  //     shipmentMethod: "Rail",
+  //     destination: "Lagos, Nigeria",
+  //     status: "Delivered",
+  //     origin: "London, UK",
+  //     date: "22-03-2023 13:05",
+  //     cost: "$107.76",
+  //     deliveryCompany: "---",
+  //     dispatchCompany: "---",
+  //     staff: "Micheal Sam obalodu",
+  //     packaging: "Packaging In Progress",
+  //     actions: "actions",
+  //   },
+  //   {
+  //     image: laptop,
+  //     service: "Import",
+  //     id: "SH08771",
+  //     customer: "Rexo Offorex",
+  //     shippingMethod: "Custom",
+  //     shipmentMethod: "Road",
+  //     destination: "Lagos, Nigeria",
+  //     status: "Cleared",
+  //     origin: "London, UK",
+  //     date: "22-03-2023 13:05",
+  //     cost: "$107.76",
+  //     deliveryCompany: "---",
+  //     dispatchCompany: "---",
+  //     staff: "Micheal Sam obalodu",
+  //     packaging: "Packaging Completed",
+  //     actions: "actions",
+  //   },
+  //   {
+  //     image: laptop,
+  //     service: "Shop For Me",
+  //     id: "SH08772",
+  //     customer: "Rexo Offorex",
+  //     shippingMethod: "Basic",
+  //     shipmentMethod: "Air",
+  //     destination: "Lagos, Nigeria",
+  //     status: "Not Started",
+  //     origin: "London, UK",
+  //     date: "22-03-2023 13:05",
+  //     cost: "$107.76",
+  //     deliveryCompany: "---",
+  //     dispatchCompany: "---",
+  //     staff: "Micheal Sam obalodu",
+  //     packaging: "Packaging In Progress",
+  //     actions: "actions",
+  //   },
+  //   {
+  //     image: laptop,
+  //     service: "Auto Import",
+  //     id: "SH08773",
+  //     customer: "Rexo Offorex",
+  //     shippingMethod: "Custom",
+  //     shipmentMethod: "Air",
+  //     destination: "Lagos, Nigeria",
+  //     status: "Cancelled",
+  //     origin: "London, UK",
+  //     date: "22-03-2023 13:05",
+  //     cost: "$107.76",
+  //     deliveryCompany: "---",
+  //     dispatchCompany: "---",
+  //     staff: "Micheal Sam obalodu",
+  //     packaging: "Packaging Completed",
+  //     actions: "actions",
+  //   },
+  //   {
+  //     image: laptop,
+  //     service: "Import",
+  //     id: "SH08774",
+  //     customer: "Rexo Offorex",
+  //     shippingMethod: "Basic",
+  //     shipmentMethod: "Rail",
+  //     destination: "Lagos, Nigeria",
+  //     status: "Arrived Destination",
+  //     origin: "London, UK",
+  //     date: "22-03-2023 13:05",
+  //     cost: "$107.76",
+  //     deliveryCompany: "---",
+  //     dispatchCompany: "---",
+  //     staff: "Micheal Sam obalodu",
+  //     packaging: "Packaging In Progress",
+  //     actions: "actions",
+  //   },
+  //   {
+  //     image: laptop,
+  //     service: "Export",
+  //     id: "SH08775",
+  //     customer: "Rexo Offorex",
+  //     shippingMethod: "Custom",
+  //     shipmentMethod: "Road",
+  //     destination: "Lagos, Nigeria",
+  //     status: "In Transit",
+  //     origin: "London, UK",
+  //     date: "22-03-2023 13:05",
+  //     cost: "$107.76",
+  //     deliveryCompany: "---",
+  //     dispatchCompany: "---",
+  //     staff: "Micheal Sam obalodu",
+  //     packaging: "Packaging Completed",
+  //     actions: "actions",
+  //   },
+  //   {
+  //     image: laptop,
+  //     service: "Shop For Me",
+  //     id: "SH08776",
+  //     customer: "Rexo Offorex",
+  //     shippingMethod: "Basic",
+  //     shipmentMethod: "Air",
+  //     destination: "Lagos, Nigeria",
+  //     status: "Processing",
+  //     origin: "London, UK",
+  //     date: "22-03-2023 13:05",
+  //     cost: "$107.76",
+  //     deliveryCompany: "---",
+  //     dispatchCompany: "---",
+  //     staff: "Micheal Sam obalodu",
+  //     packaging: "Packaging In Progress",
+  //     actions: "actions",
+  //   },
+  // ];
   return (
     <Box py="16px" px="40px">
       {rows.length > 0 ? (
@@ -998,7 +1003,12 @@ const ShipmentHistory = ({all=false}) => {
       <Snackbar
         open={openError}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
+        sx={{
+          "& .MuiSnackbarContent-root": {
+            borderRadius: "30px",
+            width: "fit-content",
+          },
+        }}
         autoHideDuration={6000}
         onClose={handleClose}
         message={error}
@@ -1010,6 +1020,6 @@ const ShipmentHistory = ({all=false}) => {
       />
     </Box>
   );
-}
+};
 
-export default ShipmentHistory
+export default ShipmentHistory;

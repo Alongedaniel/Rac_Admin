@@ -54,7 +54,7 @@ const PaymentInformation = () => {
           </Typography>
         </Box>
       </Box>
-      <Box border="1px solid #CAC4D0" borderRadius="20px" mb='30px'>
+      <Box border="1px solid #CAC4D0" borderRadius="20px" mb="30px">
         <Grid
           sx={{
             bgcolor: "#F4EFF4",
@@ -173,7 +173,7 @@ const PaymentInformation = () => {
             <img
               src={car}
               alt="car"
-              style={{ width: "61px", height: "54px" }}
+              style={{ width: "61px", height: "54px", objectFit: "cover" }}
             />
             <Typography fontSize={"14px"} fontWeight={500}>
               GLK 450d
@@ -251,78 +251,211 @@ const PaymentInformation = () => {
         </Grid>
       </Box>
       <CardWrapper title="Shipment Cost">
-          <Box mt="30px">
-            <TextField
-              required
-              id="cost"
-              sx={{ fontSize: "16px", color: "#1C1B1F" }}
-              type="number"
-              label="Shipping Cost"
-              fullWidth
-              // placeholder="Select origin"
-              InputProps={{
-                startAdornment: <DollarIcon />,
-                sx: {
-                  // maxWidth: "540px",
-                  borderRadius: "20px", // Apply border radius to the input element
-                  height: "56px",
-                  borderColor: "#79747E",
-                  fontSize: "16px",
-                  color: "#1C1B1F",
-                  mb: "10px",
-                },
-              }}
-            />
-            <Box border="1px solid #CAC4D0" p="20px 20px" borderRadius="20px">
-              <Typography fontSize={"14px"} color="#49454F" mb="20px">
-                Additional Costs
-              </Typography>
-              <Grid container>
-                <Grid item xs={3}>
-                  <Typography fontSize={"14px"} color="#49454F">
-                    Storage Charge:
-                  </Typography>
-                  <Typography fontSize={"20px"} color="#1C1B1F">
-                    $23.00
-                  </Typography>
-                </Grid>
-                <Grid item xs={3}>
-                  <Typography fontSize={"14px"} color="#49454F">
-                    Insurance Cost:
-                  </Typography>
-                  <Typography fontSize={"20px"} color="#1C1B1F">
-                    $23.00
-                  </Typography>
-                </Grid>
-                <Grid item xs={3}>
-                  <Typography fontSize={"14px"} color="#49454F">
-                    Payment Method Surcharge:
-                  </Typography>
-                  <Typography fontSize={"20px"} color="#1C1B1F">
-                    $23.00
-                  </Typography>
-                </Grid>
-                <Grid item xs={3}>
-                  <Typography fontSize={"14px"} color="#49454F">
-                    VAT:
-                  </Typography>
-                  <Typography fontSize={"20px"} color="#1C1B1F">
-                    $23.00
-                  </Typography>
-                </Grid>
+        <Box mt="30px">
+          <TextField
+            required
+            id="cost"
+            sx={{ fontSize: "16px", color: "#1C1B1F" }}
+            type="number"
+            label="Shipping Cost"
+            fullWidth
+            // placeholder="Select origin"
+            InputProps={{
+              startAdornment: <DollarIcon />,
+              sx: {
+                // maxWidth: "540px",
+                borderRadius: "20px", // Apply border radius to the input element
+                height: "56px",
+                borderColor: "#79747E",
+                fontSize: "16px",
+                color: "#1C1B1F",
+                mb: "10px",
+              },
+            }}
+          />
+          <Box border="1px solid #CAC4D0" p="20px 20px" borderRadius="20px">
+            <Typography fontSize={"14px"} color="#49454F" mb="20px">
+              Additional Costs
+            </Typography>
+            <Grid container>
+              <Grid item xs={3}>
+                <Typography fontSize={"14px"} color="#49454F">
+                  Storage Charge:
+                </Typography>
+                <Typography fontSize={"20px"} color="#1C1B1F">
+                  $23.00
+                </Typography>
               </Grid>
-              <Grid container wrap="nowrap" gap="10px" my="20px">
-                <Grid item xs={6}>
+              <Grid item xs={3}>
+                <Typography fontSize={"14px"} color="#49454F">
+                  Insurance Cost:
+                </Typography>
+                <Typography fontSize={"20px"} color="#1C1B1F">
+                  $23.00
+                </Typography>
+              </Grid>
+              <Grid item xs={3}>
+                <Typography fontSize={"14px"} color="#49454F">
+                  Payment Method Surcharge:
+                </Typography>
+                <Typography fontSize={"20px"} color="#1C1B1F">
+                  $23.00
+                </Typography>
+              </Grid>
+              <Grid item xs={3}>
+                <Typography fontSize={"14px"} color="#49454F">
+                  VAT:
+                </Typography>
+                <Typography fontSize={"20px"} color="#1C1B1F">
+                  $23.00
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid container wrap="nowrap" gap="10px" my="20px">
+              <Grid item xs={6}>
+                <TextField
+                  required
+                  id="pickup-cost"
+                  sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                  type="number"
+                  label="Pick Up Cost"
+                  fullWidth
+                  // placeholder="Select origin"
+                  InputProps={{
+                    startAdornment: <DollarIcon />,
+                    sx: {
+                      // maxWidth: "540px",
+                      borderRadius: "20px", // Apply border radius to the input element
+                      height: "56px",
+                      borderColor: "#79747E",
+                      fontSize: "16px",
+                      color: "#1C1B1F",
+                    },
+                  }}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  required
+                  id="other-charges"
+                  sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                  type="number"
+                  label="Other Charges"
+                  fullWidth
+                  // placeholder="Select origin"
+                  InputProps={{
+                    startAdornment: <DollarIcon />,
+                    sx: {
+                      // maxWidth: "540px",
+                      borderRadius: "20px", // Apply border radius to the input element
+                      height: "56px",
+                      borderColor: "#79747E",
+                      fontSize: "16px",
+                      color: "#1C1B1F",
+                    },
+                  }}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+          <Box
+            display="flex"
+            alignItems="center"
+            gap="30px"
+            mt="10px"
+            pt="10px"
+            sx={{ borderTop: "1px solid #79747E" }}
+          >
+            <Box
+              maxWidth="384px"
+              height="168px"
+              border="1px solid #CAC4D0"
+              p="22px 20px"
+              borderRadius="20px"
+            >
+              <div
+                className={`transition-all flex items-center justify-between cursor-pointer`}
+              >
+                <p className="text-[20px]">Discounts</p>
+                <Switch
+                  sx={{
+                    root: {
+                      width: 50,
+                      height: 26,
+                      padding: 0,
+                      "& .MuiSwitch-switchBase": {
+                        padding: 1,
+                        "&.Mui-checked": {
+                          transform: "translateX(24px)",
+                          color: theme.palette.common.white,
+                          "& + .MuiSwitch-track": {
+                            backgroundColor:
+                              theme.palette.mode === "dark"
+                                ? "#2ECA45"
+                                : "#65C466",
+                            opacity: 1,
+                            border: 0,
+                          },
+                        },
+                        "&.Mui-disabled + .MuiSwitch-track": {
+                          opacity: theme.palette.mode === "light" ? 0.7 : 0.3,
+                        },
+                      },
+                      "& .MuiSwitch-thumb": {
+                        width: 24,
+                        height: 24,
+                        borderRadius: "50%",
+                      },
+                      "& .MuiSwitch-track": {
+                        borderRadius: 26 / 2,
+                        backgroundColor:
+                          theme.palette.mode === "light"
+                            ? "#E9E9EA"
+                            : "#39393D",
+                        opacity: 1,
+                        transition: theme.transitions.create(
+                          ["background-color"],
+                          {
+                            duration: 500,
+                          }
+                        ),
+                      },
+                    },
+                  }}
+                />
+              </div>
+              <Box display="flex" alignItems="center" gap="20px">
+                <Box mt="20px">
+                  <FormControl>
+                    <RadioGroup
+                      aria-labelledby="demo-controlled-radio-buttons-group"
+                      name="controlled-radio-buttons-group"
+                    >
+                      <Box sx={{ display: "flex" }}>
+                        <FormControlLabel
+                          value="%"
+                          control={<Radio color="primary" />}
+                          label="%"
+                        />
+                        <FormControlLabel
+                          value="$"
+                          control={<Radio color="primary" />}
+                          label="$"
+                        />
+                      </Box>
+                    </RadioGroup>
+                  </FormControl>
+                </Box>
+                <Box mt="20px">
                   <TextField
-                    required
-                    id="pickup-cost"
+                    id="discount"
                     sx={{ fontSize: "16px", color: "#1C1B1F" }}
-                    type="number"
-                    label="Pick Up Cost"
+                    // type="number"
+                    label="Discount"
                     fullWidth
                     // placeholder="Select origin"
                     InputProps={{
-                      startAdornment: <DollarIcon />,
+                      startAdornment: <PercentageIcon />,
                       sx: {
                         // maxWidth: "540px",
                         borderRadius: "20px", // Apply border radius to the input element
@@ -333,168 +466,35 @@ const PaymentInformation = () => {
                       },
                     }}
                   />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    required
-                    id="other-charges"
-                    sx={{ fontSize: "16px", color: "#1C1B1F" }}
-                    type="number"
-                    label="Other Charges"
-                    fullWidth
-                    // placeholder="Select origin"
-                    InputProps={{
-                      startAdornment: <DollarIcon />,
-                      sx: {
-                        // maxWidth: "540px",
-                        borderRadius: "20px", // Apply border radius to the input element
-                        height: "56px",
-                        borderColor: "#79747E",
-                        fontSize: "16px",
-                        color: "#1C1B1F",
-                      },
-                    }}
-                  />
-                </Grid>
-              </Grid>
+                </Box>
+              </Box>
             </Box>
             <Box
-              display="flex"
-              alignItems="center"
-              gap="30px"
-              mt="10px"
-              pt="10px"
-              sx={{ borderTop: "1px solid #79747E" }}
-            >
-              <Box
-                maxWidth="384px"
-                height="168px"
-                border="1px solid #CAC4D0"
-                p="22px 20px"
-                borderRadius="20px"
-              >
-                <div
-                  className={`transition-all flex items-center justify-between cursor-pointer`}
-                >
-                  <p className="text-[20px]">Discounts</p>
-                  <Switch
-                    sx={{
-                      root: {
-                        width: 50,
-                        height: 26,
-                        padding: 0,
-                        "& .MuiSwitch-switchBase": {
-                          padding: 1,
-                          "&.Mui-checked": {
-                            transform: "translateX(24px)",
-                            color: theme.palette.common.white,
-                            "& + .MuiSwitch-track": {
-                              backgroundColor:
-                                theme.palette.mode === "dark"
-                                  ? "#2ECA45"
-                                  : "#65C466",
-                              opacity: 1,
-                              border: 0,
-                            },
-                          },
-                          "&.Mui-disabled + .MuiSwitch-track": {
-                            opacity: theme.palette.mode === "light" ? 0.7 : 0.3,
-                          },
-                        },
-                        "& .MuiSwitch-thumb": {
-                          width: 24,
-                          height: 24,
-                          borderRadius: "50%",
-                        },
-                        "& .MuiSwitch-track": {
-                          borderRadius: 26 / 2,
-                          backgroundColor:
-                            theme.palette.mode === "light"
-                              ? "#E9E9EA"
-                              : "#39393D",
-                          opacity: 1,
-                          transition: theme.transitions.create(
-                            ["background-color"],
-                            {
-                              duration: 500,
-                            }
-                          ),
-                        },
-                      },
-                    }}
-                  />
-                </div>
-                <Box display="flex" alignItems="center" gap="20px">
-                  <Box mt="20px">
-                    <FormControl>
-                      <RadioGroup
-                        aria-labelledby="demo-controlled-radio-buttons-group"
-                        name="controlled-radio-buttons-group"
-                      >
-                        <Box sx={{ display: "flex" }}>
-                          <FormControlLabel
-                            value="%"
-                            control={<Radio color="primary" />}
-                            label="%"
-                          />
-                          <FormControlLabel
-                            value="$"
-                            control={<Radio color="primary" />}
-                            label="$"
-                          />
-                        </Box>
-                      </RadioGroup>
-                    </FormControl>
-                  </Box>
-                  <Box mt="20px">
-                    <TextField
-                      id="discount"
-                      sx={{ fontSize: "16px", color: "#1C1B1F" }}
-                      // type="number"
-                      label="Discount"
-                      fullWidth
-                      // placeholder="Select origin"
-                      InputProps={{
-                        startAdornment: <PercentageIcon />,
-                        sx: {
-                          // maxWidth: "540px",
-                          borderRadius: "20px", // Apply border radius to the input element
-                          height: "56px",
-                          borderColor: "#79747E",
-                          fontSize: "16px",
-                          color: "#1C1B1F",
-                        },
-                      }}
-                    />
-                  </Box>
-                </Box>
-              </Box>
-              <Box
               height="168px"
-              width='100%'
-                // maxWidth={"280px"}
-                bgcolor="#21005D"
-                p="22px 20px"
-                borderRadius="20px"
-              >
-                <Typography fontSize={"16px"} color="#fff" fontWeight={500}>
-                  Total Shipment Cost
+              width="100%"
+              // maxWidth={"280px"}
+              bgcolor="#21005D"
+              p="22px 20px"
+              borderRadius="20px"
+            >
+              <Typography fontSize={"16px"} color="#fff" fontWeight={500}>
+                Total Shipment Cost
+              </Typography>
+              <Box mt="30px">
+                {" "}
+                <Typography fontSize={"20px"} color="#fff" fontWeight={400}>
+                  $126.00
                 </Typography>
-                <Box mt="30px">
-                  {" "}
-                  <Typography fontSize={"20px"} color="#fff" fontWeight={400}>
-                    $126.00
+                <Typography fontSize={"14px"} color="#EADDFF">
+                  The Naira Equivalent that will be charged if paid now is
+                  <Typography display="inline" fontWeight={500}>
+                    {" "}
+                    ₦20,000
                   </Typography>
-                  <Typography fontSize={"14px"} color="#EADDFF">
-                    The Naira Equivalent that will be charged if paid now is
-                    <Typography display="inline" fontWeight={500}>
-                      {" "}
-                      ₦20,000
-                    </Typography>
-                  </Typography>
-                </Box>
+                </Typography>
               </Box>
-              {/* <Box height="168px">
+            </Box>
+            {/* <Box height="168px">
                 <Typography fontSize={"16px"} fontWeight={500} mb="16px">
                   Payment Status:
                 </Typography>
@@ -567,40 +567,39 @@ const PaymentInformation = () => {
                   Retry
                 </Button>
               </Box> */}
+          </Box>
+          <Box mt="20px" display="flex" flexDirection="column" gap="5px">
+            <Box display="flex" alignItems="center" gap="10px">
+              <StyledArrowRight />
+              <Typography fontSize={"12px"} fontWeight={500}>
+                RAC Logistics’s current exchange rate which is subjected to
+                change according to market trends is ($1=₦1,200), the customer
+                will be charged the Naira Equivalent of the shipping cost based
+                on the current exchange rate at any given time/point of payment
+              </Typography>
             </Box>
-            <Box mt="20px" display="flex" flexDirection="column" gap="5px">
-              <Box display="flex" alignItems="center" gap="10px">
-                <StyledArrowRight />
-                <Typography fontSize={"12px"} fontWeight={500}>
-                  RAC Logistics’s current exchange rate which is subjected to
-                  change according to market trends is ($1=₦1,200), the customer
-                  will be charged the Naira Equivalent of the shipping cost
-                  based on the current exchange rate at any given time/point of
-                  payment
-                </Typography>
-              </Box>
-              <Box display="flex" alignItems="center" gap="10px">
-                <StyledArrowRight color="#B3261E" />
-                <Typography fontSize={"12px"} fontWeight={500}>
-                  The total the customer are paying here includes only the
-                  Shipping related costs
-                </Typography>
-              </Box>
-              <Box display="flex" alignItems="center" gap="10px">
-                <StyledArrowRight />
-                <Typography fontSize={"12px"} fontWeight={500}>
-                  Prices and subtotals are displayed including taxes
-                </Typography>
-              </Box>
-              <Box display="flex" alignItems="center" gap="10px">
-                <StyledArrowRight />
-                <Typography fontSize={"12px"} fontWeight={500}>
-                  Discounts are calculated based on prices and subtotals taken
-                  without considering taxes
-                </Typography>
-              </Box>
+            <Box display="flex" alignItems="center" gap="10px">
+              <StyledArrowRight color="#B3261E" />
+              <Typography fontSize={"12px"} fontWeight={500}>
+                The total the customer are paying here includes only the
+                Shipping related costs
+              </Typography>
+            </Box>
+            <Box display="flex" alignItems="center" gap="10px">
+              <StyledArrowRight />
+              <Typography fontSize={"12px"} fontWeight={500}>
+                Prices and subtotals are displayed including taxes
+              </Typography>
+            </Box>
+            <Box display="flex" alignItems="center" gap="10px">
+              <StyledArrowRight />
+              <Typography fontSize={"12px"} fontWeight={500}>
+                Discounts are calculated based on prices and subtotals taken
+                without considering taxes
+              </Typography>
             </Box>
           </Box>
+        </Box>
       </CardWrapper>
     </div>
   );

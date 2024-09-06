@@ -265,7 +265,12 @@ const ResetPasswordForm = () => {
       <Snackbar
         open={open}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
+        sx={{
+          "& .MuiSnackbarContent-root": {
+            borderRadius: "30px",
+            width: "fit-content",
+          },
+        }}
         autoHideDuration={6000}
         onClose={() => setOpen(false)}
         message="Password reset successful"

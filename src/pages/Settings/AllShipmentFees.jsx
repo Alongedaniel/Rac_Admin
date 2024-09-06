@@ -21,18 +21,12 @@ import CloseIcon from "../../assets/icons/CloseIcon";
 import useCustomGetRequest from "../../utils/hooks/api/useCustomGetRequest";
 
 const AllShipmentFees = () => {
-    const { data: shipments, loading: shipLoading } = useCustomGetRequest(
-      "/settings/general-charges"
-    );
-    console.log(shipments);
+  const { data: shipments, loading: shipLoading } = useCustomGetRequest(
+    "/settings/general-charges"
+  );
+  console.log(shipments);
   const navigate = useNavigate();
-  const {
-    error,
-    loading,
-    data,
-    setError,
-    customPutRequest,
-  } = Requests();
+  const { error, loading, data, setError, customPutRequest } = Requests();
   const [value, setValue] = useState("0.1");
   const [shipmentValue, setShipmentValue] = useState("2000");
   const [discard, setDiscard] = useState(false);
@@ -80,14 +74,14 @@ const AllShipmentFees = () => {
   const [insuranceCharge, setInsuranceCharge] = useState(0);
   const [paymentMethodSurcharge, setPaymentMethodSurcharge] = useState(0);
   const [vat, setVat] = useState(0);
-  const [usAbove4, setUsAbove4] = useState(0)
-  const [usBelow4, setUsBelow4] = useState(0)
-  const [ukAbove4, setUkAbove4] = useState(0)
-  const [ukBelow4, setUkBelow4] = useState(0)
-  const [ukBelow4CustomClearing, setUkBelow4CustomClearing] = useState(0)
-  const [dubaiAbove, setDubaiAbove] = useState(0)
-  const [chinaAbove, setChinaAbove] = useState(0)
-  const [chinaAboveCustomClearing, setChinaAboveCustomClearing] = useState(0)
+  const [usAbove4, setUsAbove4] = useState(0);
+  const [usBelow4, setUsBelow4] = useState(0);
+  const [ukAbove4, setUkAbove4] = useState(0);
+  const [ukBelow4, setUkBelow4] = useState(0);
+  const [ukBelow4CustomClearing, setUkBelow4CustomClearing] = useState(0);
+  const [dubaiAbove, setDubaiAbove] = useState(0);
+  const [chinaAbove, setChinaAbove] = useState(0);
+  const [chinaAboveCustomClearing, setChinaAboveCustomClearing] = useState(0);
   const [zone1, setZone1] = useState(0);
   const [zone2, setZone2] = useState(0);
   const [zone3, setZone3] = useState(0);
@@ -186,18 +180,25 @@ const AllShipmentFees = () => {
   const [zone96, setZone96] = useState(0);
 
   useEffect(() => {
-    setStorageCharge(shipments?.data?.generalCharges?.storageCharge)
+    setStorageCharge(shipments?.data?.generalCharges?.storageCharge);
     setInsuranceCharge(shipments?.data?.generalCharges?.insuranceCharge);
-    setPaymentMethodSurcharge(shipments?.data?.generalCharges?.paymentMethodSurcharge);
+    setPaymentMethodSurcharge(
+      shipments?.data?.generalCharges?.paymentMethodSurcharge
+    );
     setVat(shipments?.data?.generalCharges?.vat);
-    setUsBelow4(shipments?.data?.importShippingRates?.unitedStates[0]?.rate)
-    setUsAbove4(shipments?.data?.importShippingRates?.unitedStates[1]?.rate)
-    setUkBelow4(shipments?.data?.importShippingRates?.unitedKingdom[0]?.rate)
-    setUkAbove4(shipments?.data?.importShippingRates?.unitedKingdom[1]?.rate)
-    setUkBelow4CustomClearing(shipments?.data?.importShippingRates?.unitedKingdom[1]?.customClearingPortHandling)
-    setDubaiAbove(shipments?.data?.importShippingRates?.dubai[0]?.rate)
-    setChinaAbove(shipments?.data?.importShippingRates?.china[0]?.rate)
-    setChinaAboveCustomClearing(shipments?.data?.importShippingRates?.china[0]?.customClearingPortHandling)
+    setUsBelow4(shipments?.data?.importShippingRates?.unitedStates[0]?.rate);
+    setUsAbove4(shipments?.data?.importShippingRates?.unitedStates[1]?.rate);
+    setUkBelow4(shipments?.data?.importShippingRates?.unitedKingdom[0]?.rate);
+    setUkAbove4(shipments?.data?.importShippingRates?.unitedKingdom[1]?.rate);
+    setUkBelow4CustomClearing(
+      shipments?.data?.importShippingRates?.unitedKingdom[1]
+        ?.customClearingPortHandling
+    );
+    setDubaiAbove(shipments?.data?.importShippingRates?.dubai[0]?.rate);
+    setChinaAbove(shipments?.data?.importShippingRates?.china[0]?.rate);
+    setChinaAboveCustomClearing(
+      shipments?.data?.importShippingRates?.china[0]?.customClearingPortHandling
+    );
     setZone1(shipments?.data?.exportShippingRates[0]?.zone1);
     setZone2(shipments?.data?.exportShippingRates[0]?.zone2);
     setZone3(shipments?.data?.exportShippingRates[0]?.zone3);
@@ -305,7 +306,7 @@ const AllShipmentFees = () => {
     setZone94(shipments?.data?.exportShippingRates[11]?.zone6);
     setZone95(shipments?.data?.exportShippingRates[11]?.zone7);
     setZone96(shipments?.data?.exportShippingRates[11]?.zone8);
-  }, [shipLoading])
+  }, [shipLoading]);
 
   const updateExportShippingRates = {
     updates: [
@@ -492,7 +493,7 @@ const AllShipmentFees = () => {
       },
     ],
     dubai: {
-      weight: 'above 0.5',
+      weight: "above 0.5",
       rate: Number(dubaiAbove),
     },
     china: [
@@ -503,6 +504,8 @@ const AllShipmentFees = () => {
       },
     ],
   };
+
+  console.log(Number(dubaiAbove));
 
   return (
     <Box p="24px 40px">
@@ -536,6 +539,7 @@ const AllShipmentFees = () => {
                 </Box>
                 <Box display="flex">
                   <TableValue
+                    loading={shipLoading}
                     minWidth="160px"
                     maxWidth="160px"
                     value={storageCharge}
@@ -576,6 +580,7 @@ const AllShipmentFees = () => {
                 </Box>
                 <Box display="flex">
                   <TableValue
+                    loading={shipLoading}
                     minWidth="160px"
                     maxWidth="160px"
                     value={insuranceCharge}
@@ -618,6 +623,7 @@ const AllShipmentFees = () => {
                 </Box>
                 <Box display="flex">
                   <TableValue
+                    loading={shipLoading}
                     minWidth="160px"
                     maxWidth="160px"
                     value={paymentMethodSurcharge}
@@ -658,6 +664,7 @@ const AllShipmentFees = () => {
                 </Box>
                 <Box display="flex">
                   <TableValue
+                    loading={shipLoading}
                     minWidth="160px"
                     maxWidth="160px"
                     value={vat}
@@ -741,48 +748,56 @@ const AllShipmentFees = () => {
             <PaymentsTable flex={1} columns={columns} rows={rows} tooltip>
               <Box display="flex">
                 <TableValue
+                  loading={shipLoading}
                   value={zone1}
                   flex={1}
                   setValue={setZone1}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone2}
                   flex={1}
                   setValue={setZone2}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone3}
                   flex={1}
                   setValue={setZone3}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone4}
                   flex={1}
                   setValue={setZone4}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone5}
                   flex={1}
                   setValue={setZone5}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone6}
                   flex={1}
                   setValue={setZone6}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone7}
                   flex={1}
                   setValue={setZone7}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone8}
                   flex={1}
                   setValue={setZone8}
@@ -792,48 +807,56 @@ const AllShipmentFees = () => {
 
               <Box display="flex">
                 <TableValue
+                  loading={shipLoading}
                   value={zone9}
                   flex={1}
                   setValue={setZone9}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone10}
                   flex={1}
                   setValue={setZone10}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone11}
                   flex={1}
                   setValue={setZone11}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone12}
                   flex={1}
                   setValue={setZone12}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone13}
                   flex={1}
                   setValue={setZone13}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone14}
                   flex={1}
                   setValue={setZone14}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone15}
                   flex={1}
                   setValue={setZone15}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone16}
                   flex={1}
                   setValue={setZone16}
@@ -843,48 +866,56 @@ const AllShipmentFees = () => {
 
               <Box display="flex">
                 <TableValue
+                  loading={shipLoading}
                   value={zone17}
                   flex={1}
                   setValue={setZone17}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone18}
                   flex={1}
                   setValue={setZone18}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone19}
                   flex={1}
                   setValue={setZone19}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone20}
                   flex={1}
                   setValue={setZone20}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone21}
                   flex={1}
                   setValue={setZone21}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone22}
                   flex={1}
                   setValue={setZone22}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone23}
                   flex={1}
                   setValue={setZone23}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone24}
                   flex={1}
                   setValue={setZone24}
@@ -894,48 +925,56 @@ const AllShipmentFees = () => {
 
               <Box display="flex">
                 <TableValue
+                  loading={shipLoading}
                   value={zone25}
                   flex={1}
                   setValue={setZone25}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone26}
                   flex={1}
                   setValue={setZone26}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone27}
                   flex={1}
                   setValue={setZone27}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone28}
                   flex={1}
                   setValue={setZone28}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone29}
                   flex={1}
                   setValue={setZone29}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone30}
                   flex={1}
                   setValue={setZone30}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone31}
                   flex={1}
                   setValue={setZone31}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone32}
                   flex={1}
                   setValue={setZone32}
@@ -945,48 +984,56 @@ const AllShipmentFees = () => {
 
               <Box display="flex">
                 <TableValue
+                  loading={shipLoading}
                   value={zone33}
                   flex={1}
                   setValue={setZone33}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone34}
                   flex={1}
                   setValue={setZone34}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone35}
                   flex={1}
                   setValue={setZone35}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone36}
                   flex={1}
                   setValue={setZone36}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone37}
                   flex={1}
                   setValue={setZone37}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone38}
                   flex={1}
                   setValue={setZone38}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone39}
                   flex={1}
                   setValue={setZone39}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone40}
                   flex={1}
                   setValue={setZone40}
@@ -996,48 +1043,56 @@ const AllShipmentFees = () => {
 
               <Box display="flex">
                 <TableValue
+                  loading={shipLoading}
                   value={zone41}
                   flex={1}
                   setValue={setZone41}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone42}
                   flex={1}
                   setValue={setZone42}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone43}
                   flex={1}
                   setValue={setZone43}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone44}
                   flex={1}
                   setValue={setZone44}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone45}
                   flex={1}
                   setValue={setZone45}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone46}
                   flex={1}
                   setValue={setZone46}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone47}
                   flex={1}
                   setValue={setZone47}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone48}
                   flex={1}
                   setValue={setZone48}
@@ -1047,48 +1102,56 @@ const AllShipmentFees = () => {
 
               <Box display="flex">
                 <TableValue
+                  loading={shipLoading}
                   value={zone49}
                   flex={1}
                   setValue={setZone49}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone50}
                   flex={1}
                   setValue={setZone50}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone51}
                   flex={1}
                   setValue={setZone51}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone52}
                   flex={1}
                   setValue={setZone52}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone53}
                   flex={1}
                   setValue={setZone53}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone54}
                   flex={1}
                   setValue={setZone54}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone55}
                   flex={1}
                   setValue={setZone55}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone56}
                   flex={1}
                   setValue={setZone56}
@@ -1098,48 +1161,56 @@ const AllShipmentFees = () => {
 
               <Box display="flex">
                 <TableValue
+                  loading={shipLoading}
                   value={zone57}
                   flex={1}
                   setValue={setZone57}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone58}
                   flex={1}
                   setValue={setZone58}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone59}
                   flex={1}
                   setValue={setZone59}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone60}
                   flex={1}
                   setValue={setZone60}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone61}
                   flex={1}
                   setValue={setZone61}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone62}
                   flex={1}
                   setValue={setZone62}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone63}
                   flex={1}
                   setValue={setZone63}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone64}
                   flex={1}
                   setValue={setZone64}
@@ -1149,48 +1220,56 @@ const AllShipmentFees = () => {
 
               <Box display="flex">
                 <TableValue
+                  loading={shipLoading}
                   value={zone65}
                   flex={1}
                   setValue={setZone65}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone66}
                   flex={1}
                   setValue={setZone66}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone67}
                   flex={1}
                   setValue={setZone67}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone68}
                   flex={1}
                   setValue={setZone68}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone69}
                   flex={1}
                   setValue={setZone69}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone70}
                   flex={1}
                   setValue={setZone70}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone71}
                   flex={1}
                   setValue={setZone71}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone72}
                   flex={1}
                   setValue={setZone72}
@@ -1200,48 +1279,56 @@ const AllShipmentFees = () => {
 
               <Box display="flex">
                 <TableValue
+                  loading={shipLoading}
                   value={zone73}
                   flex={1}
                   setValue={setZone73}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone74}
                   flex={1}
                   setValue={setZone74}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone75}
                   flex={1}
                   setValue={setZone75}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone76}
                   flex={1}
                   setValue={setZone76}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone77}
                   flex={1}
                   setValue={setZone77}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone78}
                   flex={1}
                   setValue={setZone78}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone79}
                   flex={1}
                   setValue={setZone79}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone80}
                   flex={1}
                   setValue={setZone80}
@@ -1251,48 +1338,56 @@ const AllShipmentFees = () => {
 
               <Box display="flex">
                 <TableValue
+                  loading={shipLoading}
                   value={zone81}
                   flex={1}
                   setValue={setZone81}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone82}
                   flex={1}
                   setValue={setZone82}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone83}
                   flex={1}
                   setValue={setZone83}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone84}
                   flex={1}
                   setValue={setZone84}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone85}
                   flex={1}
                   setValue={setZone85}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone86}
                   flex={1}
                   setValue={setZone86}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone87}
                   flex={1}
                   setValue={setZone87}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone88}
                   flex={1}
                   setValue={setZone88}
@@ -1302,48 +1397,56 @@ const AllShipmentFees = () => {
 
               <Box display="flex">
                 <TableValue
+                  loading={shipLoading}
                   value={zone89}
                   flex={1}
                   setValue={setZone89}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone90}
                   flex={1}
                   setValue={setZone90}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone91}
                   flex={1}
                   setValue={setZone91}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone92}
                   flex={1}
                   setValue={setZone92}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone93}
                   flex={1}
                   setValue={setZone93}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone94}
                   flex={1}
                   setValue={setZone94}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone95}
                   flex={1}
                   setValue={setZone95}
                   width="127px"
                 />
                 <TableValue
+                  loading={shipLoading}
                   value={zone96}
                   flex={1}
                   setValue={setZone96}
@@ -1426,11 +1529,11 @@ const AllShipmentFees = () => {
                     justifyContent="space-between"
                   >
                     <TableValue
+                      loading={shipLoading}
                       minWidth="160px"
                       maxWidth="160px"
                       value={usBelow4}
                       setValue={setUsBelow4}
-                      dollar
                     />
                     <Box
                       width="100%"
@@ -1458,6 +1561,7 @@ const AllShipmentFees = () => {
                     justifyContent="space-between"
                   >
                     <TableValue
+                      loading={shipLoading}
                       minWidth="160px"
                       maxWidth="160px"
                       value={usAbove4}
@@ -1490,11 +1594,11 @@ const AllShipmentFees = () => {
                     justifyContent="space-between"
                   >
                     <TableValue
+                      loading={shipLoading}
                       minWidth="160px"
                       maxWidth="160px"
                       value={ukBelow4}
                       setValue={setUkBelow4}
-                      dollar
                     />
                     <Box
                       width="100%"
@@ -1522,6 +1626,7 @@ const AllShipmentFees = () => {
                     justifyContent="space-between"
                   >
                     <TableValue
+                      loading={shipLoading}
                       minWidth="160px"
                       maxWidth="160px"
                       value={ukAbove4}
@@ -1549,11 +1654,11 @@ const AllShipmentFees = () => {
                     </Typography>
                   </Box>
                   <TableValue
+                    loading={shipLoading}
                     minWidth="160px"
                     maxWidth="160px"
                     value={ukBelow4CustomClearing}
                     setValue={setUkBelow4CustomClearing}
-                    dollar
                   />
                   <Box
                     width="100%"
@@ -1612,6 +1717,7 @@ const AllShipmentFees = () => {
                     justifyContent="space-between"
                   >
                     <TableValue
+                      loading={shipLoading}
                       minWidth="160px"
                       maxWidth="160px"
                       value={dubaiAbove}
@@ -1644,6 +1750,7 @@ const AllShipmentFees = () => {
                     justifyContent="space-between"
                   >
                     <TableValue
+                      loading={shipLoading}
                       minWidth="160px"
                       maxWidth="160px"
                       value={chinaAbove}
@@ -1671,6 +1778,7 @@ const AllShipmentFees = () => {
                     </Typography>
                   </Box>
                   <TableValue
+                    loading={shipLoading}
                     minWidth="160px"
                     maxWidth="160px"
                     value={chinaAboveCustomClearing}
@@ -1774,7 +1882,12 @@ const AllShipmentFees = () => {
       <Snackbar
         open={openError}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
+        sx={{
+          "& .MuiSnackbarContent-root": {
+            borderRadius: "30px",
+            width: "fit-content",
+          },
+        }}
         autoHideDuration={6000}
         onClose={handleClose}
         message={error || data?.message}

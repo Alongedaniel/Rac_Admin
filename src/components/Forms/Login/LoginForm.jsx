@@ -30,20 +30,20 @@ function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   // const { data: products } = useGetProducts();
-    useEffect(() => {
-      if (error || success) {
-        setOpen(true);
-      } else setOpen(false);
-    }, [loading]);
-  
+  useEffect(() => {
+    if (error || success) {
+      setOpen(true);
+    } else setOpen(false);
+  }, [loading]);
+
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
 
     setOpen(false);
-    setError('')
-    setSuccess('')
+    setError("");
+    setSuccess("");
   };
 
   const data = {
@@ -190,7 +190,12 @@ function LoginForm() {
       <Snackbar
         open={open}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
+        sx={{
+          "& .MuiSnackbarContent-root": {
+            borderRadius: "30px",
+            width: "fit-content",
+          },
+        }}
         autoHideDuration={6000}
         onClose={handleClose}
         message={success || error}
@@ -203,7 +208,7 @@ function LoginForm() {
       {/* <Snackbar
         open={openError}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" } }}
+        sx={{ "& .MuiSnackbarContent-root": { borderRadius: "30px" , maxWidth: '300px'} }}
         autoHideDuration={6000}
         onClose={() => setOpenError(false)}
         message={error}

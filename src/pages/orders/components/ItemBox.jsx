@@ -7,9 +7,22 @@ import UserModals from '../../Users/components/UserModals';
 import PackageDetailsForm from '../../../components/order/components/PackageDetailsForm';
 import ArrowLeftPurple from '../../../assets/icons/ArrowLeftPurple';
 import ArrowRightWhite from '../../../assets/icons/ArrowRightWhite';
+import { toTitleCase } from '../order-details';
+import currencyFormatter from '../../../components/CurrencyFormatter';
 
-const ItemBox = ({ order, type = '', proceed = false, item, itemNumber }) => {
+const ItemBox = ({
+  order,
+  type = "",
+  proceed = false,
+  item,
+  itemNumber,
+  isRequest,
+  activeStep,
+}) => {
   const [open, setOpen] = useState(false);
+  const service = toTitleCase(order?.serviceType);
+  // console.log(order)
+
   return (
     <Box
       key={item?.id}
@@ -22,10 +35,10 @@ const ItemBox = ({ order, type = '', proceed = false, item, itemNumber }) => {
       }}
     >
       <CardWrapper title={` Item - #${itemNumber}`}>
-        {type === "request" ? (
+        {isRequest ? (
           <>
             <div className="grid grid-cols-4 mt-[30px] gap-[20px]">
-              {order?.serviceType === "shopForMe" ? (
+              {service === "Shop For Me" ? (
                 <>
                   <div className="col-span-2">
                     <p className="text-[14px] text-t/100 font-roboto text-brand/200">
@@ -67,22 +80,22 @@ const ItemBox = ({ order, type = '', proceed = false, item, itemNumber }) => {
                 </p>
               </div>
               <div></div>
-              {order?.serviceType === "shopForMe" ? (
+              {service === "Shop For Me" ? (
                 <div className="">
                   <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                     Item Cost from Store:
                   </p>
                   <p className="font-roboto  text-[20px] text-brand/100">
-                    ${item?.cost ?? 0}
+                    {currencyFormatter.format(item?.originalCost ?? 0)}
                   </p>
                 </div>
               ) : (
                 <div className="">
                   <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                    ID: Tracking ID
+                    ID: {item?.idType}
                   </p>
                   <p className="font-roboto  text-[20px] text-brand/100">
-                    {item?.trackingId ?? "N/A"}
+                    {item?.idNumber ?? "N/A"}
                   </p>
                 </div>
               )}
@@ -94,7 +107,7 @@ const ItemBox = ({ order, type = '', proceed = false, item, itemNumber }) => {
                   {item?.qty ?? "N/A"}
                 </p>
               </div>
-              {order?.serviceType === "shopForMe" ? null : (
+              {service === "Shop For Me" ? null : (
                 <>
                   {" "}
                   <div className="">
@@ -111,7 +124,7 @@ const ItemBox = ({ order, type = '', proceed = false, item, itemNumber }) => {
                       Item delivery status:
                     </p>
                     <p className="font-roboto  text-[20px] text-brand/100">
-                      {item?.deliveryStatus ?? "N/A"}
+                      {item?.itemDeliveryStatus ?? "N/A"}
                     </p>
                   </div>
                 </>
@@ -124,12 +137,20 @@ const ItemBox = ({ order, type = '', proceed = false, item, itemNumber }) => {
                 <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                   Product/Item Picture:
                   <div className="w-[220px] h-[150px] mt-[10px] rounded-[10px] border">
-                    <img src={item?.itemImage ?? ''} alt="product" style={{width:'100%', height: '100%'}} />
+                    <img
+                      src={item?.itemImage ?? ""}
+                      alt="product"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
                   </div>
                 </p>
               </div>
               <div className=""></div>
-              {order?.serviceType === "shopForMe" ? (
+              {service === "Shop For Me" ? (
                 <>
                   <div className=""></div>
                   <div className=""></div>
@@ -141,21 +162,23 @@ const ItemBox = ({ order, type = '', proceed = false, item, itemNumber }) => {
                   Additional Description:
                 </p>
                 <p className="font-roboto  text-[20px] text-brand/100">
-                  {item?.additionalDescription ?? "N/A"}
+                  {service === "Shop For Me"
+                    ? item?.additionalDescription
+                    : item?.itemDescription ?? "N/A"}
                 </p>
               </div>
-              {order?.serviceType === "shopForMe" ? null : (
+              {service === "Shop For Me" ? null : (
                 <div>
                   <p className="text-[14px] text-t/100 font-roboto text-brand/200 mt-[10px]">
                     Item original cost:
                   </p>
                   <p className="font-roboto  text-[20px] text-brand/100">
-                    ${item?.originalCost ?? 0}
+                    {currencyFormatter.format(item?.itemOriginalCost ?? 0)}
                   </p>
                 </div>
               )}
             </div>
-            <div className="grid grid-cols-4 mt-[10px] gap-[20px]">
+            {/* <div className="grid grid-cols-4 mt-[10px] gap-[20px]">
               <div className="">
                 <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                   Color:
@@ -174,7 +197,7 @@ const ItemBox = ({ order, type = '', proceed = false, item, itemNumber }) => {
               </div>
               <div className=""></div>
               <div className=""></div>
-            </div>
+            </div> */}
           </>
         ) : (
           <>
@@ -270,7 +293,7 @@ const ItemBox = ({ order, type = '', proceed = false, item, itemNumber }) => {
           </>
         )}
       </CardWrapper>
-      {type === "request" && !proceed ? null : (
+      {!activeStep && !proceed ? null : (
         <Box onClick={() => setOpen(true)}>
           <EditIcon />
         </Box>
@@ -315,6 +338,6 @@ const ItemBox = ({ order, type = '', proceed = false, item, itemNumber }) => {
       </UserModals>
     </Box>
   );
-}
+};
 
 export default ItemBox
