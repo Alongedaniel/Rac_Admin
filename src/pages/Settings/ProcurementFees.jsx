@@ -224,7 +224,7 @@ const ProcurementFees = () => {
               <TableValue
                 width="143px"
                 value={range2}
-                dollar
+                percentage
                 setValue={setRange2}
               />
               <Box
@@ -247,7 +247,7 @@ const ProcurementFees = () => {
               <TableValue
                 width="143px"
                 value={range3}
-                dollar
+                percentage
                 setValue={setRange3}
               />
               <Box
@@ -270,7 +270,7 @@ const ProcurementFees = () => {
               <TableValue
                 width="143px"
                 value={range4}
-                dollar
+                percentage
                 setValue={setRange4}
               />
               <Box
@@ -293,7 +293,7 @@ const ProcurementFees = () => {
               <TableValue
                 width="143px"
                 value={range5}
-                dollar
+                percentage
                 setValue={setRange5}
               />
               <Box
@@ -362,7 +362,7 @@ const ProcurementFees = () => {
         sx={{
           "& .MuiSnackbarContent-root": {
             borderRadius: "30px",
-            maxWidth: "300px",
+            width: "fit-content",
           },
         }}
         autoHideDuration={6000}

@@ -342,7 +342,7 @@ const CreateCustomer = () => {
         sx={{
           "& .MuiSnackbarContent-root": {
             borderRadius: "30px",
-            maxWidth: "300px",
+            width: "fit-content",
           },
         }}
         autoHideDuration={6000}

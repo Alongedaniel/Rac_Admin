@@ -41,6 +41,7 @@ const OrderPricing = ({
   setWarehouseCost,
   discountValue,
   setDiscountValue,
+  required,
 }) => {
   const [discountType, setDiscoutType] = useState("");
   const totalShopForMeCost = () => {
@@ -55,18 +56,27 @@ const OrderPricing = ({
     (Number(warehouseCost) || 0) +
     totalShopForMeCost();
   
-  useEffect(() => {
-    if (warehouseCost.length === 0 || warehouseCost < 0) {
-      setWarehouseCost(0)
-    }
-    // if (warehouseCost.length > 1) {
-    //   const cost = warehouseCost.slice(2, warehouseCost.length);
-    //   setWarehouseCost(cost);
-    // }
-  }, [warehouseCost])
   
+
+  useEffect(() => {
+    if (warehouseCost.length === 0 || Number(warehouseCost) < 0) {
+      setWarehouseCost(0);
+    }
+    
+    if (warehouseCost.length > 1 && warehouseCost[0] === '0') {
+      const formatCost = setTimeout(() => {
+       const cost = warehouseCost.slice(1, warehouseCost.length);
+       setWarehouseCost(cost);
+      }, 100)
+      return () => clearTimeout(formatCost);
+    }
+
+  }, [warehouseCost]);
+
   console.log(typeof warehouseCost, warehouseCost);
   const [checked, setChecked] = useState(false);
+
+  console.log(checked)
   const calcDiscount = () => {
     let newValue;
     if (discountValue > 0)
@@ -202,7 +212,7 @@ const OrderPricing = ({
     setSelectedValue(event.target.value);
   };
 
-  let totalItems = 0
+  let totalItems = 0;
 
   const theme = useTheme();
   return (
@@ -748,7 +758,7 @@ const OrderPricing = ({
                   Total Gross Weight:
                 </Typography>
                 <Typography fontSize={"20px"} color="#1C1B1F">
-                  30lbs
+                  N/A
                 </Typography>
               </Grid>
               {/* <Grid item xs={3}></Grid> */}
@@ -863,10 +873,25 @@ const OrderPricing = ({
               <TextField
                 fullWidth
                 required
-                sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                sx={{
+                  fontSize: "16px",
+                  color: "#1C1B1F",
+                  "& .MuiInputLabel-root": {
+                    color: required && !warehouseCost ? "#B3261E" : "#1C1B1F",
+                  },
+                  "& .MuiInputLabel-root.Mui-focused": {
+                    color: required && !warehouseCost ? "#B3261E" : "#79747E",
+                  },
+                  "& .MuiOutlinedInput-root": {
+                    "&.Mui-focused fieldset": {
+                      borderColor:
+                        required && !warehouseCost ? "#B3261E" : "#79747E", // Border color when focused
+                    },
+                  },
+                }}
                 id="warehouse-cost"
                 // type="number"
-                type="number"
+                type="text"
                 value={warehouseCost}
                 onChange={(e) => setWarehouseCost(e.target.value)}
                 label="Total Shipping to Origin Warehouse cost"
@@ -1185,8 +1210,8 @@ const OrderPricing = ({
                   <p className="text-[20px]">Discounts</p>
                   <Switch
                     checked={checked || discountValue.length}
-                    onChange={(e) => {
-                      setChecked(e.target.checked);
+                    onClick={() => {
+                      setChecked(true);
                       if (checked) {
                         setDiscoutType("");
                         setDiscountValue(0);

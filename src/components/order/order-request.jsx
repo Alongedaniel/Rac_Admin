@@ -43,6 +43,31 @@ export const GetCustomerName = ({ id }) => {
   );
 };
 
+export const getStatusBgColor = (status) => {
+  switch (status) {
+    case "Responded":
+      return {
+        backgroundColor: "#DF5000",
+        borderColor: "transparent",
+        color: "#fff",
+      }; // yellow
+    case "Not Responded":
+      return {
+        backgroundColor: "#CAC4D0",
+        borderColor: "transparent",
+        color: "#49454F",
+      };
+    case "Declined":
+      return {
+        backgroundColor: "#FFFFFF",
+        border: "1px solid #DF5000",
+        color: "#DF5000",
+      };
+    default:
+      return null;
+  }
+};
+
 function OrderRequestComp({ home = false, all = false }) {
   const location = useLocation();
   const { userid } = useParams();
@@ -98,30 +123,6 @@ function OrderRequestComp({ home = false, all = false }) {
       </Typography>
     );
   };
-  const getStatusBgColor = (status) => {
-    switch (status) {
-      case "Responded":
-        return {
-          bgcolor: "#DF5000",
-          borderColor: "transparent",
-          color: "#fff",
-        }; // yellow
-      case "Not Responded":
-        return {
-          bgcolor: "#CAC4D0",
-          borderColor: "transparent",
-          color: "#49454F",
-        };
-      case "Declined":
-        return {
-          bgcolor: "#FFFFFF",
-          border: "1px solid #DF5000",
-          color: "#DF5000",
-        };
-      default:
-        return null;
-    }
-  };
 
   const navigate = useNavigate();
   const columns = [
@@ -147,10 +148,9 @@ function OrderRequestComp({ home = false, all = false }) {
       field: "serviceType",
       headerName: <HeaderName header="Service" />,
       width: 120,
-      renderCell: (params) =>(
-          <Typography>
-            {toTitleCase(params.row.serviceType)}
-          </Typography>)
+      renderCell: (params) => (
+        <Typography>{toTitleCase(params.row.serviceType)}</Typography>
+      ),
     },
     {
       flex: 1,
@@ -437,18 +437,15 @@ function OrderRequestComp({ home = false, all = false }) {
   //   })
   // );
 
-  const rows = data?.requests[0]?.allData?.map(
-    (row) => ({
-      ...row,
-      id: row.requestId,
-      requestStatus: row.requestStatus
-        .split(" ")
-        .map((x, i) => x.charAt(0).toUpperCase() + x.slice(1).toLowerCase())
-        .join(" "),
-    })
-  );
+  const rows = data?.requests[0]?.allData?.map((row) => ({
+    ...row,
+    id: row.requestId,
+    requestStatus: row.requestStatus
+      .split(" ")
+      .map((x, i) => x.charAt(0).toUpperCase() + x.slice(1).toLowerCase())
+      .join(" "),
+  }));
 
- 
   console.log(rows);
   return (
     <>
@@ -551,7 +548,7 @@ function OrderRequestComp({ home = false, all = false }) {
         sx={{
           "& .MuiSnackbarContent-root": {
             borderRadius: "30px",
-            maxWidth: "300px",
+            width: "fit-content",
           },
         }}
         autoHideDuration={6000}
