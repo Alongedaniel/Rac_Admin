@@ -195,16 +195,6 @@ function OrderDetails() {
     else setProceed(false);
   };
 
-<<<<<<< HEAD
-=======
-  const [shipmentMethod, setShipmentMethod] = useState("");
-  const [deliveryCompany, setDeliveryCompany] = useState("");
-  const [discountValue, setDiscountValue] = useState(0);
-  const [warehouseCost, setWarehouseCost] = useState(0);
-  const [productName, setProductName] = useState("");
-  const [originalCost, setOriginalCost] = useState("");
-  const [productDescription, setProductDescription] = useState("");
->>>>>>> a1a37649556fb8866a8f2e44d9095c8aaf663289
   const {
     customPutRequest,
     loading,

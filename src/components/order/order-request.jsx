@@ -134,10 +134,12 @@ function OrderRequestComp({ home = false, all = false }) {
       renderCell: (params) => (
         <Typography
           onClick={() => navigate(`/order-requests/${params.row._id}`)}
-          sx={{ cursor: "pointer" }}
+          sx={{ cursor: "pointer", display: 'flex', alignItems: 'center' }}
           fontSize="14px"
           fontWeight={500}
           color="#000"
+          width={"100%"}
+          height={"100%"}
         >
           {params.row.id}
         </Typography>
@@ -210,6 +212,7 @@ function OrderRequestComp({ home = false, all = false }) {
       sortable: false,
       renderCell: (params) => (
         <Typography
+          onClick={() => navigate(`/order-requests/${params.row._id}`)}
           fontSize="14px"
           fontWeight={500}
           // textTransform="capitalize"
@@ -217,7 +220,8 @@ function OrderRequestComp({ home = false, all = false }) {
           p="5px 10px"
           sx={{
             borderRadius: "10px",
-            width: "120px",
+      width: "120px",
+            cursor: 'pointer',
             ...getStatusBgColor(params.row.requestStatus),
           }}
         >
