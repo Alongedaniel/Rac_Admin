@@ -22,6 +22,7 @@ import AddPropertyModal from "./AddPropertyModal";
 import DynamicItemComponent from "../../DynamicItemComponent";
 
 const PackageDetailsForm = ({
+  required,
   order,
   origin='',
   productName = "",
@@ -33,10 +34,10 @@ const PackageDetailsForm = ({
   setItemColor = () => {},
   productDescription = "",
   setProductDescription = () => {},
-  weight = 0,
-  length = 0,
-  width = 0,
-  height = 0,
+  weight = '',
+  length = '',
+  width = '',
+  height = '',
   setHeight = () => {},
   setWidth = () => {},
   setWeight = () => {},
@@ -59,6 +60,7 @@ const PackageDetailsForm = ({
       const file = event.target.files[0];
       setSelectedFile(file);
     };
+  
   return (
     <Box>
       <Box>
@@ -86,7 +88,6 @@ const PackageDetailsForm = ({
               placeholder="Select origin"
               value={origin}
               onChange={(e) => setOrigin(e.target.value)}
-              select
               InputProps={{
                 sx: {
                   borderRadius: "20px", // Apply border radius to the input element
@@ -97,13 +98,7 @@ const PackageDetailsForm = ({
                 },
               }}
               // placeholder="Enter your country"
-            >
-              {originList.map((method, i) => (
-                <MenuItem value={method} key={i}>
-                  {method}
-                </MenuItem>
-              ))}
-            </TextField>
+            />
             <TooltipIcon />
           </Box>
         </Box>
@@ -119,6 +114,7 @@ const PackageDetailsForm = ({
           setProductName(request.itemName);
           setProductDescription(request.itemDescription);
           setOriginalCost(request.itemOriginalCost);
+          setOrigin(order?.request?.origin);
           // setQuantity()
           return (
             <Box
@@ -346,7 +342,7 @@ const PackageDetailsForm = ({
                               gap="10px"
                               justifyContent={"center"}
                               alignItems={"center"}
-                              bgcolor="#625B7180"
+                              bgcolor="#E8DEF8"
                               fontSize="14px"
                               fontWeight={500}
                               border="1px solid #79747E"
@@ -399,7 +395,7 @@ const PackageDetailsForm = ({
                         }}
                       />
                     </Box>
-                    <Box>
+                    {/* <Box>
                       <div className="flex items-center space-x-[10px] ">
                         <CircleRight />
                         <p className="font-roboto font-[500] text-[14px] text-t/100 text-brand/200 ">
@@ -451,7 +447,7 @@ const PackageDetailsForm = ({
                           </Button>
                         </Box>
                       </Box>
-                    </Box>
+                    </Box> */}
                   </Box>
                 </Box>
               </CardWrapper>
@@ -463,7 +459,7 @@ const PackageDetailsForm = ({
           startIcon={<AddIcon color="#E6E1E5" />}
           variant="contained"
           sx={{
-            mt: '20px',
+            mt: "20px",
             bgcolor: "#49454F",
             color: "#E6E1E5",
             width: "233px",
@@ -495,8 +491,27 @@ const PackageDetailsForm = ({
                     <TextField
                       required
                       id="total-weight"
-                      sx={{ fontSize: "16px", color: "#1C1B1F" }}
-                      type="number"
+                      sx={{
+                        fontSize: "16px",
+                        color: "#1C1B1F",
+                        "& .MuiInputLabel-root": {
+                          color:
+                            required && !weight ? "#B3261E" : "#1C1B1F",
+                        },
+                        "& .MuiInputLabel-root.Mui-focused": {
+                          color:
+                            required && !weight ? "#B3261E" : "#79747E",
+                        },
+                        "& .MuiOutlinedInput-root": {
+                          "&.Mui-focused fieldset": {
+                            borderColor:
+                              required && !weight
+                                ? "#B3261E"
+                                : "#79747E", // Border color when focused
+                          },
+                        },
+                      }}
+                      type="text"
                       value={weight}
                       onChange={(e) => setWeight(e.target.value)}
                       label="Total Weight (in kg)"
@@ -518,8 +533,23 @@ const PackageDetailsForm = ({
                     <TextField
                       required
                       id="total-length"
-                      sx={{ fontSize: "16px", color: "#1C1B1F" }}
-                      type="number"
+                      sx={{
+                        fontSize: "16px",
+                        color: "#1C1B1F",
+                        "& .MuiInputLabel-root": {
+                          color: required && !length ? "#B3261E" : "#1C1B1F",
+                        },
+                        "& .MuiInputLabel-root.Mui-focused": {
+                          color: required && !length ? "#B3261E" : "#79747E",
+                        },
+                        "& .MuiOutlinedInput-root": {
+                          "&.Mui-focused fieldset": {
+                            borderColor:
+                              required && !length ? "#B3261E" : "#79747E", // Border color when focused
+                          },
+                        },
+                      }}
+                      type="text"
                       value={length}
                       onChange={(e) => setLength(e.target.value)}
                       label="Total Length (in Inches)"
@@ -541,8 +571,23 @@ const PackageDetailsForm = ({
                     <TextField
                       required
                       id="total-width"
-                      sx={{ fontSize: "16px", color: "#1C1B1F" }}
-                      type="number"
+                      sx={{
+                        fontSize: "16px",
+                        color: "#1C1B1F",
+                        "& .MuiInputLabel-root": {
+                          color: required && !width ? "#B3261E" : "#1C1B1F",
+                        },
+                        "& .MuiInputLabel-root.Mui-focused": {
+                          color: required && !width ? "#B3261E" : "#79747E",
+                        },
+                        "& .MuiOutlinedInput-root": {
+                          "&.Mui-focused fieldset": {
+                            borderColor:
+                              required && !width ? "#B3261E" : "#79747E", // Border color when focused
+                          },
+                        },
+                      }}
+                      type="text"
                       label="Total Width (in Inches)"
                       value={width}
                       onChange={(e) => setWidth(e.target.value)}
@@ -564,12 +609,27 @@ const PackageDetailsForm = ({
                     <TextField
                       required
                       id="total-height"
-                      sx={{ fontSize: "16px", color: "#1C1B1F" }}
-                      type="number"
+                      type="text"
                       value={height}
                       onChange={(e) => setHeight(e.target.value)}
                       label="Total Height (in Inches)"
                       fullWidth
+                      sx={{
+                        fontSize: "16px",
+                        color: "#1C1B1F",
+                        "& .MuiInputLabel-root": {
+                          color: required && !height ? "#B3261E" : "#1C1B1F",
+                        },
+                        "& .MuiInputLabel-root.Mui-focused": {
+                          color: required && !height ? "#B3261E" : "#79747E",
+                        },
+                        "& .MuiOutlinedInput-root": {
+                          "&.Mui-focused fieldset": {
+                            borderColor:
+                              required && !height ? "#B3261E" : "#79747E", // Border color when focused
+                          },
+                        },
+                      }}
                       // placeholder="Select origin"
                       InputProps={{
                         sx: {

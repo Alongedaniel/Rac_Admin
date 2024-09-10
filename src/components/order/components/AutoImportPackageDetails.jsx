@@ -335,7 +335,7 @@ const AutoImportPackageDetails = ({ origin = "", setOrigin = () => { } }) => {
                         gap="10px"
                         justifyContent={"center"}
                         alignItems={"center"}
-                        bgcolor="#CAC4D0"
+                        bgcolor="#E8DEF8"
                         fontSize="14px"
                         fontWeight={500}
                         border="1px solid #79747E"
@@ -378,7 +378,7 @@ const AutoImportPackageDetails = ({ origin = "", setOrigin = () => { } }) => {
                         gap="10px"
                         justifyContent={"center"}
                         alignItems={"center"}
-                        bgcolor="#CAC4D0"
+                        bgcolor="#E8DEF8"
                         fontSize="14px"
                         fontWeight={500}
                         border="1px solid #79747E"
