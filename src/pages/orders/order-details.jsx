@@ -63,6 +63,7 @@ import moment from "moment";
 import OrderPricing from "../../components/order/components/OrderPricing";
 import Requests from "../../utils/hooks/api/requests";
 import CloseIcon from "../../assets/icons/CloseIcon";
+import currencyFormatter from "../../components/CurrencyFormatter";
 
 export const toTitleCase = (str) => {
   const words = str?.match(/[A-Z][a-z]+|[a-z]+/g);
@@ -94,6 +95,14 @@ function OrderDetails() {
   const [productName, setProductName] = useState("");
   const [originalCost, setOriginalCost] = useState("");
   const [productDescription, setProductDescription] = useState("");
+  const [discountType, setDiscoutType] = useState("");
+  const [checked, setChecked] = useState(false);
+  const [origin, setOrigin] = useState("");
+  const [weight, setWeight] = useState("");
+  const [length, setLength] = useState("");
+  const [height, setHeight] = useState("");
+  const [width, setWidth] = useState("");
+  const [otherCharges, setOtherCharges] = useState("");
 
   console.log(data);
 
@@ -176,18 +185,81 @@ function OrderDetails() {
   }));
   const finish = activeStep === steps.length - 1;
   const handleNext = () => {
-    if (!shipmentMethod && !deliveryCompany && activeStep === 0) {
-      setOpenError(true);
-      setError("Please input all fields");
-      setRequired(true);
-    } else if (activeStep === 2 && !warehouseCost) {
-      setOpenError(true);
-      setError("Please input all fields");
-      setRequired(true);
-    } else {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      setRequired(false);
+    if (toTitleCase(data?.serviceType) === "Shop For Me") {
+      if (!shipmentMethod && !deliveryCompany && activeStep === 0) {
+        setOpenError(true);
+        setError("Please input all fields");
+        setRequired(true);
+      } else if (activeStep === 2 && !warehouseCost) {
+        setOpenError(true);
+        setError("Please input all fields");
+        setRequired(true);
+      } else {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        setRequired(false);
+      }
     }
+    if (
+      toTitleCase(data?.serviceType) === "Export" ||
+      toTitleCase(data?.serviceType) === "Import"
+    ) {
+      if (!shipmentMethod && !deliveryCompany && activeStep === 0) {
+        setOpenError(true);
+        setError("Please input all fields");
+        setRequired(true);
+      } else if (activeStep === 1 && !height && !width && !weight && !length) {
+        setOpenError(true);
+        setError("Please input all fields");
+        setRequired(true);
+      } else if (activeStep === 2 && !otherCharges) {
+        setOpenError(true);
+        setError("Please input all fields");
+        setRequired(true);
+      } else {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        setRequired(false);
+      }
+    }
+    //   if (!shipmentMethod && !deliveryCompany && activeStep === 0) {
+    //     setOpenError(true);
+    //     setError("Please input all fields");
+    //     setRequired(true);
+    //   } else {
+    //     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    //     setRequired(false);
+    //   }
+    //   if (
+    //     activeStep === 1 &&
+    //     toTitleCase(data?.serviceType) === "Export" &&
+    //     !height &&
+    //     !width &&
+    //     !weight &&
+    //     !length
+    //   ) {
+    //       setOpenError(true);
+    //       setError("Please input all fields");
+    //       setRequired(true);
+    //     } else {
+    //       setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    //       setRequired(false);
+    //     }
+    // if (activeStep === 2)
+    //   if (toTitleCase(data?.serviceType) === "Shop For Me" && !warehouseCost) {
+    //     {
+    //       setOpenError(true);
+    //       setError("Please input all fields");
+    //       setRequired(true);
+    //     }
+    //   } else if (toTitleCase(data?.serviceType) === "Export" && !otherCharges) {
+    //     {
+    //       setOpenError(true);
+    //       setError("Please input all fields");
+    //       setRequired(true);
+    //     }
+    //   } else {
+    //     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    //     setRequired(false);
+    //   }
   };
 
   const handleBack = () => {
@@ -233,7 +305,7 @@ function OrderDetails() {
     setError("");
   };
 
-  const approveRequestData = {
+  const approveSfmRequestData = {
     requestStatus: data?.request?.requestStatus,
     discount: discountValue,
     serviceType: data?.serviceType,
@@ -242,23 +314,76 @@ function OrderDetails() {
     deliveryCompany: deliveryCompany,
   };
 
-  console.log(approveRequestData);
+  const approveExportRequestData = {
+    newOrderStatus: data?.request?.orderStatus?.toLowerCase(),
+    orderId: data?.request?.orderId,
+    discount: Number(discountValue),
+    shipmentMethod: shipmentMethod,
+    deliveryCompany: deliveryCompany,
+    height: Number(height),
+    width: Number(width),
+    length: Number(length),
+    weight: Number(weight),
+    otherCharges: Number(otherCharges),
+  };
+
+  console.log(approveExportRequestData);
 
   const approveOrder = async () => {
-    if (
-      shipmentMethod &&
-      deliveryCompany &&
-      data?.serviceType &&
-      totalCost() &&
-      warehouseCost
-    ) {
-      customPutRequest(
-        `/admin/admin/update-request-status/${data?.request?._id}`,
-        approveRequestData
-      );
-    } else {
-      setOpenError(true);
-      setError("Please input all fields");
+    if (toTitleCase(data?.serviceType) === "Shop For Me") {
+      if (
+        shipmentMethod &&
+        deliveryCompany &&
+        data?.serviceType &&
+        totalCost() &&
+        warehouseCost
+      ) {
+        customPutRequest(
+          `/admin/admin/update-request-status/${data?.request?._id}`,
+          approveSfmRequestData
+        );
+      } else {
+        setOpenError(true);
+        setError("Please input all fields");
+      }
+    }
+    if (toTitleCase(data?.serviceType) === "Export") {
+      if (
+        shipmentMethod &&
+        deliveryCompany &&
+        height &&
+        width &&
+        length &&
+        weight &&
+        otherCharges
+      ) {
+        customPutRequest(
+          `/export/admin/update-order-status`,
+          approveExportRequestData
+        );
+      } else {
+        setOpenError(true);
+        setError("Please input all fields");
+      }
+    }
+    if (toTitleCase(data?.serviceType) === "Import") {
+      if (
+        shipmentMethod &&
+        deliveryCompany &&
+        height &&
+        width &&
+        length &&
+        weight &&
+        otherCharges
+      ) {
+        customPutRequest(
+          `/import/admin/update-order-status`,
+          approveExportRequestData
+        );
+      } else {
+        setOpenError(true);
+        setError("Please input all fields");
+      }
     }
   };
 
@@ -598,6 +723,7 @@ function OrderDetails() {
                       />
                     ) : (
                       <PackageDetailsForm
+                        required={required}
                         order={data}
                         service={toTitleCase(data?.serviceType)}
                         setProductName={setProductName}
@@ -606,6 +732,16 @@ function OrderDetails() {
                         originalCost={originalCost}
                         productDescription={productDescription}
                         setProductDescription={setProductDescription}
+                        setOrigin={setOrigin}
+                        origin={origin}
+                        weight={weight}
+                        length={length}
+                        width={width}
+                        height={height}
+                        setWeight={setWeight}
+                        setLength={setLength}
+                        setWidth={setWidth}
+                        setHeight={setHeight}
                       />
                     )
                   ) : activeStep === 2 ? (
@@ -656,6 +792,14 @@ function OrderDetails() {
                             >
                               <p className="text-[20px]">Discounts</p>
                               <Switch
+                                checked={checked || discountValue.length}
+                                onChange={() => {
+                                  setChecked(!checked);
+                                  if (checked) {
+                                    setDiscoutType("");
+                                    setDiscountValue(0);
+                                  }
+                                }}
                                 sx={{
                                   root: {
                                     width: 50,
@@ -716,11 +860,19 @@ function OrderDetails() {
                                       value="%"
                                       control={<Radio color="primary" />}
                                       label="%"
+                                      onChange={() =>
+                                        setDiscoutType("Percentage")
+                                      }
+                                      disabled={!checked}
+                                      checked={discountType === "Percentage"}
                                     />
                                     <FormControlLabel
                                       value="$"
                                       control={<Radio color="primary" />}
                                       label="$"
+                                      onChange={() => setDiscoutType("Dollar")}
+                                      disabled={!checked}
+                                      checked={discountType === "Dollar"}
                                     />
                                   </Box>
                                 </RadioGroup>
@@ -730,12 +882,22 @@ function OrderDetails() {
                               <TextField
                                 id="discount"
                                 sx={{ fontSize: "16px", color: "#1C1B1F" }}
-                                // type="number"
+                                type="number"
                                 label="Discount"
+                                disabled={discountType === ""}
                                 fullWidth
+                                value={discountValue}
+                                onChange={(e) =>
+                                  setDiscountValue(parseInt(e.target.value, 10))
+                                }
                                 // placeholder="Select origin"
                                 InputProps={{
-                                  startAdornment: <PercentageIcon />,
+                                  startAdornment:
+                                    discountType === "Percentage" ? (
+                                      <PercentageIcon />
+                                    ) : (
+                                      <DollarIcon />
+                                    ),
                                   sx: {
                                     // maxWidth: "540px",
                                     borderRadius: "20px", // Apply border radius to the input element
@@ -773,7 +935,9 @@ function OrderDetails() {
                                   Storage Charge:
                                 </Typography>
                                 <Typography fontSize={"20px"} color="#1C1B1F">
-                                  $23.00
+                                  {currencyFormatter.format(
+                                    data?.request?.storageCharges
+                                  )}
                                 </Typography>
                               </Grid>
                               <Grid item xs={3}>
@@ -781,7 +945,9 @@ function OrderDetails() {
                                   Insurance Cost:
                                 </Typography>
                                 <Typography fontSize={"20px"} color="#1C1B1F">
-                                  $23.00
+                                  {currencyFormatter.format(
+                                    data?.request?.insurance
+                                  )}
                                 </Typography>
                               </Grid>
                               <Grid item xs={3}>
@@ -789,7 +955,9 @@ function OrderDetails() {
                                   Payment Method Surcharge:
                                 </Typography>
                                 <Typography fontSize={"20px"} color="#1C1B1F">
-                                  $23.00
+                                  {currencyFormatter.format(
+                                    data?.request?.paymentMethodSurcharge
+                                  )}
                                 </Typography>
                               </Grid>
                               <Grid item xs={3}>
@@ -797,7 +965,7 @@ function OrderDetails() {
                                   VAT:
                                 </Typography>
                                 <Typography fontSize={"20px"} color="#1C1B1F">
-                                  $23.00
+                                  {currencyFormatter.format(data?.request?.vat)}
                                 </Typography>
                               </Grid>
                             </Grid>
@@ -806,9 +974,36 @@ function OrderDetails() {
                               <TextField
                                 required
                                 id="other-charges"
-                                sx={{ fontSize: "16px", color: "#1C1B1F" }}
-                                type="number"
+                                sx={{
+                                  fontSize: "16px",
+                                  color: "#1C1B1F",
+                                  "& .MuiInputLabel-root": {
+                                    color:
+                                      required && !otherCharges
+                                        ? "#B3261E"
+                                        : "#1C1B1F",
+                                  },
+                                  "& .MuiInputLabel-root.Mui-focused": {
+                                    color:
+                                      required && !otherCharges
+                                        ? "#B3261E"
+                                        : "#79747E",
+                                  },
+                                  "& .MuiOutlinedInput-root": {
+                                    "&.Mui-focused fieldset": {
+                                      borderColor:
+                                        required && !otherCharges
+                                          ? "#B3261E"
+                                          : "#79747E", // Border color when focused
+                                    },
+                                  },
+                                }}
+                                type="text"
                                 label="Other Charges"
+                                value={otherCharges}
+                                onChange={(e) =>
+                                  setOtherCharges(e.target.value)
+                                }
                                 fullWidth
                                 // placeholder="Select origin"
                                 InputProps={{
