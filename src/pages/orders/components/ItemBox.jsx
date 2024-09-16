@@ -104,7 +104,7 @@ const ItemBox = ({
                   Quantity:
                 </p>
                 <p className="font-roboto  text-[20px] text-brand/100">
-                  {item?.qty ?? "N/A"}
+                  {item?.qty ?? item?.quantity ?? "N/A"}
                 </p>
               </div>
               {service === "Shop For Me" ? null : (
