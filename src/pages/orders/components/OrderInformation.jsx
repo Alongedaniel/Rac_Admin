@@ -68,11 +68,11 @@ const OrderInformation = ({ order, type, isRequest, activeStep, deliveryCompany,
               {/* <div></div> */}
               <div>
                 <p className="text-[14px] text-t/100 font-roboto">
-                  Order Type:
+                  Order Typeeee:
                 </p>
                 <p className="font-roboto  text-[20px]">Shipment</p>
               </div>
-              {(type === "request" || isRequest) && activeStep !== 3 ? (
+              {(type === "request" || isRequest) && activeStep !== 3 && activeStep !== 4 ? (
                 <div className="col-span-2">
                   <p className="text-[14px] text-t/100 font-roboto">
                     {type === "request" || isRequest
@@ -138,10 +138,10 @@ const OrderInformation = ({ order, type, isRequest, activeStep, deliveryCompany,
                   {toTitleCase(order?.serviceType)}
                 </p>
               </div>
-              {(type === "request" || isRequest) && activeStep !== 3 ? null : (
+              {(type === "request" || isRequest) && activeStep !== 3 && activeStep !== 4 ? null : (
                 <div></div>
               )}
-              {(type === "request" || isRequest) && activeStep !== 3 ? null : (
+              {(type === "request" || isRequest) && activeStep !== 3 && activeStep !== 4 ? null : (
                 <>
                   <div>
                     <p className="text-[14px] text-t/100 font-roboto">
@@ -162,7 +162,7 @@ const OrderInformation = ({ order, type, isRequest, activeStep, deliveryCompany,
                   </div>
                 </>
               )}
-              {(type === "request" || isRequest) && activeStep !== 3 ? (
+              {(type === "request" || isRequest) && activeStep !== 3 && activeStep !== 4 ? (
                 <>
                   <div>
                     <p className="text-[14px] text-t/100 font-roboto">
@@ -184,7 +184,7 @@ const OrderInformation = ({ order, type, isRequest, activeStep, deliveryCompany,
               ) : null}
             </div>
           </CardWrapper>
-          {(type === "request" || isRequest) && activeStep !== 3 ? null : (
+          {(type === "request" || isRequest) && activeStep !== 3 && activeStep !== 4 ? null : (
             <Box onClick={() => setEditOrderInfo(true)}>
               <EditIcon />
             </Box>

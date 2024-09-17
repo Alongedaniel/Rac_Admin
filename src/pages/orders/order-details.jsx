@@ -103,6 +103,8 @@ function OrderDetails() {
   const [height, setHeight] = useState("");
   const [width, setWidth] = useState("");
   const [otherCharges, setOtherCharges] = useState("");
+  const [pickupCost, setPickupCost] = useState("");
+  const [shippingCost, setShippingCost] = useState("");
 
   console.log(data);
 
@@ -112,7 +114,7 @@ function OrderDetails() {
   const [proceed, setProceed] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
   const steps =
-    data?.service === "Auto Import"
+    data?.serviceType === "autoImport"
       ? [
           "Order Information",
           "Package Details",
@@ -199,6 +201,22 @@ function OrderDetails() {
         setRequired(false);
       }
     }
+    if (toTitleCase(data?.serviceType) === "Auto Import") {
+      if ((!shipmentMethod || !deliveryCompany) && activeStep === 0) {
+        setOpenError(true);
+        setError("Please input all fields");
+        setRequired(true);
+      }
+      else if (activeStep === 3 && (!shippingCost || !pickupCost || !otherCharges)) {
+        setOpenError(true);
+        setError("Please input all fields");
+        setRequired(true);
+      }
+      else {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        setRequired(false);
+      }
+    }
     if (
       toTitleCase(data?.serviceType) === "Export" ||
       toTitleCase(data?.serviceType) === "Import"
@@ -207,7 +225,10 @@ function OrderDetails() {
         setOpenError(true);
         setError("Please input all fields");
         setRequired(true);
-      } else if (activeStep === 1 && (!height || !width || !weight || !length)) {
+      } else if (
+        activeStep === 1 &&
+        (!height || !width || !weight || !length)
+      ) {
         setOpenError(true);
         setError("Please input all fields");
         setRequired(true);
@@ -220,46 +241,6 @@ function OrderDetails() {
         setRequired(false);
       }
     }
-    //   if (!shipmentMethod && !deliveryCompany && activeStep === 0) {
-    //     setOpenError(true);
-    //     setError("Please input all fields");
-    //     setRequired(true);
-    //   } else {
-    //     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    //     setRequired(false);
-    //   }
-    //   if (
-    //     activeStep === 1 &&
-    //     toTitleCase(data?.serviceType) === "Export" &&
-    //     !height &&
-    //     !width &&
-    //     !weight &&
-    //     !length
-    //   ) {
-    //       setOpenError(true);
-    //       setError("Please input all fields");
-    //       setRequired(true);
-    //     } else {
-    //       setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    //       setRequired(false);
-    //     }
-    // if (activeStep === 2)
-    //   if (toTitleCase(data?.serviceType) === "Shop For Me" && !warehouseCost) {
-    //     {
-    //       setOpenError(true);
-    //       setError("Please input all fields");
-    //       setRequired(true);
-    //     }
-    //   } else if (toTitleCase(data?.serviceType) === "Export" && !otherCharges) {
-    //     {
-    //       setOpenError(true);
-    //       setError("Please input all fields");
-    //       setRequired(true);
-    //     }
-    //   } else {
-    //     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    //     setRequired(false);
-    //   }
   };
 
   const handleBack = () => {
@@ -281,6 +262,10 @@ function OrderDetails() {
     if (data?.serviceType === "shopForMe")
       data?.request?.requestItems?.map(
         (x) => (total += x.qty * x.originalCost)
+      );
+    if (data?.serviceType === "autoImport")
+      data?.request?.requestItems?.map(
+        (x) => (total += x.carValue)
       );
     return total;
   };
@@ -314,20 +299,32 @@ function OrderDetails() {
     deliveryCompany: deliveryCompany,
   };
 
+  const approveAutoImportRequestData = {
+    newOrderStatus: data?.request?.orderStatus?.toLowerCase(),
+    orderId: data?.request?.orderId,
+    discount: discountValue,
+    serviceType: data?.serviceType,
+    shippingCost: shippingCost,
+    pickupCost: pickupCost,
+    otherCharges: otherCharges,
+    shipmentMethod: shipmentMethod,
+    deliveryCompany: deliveryCompany,
+  };
+
   const approveExportRequestData = {
     newOrderStatus: data?.request?.orderStatus?.toLowerCase(),
     orderId: data?.request?.orderId,
     discount: Number(discountValue),
     shipmentMethod: shipmentMethod,
     deliveryCompany: deliveryCompany,
-    height: Number(height),
-    width: Number(width),
-    length: Number(length),
-    weight: Number(weight),
-    otherCharges: Number(otherCharges),
+    totalHeight: Number(height),
+    totalWidth: Number(width),
+    totalLength: Number(length),
+    totalWeight: Number(weight),
+    otherCharges: Number(otherCharges)
   };
 
-  console.log(approveExportRequestData);
+  console.log(approveAutoImportRequestData);
 
   const approveOrder = async () => {
     if (toTitleCase(data?.serviceType) === "Shop For Me") {
@@ -379,6 +376,23 @@ function OrderDetails() {
         customPutRequest(
           `/import/admin/update-order-status`,
           approveExportRequestData
+        );
+      } else {
+        setOpenError(true);
+        setError("Please input all fields");
+      }
+    }
+    if (toTitleCase(data?.serviceType) === "Auto Import") {
+      if (
+        shipmentMethod &&
+        deliveryCompany &&
+        shippingCost &&
+        pickupCost &&
+        otherCharges
+      ) {
+        customPutRequest(
+          `/auto-import/admin/update-order-status`,
+          approveAutoImportRequestData
         );
       } else {
         setOpenError(true);
@@ -713,7 +727,7 @@ function OrderDetails() {
                       </Box>
                     </Box>
                   ) : activeStep === 1 ? (
-                    data?.serviceType === "Auto Import" ||
+                    data?.serviceType === "autoImport" ||
                     data?.serviceType === "shopForMe" ? (
                       <PackageDetails
                         proceed={proceed}
@@ -745,7 +759,7 @@ function OrderDetails() {
                       />
                     )
                   ) : activeStep === 2 ? (
-                    data?.serviceType === "Auto Import" ? (
+                    data?.serviceType === "autoImport" ? (
                       <>
                         <ShippingDetails
                           proceed={proceed}
@@ -1024,15 +1038,32 @@ function OrderDetails() {
                       </Box>
                     )
                   ) : activeStep === 3 ? (
-                    data?.serviceType === "Auto Import" ? (
+                    data?.serviceType === "autoImport" ? (
                       <>
                         <BillingDetails
                           proceed={proceed}
                           order={data}
                           type={type}
+                          activeStep={activeStep}
                         />
                         <Box mt="30px">
-                          <PaymentInformation toggle={toggle} drop={drop} />
+                          <OrderPricing
+                            id={data?.request?._id}
+                            service={toTitleCase(data?.serviceType)}
+                            requestItems={data?.request?.requestItems}
+                            data={data?.request}
+                            setDiscountValue={setDiscountValue}
+                            discountValue={discountValue}
+                            warehouseCost={warehouseCost}
+                            setWarehouseCost={setWarehouseCost}
+                            required={required}
+                            pickupCost={pickupCost}
+                            setPickupCost={setPickupCost}
+                            otherCharges={otherCharges}
+                            setOtherCharges={setOtherCharges}
+                            shippingCost={shippingCost}
+                            setShippingCost={setShippingCost}
+                          />
                         </Box>
                       </>
                     ) : (
@@ -1066,16 +1097,18 @@ function OrderDetails() {
                       </Box>
                     )
                   ) : activeStep === 4 ? (
-                    data?.serviceType === "Auto Import" ? (
+                    data?.serviceType === "autoImport" ? (
                       <Box display="flex" flexDirection="column" gap="30px">
                         <OrderInformation
+                          activeStep={activeStep}
                           order={data}
                           type={type}
-                          toggle={toggle}
-                          drop={drop}
+                          isRequest={requestid}
+                          deliveryCompany={deliveryCompany}
+                          shipmentMethod={shipmentMethod}
                         />
 
-                        <PackageDetails
+                        {/* <PackageDetails
                           isRequest={Boolean(requestid)}
                           order={data}
                           type={type}
@@ -1087,11 +1120,12 @@ function OrderDetails() {
                           type={type}
                           toggle={toggle}
                           drop={drop}
-                        />
+                        /> */}
                         <BillingDetails
-                          totalCost={0}
-                          order={data}
+                          activeStep={activeStep}
+                          order={data?.request}
                           type={type}
+                          totalCost={totalCost()}
                         />
                       </Box>
                     ) : (
@@ -1254,7 +1288,7 @@ function OrderDetails() {
                         </Box>
                       </Box>
                     )
-                  ) : data?.serviceType === "Auto Import" ? (
+                  ) : data?.serviceType === "autoImport" ? (
                     <Box width="100%">
                       <Box bgcolor="#6750A4" borderRadius="20px" px="1px">
                         <Box

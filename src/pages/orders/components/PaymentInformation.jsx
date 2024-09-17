@@ -22,8 +22,14 @@ import RetryIcon from "../../../assets/icons/RetryIcon";
 import StyledArrowRight from "../../../assets/icons/StyledArrowRight";
 import SectionHeader from "../../../components/SectionHeader";
 import CardWrapper from "../../../components/order/components/CardWrapper";
+import currencyFormatter from "../../../components/CurrencyFormatter";
 
-const PaymentInformation = () => {
+const PaymentInformation = ({ requestItems }) => {
+    const totalDeclaredValue = () => {
+      let total = 0;
+      requestItems.map((x) => (total += x.carValue));
+      return currencyFormatter.format(total);
+    };
   const theme = useTheme();
   return (
     <div>
@@ -101,124 +107,67 @@ const PaymentInformation = () => {
             Pick Up Cost
           </Grid>
         </Grid>
-        <Grid
-          sx={{ bgcolor: "#fff", borderBottom: "1px solid #79747E" }}
-          container
-          p="20px"
-        >
+        {requestItems?.map((item) => (
           <Grid
-            item
-            xs={3}
-            sx={{ display: "flex", alignItems: "center", gap: "10px" }}
+            sx={{ bgcolor: "#fff", borderBottom: "1px solid #79747E" }}
+            container
+            p="20px"
           >
-            <img
-              src={car}
-              alt="car"
-              style={{ width: "61px", height: "54px" }}
-            />
-            <Typography fontSize={"14px"} fontWeight={500}>
-              Benz s10
-            </Typography>
+            <Grid
+              item
+              xs={3}
+              sx={{ display: "flex", alignItems: "center", gap: "10px" }}
+            >
+              <img
+                src={car}
+                alt="car"
+                style={{ width: "61px", height: "54px" }}
+              />
+              <Typography fontSize={"14px"} fontWeight={500}>
+                {item?.carBrand}
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              xs={3}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Typography fontSize={"14px"} fontWeight={500}>
+                {item?.color}
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              xs={3}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Typography fontSize={"14px"} fontWeight={500}>
+                {currencyFormatter.format(item?.carValue)}
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              xs={3}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Typography fontSize={"14px"} fontWeight={500}>
+                {currencyFormatter.format(item?.pickupCost) ?? "N/A"}
+              </Typography>
+            </Grid>
           </Grid>
-          <Grid
-            item
-            xs={3}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Typography fontSize={"14px"} fontWeight={500}>
-              Blue
-            </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={3}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Typography fontSize={"14px"} fontWeight={500}>
-              $88.99
-            </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={3}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Typography fontSize={"14px"} fontWeight={500}>
-              $22.00
-            </Typography>
-          </Grid>
-        </Grid>
-        <Grid
-          sx={{ bgcolor: "#fff", borderBottom: "1px solid #79747E" }}
-          container
-          p="20px"
-        >
-          <Grid
-            item
-            xs={3}
-            sx={{ display: "flex", alignItems: "center", gap: "10px" }}
-          >
-            <img
-              src={car}
-              alt="car"
-              style={{ width: "61px", height: "54px", objectFit: "cover" }}
-            />
-            <Typography fontSize={"14px"} fontWeight={500}>
-              GLK 450d
-            </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={3}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Typography fontSize={"14px"} fontWeight={500}>
-              Green
-            </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={3}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Typography fontSize={"14px"} fontWeight={500}>
-              $88.99
-            </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={3}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Typography fontSize={"14px"} fontWeight={500}>
-              ---
-            </Typography>
-          </Grid>
-        </Grid>
+        ))}
         <Grid
           sx={{
             bgcolor: "#fff",
@@ -230,7 +179,23 @@ const PaymentInformation = () => {
         >
           <Grid item xs={3}></Grid>
           <Grid item xs={3}></Grid>
-          <Grid item xs={3}></Grid>
+          <Grid
+            item
+            xs={3}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-end",
+              justifyContent: "flex-end",
+            }}
+          >
+            <Typography fontSize={"14px"} color="#49454F">
+              Total pick up cost:
+            </Typography>
+            <Typography fontSize={"20px"} color="#1C1B1F">
+              N/A
+            </Typography>
+          </Grid>
           <Grid
             item
             xs={3}
@@ -245,7 +210,7 @@ const PaymentInformation = () => {
               Total Declared Value:
             </Typography>
             <Typography fontSize={"20px"} color="#1C1B1F">
-              $345.00
+              {totalDeclaredValue()}
             </Typography>
           </Grid>
         </Grid>

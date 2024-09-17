@@ -11,14 +11,21 @@ import ArrowRightWhite from '../../../assets/icons/ArrowRightWhite';
 import { toTitleCase } from '../order-details';
 import currencyFormatter from '../../../components/CurrencyFormatter';
 
-const BillingDetails = ({ order, type = "", proceed = false, isRequest, totalCost }) => {
+const BillingDetails = ({ order, type = "", proceed = false, isRequest, totalCost, activeStep }) => {
+  console.log(totalCost)
   const [open, setOpen] = useState(false);
   const serviceType = toTitleCase(order?.serviceType)
     const overallCost =
-      order?.totalProcessingFee +
-      order?.totalUrgentPurchaseCost +
-      order?.orderVat +
-      totalCost;
+      serviceType === "Shop For Me"
+        ? order?.totalProcessingFee +
+          order?.totalUrgentPurchaseCost +
+          order?.orderVat +
+          totalCost
+        : order?.insurance +
+          order?.vat +
+          order?.storageCharges +
+          order?.paymentMethodSurcharge +
+          totalCost;
   return (
     <>
       {(type === "request" || isRequest) &&
@@ -128,28 +135,75 @@ const BillingDetails = ({ order, type = "", proceed = false, isRequest, totalCos
                   </Box>
                 )}
               </Box>
-            )}
-            {serviceType === "Auto Import" ? null : (
-              <Box
-                sx={{
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "30px",
-                  marginTop: "20px",
-                }}
-              >
-                <CardWrapper title="Payments Information">
-                  <div className="grid grid-cols-5 mt-[30px]">
-                    {serviceType === "Shop For Me" && (
-                      <>
+              )}
+              
+              {serviceType === "Auto Import" && activeStep === 3 ? null : (
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "30px",
+                    marginTop: "20px",
+                  }}
+                >
+                  <CardWrapper title="Payments Information">
+                    <div className="grid grid-cols-5 mt-[30px]">
+                      {serviceType === "Shop For Me" && (
+                        <>
+                          <div className="col-span-2">
+                            <p className="text-[14px] text-t/100 font-roboto text-brand/200">
+                              Total Procurement Cost:
+                            </p>
+                            <p className="font-roboto  text-[20px] text-brand/100">
+                              {currencyFormatter.format(overallCost) ??
+                                "$234,000.00"}
+                            </p>
+                          </div>
+                          <div className="">
+                            <p className="text-[14px] text-t/100 font-roboto text-brand/200">
+                              Payment Status:
+                            </p>
+                            <p className="font-roboto  text-[20px] text-brand/100">
+                              Processing
+                            </p>
+                          </div>
+                          <div></div>
+                          <div></div>
+                        </>
+                      )}
+                      {serviceType === "Auto Import" && (
+                        <>
+                          <div className="col-span-2">
+                            <p className="text-[14px] text-t/100 font-roboto text-brand/200">
+                              Total Shipping Cost:
+                            </p>
+                            <p className="font-roboto  text-[20px] text-brand/100">
+                              {currencyFormatter.format(overallCost) ??
+                                "$234,000.00"}
+                            </p>
+                          </div>
+                          <div className="">
+                            <p className="text-[14px] text-t/100 font-roboto text-brand/200">
+                              Payment Status:
+                            </p>
+                            <p className="font-roboto  text-[20px] text-brand/100">
+                              N/A
+                            </p>
+                          </div>
+                          <div></div>
+                          <div></div>
+                        </>
+                      )}
+                    </div>
+                    {serviceType === "Auto Import" ? (
+                      <div className="grid grid-cols-5 mt-[30px]">
                         <div className="col-span-2">
                           <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                            Total Procurement Cost:
+                            Total Clearing Cost:
                           </p>
                           <p className="font-roboto  text-[20px] text-brand/100">
-                            {currencyFormatter.format(overallCost) ??
-                              "$234,000.00"}
+                            N/A
                           </p>
                         </div>
                         <div className="">
@@ -157,38 +211,36 @@ const BillingDetails = ({ order, type = "", proceed = false, isRequest, totalCos
                             Payment Status:
                           </p>
                           <p className="font-roboto  text-[20px] text-brand/100">
-                            Processing
+                            N/A
                           </p>
                         </div>
-                        <div></div>
-                        <div></div>
-                      </>
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-5 mt-[30px]">
+                        <div className="col-span-2">
+                          <p className="text-[14px] text-t/100 font-roboto text-brand/200">
+                            Total Shipment Cost:
+                          </p>
+                          <p className="font-roboto  text-[20px] text-brand/100">
+                            {serviceType === "Shop For Me"
+                              ? "Not yet assigned"
+                              : "$234,000.00"}
+                          </p>
+                        </div>
+                        <div className="">
+                          <p className="text-[14px] text-t/100 font-roboto text-brand/200">
+                            Payment Status:
+                          </p>
+                          <p className="font-roboto  text-[20px] text-brand/100">
+                            {serviceType === "Shop For Me" ? "---" : "Processing"}
+                          </p>
+                        </div>
+                      </div>
                     )}
-                  </div>
-                  <div className="grid grid-cols-5 mt-[30px]">
-                    <div className="col-span-2">
-                      <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        Total Shipment Cost:
-                      </p>
-                      <p className="font-roboto  text-[20px] text-brand/100">
-                        {serviceType === "Shop For Me"
-                          ? "Not yet assigned"
-                          : "$234,000.00"}
-                      </p>
-                    </div>
-                    <div className="">
-                      <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        Payment Status:
-                      </p>
-                      <p className="font-roboto  text-[20px] text-brand/100">
-                        {serviceType === "Shop For Me" ? "---" : "Processing"}
-                      </p>
-                    </div>
-                  </div>
-                </CardWrapper>
-                {type === "request" || isRequest ? null : <EditIcon />}
-              </Box>
-            )}
+                  </CardWrapper>
+                  {type === "request" || isRequest ? null : <EditIcon />}
+                </Box>
+              )}
           </div>
           <UserModals
             open={open}
