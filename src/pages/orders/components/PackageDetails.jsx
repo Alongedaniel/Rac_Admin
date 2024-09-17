@@ -7,6 +7,7 @@ import ItemBox from './ItemBox';
 import ProductBox from './ProductBox';
 import CardWrapper from '../../../components/order/components/CardWrapper';
 import { toTitleCase } from '../order-details';
+import AutoImportItem from '../../../components/order/components/AutoImportItem';
 
 const PackageDetails = ({
   type = "",
@@ -36,29 +37,31 @@ const PackageDetails = ({
           title="Package Origin/Shipment location"
           style={{ width: "100%" }}
         >
-          {(type === "request" || isRequest) && activeStep === 3 ? null : (
-            <div
-              style={{
-                marginTop: "30px",
-                width: "100%",
-                backgroundColor: "#F2B8B5",
-                padding: "10px 14px",
-                borderRadius: "20px",
-              }}
-            >
-              <p
-                style={{
-                  fontSize: "14px",
-                  fontWeight: 500,
-                  color: "#49454F",
-                }}
-              >
-                {toTitleCase(order?.request?.serviceType) === "Shop For Me"
-                  ? "This is the RAC Facility where the items will be delivered after they are purchased and they will be shipped from here to our pickup office in Nigeria"
-                  : "This is the RAC Facility the customer claimed to have dropped the package off at"}
-              </p>
-            </div>
-          )}
+          {(type === "request" || isRequest) && activeStep === 3
+            ? null
+            : toTitleCase(order?.request?.serviceType) !== "Auto Import" && (
+                <div
+                  style={{
+                    marginTop: "30px",
+                    width: "100%",
+                    backgroundColor: "#F2B8B5",
+                    padding: "10px 14px",
+                    borderRadius: "20px",
+                  }}
+                >
+                  <p
+                    style={{
+                      fontSize: "14px",
+                      fontWeight: 500,
+                      color: "#49454F",
+                    }}
+                  >
+                    {toTitleCase(order?.request?.serviceType) === "Shop For Me"
+                      ? "This is the RAC Facility where the items will be delivered after they are purchased and they will be shipped from here to our pickup office in Nigeria"
+                      : "This is the RAC Facility the customer claimed to have dropped the package off at"}
+                  </p>
+                </div>
+              )}
           {type === "request" || isRequest ? (
             <div className="grid grid-cols-2 mt-[20px]">
               <div className="">
@@ -141,21 +144,38 @@ const PackageDetails = ({
           <EditIcon />
         )}
       </Box>
-      {order?.service === "Auto Import" ? (
-        <ProductBox proceed={proceed} order={order} type={type} />
-      ) : (
-        order?.request?.requestItems?.map((item, i) => (
-          <ItemBox
-            activeStep={activeStep}
-            proceed={proceed}
-            isRequest={isRequest}
-            order={order}
-            item={item}
-            type={type}
-            itemNumber={i + 1}
-          />
-        ))
-      )}
+      {toTitleCase(order?.serviceType) === "Auto Import"
+        ? order?.request?.requestItems?.map((item, i) =>
+            isRequest ? (
+              <AutoImportItem
+                view
+                item={item}
+                itemNumber={i + 1}
+                proceed={proceed}
+              />
+            ) : (
+              <ProductBox
+                proceed={proceed}
+                order={order}
+                item={item}
+                itemNumber={i + 1}
+                type={type}
+                isRequest={isRequest}
+                activeStep={activeStep}
+              />
+            )
+          )
+        : order?.request?.requestItems?.map((item, i) => (
+            <ItemBox
+              activeStep={activeStep}
+              proceed={proceed}
+              isRequest={isRequest}
+              order={order}
+              item={item}
+              type={type}
+              itemNumber={i + 1}
+            />
+          ))}
     </div>
   );
 };

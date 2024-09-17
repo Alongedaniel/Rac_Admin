@@ -8,8 +8,17 @@ import UserModals from "../../Users/components/UserModals";
 import AutoImportPackageDetails from "../../../components/order/components/AutoImportPackageDetails";
 import ArrowLeftPurple from "../../../assets/icons/ArrowLeftPurple";
 import ArrowRightWhite from "../../../assets/icons/ArrowRightWhite";
+import currencyFormatter from "../../../components/CurrencyFormatter";
 
-const ProductBox = ({ order, type = '', proceed = false }) => {
+const ProductBox = ({
+  order,
+  type = "",
+  proceed = false,
+  item,
+  itemNumber,
+  isRequest,
+  activeStep,
+}) => {
   const [openModal, setOpenModal] = useState(false);
   return (
     <Box
@@ -21,8 +30,8 @@ const ProductBox = ({ order, type = '', proceed = false }) => {
         marginTop: "20px",
       }}
     >
-      <CardWrapper title="Car - #1">
-        {type === "request" ? (
+      <CardWrapper title={`Car - #${itemNumber}`}>
+        {isRequest ? (
           <>
             <div className="grid grid-cols-5 mt-[30px] gap-[20px]">
               <div className="">
@@ -30,7 +39,7 @@ const ProductBox = ({ order, type = '', proceed = false }) => {
                   Item Name:
                 </p>
                 <p className="font-roboto  text-[20px] text-brand/100">
-                  Mercedes
+                  {item?.carBrand}
                 </p>
               </div>
               <div></div>
@@ -39,7 +48,7 @@ const ProductBox = ({ order, type = '', proceed = false }) => {
                   Model:
                 </p>
                 <p className="font-roboto  text-[20px] text-brand/100">
-                  GLE 250
+                  {item?.model}
                 </p>
               </div>
               <div className=""></div>
@@ -47,14 +56,16 @@ const ProductBox = ({ order, type = '', proceed = false }) => {
                 <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                   Production Year
                 </p>
-                <p className="font-roboto  text-[20px] text-brand/100">2017</p>
+                <p className="font-roboto  text-[20px] text-brand/100">
+                  {item?.productionYear}
+                </p>
               </div>
               <div className="">
                 <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                   Car Value:
                 </p>
                 <p className="font-roboto  text-[20px] text-brand/100">
-                  $50,000,000
+                  {currencyFormatter.format(item?.carValue)}
                 </p>
               </div>
               <div className=""></div>
@@ -63,7 +74,7 @@ const ProductBox = ({ order, type = '', proceed = false }) => {
                   Car Condition:
                 </p>
                 <p className="font-roboto  text-[20px] text-brand/100">
-                  Drivable
+                  {item?.carCondition}
                 </p>
               </div>
               {/* <div className=""></div> */}
@@ -71,14 +82,16 @@ const ProductBox = ({ order, type = '', proceed = false }) => {
                 <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                   Car Color:
                 </p>
-                <p className="font-roboto  text-[20px] text-brand/100">Brown</p>
+                <p className="font-roboto  text-[20px] text-brand/100">
+                  {item?.color}
+                </p>
               </div>
               <div className="">
                 <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                   Mileage:
                 </p>
                 <p className="font-roboto  text-[20px] text-brand/100">
-                  77676km
+                  {item?.mileage}km
                 </p>
               </div>
               <div className="">
@@ -86,7 +99,7 @@ const ProductBox = ({ order, type = '', proceed = false }) => {
                   VIN Number:
                 </p>
                 <p className="font-roboto  text-[20px] text-brand/100">
-                  Amazon
+                  {item?.vehicleIdNumber}
                 </p>
               </div>
               <div className=""></div>
@@ -95,11 +108,11 @@ const ProductBox = ({ order, type = '', proceed = false }) => {
                   Direct URL/Website Link to the Car:
                 </p>
                 <a
-                  href="https://amazon.com"
+                  href={item?.link}
                   className="font-roboto  text-[20px]"
                   style={{ color: "#B3261E" }}
                 >
-                  amazon.com
+                  {item?.link}
                 </a>
               </div>
               {/* <div className=""></div> */}
@@ -131,7 +144,7 @@ const ProductBox = ({ order, type = '', proceed = false }) => {
                   Additional Description:
                 </p>
                 <p className="font-roboto  text-[20px] text-brand/100">
-                  Additonvnv ghss jgsjvsn
+                  {item?.additionalDescription}
                 </p>
               </div>
               <div className=""></div>
@@ -147,7 +160,7 @@ const ProductBox = ({ order, type = '', proceed = false }) => {
                 </p>
               </div> */}
             </div>
-            <div className="grid grid-cols-5 mt-[10px] gap-[20px]">
+            {/* <div className="grid grid-cols-5 mt-[10px] gap-[20px]">
               <div className="">
                 <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                   Color:
@@ -164,7 +177,7 @@ const ProductBox = ({ order, type = '', proceed = false }) => {
               </div>
               <div className=""></div>
               <div className=""></div>
-            </div>
+            </div> */}
             <Box mt="20px" pt="10px" sx={{ borderTop: "1px solid #79747E" }}>
               <div className="grid grid-cols-5 gap-[20px] mt-[30px] ">
                 <div className="">
@@ -339,7 +352,7 @@ const ProductBox = ({ order, type = '', proceed = false }) => {
           </>
         )}
       </CardWrapper>
-      {type === "request" && !proceed ? null : (
+      {!activeStep && !proceed ? null : (
         <Box onClick={() => setOpenModal(true)}>
           <EditIcon />
         </Box>
