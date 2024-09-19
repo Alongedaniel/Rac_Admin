@@ -25,6 +25,7 @@ import XCloseIcon from "../../../assets/icons/XCloseIcon";
 import AddIcon from "../../../assets/icons/AddIcon";
 import currencyFormatter from "../../CurrencyFormatter";
 import nairaCurrencyFormatter from "../../NairaCurrencyFormatter";
+import CarPickupBox from "./CarPickupBox";
 
 const OrderPricing = ({
   shippingCost = "",
@@ -44,8 +45,9 @@ const OrderPricing = ({
   required,
   otherCharges,
   setOtherCharges,
-  pickupCost,
-  setPickupCost,
+  totalPickupCost,
+  setTotalPickupCost,
+  isRequest
 }) => {
   const [discountType, setDiscoutType] = useState("");
   const totalShopForMeCost = () => {
@@ -72,9 +74,8 @@ const OrderPricing = ({
     data?.vat +
     data?.storageCharges +
     (Number(shippingCost) ?? 0) +
-    (Number(pickupCost) ?? 0) +
-    (Number(otherCharges) ?? 0) +
-    totalDeclaredAutoImportValue();
+    (Number(totalPickupCost) ?? 0) +
+    (Number(otherCharges) ?? 0);
 
   useEffect(() => {
     if (warehouseCost.length === 0 || Number(warehouseCost) < 0) {
@@ -181,28 +182,28 @@ const OrderPricing = ({
       itemName: "Benz s10",
       itemColor: "blue",
       itemValue: "$88.99",
-      pickupCost: "$22.00",
+      totalPickupCost: "$22.00",
     },
     {
       image: car,
       itemName: "Benz s10",
       itemColor: "blue",
       itemValue: "$88.99",
-      pickupCost: "$22.00",
+      totalPickupCost: "$22.00",
     },
     {
       image: car,
       itemName: "Benz s10",
       itemColor: "blue",
       itemValue: "$88.99",
-      pickupCost: "$22.00",
+      totalPickupCost: "$22.00",
     },
     {
       image: car,
       itemName: "Benz s10",
       itemColor: "blue",
       itemValue: "$88.99",
-      pickupCost: "$22.00",
+      totalPickupCost: "$22.00",
     },
   ];
   const items = [
@@ -648,7 +649,7 @@ const OrderPricing = ({
                   }}
                 >
                   <Typography fontSize={"14px"} fontWeight={600}>
-                    {currencyFormatter.format(item.pickupCost ?? 0)}
+                    {currencyFormatter.format(item.totalPickupCost ?? 0)}
                   </Typography>
                 </Grid>
               </Grid>
@@ -1090,150 +1091,108 @@ const OrderPricing = ({
             </Box>
           )}
 
-          <Box mt="20px">
+          <Box mt="10px">
             {service === "Shop For Me" ? null : (
-              <Box border="1px solid #CAC4D0" p="16px 20px" borderRadius="20px">
-                <Typography fontSize={"14px"} color="#49454F" mb="20px">
-                  Additional Costs
-                </Typography>
-                <Grid container>
-                  <Grid item xs={3}>
-                    <Typography fontSize={"14px"} color="#49454F">
-                      Storage Charge:
-                    </Typography>
-                    <Typography fontSize={"20px"} color="#1C1B1F">
-                      {currencyFormatter.format(
-                        Number(data?.storageCharges ?? 0)
-                      )}
-                    </Typography>
+              <>
+                <Box
+                  border="1px solid #CAC4D0"
+                  p="16px 20px"
+                  borderRadius="20px"
+                >
+                  <Typography fontSize={"14px"} color="#49454F" mb="20px">
+                    Additional Costs
+                  </Typography>
+                  <Grid container>
+                    <Grid item xs={3}>
+                      <Typography fontSize={"14px"} color="#49454F">
+                        Storage Charge:
+                      </Typography>
+                      <Typography fontSize={"20px"} color="#1C1B1F">
+                        {currencyFormatter.format(
+                          Number(data?.storageCharges ?? 0)
+                        )}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={3}>
+                      <Typography fontSize={"14px"} color="#49454F">
+                        Insurance Cost:
+                      </Typography>
+                      <Typography fontSize={"20px"} color="#1C1B1F">
+                        {currencyFormatter.format(Number(data?.insurance ?? 0))}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={3}>
+                      <Typography fontSize={"14px"} color="#49454F">
+                        Payment Method Surcharge:
+                      </Typography>
+                      <Typography fontSize={"20px"} color="#1C1B1F">
+                        {currencyFormatter.format(
+                          Number(data?.paymentMethodSurcharge ?? 0)
+                        )}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={3}>
+                      <Typography fontSize={"14px"} color="#49454F">
+                        VAT:
+                      </Typography>
+                      <Typography fontSize={"20px"} color="#1C1B1F">
+                        {currencyFormatter.format(Number(data?.vat ?? 0))}
+                      </Typography>
+                    </Grid>
                   </Grid>
-                  <Grid item xs={3}>
-                    <Typography fontSize={"14px"} color="#49454F">
-                      Insurance Cost:
-                    </Typography>
-                    <Typography fontSize={"20px"} color="#1C1B1F">
-                      {currencyFormatter.format(Number(data?.insurance ?? 0))}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={3}>
-                    <Typography fontSize={"14px"} color="#49454F">
-                      Payment Method Surcharge:
-                    </Typography>
-                    <Typography fontSize={"20px"} color="#1C1B1F">
-                      {currencyFormatter.format(
-                        Number(data?.paymentMethodSurcharge ?? 0)
-                      )}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={3}>
-                    <Typography fontSize={"14px"} color="#49454F">
-                      VAT:
-                    </Typography>
-                    <Typography fontSize={"20px"} color="#1C1B1F">
-                      {currencyFormatter.format(Number(data?.vat ?? 0))}
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Grid container wrap="nowrap" gap="10px" mt="20px">
-                  {service === "Auto Import" ? (
-                    <Box width="100%">
-                      <Grid container gap="30px" wrap="nowrap">
-                        <Grid item xs={6}>
-                          <TextField
-                            required
-                            id="pickup-cost"
-                            sx={{
-                              fontSize: "16px",
-                              color: "#1C1B1F",
-                              "& .MuiInputLabel-root": {
-                                color:
-                                  required && !pickupCost
-                                    ? "#B3261E"
-                                    : "#1C1B1F",
-                              },
-                              "& .MuiInputLabel-root.Mui-focused": {
-                                color:
-                                  required && !pickupCost
-                                    ? "#B3261E"
-                                    : "#79747E",
-                              },
-                              "& .MuiOutlinedInput-root": {
-                                "&.Mui-focused fieldset": {
-                                  borderColor:
-                                    required && !pickupCost
-                                      ? "#B3261E"
-                                      : "#79747E", // Border color when focused
-                                },
-                              },
-                            }}
-                            type="number"
-                            label="Pick Up Cost"
-                            fullWidth
-                            value={pickupCost}
-                            onChange={(e) => setPickupCost(e.target.value)}
-                            // placeholder="Select origin"
-                            InputProps={{
-                              startAdornment: <DollarIcon />,
-                              sx: {
-                                // maxWidth: "540px",
-                                borderRadius: "20px", // Apply border radius to the input element
-                                height: "56px",
-                                borderColor: "#79747E",
+                  <Grid container wrap="nowrap" gap="10px" mt="20px">
+                    {service === "Auto Import" ? (
+                      <Box width="100%">
+                        <Grid container gap="30px" wrap="nowrap">
+                          <Grid item xs={12}>
+                            <TextField
+                              required
+                              id="other-charges"
+                              sx={{
                                 fontSize: "16px",
                                 color: "#1C1B1F",
-                              },
-                            }}
-                          />
-                        </Grid>
-                        <Grid item xs={6}>
-                          <TextField
-                            required
-                            id="other-charges"
-                            sx={{
-                              fontSize: "16px",
-                              color: "#1C1B1F",
-                              "& .MuiInputLabel-root": {
-                                color:
-                                  required && !otherCharges
-                                    ? "#B3261E"
-                                    : "#1C1B1F",
-                              },
-                              "& .MuiInputLabel-root.Mui-focused": {
-                                color:
-                                  required && !otherCharges
-                                    ? "#B3261E"
-                                    : "#79747E",
-                              },
-                              "& .MuiOutlinedInput-root": {
-                                "&.Mui-focused fieldset": {
-                                  borderColor:
+                                "& .MuiInputLabel-root": {
+                                  color:
                                     required && !otherCharges
                                       ? "#B3261E"
-                                      : "#79747E", // Border color when focused
+                                      : "#1C1B1F",
                                 },
-                              },
-                            }}
-                            type="number"
-                            label="Other Charges"
-                            fullWidth
-                            value={otherCharges}
-                            onChange={(e) => setOtherCharges(e.target.value)}
-                            // placeholder="Select origin"
-                            InputProps={{
-                              startAdornment: <DollarIcon />,
-                              sx: {
-                                // maxWidth: "540px",
-                                borderRadius: "20px", // Apply border radius to the input element
-                                height: "56px",
-                                borderColor: "#79747E",
-                                fontSize: "16px",
-                                color: "#1C1B1F",
-                              },
-                            }}
-                          />
+                                "& .MuiInputLabel-root.Mui-focused": {
+                                  color:
+                                    required && !otherCharges
+                                      ? "#B3261E"
+                                      : "#79747E",
+                                },
+                                "& .MuiOutlinedInput-root": {
+                                  "&.Mui-focused fieldset": {
+                                    borderColor:
+                                      required && !otherCharges
+                                        ? "#B3261E"
+                                        : "#79747E", // Border color when focused
+                                  },
+                                },
+                              }}
+                              type="number"
+                              label="Other Charges"
+                              fullWidth
+                              value={otherCharges}
+                              onChange={(e) => setOtherCharges(e.target.value)}
+                              // placeholder="Select origin"
+                              InputProps={{
+                                startAdornment: <DollarIcon />,
+                                sx: {
+                                  // maxWidth: "540px",
+                                  borderRadius: "20px", // Apply border radius to the input element
+                                  height: "56px",
+                                  borderColor: "#79747E",
+                                  fontSize: "16px",
+                                  color: "#1C1B1F",
+                                },
+                              }}
+                            />
+                          </Grid>
                         </Grid>
-                      </Grid>
-                      <Button
+                        {/* <Button
                         onClick={() => setClicked(!clicked)}
                         startIcon={clicked ? <XCloseIcon /> : <AddIcon />}
                         variant={clicked ? "contained" : "outlined"}
@@ -1258,34 +1217,56 @@ const OrderPricing = ({
                         }}
                       >
                         Pick-Up Cost
-                      </Button>
-                    </Box>
-                  ) : (
-                    <Grid item xs={12}>
-                      <TextField
-                        required
-                        id="other-charges"
-                        sx={{ fontSize: "16px", color: "#1C1B1F" }}
-                        type="number"
-                        label="Other Charges"
-                        fullWidth
-                        // placeholder="Select origin"
-                        InputProps={{
-                          startAdornment: <DollarIcon />,
-                          sx: {
-                            // maxWidth: "540px",
-                            borderRadius: "20px", // Apply border radius to the input element
-                            height: "56px",
-                            borderColor: "#79747E",
-                            fontSize: "16px",
-                            color: "#1C1B1F",
-                          },
-                        }}
+                      </Button> */}
+                      </Box>
+                    ) : (
+                      <Grid item xs={12}>
+                        <TextField
+                          required
+                          id="other-charges"
+                          sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                          type="number"
+                          label="Other Charges"
+                          fullWidth
+                          // placeholder="Select origin"
+                          InputProps={{
+                            startAdornment: <DollarIcon />,
+                            sx: {
+                              // maxWidth: "540px",
+                              borderRadius: "20px", // Apply border radius to the input element
+                              height: "56px",
+                              borderColor: "#79747E",
+                              fontSize: "16px",
+                              color: "#1C1B1F",
+                            },
+                          }}
+                        />
+                      </Grid>
+                    )}
+                  </Grid>
+                </Box>
+                <Box
+                  border="1px solid #CAC4D0"
+                  p="16px 20px"
+                  borderRadius="20px"
+                  mt="10px"
+                >
+                  <Typography fontSize={"14px"} color="#49454F" mb="20px">
+                    Pickup Costs
+                  </Typography>
+                  <Grid container wrap="nowrap" gap="20px" mt="20px">
+                    {requestItems.map((car, i) => (
+                      <CarPickupBox
+                        car={car}
+                        index={i + 1}
+                        required={required}
+                        setTotalPickupCost={setTotalPickupCost}
+                        isRequest={isRequest}
                       />
-                    </Grid>
-                  )}
-                </Grid>
-              </Box>
+                    ))}
+                  </Grid>
+                </Box>
+              </>
             )}
             <Box
               display="flex"
