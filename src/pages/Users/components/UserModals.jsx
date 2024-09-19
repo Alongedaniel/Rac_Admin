@@ -44,7 +44,7 @@ const UserModals = ({
 
 
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal open={open} onClose={onClose} sx={{zIndex: 9999}}>
       <Box
         bgcolor="#fff"
         sx={{

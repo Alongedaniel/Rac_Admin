@@ -103,7 +103,7 @@ function OrderDetails() {
   const [height, setHeight] = useState("");
   const [width, setWidth] = useState("");
   const [otherCharges, setOtherCharges] = useState("");
-  const [pickupCost, setPickupCost] = useState("");
+  const [totalPickupCost, setTotalPickupCost] = useState(0);
   const [shippingCost, setShippingCost] = useState("");
 
   console.log(data);
@@ -207,7 +207,7 @@ function OrderDetails() {
         setError("Please input all fields");
         setRequired(true);
       }
-      else if (activeStep === 3 && (!shippingCost || !pickupCost || !otherCharges)) {
+      else if (activeStep === 3 && (!shippingCost || !totalPickupCost || !otherCharges)) {
         setOpenError(true);
         setError("Please input all fields");
         setRequired(true);
@@ -258,16 +258,23 @@ function OrderDetails() {
   } = Requests();
 
   const totalCost = () => {
-    let total = 0;
-    if (data?.serviceType === "shopForMe")
+    let total = data?.serviceType === "shopForMe" ? Number(warehouseCost) : 0;
+    if (data?.serviceType === "shopForMe"){
       data?.request?.requestItems?.map(
         (x) => (total += x.qty * x.originalCost)
       );
-    if (data?.serviceType === "autoImport")
-      data?.request?.requestItems?.map(
-        (x) => (total += x.carValue)
-      );
-    return total;
+      return total > Number(discountValue)
+        ? total - Number(discountValue)
+        : Number(discountValue) - total;
+    }
+    if (data?.serviceType === "autoImport"){
+      let cost =
+        Number(shippingCost) + Number(otherCharges);
+      total += cost
+      return total > Number(discountValue)
+        ? total - Number(discountValue)
+        : Number(discountValue) - total;
+    }
   };
 
   const customer =
@@ -305,7 +312,7 @@ function OrderDetails() {
     discount: discountValue,
     serviceType: data?.serviceType,
     shippingCost: shippingCost,
-    pickupCost: pickupCost,
+    totalPickupCost: totalPickupCost,
     otherCharges: otherCharges,
     shipmentMethod: shipmentMethod,
     deliveryCompany: deliveryCompany,
@@ -387,7 +394,7 @@ function OrderDetails() {
         shipmentMethod &&
         deliveryCompany &&
         shippingCost &&
-        pickupCost &&
+        totalPickupCost &&
         otherCharges
       ) {
         customPutRequest(
@@ -1057,12 +1064,13 @@ function OrderDetails() {
                             warehouseCost={warehouseCost}
                             setWarehouseCost={setWarehouseCost}
                             required={required}
-                            pickupCost={pickupCost}
-                            setPickupCost={setPickupCost}
+                            totalPickupCost={totalPickupCost}
+                            setTotalPickupCost={setTotalPickupCost}
                             otherCharges={otherCharges}
                             setOtherCharges={setOtherCharges}
                             shippingCost={shippingCost}
                             setShippingCost={setShippingCost}
+                            isRequest={Boolean(requestid)}
                           />
                         </Box>
                       </>
