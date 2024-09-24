@@ -207,7 +207,7 @@ function OrderDetails() {
         setError("Please input all fields");
         setRequired(true);
       }
-      else if (activeStep === 3 && (!shippingCost || !totalPickupCost || !otherCharges)) {
+      else if (activeStep === 3 && (!shippingCost || !otherCharges)) {
         setOpenError(true);
         setError("Please input all fields");
         setRequired(true);
@@ -307,7 +307,7 @@ function OrderDetails() {
   };
 
   const approveAutoImportRequestData = {
-    newOrderStatus: data?.request?.orderStatus?.toLowerCase(),
+    status: 'responded',
     orderId: data?.request?.orderId,
     discount: discountValue,
     serviceType: data?.serviceType,
@@ -394,11 +394,10 @@ function OrderDetails() {
         shipmentMethod &&
         deliveryCompany &&
         shippingCost &&
-        totalPickupCost &&
         otherCharges
       ) {
         customPutRequest(
-          `/auto-import/admin/update-order-status`,
+          `/auto-import/admin/autoimport-status-update`,
           approveAutoImportRequestData
         );
       } else {

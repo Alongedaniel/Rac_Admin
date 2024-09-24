@@ -104,23 +104,30 @@ const AutoImportItem = ({ view, item, itemNumber, proceed }) => {
             </a>
           </div>
           <div className="col-span-2">
-            <p className="text-[14px] text-t/100 font-roboto text-brand/200">
+            <p className="text-[14px] text-t/100 font-roboto text-brand/200 mt-[10px]">
               Car Picture:
-              <div className=" mt-[10px] rounded-[10px]">
-                <img src={car} alt="car" />
-              </div>
             </p>
+            <Box width="280px" height="150px" borderRadius="10px">
+              <div>
+                <img
+                  src={item?.carImage}
+                  alt="car"
+                  className=" mt-[10px] rounded-[10px]"
+                  style={{ objectFit: "cover" }}
+                />
+              </div>
+            </Box>
           </div>
           <div className="col-span-3">
             <p className="text-[14px] text-t/100 font-roboto text-brand/200 mt-[10px]">
               Copy of the Car Title:
             </p>
-            <Box
-              width="147px"
-              height="150px"
-              bgcolor="#D9D9D9"
-              borderRadius="10px"
-            ></Box>
+            <img
+              src={item?.carTitle}
+              alt="car"
+              className="w-[147px] h-[150px] mt-[10px] rounded-[10px]"
+              style={{ objectFit: "cover" }}
+            />
           </div>
           <div className="col-span-5">
             <p className="text-[14px] text-t/100 font-roboto text-brand/200 mt-[10px]">
