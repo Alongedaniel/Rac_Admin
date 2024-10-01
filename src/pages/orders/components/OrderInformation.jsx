@@ -68,7 +68,7 @@ const OrderInformation = ({ order, type, isRequest, activeStep, deliveryCompany,
               {/* <div></div> */}
               <div>
                 <p className="text-[14px] text-t/100 font-roboto">
-                  Order Typeeee:
+                  Order Type:
                 </p>
                 <p className="font-roboto  text-[20px]">Shipment</p>
               </div>
@@ -83,6 +83,7 @@ const OrderInformation = ({ order, type, isRequest, activeStep, deliveryCompany,
                     style={{
                       display:
                         type === "request" || isRequest ? "none" : "block",
+                      textTransform: 'capitalize'
                     }}
                     className="font-roboto  text-[20px]"
                   >
@@ -97,6 +98,7 @@ const OrderInformation = ({ order, type, isRequest, activeStep, deliveryCompany,
                       borderRadius: "10px",
                       width: "fit-content",
                       padding: "5px 10px",
+                      textTransform: 'capitalize',
                       ...getStatusBgColor(
                         toTitleCase(order?.request?.requestStatus)
                       ),
