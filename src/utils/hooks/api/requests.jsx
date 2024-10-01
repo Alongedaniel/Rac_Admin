@@ -30,6 +30,7 @@ const Requests = () => {
           setError("");
             setLoading(false);
         } catch (e) {
+          if(e?.response?.status === 500) setError('Internal server error')
             setError(e?.response?.data?.message);
           setData(null);
           setSuccess(false);
