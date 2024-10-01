@@ -30,11 +30,12 @@ import useCustomGetRequest from "../../utils/hooks/api/useCustomGetRequest";
 
 const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
   const { user } = useAuth()
+  console.log(user, '54i')
   
   const navigate = useNavigate()
   const location = useLocation()
-  const {id} = useParams()
-  const { data, loading } = useCustomGetRequest((userType === "Customer" ? `/admin/users/${id}` : `/admin/get-single-staff/${id}`) ?? '');
+  const {userid} = useParams()
+  const { data, loading } = useCustomGetRequest((userType === "Customer" ? `/admin/users/${userid}` : `/admin/get-single-staff/${currentUser ? user?.user?._id : userid}`) ?? '');
   console.log(data)
   const userData = userType === "Customer" ? data?.user : data?.staffMember
   const [currentTab, setCurrentTab] = useState("Account Information");
