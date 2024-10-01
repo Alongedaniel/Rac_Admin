@@ -68,7 +68,7 @@ function App() {
     },
   };
   const theme = createTheme(themeOptions);
-  resetLogoutTimer();
+  // resetLogoutTimer();
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
