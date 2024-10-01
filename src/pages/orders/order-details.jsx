@@ -319,7 +319,7 @@ function OrderDetails() {
   };
 
   const approveExportRequestData = {
-    newOrderStatus: data?.request?.orderStatus?.toLowerCase(),
+    requestStatus: 'responded',
     orderId: data?.request?.orderId,
     discount: Number(discountValue),
     shipmentMethod: shipmentMethod,
@@ -331,7 +331,7 @@ function OrderDetails() {
     otherCharges: Number(otherCharges)
   };
 
-  console.log(approveAutoImportRequestData);
+  // console.log(approveExportRequestData);
 
   const approveOrder = async () => {
     if (toTitleCase(data?.serviceType) === "Shop For Me") {
@@ -1477,6 +1477,9 @@ function OrderDetails() {
                                 height: "40px",
                                 borderRadius: "100px",
                                 textTransform: "none",
+                                "&:hover": {
+                                  bgcolor: "#B3261E",
+                                },
                               }}
                               onClick={() => {
                                 if (!finish) {

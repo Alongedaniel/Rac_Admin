@@ -440,7 +440,6 @@ function OrderRequestComp({ home = false, all = false }) {
   //     service: "Shop For Me",
   //   })
   // );
-
   const rows = data?.requests[0]?.allData?.map((row) => ({
     ...row,
     id: row.requestId,
@@ -449,8 +448,8 @@ function OrderRequestComp({ home = false, all = false }) {
       .map((x, i) => x.charAt(0).toUpperCase() + x.slice(1).toLowerCase())
       .join(" "),
   }));
+  const [searchQuery, setSearchQuery] = useState(null)
 
-  console.log(rows);
   return (
     <>
       {loading ? (
@@ -479,6 +478,11 @@ function OrderRequestComp({ home = false, all = false }) {
                 id="search"
                 type="text"
                 placeholder="Search for orders with any related keyword"
+                value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    
+                }}
                 InputProps={{
                   sx: {
                     border: "1px solid #79747E",

@@ -10,7 +10,7 @@ const MainLayout = ({ children, title, showFullBar, setShowFullBar }) => {
   const location = useLocation();
   const { isAuthenticated, success, error, setSuccess, setError, loading } =
     useAuth();
-  if (!isAuthenticated && location.pathname !== "/")
+  if (!isAuthenticated)
     return (
       <Navigate
         to="/login"

@@ -81,7 +81,7 @@ export const UserProvider = ({ children }) => {
       localStorage.setItem("jwtToken", JSON.stringify(res.data.jwt));
       localStorage.setItem("isAuthenticated", JSON.stringify(true));
 
-      // navigate("/");
+      navigate("/");
       setSuccess('Account verification successful')
       setLoading(false);
     } catch (e) {
@@ -106,25 +106,12 @@ export const UserProvider = ({ children }) => {
       setLoading(false);
     }
   };
-  const logout = async () => {
-    setLoading(true);
-    try {
-      const res = await axiosInstance.post("/admin/logout");
-      setSuccess("Logout successful");
-      setLoading(false);
-      setUser(null)
-      setIsAuthenticated(false)
-      setBearerToken('')
+  const logout = () => {
+
       navigate("/login");
       localStorage.removeItem("user");
       localStorage.removeItem("jwtToken");
       localStorage.removeItem("isAuthenticated");
-    } catch (e) {
-      if (e?.response?.request?.status === 401)
-        setError("Token expired, Login again");
-      else setError(e?.response?.data?.message);
-      setLoading(false);
-    }
   };
   return (
     <UserContext.Provider

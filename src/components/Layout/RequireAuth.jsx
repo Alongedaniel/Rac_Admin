@@ -1,11 +1,18 @@
-import React from 'react'
-import { useAuth } from '../../utils/contexts/userContext/UserContext'
+import React, { useEffect, useState } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
 
 const RequireAuth = ({ children }) => {
-    const { isAuthenticated } = useAuth()
     const location = useLocation();
-//   const navigate = useNavigate();
+  //   const navigate = useNavigate();
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+  
+    useEffect(() => {
+
+      const isAuthenticated = localStorage.getItem("isAuthenticated");
+      if (isAuthenticated) {
+        setIsAuthenticated(JSON.parse(isAuthenticated));
+      }
+    }, []);
 
   if (isAuthenticated) {
     const from = location.state?.from || '/';
