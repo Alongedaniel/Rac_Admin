@@ -52,7 +52,7 @@ const useCustomGetRequest = (url) => {
 
     useEffect(() => {
         getRequests()
-    }, [url])
+    }, [])
 
   return { data, error, loading, setError, setLoading, setData, refetch };
 }
