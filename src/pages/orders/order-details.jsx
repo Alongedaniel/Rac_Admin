@@ -319,7 +319,7 @@ function OrderDetails() {
   };
 
   const approveExportRequestData = {
-    newOrderStatus: data?.request?.orderStatus?.toLowerCase(),
+    newOrderStatus: 'responded',
     orderId: data?.request?.orderId,
     discount: Number(discountValue),
     shipmentMethod: shipmentMethod,
