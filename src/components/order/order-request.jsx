@@ -244,57 +244,6 @@ function OrderRequestComp({ home = false, all = false }) {
         ),
       width: 150,
     },
-    // {
-    // flex: 1,
-    //   field: "cost",
-    //   headerName: <HeaderName header="Total Cost" />,
-    //   // type: "number",
-    //   width: 130,
-    //   renderCell: (params) => (
-    //     <Typography
-    //       fontSize="14px"
-    //       fontWeight={500}
-    //       color="#000"
-    //       sx={{ display: "flex", alignItems: "center", gap: "5px" }}
-    //     >
-    //       {params.row.status === "Responded" ? (
-    //         <Tooltip title={<Tip text1="Shipping cost: Paid" />}>
-    //           <div>
-    //             <CheckIcon />
-    //           </div>
-    //         </Tooltip>
-    //       ) : params.row.status === "Processing" ? (
-    //         <Tooltip title={<Tip text1="Shipping cost: Processing" />}>
-    //           <div>
-    //             <ProcessIcon />
-    //           </div>
-    //         </Tooltip>
-    //       ) : params.row.status === "Cancelled" ? (
-    //         <Tooltip title={<Tip text1="Shipping cost: Cancelled" />}>
-    //           <div>
-    //             <CloseSquare />
-    //           </div>
-    //         </Tooltip>
-    //       ) : (
-    //         <Tooltip
-    //           title={<Tip text1="Shipping cost: To be paid upon clearing" />}
-    //         >
-    //           <div>
-    //             <CheckMoreIcon />
-    //           </div>
-    //         </Tooltip>
-    //       )}
-    //       {params.row.cost}
-    //     </Typography>
-    //   ),
-    // },
-    // {
-    // flex: 1,
-    //   field: "type",
-    //   headerName: <HeaderName header="Type" />,
-    //   // type: "number",
-    //   width: 120,
-    // },
     {
       flex: 1,
       field: "staff",
@@ -303,28 +252,6 @@ function OrderRequestComp({ home = false, all = false }) {
       width: 170,
       renderCell: (params) => "N/A",
     },
-    // {
-    // flex: 1,
-    //   field: "packaging",
-    //   headerName: <HeaderName header="Packaging" />,
-    //   // type: "number",
-    //   width: 180,
-    //   sortable: false,
-    //   renderCell: (params) => (
-    //     <Typography
-    //       fontSize="14px"
-    //       fontWeight={500}
-    //       color="#fff"
-    //       sx={{
-    //         bgcolor: getPackagingBgColor(params.row.packaging),
-    //         p: "5px 10px",
-    //         borderRadius: "10px",
-    //       }}
-    //     >
-    //       {params.row.packaging}
-    //     </Typography>
-    //   ),
-    // },
     {
       flex: 1,
       field: "actions",
@@ -409,37 +336,7 @@ function OrderRequestComp({ home = false, all = false }) {
     //     `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     // },
   ];
-
-  // const exports = (
-  //   data?.data?.allExportRequests ??
-  //   data?.exportOrders ??
-  //   []
-  // )?.map((request) => ({
-  //   ...request,
-  //   service: "Export",
-  // }));
-  // const imports = (
-  //   data?.data?.allImportRequests ??
-  //   data?.importOrders ??
-  //   []
-  // )?.map((request) => ({
-  //   ...request,
-  //   service: "Import",
-  // }));
-  // const autoImports = (
-  //   data?.data?.allAutoImportRequests ??
-  //   data?.autoImportOrders ??
-  //   []
-  // )?.map((request) => ({
-  //   ...request,
-  //   service: "Auto Import",
-  // }));
-  // const shopForMe = (data?.data?.allSfmRequests ?? data?.sfmOrders ?? [])?.map(
-  //   (request) => ({
-  //     ...request,
-  //     service: "Shop For Me",
-  //   })
-  // );
+  
   const rows = data?.requests[0]?.allData?.map((row) => ({
     ...row,
     id: row.requestId,
@@ -449,6 +346,53 @@ function OrderRequestComp({ home = false, all = false }) {
       .join(" "),
   }));
   const [searchQuery, setSearchQuery] = useState(null)
+
+  const filterOptions = {
+    header: "Show Orders only under the following category",
+    options: [
+      {
+        title: "Staff(s) in charge",
+        subOptions: [
+          "Micheal Sam",
+          "Rexomi Off",
+          "Feradic Fintech",
+          "Exlemu Nudo",
+          "Ferincle Modifyv",
+          "Vickony Else",
+        ],
+      },
+      {
+        title: "Packaging status",
+        subOptions: [
+          "Not started",
+          "Packaging in progress",
+          "Packaging complete",
+        ],
+      },
+      {
+        title: "Order status",
+        subOptions: ["Processed", "Processing", "unprocessed"],
+      },
+      {
+        title: "Order cost",
+        subOptions: [
+          "$0 - $20",
+          "$20 - $50",
+          "$50 - $100",
+          "$100 - $500",
+          "Above $500",
+        ],
+      },
+      {
+        title: "Payment status",
+        subOptions: ["Confirmed", "Not yet confirmed", "Reversed"],
+      },
+      {
+        title: "Processed date",
+        subOptions: [],
+      },
+    ],
+  };
 
   return (
     <>
@@ -473,15 +417,18 @@ function OrderRequestComp({ home = false, all = false }) {
             mb="16px"
           >
             <Box display="flex" alignItems="center" gap="20px">
-              <ActionButton title="Filter view" icon={<FilterIcons />} />
+              <ActionButton
+                title="Filter view"
+                icon={<FilterIcons />}
+                items={filterOptions}
+              />
               <TextField
                 id="search"
                 type="text"
                 placeholder="Search for orders with any related keyword"
                 value={searchQuery}
-                  onChange={(e) => {
-                    setSearchQuery(e.target.value);
-                    
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
                 }}
                 InputProps={{
                   sx: {
