@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Checkbox,
   Grid,
   Menu,
   MenuItem,
@@ -73,11 +74,18 @@ const ActionButton = ({
         open={open}
         onClose={handleCloseMenu}
         sx={{
-          "& .MuiMenu-paper": { borderRadius: "20px" },
+          "& .MuiMenu-paper": {
+            borderRadius: "20px",
+            "&::-webkit-scrollbar": { display: "none" },
+          },
           top: "10px",
         }}
       >
-        <Box bgcolor="#FFFBFE" maxHeight='450px' sx={{'&::-webkit-scrollbar': {display: 'none'}}}>
+        <Box
+          bgcolor="#FFFBFE"
+          maxHeight="450px"
+          sx={{ "&::-webkit-scrollbar": { display: "none" } }}
+        >
           {items?.header ? (
             <Box
               p="10px"
@@ -103,24 +111,35 @@ const ActionButton = ({
                   </Typography>
                 </Box>
               </Box>
-              <Grid container p="10px" display="flex" wrap="wrap">
+              <Grid
+                container
+                py="10px"
+                display="flex"
+                wrap="wrap"
+                sx={{ alignItems: "flex-start" }}
+              >
                 {items?.options?.map((option) => (
-                  <Grid item xs={option.title === "Processed date" ? 12 : 6}>
-                    <Box p="16px" display="flex" alignItems="center" gap="32px">
-                      <Radio
+                  <Grid
+                    item
+                    xs={option.title === "Processed date" ? 12 : 6}
+                    height="auto"
+                  >
+                    <Box py="0px" display="flex" alignItems="center" gap="32px">
+                      <Checkbox
                         checked={selectedOptions.includes(option.title)}
-                        onChange={() =>
-                          selectedOptions.includes(option.title)
-                            ? setSelectedOptions((prev) =>
-                                prev.filter((item) => item !== option.title)
-                              )
-                            : setSelectedOptions([
-                                ...selectedOptions.filter(
-                                  (item) => item !== option.title
-                                ),
-                                option.title,
-                              ])
-                        }
+                        onClick={(event) => {
+                          if (selectedOptions.includes(option.title)) {
+                            setSelectedOptions((prev) =>
+                              prev.filter((item) => item !== option.title)
+                            );
+                          } else {
+                            setSelectedOptions([
+                              ...selectedOptions,
+                              option.title,
+                            ]);
+                          }
+                        }}
+                        // onClick={() => console.log(selectedOptions)}
                       />
                       <Typography fontSize="16px" color="#1C1B1F">
                         {option.title}
@@ -135,17 +154,23 @@ const ActionButton = ({
                           gap="25px"
                           mb="5px"
                         >
-                          <Radio
+                          <Checkbox
                             disabled={!selectedOptions.includes(option.title)}
                             checked={selectedSubOptions.includes(subOption)}
-                            onChange={() =>
-                              setSelectedSubOptions([
-                                ...selectedOptions.filter(
-                                  (item) => item !== subOption
-                                ),
-                                subOption,
-                              ])
-                            }
+                            onClick={(event) => {
+                              if (selectedSubOptions.includes(subOption)) {
+                                setSelectedSubOptions((prev) =>
+                                  prev.filter((item) => item !== subOption)
+                                );
+                                console.log("there");
+                              } else
+                                setSelectedSubOptions([
+                                  ...selectedSubOptions.filter(
+                                    (item) => item !== subOption
+                                  ),
+                                  subOption,
+                                ]);
+                            }}
                             sx={{
                               borderRadius: 0,
                             }}

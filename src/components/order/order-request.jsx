@@ -411,12 +411,12 @@ function OrderRequestComp({ home = false, all = false }) {
           <Box
             display={home ? "none" : "flex"}
             alignItems="center"
-            gap="10px"
+            gap="50px"
             sx={{ justifyContent: "space-between" }}
             width="100%"
             mb="16px"
           >
-            <Box display="flex" alignItems="center" gap="20px">
+            <Box display="flex" alignItems="center" gap="20px" flex={1}>
               <ActionButton
                 title="Filter view"
                 icon={<FilterIcons />}
@@ -426,7 +426,8 @@ function OrderRequestComp({ home = false, all = false }) {
                 id="search"
                 type="text"
                 placeholder="Search for orders with any related keyword"
-                value={searchQuery}
+                  value={searchQuery}
+                  fullWidth
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
                 }}
@@ -444,7 +445,11 @@ function OrderRequestComp({ home = false, all = false }) {
                   startAdornment: <SearchIcon />,
                 }}
               />
-              <ActionButton title="Bulk Actions" icon={<BulkIcon />} />
+              <ActionButton
+                title="Bulk Actions"
+                icon={<BulkIcon />}
+                items={{options: ["Decline Order Requests"]}}
+              />
             </Box>
             {/* <Box sx={{ flex: 1 }}> */}
             <ActionButton title="Create new request" icon={<NewOrderIcon />} />
