@@ -9,20 +9,43 @@ import SwitchCopm from "./SwitchCopm";
 import TooltipIcon from "../../../assets/icons/TooltipIcon";
 import AutoImportItem from "./AutoImportItem";
 
-const CarPickupBox = ({ car, index, required, setTotalPickupCost, isRequest }) => {
-    const [pickupCost, setPickupCost] = useState("");
-    const [open, setOpen] = useState("");
-    const [openCar, setOpenCar] = useState("");
-    // useEffect(() => {
-    //     setTotalPickupCost((prev) => prev + Number(pickupCost));
-    // }, [pickupCost])
-    
+const CarPickupBox = ({
+  car,
+  index,
+  required,
+  setTotalPickupCost,
+  totalPickupCost,
+  isRequest,
+  requestItems,
+}) => {
+  const [pickupCosts, setPickupCosts] = useState(
+    Array(requestItems.length).fill(0)
+  );
+  const [open, setOpen] = useState("");
+  const [openCar, setOpenCar] = useState("");
+  // useEffect(() => {
+  //     setTotalPickupCost((prev) => prev + Number(pickupCost));
+  // }, [pickupCost])
+
+  const handleInputChange = (index, value) => {
+    const newValue = parseFloat(value) || 0; // Convert to number or set to 0 if NaN
+    const currentCost = pickupCosts[index];
+    const newPickupCosts = [...pickupCosts];
+
+    // Update totalCost
+    const newTotalCost = totalPickupCost - currentCost + newValue;
+    setTotalPickupCost(newTotalCost);
+    newPickupCosts[index] = newValue;
+
+    setPickupCosts(newPickupCosts);
+  };
+
   return (
     <Grid
       item
       xs={6}
       p="16px"
-      bgcolor={car.pickupCost ? "#fff" : "#F4EFF4"}
+      bgcolor={!car?.pickupDetails?.firstName ? "#fff" : "#F4EFF4"}
       border="1px solid #CAC4D0"
       borderRadius="20px"
     >
@@ -40,7 +63,7 @@ const CarPickupBox = ({ car, index, required, setTotalPickupCost, isRequest }) =
           sx={{ cursor: "pointer" }}
         >
           <img
-            src={carImage}
+            src={car.carImage}
             alt={car.carBrand}
             style={{
               width: "61px",
@@ -62,7 +85,7 @@ const CarPickupBox = ({ car, index, required, setTotalPickupCost, isRequest }) =
           <EyeOpen />
         </Box>
       </Box>
-      {car.pickupCost ? (
+      {!car?.pickupDetails?.firstName ? (
         <Grid
           container
           wrap="nowrap"
@@ -112,24 +135,23 @@ const CarPickupBox = ({ car, index, required, setTotalPickupCost, isRequest }) =
               fontSize: "16px",
               color: "#1C1B1F",
               "& .MuiInputLabel-root": {
-                color: required && !pickupCost ? "#B3261E" : "#1C1B1F",
+                color: required && !pickupCosts ? "#B3261E" : "#1C1B1F",
               },
               "& .MuiInputLabel-root.Mui-focused": {
-                color: required && !pickupCost ? "#B3261E" : "#79747E",
+                color: required && !pickupCosts ? "#B3261E" : "#79747E",
               },
               "& .MuiOutlinedInput-root": {
                 "&.Mui-focused fieldset": {
-                  borderColor: required && !pickupCost ? "#B3261E" : "#79747E", // Border color when focused
+                  borderColor: required && !pickupCosts ? "#B3261E" : "#79747E", // Border color when focused
                 },
               },
             }}
             type="number"
             label="Pick Up Cost"
             fullWidth
-            value={pickupCost}
+            value={pickupCosts[index]}
             onChange={(e) => {
-              setPickupCost(e.target.value);
-              
+              handleInputChange(index, e.target.value)
             }}
             // placeholder="Select origin"
             InputProps={{

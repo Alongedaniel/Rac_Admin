@@ -423,13 +423,13 @@ function App() {
               <Route path="draft-detail" element={<DraftDetails />} />
             </Route>
             <Route
-              path="orders/create-new-order"
+              path="/create-new-order"
               element={
                 <MainLayout
                   showFullBar={showFullBar}
                   setShowFullBar={setShowFullBar}
                 >
-                  <CreateOrders />
+                  <CreateOrder />
                 </MainLayout>
               }
             />
