@@ -426,8 +426,8 @@ function OrderRequestComp({ home = false, all = false }) {
                 id="search"
                 type="text"
                 placeholder="Search for orders with any related keyword"
-                  value={searchQuery}
-                  fullWidth
+                value={searchQuery}
+                fullWidth
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
                 }}
@@ -448,10 +448,11 @@ function OrderRequestComp({ home = false, all = false }) {
               <ActionButton
                 title="Bulk Actions"
                 icon={<BulkIcon />}
-                items={{options: ["Decline Order Requests"]}}
+                items={{ options: ["Decline Order Requests"] }}
               />
             </Box>
             {/* <Box sx={{ flex: 1 }}> */}
+            {/* action={() => navigate("/create-new-order")} */}
             <ActionButton title="Create new request" icon={<NewOrderIcon />} />
             {/* </Box> */}
           </Box>

@@ -1132,7 +1132,7 @@ function OrderDetails() {
                           activeStep={activeStep}
                           order={data?.request}
                           type={type}
-                          totalCost={totalCost()}
+                          totalCost={totalCost() + totalPickupCost}
                         />
                       </Box>
                     ) : (

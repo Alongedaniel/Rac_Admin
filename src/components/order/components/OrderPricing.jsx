@@ -649,7 +649,7 @@ const OrderPricing = ({
                   }}
                 >
                   <Typography fontSize={"14px"} fontWeight={600}>
-                    {currencyFormatter.format(item.totalPickupCost ?? 0)}
+                    {item?.pickupDetails?.firstName ? "Yes" : "No"}
                   </Typography>
                 </Grid>
               </Grid>
@@ -769,7 +769,7 @@ const OrderPricing = ({
                   Total pick up cost:
                 </Typography>
                 <Typography fontSize={"20px"} color="#1C1B1F">
-                  N/A
+                  {totalPickupCost}
                 </Typography>
               </Grid>
             </>
@@ -1257,9 +1257,11 @@ const OrderPricing = ({
                   <Grid container wrap="nowrap" gap="20px" mt="20px">
                     {requestItems.map((car, i) => (
                       <CarPickupBox
+                        requestItems={requestItems}
                         car={car}
                         index={i + 1}
                         required={required}
+                        totalPickupCost={totalPickupCost}
                         setTotalPickupCost={setTotalPickupCost}
                         isRequest={isRequest}
                       />

@@ -156,13 +156,16 @@ const AutoImportItem = ({ view, item, itemNumber, proceed }) => {
           <div className=""></div>
         </div> */}
         <Box
+          display={item?.pickupDetails?.firstName ? "block" : "none"}
           width="100%"
           height="1px"
           bgcolor="#79747E"
           mt="30px"
           mb="20px"
         ></Box>
-        <div>
+        <div
+          style={{ display: item?.pickupDetails?.firstName ? "block" : "none" }}
+        >
           <div style={{ marginBottom: "20px" }}>
             <p className="font-roboto  text-[22px] text-brand/100">
               Pickup Details
@@ -173,14 +176,16 @@ const AutoImportItem = ({ view, item, itemNumber, proceed }) => {
               <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                 Contact's First Name:
               </p>
-              <p className="font-roboto  text-[20px] text-brand/100">Malibu</p>
+              <p className="font-roboto  text-[20px] text-brand/100">
+                {item?.pickupDetails?.firstName}
+              </p>
             </div>
             <div className="col-span-3">
               <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                 Contact's Last Name:
               </p>
               <p className="font-roboto  text-[20px] text-brand/100">
-                SHedrack
+                {item?.pickupDetails?.lastName}
               </p>
             </div>
             <div className="col-span-2">
@@ -188,7 +193,7 @@ const AutoImportItem = ({ view, item, itemNumber, proceed }) => {
                 Contact's Phone Number:
               </p>
               <p className="font-roboto  text-[20px] text-brand/100">
-                +234 803 456 7845
+                {item?.pickupDetails?.phoneNumber}
               </p>
             </div>
             <div className="col-span-3">
@@ -196,7 +201,7 @@ const AutoImportItem = ({ view, item, itemNumber, proceed }) => {
                 Contact's Email:
               </p>
               <p className="font-roboto  text-[20px] text-brand/100">
-                Malibushdrack@gmail.com
+                {item?.pickupDetails?.email}
               </p>
             </div>
           </div>
@@ -205,14 +210,16 @@ const AutoImportItem = ({ view, item, itemNumber, proceed }) => {
               <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                 Country:
               </p>
-              <p className="font-roboto  text-[20px] text-brand/100">Turkey</p>
+              <p className="font-roboto  text-[20px] text-brand/100">
+                {item?.pickupDetails?.country}
+              </p>
             </div>
             <div className="">
               <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                 State:
               </p>
               <p className="font-roboto  text-[20px] text-brand/100">
-                Istanbul
+                {item?.pickupDetails?.state}
               </p>
             </div>
             <div className="">
@@ -220,14 +227,16 @@ const AutoImportItem = ({ view, item, itemNumber, proceed }) => {
                 City:
               </p>
               <p className="font-roboto  text-[20px] text-brand/100">
-                Cyprusic
+                {item?.pickupDetails?.city}
               </p>
             </div>
             <div className="col-span-2">
               <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                 Zip/postal Code:
               </p>
-              <p className="font-roboto  text-[20px] text-brand/100">98765</p>
+              <p className="font-roboto  text-[20px] text-brand/100">
+                {item?.pickupDetails?.zipPostalCode}
+              </p>
             </div>
           </div>
           <div className="mt-[30px] col-span-5">
@@ -235,7 +244,7 @@ const AutoImportItem = ({ view, item, itemNumber, proceed }) => {
               Street Address:
             </p>
             <p className="font-roboto  text-[20px] text-brand/100">
-              No, 1osolo way, ikeja road, behind scaint merry
+              {item?.pickupDetails?.address}
             </p>
           </div>
         </div>
