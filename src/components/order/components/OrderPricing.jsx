@@ -55,6 +55,11 @@ const OrderPricing = ({
     requestItems.map((x) => (total += x.qty * x.originalCost));
     return total;
   };
+  const totalRequestCost = () => {
+    let total = 0;
+    data.map((x) => (total += x.quantity * x.originalCost));
+    return total;
+  };
 
   const totalDeclaredAutoImportValue = () => {
     let total = 0;
@@ -78,13 +83,13 @@ const OrderPricing = ({
     (Number(otherCharges) ?? 0);
 
   useEffect(() => {
-    if (warehouseCost.length === 0 || Number(warehouseCost) < 0) {
+    if (warehouseCost?.length === 0 || Number(warehouseCost) < 0) {
       setWarehouseCost(0);
     }
 
-    if (warehouseCost.length > 1 && warehouseCost[0] === "0") {
+    if (warehouseCost?.length > 1 && warehouseCost[0] === "0") {
       const formatCost = setTimeout(() => {
-        const cost = warehouseCost.slice(1, warehouseCost.length);
+        const cost = warehouseCost.slice(1, warehouseCost?.length);
         setWarehouseCost(cost);
       }, 100);
       return () => clearTimeout(formatCost);
@@ -245,6 +250,7 @@ const OrderPricing = ({
   };
 
   let totalItems = 0;
+  let total = 0
 
   const theme = useTheme();
   return (
@@ -497,7 +503,7 @@ const OrderPricing = ({
                     fontWeight={600}
                     color="#1D192B"
                   >
-                    {item.itemName.length > 20
+                    {item.itemName?.length > 20
                       ? item?.itemName?.slice(0, 20) + "..."
                       : item?.itemName}
                   </Typography>
@@ -521,7 +527,7 @@ const OrderPricing = ({
                         fontWeight: 500,
                       }}
                     >
-                      {item.itemUrl.length > 20
+                      {item.itemUrl?.length > 20
                         ? item?.itemUrl?.slice(0, 20) + "..."
                         : item?.itemUrl}
                     </a>
@@ -608,7 +614,7 @@ const OrderPricing = ({
                     fontWeight={600}
                     color="#1D192B"
                   >
-                    {item.carBrand.length > 20
+                    {item.carBrand?.length > 20
                       ? item?.carBrand?.slice(0, 20) + "..."
                       : item?.carBrand}
                   </Typography>
@@ -654,7 +660,7 @@ const OrderPricing = ({
                 </Grid>
               </Grid>
             ))
-          : items.map((item, i) => (
+          : data.map((item, i) => (
               <Grid
                 key={i}
                 sx={{ bgcolor: "#fff", borderBottom: "1px solid #79747E" }}
@@ -667,7 +673,7 @@ const OrderPricing = ({
                   sx={{ display: "flex", alignItems: "center", gap: "10px" }}
                 >
                   <img
-                    src={item.image}
+                    src={item.productImage}
                     alt="car"
                     style={{
                       width: "61px",
@@ -680,9 +686,9 @@ const OrderPricing = ({
                     fontWeight={600}
                     color="#1D192B"
                   >
-                    {item.itemName.length > 20
-                      ? item?.itemName?.slice(0, 20) + "..."
-                      : item?.itemName}
+                    {item.productName?.length > 20
+                      ? item?.productName?.slice(0, 20) + "..."
+                      : item?.productName}
                   </Typography>
                 </Grid>
                 <Grid
@@ -695,7 +701,7 @@ const OrderPricing = ({
                   }}
                 >
                   <Typography fontSize={"14px"} fontWeight={600}>
-                    {item.itemCost}
+                    {currencyFormatter.format(item.originalCost)}
                   </Typography>
                 </Grid>
                 <Grid
@@ -721,7 +727,9 @@ const OrderPricing = ({
                   }}
                 >
                   <Typography fontSize={"14px"} fontWeight={600}>
-                    {item.totalItemValue * item.quantity}
+                    {currencyFormatter.format(
+                      item.originalCost * item.quantity
+                    )}
                   </Typography>
                 </Grid>
               </Grid>
@@ -782,7 +790,7 @@ const OrderPricing = ({
                 <Typography fontSize={"20px"} color="#1C1B1F">
                   {service === "Shop For Me"
                     ? requestItems?.map((x) => (x.qty += totalItems))
-                    : items.length}
+                    : data?.map((x) => (total += x.quantity))}
                 </Typography>
               </Grid>
               <Grid item xs={4}>
@@ -810,7 +818,7 @@ const OrderPricing = ({
                 <Typography fontSize={"20px"} color="#1C1B1F">
                   {service === "Shop For Me"
                     ? currencyFormatter.format(Number(totalShopForMeCost()))
-                    : "345.00"}
+                    : currencyFormatter.format(Number(totalRequestCost()))}
                 </Typography>
               </Grid>
             </>
@@ -1295,7 +1303,7 @@ const OrderPricing = ({
                 >
                   <p className="text-[20px]">Discounts</p>
                   <Switch
-                    checked={checked || discountValue.length}
+                    checked={checked || discountValue?.length}
                     onClick={() => {
                       setChecked(true);
                       if (checked) {

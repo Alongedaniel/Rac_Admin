@@ -41,6 +41,16 @@ import axiosInstance from "../../utils/hooks/api/axiosInstance";
 const CreateOrder = ({ shopForMe = false }) => {
   const { bearerToken } = useAuth()
   // console.log(bearerToken);
+    const [requests, setrequests] = useState([
+      {
+        productName: "",
+        originalCost: "",
+        quantity: 0,
+        itemColor: "",
+        productDescription: "",
+        productImage: null,
+      },
+    ]);
   const [assignedCustomer, setAssignedCustomer] = useState("");
   const [orderType, setOrderType] = useState("");
   const [service, setService] = useState("");
@@ -119,15 +129,7 @@ const CreateOrder = ({ shopForMe = false }) => {
     },
     packageDetails: {
       origin: origin,
-      product: [
-        {
-          productName: productName,
-          originalCost: originalCost,
-          quantity: quantity,
-          itemColor: itemColor,
-          productDescription: productDescription,
-        },
-      ],
+      product: requests,
       weight: weight,
       length: length,
       width: width,
@@ -366,7 +368,9 @@ const CreateOrder = ({ shopForMe = false }) => {
                 ) : shopForMe ? (
                   <ShopForMePackageDetails />
                 ) : (
-                  <PackageDetailsForm
+                        <PackageDetailsForm
+                          requests={requests}
+                          setrequests={setrequests}
                     origin={origin}
                     productName={productName}
                     originalCost={originalCost}
@@ -509,7 +513,8 @@ const CreateOrder = ({ shopForMe = false }) => {
                     />
 
                     <Box mt="30px">
-                      <OrderPricing
+                                <OrderPricing
+                                  data={exportOrder.packageDetails.product}
                         service={exportOrder.orderInformation.service}
                         shippingCost={shippingCost}
                         clearingCost={clearingCost}

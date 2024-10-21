@@ -453,7 +453,11 @@ function OrderRequestComp({ home = false, all = false }) {
             </Box>
             {/* <Box sx={{ flex: 1 }}> */}
             {/* action={() => navigate("/create-new-order")} */}
-            <ActionButton title="Create new request" icon={<NewOrderIcon />} />
+            <ActionButton
+              title="Create new request"
+              icon={<NewOrderIcon />}
+              action={() => navigate("/create-new-order")}
+            />
             {/* </Box> */}
           </Box>
           <Box>

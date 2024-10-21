@@ -44,7 +44,16 @@ const useCustomGetRequest = (url) => {
           localStorage.removeItem("jwtToken");
           localStorage.removeItem("isAuthenticated");
           navigate("/login");
-      } else setError(e?.response?.data?.message);
+      } else {
+        setError(e?.response?.data?.message)
+        if (e?.response?.data?.message === 'jwt expired') {
+          localStorage.removeItem("jwtToken");
+          localStorage.removeItem("isAuthenticated");
+          navigate("/login");
+        }
+        console.log(e?.response?.data?.message);
+        
+      };
       setData(null);
       setLoading(false);
     }
