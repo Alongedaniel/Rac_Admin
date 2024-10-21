@@ -22,9 +22,11 @@ import AddPropertyModal from "./AddPropertyModal";
 import DynamicItemComponent from "../../DynamicItemComponent";
 
 const PackageDetailsForm = ({
+  requests,
+  setrequests = () => {},
   required,
   order,
-  origin='',
+  origin = "",
   productName = "",
   setProductName = () => {},
   originalCost = "",
@@ -34,16 +36,16 @@ const PackageDetailsForm = ({
   setItemColor = () => {},
   productDescription = "",
   setProductDescription = () => {},
-  weight = '',
-  length = '',
-  width = '',
-  height = '',
+  weight = "",
+  length = "",
+  width = "",
+  height = "",
   setHeight = () => {},
   setWidth = () => {},
   setWeight = () => {},
   setLength = () => {},
-  setOrigin = () => { },
-  service=''
+  setOrigin = () => {},
+  service = "",
 }) => {
   const originList = [
     "Origin 1",
@@ -52,51 +54,51 @@ const PackageDetailsForm = ({
     "Origin 4",
     "Origin 5",
   ];
-    const [quantityValue, setQuantityValue] = useState(1);
+  const [quantityValue, setQuantityValue] = useState(1);
   const [open, setOpen] = useState(false);
-  const [orders, setorders] = useState([
-    {
+  // const [requests, setrequests] = useState([
+  //   {
+  //     productName: "",
+  //     originalCost: "",
+  //     quantity: 0,
+  //     itemColor: "",
+  //     productDescription: "",
+  //     productImage: null
+  //   },
+  // ]);
+
+  console.log(requests);
+
+  const addNewOrder = () => {
+    const newOrder = {
       productName: "",
       originalCost: "",
       quantity: 0,
       itemColor: "",
       productDescription: "",
-      productImage: null
-    },
-  ]);
-
-  console.log(orders)
-
-    const addNewOrder = () => {
-      const newOrder = {
-        productName: "",
-        originalCost: "",
-        quantity: 0,
-        itemColor: "",
-        productDescription: "",
-        productImage: null
-      };
-      setorders([...orders, newOrder]);
-  };
-  
-    const handleInputChange = (id, field, value) => {
-      const updatedorders = orders.map((order, i) =>
-        i === id ? { ...order, [field]: value } : order
-      );
-      setorders(updatedorders);
+      productImage: null,
     };
-    const [selectedFile, setSelectedFile] = useState(null);
+    setrequests([...requests, newOrder]);
+  };
+
+  const handleInputChange = (id, field, value) => {
+    const updatedrequests = requests.map((order, i) =>
+      i === id ? { ...order, [field]: value } : order
+    );
+    setrequests(updatedrequests);
+  };
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const handleFileChange = (event) => {
-      const file = event.target.files[0];
-      setSelectedFile(file);
+    const file = event.target.files[0];
+    setSelectedFile(file);
   };
-  
+
   const handleDeleteItem = (id) => {
-    const filteredOrder = orders.filter((order, i) => i !== id)
-    setorders(filteredOrder)
-  }
-  
+    const filteredOrder = requests.filter((order, i) => i !== id);
+    setrequests(filteredOrder);
+  };
+
   return (
     <Box>
       <Box>
@@ -507,7 +509,7 @@ const PackageDetailsForm = ({
                 </Box>
               );
             })
-          : orders.map((order, i) => (
+          : requests.map((order, i) => (
               <Box
                 sx={{
                   width: "100%",
@@ -517,7 +519,7 @@ const PackageDetailsForm = ({
                   marginTop: "20px",
                 }}
               >
-                <CardWrapper title={`Item - #${i + 1}`}>
+                <CardWrapper fullByDefault title={`Item - #${i + 1}`}>
                   <Box>
                     <Box mt="10px" pt="30px">
                       <Box mb="30px">
