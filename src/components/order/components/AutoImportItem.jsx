@@ -1,4 +1,4 @@
-import { Box, Button, Grid, MenuItem, TextField, Typography } from "@mui/material";
+import { Backdrop, Box, Button, CircularProgress, Grid, MenuItem, Snackbar, TextField, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import car from "../../../assets/images/car.png";
 import CardWrapper from "./CardWrapper";
@@ -18,8 +18,13 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import UploadIcon from "../../../assets/icons/UploadIcon";
 import dayjs from "dayjs";
 import { City, Country, State } from "country-state-city";
+import Requests from "../../../utils/hooks/api/requests";
+import CloseIcon from "../../../assets/icons/CloseIcon";
+import { toTitleCase } from "../../../pages/orders/order-details";
 
-const AutoImportItem = ({ view, item, itemNumber, proceed }) => {
+const AutoImportItem = ({ view, item, itemNumber, proceed, refetch, order }) => {
+  const { customPostRequest, loading, error, success, setSuccess, setError } =
+    Requests();
   const today = dayjs();
   const [openModal, setOpenModal] = useState(false);
   const [date, setDate] = useState(today);
@@ -65,8 +70,8 @@ const AutoImportItem = ({ view, item, itemNumber, proceed }) => {
   const [zipPostalCode, setZipPostalCode] = useState(
     item?.pickupDetails?.zipPostalCode || ""
   );
-    const [selectedCountry, setSelectedCountry] = useState();
-    const [selectedState, setSelectedState] = useState();
+  const [selectedCountry, setSelectedCountry] = useState();
+  const [selectedState, setSelectedState] = useState();
   const [countries, setCountries] = useState(Country.getAllCountries());
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
@@ -77,9 +82,39 @@ const AutoImportItem = ({ view, item, itemNumber, proceed }) => {
     );
   }, []);
 
-  console.log(country)
-  console.log(state)
-  console.log(city)
+    useEffect(() => {
+      refetch();
+    }, [loading]);
+  
+    const handleClose = () => {
+      setError("");
+      setSuccess(false);
+    };
+
+  const editedData = {
+    service: toTitleCase(order?.serviceType),
+    update: {
+      ...item,
+      carBrand: carBrand,
+      carValue: Number(carValue),
+      carCondition: carCondition,
+      additionalDescription: additionalDescription,
+      vehicleIdNumber: vehicleIdNumber,
+      productionYear: productionYear,
+      model: model,
+      mileage: Number(mileage),
+      link: link,
+      color: color,
+    },
+    requestId: order?.request?.requestId,
+    requestItemIndex: itemNumber - 1,
+  };
+  console.log(editedData)
+    const handleUpdateItem = async () => {
+      try {
+        customPostRequest(`/cross-service/edit-requests`, editedData);
+      } catch (e) {}
+    };
   return (
     <Box
       sx={{
@@ -328,7 +363,7 @@ const AutoImportItem = ({ view, item, itemNumber, proceed }) => {
         onClose={() => setOpenModal(false)}
         title="Edit Package Details"
       >
-        <CardWrapper title="Car - #1">
+        <CardWrapper title={`Car - #${itemNumber}`}>
           <Box>
             <Box mt="10px" pt="30px">
               <Box mb="30px" display="flex" flexDirection="column" gap="30px">
@@ -675,7 +710,7 @@ const AutoImportItem = ({ view, item, itemNumber, proceed }) => {
                   }}
                 />
               </Box>
-              <Box mb="30px">
+              {/* <Box mb="30px">
                 <div className="flex items-center space-x-[10px] ">
                   <CircleRight />
                   <p className="font-roboto font-[500] text-[14px] text-t/100 text-brand/200 ">
@@ -683,7 +718,7 @@ const AutoImportItem = ({ view, item, itemNumber, proceed }) => {
                     (optional)
                   </p>
                 </div>
-                {/* <Box px="30px" mb="30px">
+                <Box px="30px" mb="30px">
                   <Box
                     display="flex"
                     alignItems="center"
@@ -711,9 +746,9 @@ const AutoImportItem = ({ view, item, itemNumber, proceed }) => {
                       }}
                     />
                   </Box>
-                </Box> */}
-              </Box>
-              <Box>
+                </Box>
+              </Box> */}
+              {/* <Box>
                 <div className="flex items-center space-x-[10px] ">
                   <CircleRight />
                   <p className="font-roboto font-[500] text-[14px] text-t/100 text-brand/200 ">
@@ -1018,7 +1053,7 @@ const AutoImportItem = ({ view, item, itemNumber, proceed }) => {
                     </Grid>
                   </Box>
                 </Box>
-              </Box>
+              </Box> */}
             </Box>
           </Box>
         </CardWrapper>
@@ -1049,11 +1084,36 @@ const AutoImportItem = ({ view, item, itemNumber, proceed }) => {
               borderRadius: "100px",
               textTransform: "none",
             }}
+            onClick={() => {
+              handleUpdateItem()
+              setOpenModal(false);
+            }}
           >
             Update
           </Button>
         </Box>
       </UserModals>
+      <Snackbar
+        open={error || success}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        sx={{
+          "& .MuiSnackbarContent-root": {
+            borderRadius: "30px",
+            width: "fit-content",
+          },
+        }}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message={success ? "Item successfully updated" : error}
+        action={
+          <Box onClick={handleClose}>
+            <CloseIcon />
+          </Box>
+        }
+      />
+      <Backdrop sx={{ color: "#fff", zIndex: 999 }} open={loading}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Box>
   );
 };

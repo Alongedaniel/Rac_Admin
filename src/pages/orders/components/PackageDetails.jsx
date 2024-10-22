@@ -15,6 +15,7 @@ const PackageDetails = ({
   proceed = false,
   isRequest = false,
   activeStep,
+  refetch
 }) => {
   return (
     <div className="">
@@ -152,6 +153,8 @@ const PackageDetails = ({
                 item={item}
                 itemNumber={i + 1}
                 proceed={proceed}
+              refetch={refetch}
+              order={order}
               />
             ) : (
               <ProductBox
@@ -174,6 +177,7 @@ const PackageDetails = ({
               item={item}
               type={type}
               itemNumber={i + 1}
+              refetch={refetch}
             />
           ))}
     </div>

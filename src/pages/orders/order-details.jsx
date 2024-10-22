@@ -84,7 +84,7 @@ function OrderDetails() {
   const [drop, setDrop] = useState(null);
   const [saveAsDraft, setSaveAsDraft] = useState(false);
   const [required, setRequired] = useState(false);
-  const { data } = useCustomGetRequest(`/admin/get-request-by-id/${requestid}`);
+  const { data, refetch } = useCustomGetRequest(`/admin/get-request-by-id/${requestid}`);
   const shipmentMethods = ["Road", "Air", "Rail", "Sea"];
   const deliveryCompanies = ["DHL", "Gokada", "Glovo"];
 
@@ -736,6 +736,7 @@ function OrderDetails() {
                     data?.serviceType === "autoImport" ||
                     data?.serviceType === "shopForMe" ? (
                       <PackageDetails
+                        refetch={refetch}
                         proceed={proceed}
                         isRequest={Boolean(requestid)}
                         order={data}
@@ -1087,6 +1088,7 @@ function OrderDetails() {
                           shipmentMethod={shipmentMethod}
                         />
                         <PackageDetails
+                          refetch={refetch}
                           order={data}
                           isRequest={Boolean(requestid)}
                           type={type}
@@ -1586,6 +1588,7 @@ function OrderDetails() {
                         />
                       )}
                       <PackageDetails
+                        refetch={refetch}
                         order={data}
                         isRequest={Boolean(requestid)}
                         type={type}

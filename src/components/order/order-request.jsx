@@ -45,7 +45,7 @@ export const GetCustomerName = ({ id }) => {
 
 export const getStatusBgColor = (status) => {
   switch (status) {
-    case "Responded":
+    case "Approved":
       return {
         backgroundColor: "#DF5000",
         borderColor: "transparent",
@@ -78,10 +78,29 @@ function OrderRequestComp({ home = false, all = false }) {
   console.log(data);
   const [openError, setOpenError] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
+  const [rows, setRows] = useState([]);
   useEffect(() => {
     if (error) {
       setOpenError(true);
     } else setOpenError(false);
+    setRows(
+      data?.requests[0]?.allData?.map((row) => ({
+        ...row,
+        id: row.requestId,
+        requestStatus:
+          row.requestStatus === "responded"
+            ? "Approved"
+            : row.requestStatus === "not responded" ||
+              row.requestStatus === "Not Responded"
+            ? "Not Responded"
+            : "Declined"
+                .split(" ")
+                .map(
+                  (x, i) => x.charAt(0).toUpperCase() + x.slice(1).toLowerCase()
+                )
+                .join(" "),
+      }))
+    );
   }, [loading]);
 
   const handleClose = (event, reason) => {
@@ -134,7 +153,7 @@ function OrderRequestComp({ home = false, all = false }) {
       renderCell: (params) => (
         <Typography
           onClick={() => navigate(`/order-requests/${params.row._id}`)}
-          sx={{ cursor: "pointer", display: 'flex', alignItems: 'center' }}
+          sx={{ cursor: "pointer", display: "flex", alignItems: "center" }}
           fontSize="14px"
           fontWeight={500}
           color="#000"
@@ -220,8 +239,8 @@ function OrderRequestComp({ home = false, all = false }) {
           p="5px 10px"
           sx={{
             borderRadius: "10px",
-      width: "120px",
-            cursor: 'pointer',
+            width: "120px",
+            cursor: "pointer",
             ...getStatusBgColor(params.row.requestStatus),
           }}
         >
@@ -336,16 +355,34 @@ function OrderRequestComp({ home = false, all = false }) {
     //     `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     // },
   ];
-  
-  const rows = data?.requests[0]?.allData?.map((row) => ({
-    ...row,
-    id: row.requestId,
-    requestStatus: row.requestStatus
-      .split(" ")
-      .map((x, i) => x.charAt(0).toUpperCase() + x.slice(1).toLowerCase())
-      .join(" "),
-  }));
-  const [searchQuery, setSearchQuery] = useState(null)
+
+  // const rows = data?.requests[0]?.allData?.map((row) => ({
+  //   ...row,
+  //   id: row.requestId,
+  //   requestStatus:
+  //     row.requestStatus === "responded"
+  //       ? "Approved"
+  //       : row.requestStatus ===
+  //         "not responded" || row.requestStatus ===
+  //         "Not Responded" ? 'Not Responded' : 'Declined'
+  //           .split(" ")
+  //           .map((x, i) => x.charAt(0).toUpperCase() + x.slice(1).toLowerCase())
+  //           .join(" "),
+  // }));
+  const [searchQuery, setSearchQuery] = useState(null);
+  const [filteredRows, setFilteredRows] = useState(rows);
+
+  useEffect(() => {
+    const result = searchQuery
+      ? rows.filter(
+          (row) =>
+            row.requestId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            row.requestStatus.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      : rows;
+
+    setFilteredRows(result);
+  }, [searchQuery, rows]);
 
   const filterOptions = {
     header: "Show Orders only under the following category",
@@ -394,8 +431,62 @@ function OrderRequestComp({ home = false, all = false }) {
     ],
   };
 
+  console.log(rows);
+
   return (
     <>
+      <Box
+        display={home ? "none" : "flex"}
+        alignItems="center"
+        gap="50px"
+        sx={{ justifyContent: "space-between" }}
+        width="100%"
+        mb="16px"
+      >
+        <Box display="flex" alignItems="center" gap="20px" flex={1}>
+          <ActionButton
+            title="Filter view"
+            icon={<FilterIcons />}
+            items={filterOptions}
+          />
+          <TextField
+            id="search"
+            type="text"
+            placeholder="Search for orders with any related keyword"
+            value={searchQuery}
+            fullWidth
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+            }}
+            InputProps={{
+              sx: {
+                border: "1px solid #79747E",
+                height: "50px",
+                // width: "458px",
+                p: "4px 16px",
+                borderRadius: "16px",
+                input: {
+                  ml: "12px",
+                },
+              },
+              startAdornment: <SearchIcon />,
+            }}
+          />
+          <ActionButton
+            title="Bulk Actions"
+            icon={<BulkIcon />}
+            items={{ options: ["Decline Order Requests"] }}
+          />
+        </Box>
+        {/* <Box sx={{ flex: 1 }}> */}
+        {/* action={() => navigate("/create-new-order")} */}
+        <ActionButton
+          title="Create new request"
+          icon={<NewOrderIcon />}
+          action={() => navigate("/create-new-order")}
+        />
+        {/* </Box> */}
+      </Box>
       {loading ? (
         <Box
           width="100%"
@@ -406,62 +497,10 @@ function OrderRequestComp({ home = false, all = false }) {
         >
           <CircularProgress />
         </Box>
-      ) : rows?.length > 0 ? (
+      ) : filteredRows?.length > 0 ? (
         <Box>
-          <Box
-            display={home ? "none" : "flex"}
-            alignItems="center"
-            gap="50px"
-            sx={{ justifyContent: "space-between" }}
-            width="100%"
-            mb="16px"
-          >
-            <Box display="flex" alignItems="center" gap="20px" flex={1}>
-              <ActionButton
-                title="Filter view"
-                icon={<FilterIcons />}
-                items={filterOptions}
-              />
-              <TextField
-                id="search"
-                type="text"
-                placeholder="Search for orders with any related keyword"
-                value={searchQuery}
-                fullWidth
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                }}
-                InputProps={{
-                  sx: {
-                    border: "1px solid #79747E",
-                    height: "50px",
-                    // width: "458px",
-                    p: "4px 16px",
-                    borderRadius: "16px",
-                    input: {
-                      ml: "12px",
-                    },
-                  },
-                  startAdornment: <SearchIcon />,
-                }}
-              />
-              <ActionButton
-                title="Bulk Actions"
-                icon={<BulkIcon />}
-                items={{ options: ["Decline Order Requests"] }}
-              />
-            </Box>
-            {/* <Box sx={{ flex: 1 }}> */}
-            {/* action={() => navigate("/create-new-order")} */}
-            <ActionButton
-              title="Create new request"
-              icon={<NewOrderIcon />}
-              action={() => navigate("/create-new-order")}
-            />
-            {/* </Box> */}
-          </Box>
           <Box>
-            <OrderTable columns={columns} rows={rows} />
+            <OrderTable columns={columns} rows={filteredRows} />
           </Box>
         </Box>
       ) : (
