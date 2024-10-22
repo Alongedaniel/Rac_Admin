@@ -4,11 +4,12 @@ import {
   Button,
   CircularProgress,
   Grid,
+  MenuItem,
   Snackbar,
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoChevronUpCircleOutline } from "react-icons/io5";
 import EditIcon from "../../../assets/icons/EditIcon";
 import CardWrapper from "../../../components/order/components/CardWrapper";
@@ -34,17 +35,23 @@ const ItemBox = ({
   itemNumber,
   isRequest,
   activeStep,
+  refetch,
 }) => {
-  const { customPutRequest, loading, error, success, setSuccess } = Requests();
+  const { customPostRequest, loading, error, success, setSuccess, setError } = Requests();
   const [open, setOpen] = useState(false);
   const service = toTitleCase(order?.serviceType);
   const [productName, setProductName] = useState(item?.itemName);
-  const [originalCost, setOriginalCost] = useState(item?.itemOriginalCost);
+  const [originalCost, setOriginalCost] = useState(
+    item?.itemOriginalCost ?? item?.originalCost ?? 0
+  );
+  const [store, setStore] = useState(item?.store);
+  const [itemUrl, setItemUrl] = useState(item?.itemUrl);
+  const [urgentPurchase, setUrgentPurchase] = useState(item?.urgentPurchase);
   const [quantityValue, setQuantityValue] = useState(
-    item?.qty ?? item?.quantity
+    item?.qty ?? item?.quantity ?? 0
   );
   const [productDescription, setProductDescription] = useState(
-    item?.itemDescription
+    item?.itemDescription ?? item?.additionalDescription
   );
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -53,36 +60,46 @@ const ItemBox = ({
     setSelectedFile(file);
   };
 
+  useEffect(() => {
+    refetch();
+  }, [loading])
+
   const editedData = {
-    ...item,
-    itemName: productName,
-    itemOriginalCost: Number(originalCost),
-    quantity: quantityValue,
-    itemDescription: productDescription,
+    service: service === "Shop For Me" ? order?.serviceType : service,
+    update:
+      service === "Shop For Me"
+        ? {
+            ...item,
+            itemName: productName,
+            originalCost: Number(originalCost),
+            additionalDescription: productDescription,
+            qty: quantityValue,
+            store: store,
+            itemUrl: itemUrl,
+            urgentPurchase: urgentPurchase,
+          }
+        : {
+            ...item,
+            itemName: productName,
+            itemOriginalCost: Number(originalCost),
+            quantity: quantityValue,
+            itemDescription: productDescription,
+          },
+    requestId: order?.request?.requestId,
+    requestItemIndex: itemNumber - 1,
   };
   console.log(editedData);
 
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
+  const handleClose = () => {
     setError("");
-    setSuccess(false)
+    setSuccess(false);
   };
 
-  const handleUpdateItem = () => {
-    if (service === "Export")
-      customPutRequest(`/export/admin/update-order-status`, {
-        editedData,
-        orderId: order?.request?.orderId,
-      });
-    else
-      customPutRequest(`/import/admin/update-order-status`, {
-        editedData,
-        orderId: order?.request?.orderId,
-      });
+  const handleUpdateItem = async () => {
+    try {
+      customPostRequest(`/cross-service/edit-requests`, editedData);
+      } catch (e) { }
   };
-
   return (
     <Box
       key={item?.id}
@@ -381,11 +398,10 @@ const ItemBox = ({
                             }}
                             type="text"
                             label="Store"
-                            // value={productName}
-                            // onChange={(e) => setProductName(e.target.value)}
+                            value={store}
+                            onChange={(e) => setStore(e.target.value)}
                             fullWidth
                             placeholder="Select a store"
-                            select
                             InputProps={{
                               sx: {
                                 borderRadius: "20px", // Apply border radius to the input element
@@ -410,8 +426,8 @@ const ItemBox = ({
                             }}
                             type="text"
                             label="Urgent Purchase"
-                            // value={productName}
-                            // onChange={(e) => setProductName(e.target.value)}
+                            value={urgentPurchase ? "Yes" : "No"}
+                            // onChange={(e) => setUrgentPurchase(e.target.value)}
                             fullWidth
                             // placeholder="Select origin"
                             select
@@ -424,7 +440,21 @@ const ItemBox = ({
                                 color: "#1C1B1F",
                               },
                             }}
-                          />
+                          >
+                            {["Yes", "No"].map((x) => (
+                              <MenuItem
+                                value={x}
+                                key={x}
+                                onClick={() =>
+                                  x === "Yes"
+                                    ? setUrgentPurchase(true)
+                                    : setUrgentPurchase(false)
+                                }
+                              >
+                                {x}
+                              </MenuItem>
+                            ))}
+                          </TextField>
                           <TooltipIcon />
                         </Box>
                       </Grid>
@@ -435,8 +465,8 @@ const ItemBox = ({
                       sx={{ fontSize: "16px", color: "#1C1B1F" }}
                       type="text"
                       label="Item URL"
-                      // value={productName}
-                      // onChange={(e) => setProductName(e.target.value)}
+                      value={itemUrl}
+                      onChange={(e) => setItemUrl(e.target.value)}
                       fullWidth
                       placeholder="Paste the item link here"
                       InputProps={{
@@ -728,7 +758,7 @@ const ItemBox = ({
         }}
         autoHideDuration={6000}
         onClose={handleClose}
-        message={success ? 'Item successfully updated' : error}
+        message={success ? "Item successfully updated" : error}
         action={
           <Box onClick={handleClose}>
             <CloseIcon />
