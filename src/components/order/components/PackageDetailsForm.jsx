@@ -6,7 +6,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CircleRight from "../../../assets/icons/CircleRight";
 import TooltipIcon from "../../../assets/icons/TooltipIcon";
 import { IoChevronUpCircleOutline } from "react-icons/io5";
@@ -47,13 +47,7 @@ const PackageDetailsForm = ({
   setOrigin = () => {},
   service = "",
 }) => {
-  const originList = [
-    "Origin 1",
-    "Origin 2",
-    "Origin 3",
-    "Origin 4",
-    "Origin 5",
-  ];
+ const [origins, setOrigins] = useState(["UK Warehouse", "Nigeria Warehouse"]);
   const [quantityValue, setQuantityValue] = useState(1);
   const [open, setOpen] = useState(false);
   // const [requests, setrequests] = useState([
@@ -71,15 +65,27 @@ const PackageDetailsForm = ({
 
   const addNewOrder = () => {
     const newOrder = {
-      productName: "",
-      originalCost: "",
+      itemName: "",
+      itemOriginalCost: "",
       quantity: 0,
-      itemColor: "",
-      productDescription: "",
-      productImage: null,
+      itemDescription: "",
+      itemImage: null,
     };
     setrequests([...requests, newOrder]);
   };
+
+    useEffect(() => {
+      const storedRequests = localStorage.getItem("requests");
+      if (storedRequests) {
+        setrequests(JSON.parse(storedRequests));
+      }
+    }, []);
+
+    useEffect(() => {
+      localStorage.setItem("requests", JSON.stringify(requests));
+    }, [requests]);
+
+  console.log(requests);
 
   const handleInputChange = (id, field, value) => {
     const updatedrequests = requests.map((order, i) =>
@@ -125,7 +131,8 @@ const PackageDetailsForm = ({
               label="Origin/Shipment Location"
               placeholder="Select origin"
               value={origin}
-              onChange={(e) => setOrigin(e.target.value)}
+              // onChange={(e) => setOrigin(e.target.value)}
+              select
               InputProps={{
                 sx: {
                   borderRadius: "20px", // Apply border radius to the input element
@@ -136,7 +143,7 @@ const PackageDetailsForm = ({
                 },
               }}
               // placeholder="Enter your country"
-            />
+            >{origins.map((x) => <MenuItem key={x} value={x} onClick={() => setOrigin(x)}>{x}</MenuItem>)}</TextField>
             <TooltipIcon />
           </Box>
         </Box>
@@ -149,15 +156,15 @@ const PackageDetailsForm = ({
           </p>
         </div>
         {order?.request?.requestItems
-          ? order?.request?.requestItems.map((request, index) => {
-              setProductName(request.itemName);
-              setProductDescription(request.itemDescription);
-              setOriginalCost(request.itemOriginalCost);
-              setOrigin(order?.request?.origin);
+          ? requests.map((request, i) => {
+              // setProductName(request.itemName);
+              // setProductDescription(request.itemDescription);
+              // setOriginalCost(request.itemOriginalCost);
+              // setOrigin(order?.request?.origin);
               // setQuantity()
               return (
                 <Box
-                  key={index}
+                  key={i}
                   sx={{
                     width: "100%",
                     display: "flex",
@@ -166,7 +173,7 @@ const PackageDetailsForm = ({
                     marginTop: "20px",
                   }}
                 >
-                  <CardWrapper title={`Item - #${index + 1}`}>
+                  <CardWrapper title={`Item - #${i + 1}`}>
                     <Box>
                       <Box mt="10px" pt="30px">
                         <Box mb="30px">
@@ -273,8 +280,11 @@ const PackageDetailsForm = ({
                             sx={{ fontSize: "16px", color: "#1C1B1F" }}
                             type="text"
                             label="Product Name"
-                            value={productName}
-                            onChange={(e) => setProductName(e.target.value)}
+                            value={request.itemName}
+                            // onChange={(e) => setProductName(e.target.value)}
+                            onChange={(e) =>
+                              handleInputChange(i, "itemName", e.target.value)
+                            }
                             fullWidth
                             InputProps={{
                               sx: {
@@ -294,8 +304,15 @@ const PackageDetailsForm = ({
                               id="cost"
                               sx={{ fontSize: "16px", color: "#1C1B1F" }}
                               type="text"
-                              value={originalCost}
-                              onChange={(e) => setOriginalCost(e.target.value)}
+                              value={request.itemOriginalCost}
+                              // onChange={(e) => setOriginalCost(e.target.value)}
+                              onChange={(e) =>
+                                handleInputChange(
+                                  i,
+                                  "itemOriginalCost",
+                                  e.target.value
+                                )
+                              }
                               label="Item Original Cost"
                               fullWidth
                               // placeholder="Select origin"
@@ -318,7 +335,7 @@ const PackageDetailsForm = ({
                               sx={{ fontSize: "16px", color: "#1C1B1F" }}
                               type="number"
                               label="Quantity"
-                              value={quantityValue}
+                              value={request.quantity}
                               fullWidth
                               // placeholder="Select origin"
                               InputProps={{
@@ -326,10 +343,21 @@ const PackageDetailsForm = ({
                                   <Box
                                     zIndex={2}
                                     sx={{ cursor: "pointer" }}
+                                    // onClick={() => {
+                                    //   if (quantityValue > 1)
+                                    //     setQuantityValue((prev) => prev - 1);
+                                    //   setQuantity(quantityValue);
+                                    // }}
                                     onClick={() => {
                                       if (quantityValue > 1)
+                                      {
                                         setQuantityValue((prev) => prev - 1);
-                                      setQuantity(quantityValue);
+                                        handleInputChange(
+                                          i,
+                                          "quantity",
+                                          quantityValue
+                                        );
+                                      }
                                     }}
                                   >
                                     <SubtractIcon />
@@ -338,9 +366,17 @@ const PackageDetailsForm = ({
                                 endAdornment: (
                                   <Box
                                     sx={{ cursor: "pointer" }}
+                                    // onClick={() => {
+                                    //   setQuantityValue((prev) => prev + 1);
+                                    //   setQuantity(quantityValue);
+                                    // }}
                                     onClick={() => {
                                       setQuantityValue((prev) => prev + 1);
-                                      setQuantity(quantityValue);
+                                      handleInputChange(
+                                        i,
+                                        "quantity",
+                                        quantityValue
+                                      );
                                     }}
                                   >
                                     <PlusIcon />
@@ -373,12 +409,19 @@ const PackageDetailsForm = ({
                               <input
                                 type="file"
                                 name="file"
-                                id="file"
+                                id={`file-${i}`}
                                 style={{ display: "none" }}
-                                onChange={handleFileChange}
+                                // onChange={handleFileChange}
+                                onChange={(e) =>
+                                  handleInputChange(
+                                    i,
+                                    "productImage",
+                                    e.target.files[0]
+                                  )
+                                }
                               />
                               <label
-                                htmlFor="file"
+                                htmlFor={`file-${i}`}
                                 style={{
                                   display: "inline-block",
                                   height: "100%",
@@ -416,8 +459,8 @@ const PackageDetailsForm = ({
                                 borderBottomRightRadius: "100px",
                               }}
                             >
-                              {selectedFile
-                                ? selectedFile.name
+                              {request.productImage
+                                ? request.productImage.name
                                 : "No file chosen"}
                             </Box>
                           </Box>
@@ -428,14 +471,20 @@ const PackageDetailsForm = ({
                             sx={{ fontSize: "16px", color: "#1C1B1F" }}
                             type="text"
                             label="Product/Item Description"
-                            value={productDescription}
+                            value={request.itemDescription}
+                            // onChange={(e) =>
+                            //   setProductDescription(e.target.value)
+                            // }
                             onChange={(e) =>
-                              setProductDescription(e.target.value)
+                              handleInputChange(
+                                i,
+                                "itemDescription",
+                                e.target.value
+                              )
                             }
                             fullWidth
                             multiline
                             rows={5}
-                            maxRows={5}
                             // placeholder="Select origin"
                             InputProps={{
                               sx: {
@@ -505,7 +554,14 @@ const PackageDetailsForm = ({
                       </Box>
                     </Box>
                   </CardWrapper>
-                  <DeletIcon />
+                  <Box
+                    display="flex"
+                    aligItems="center"
+                    justifyContent="center"
+                    onClick={() => handleDeleteItem(i)}
+                  >
+                    <DeletIcon />
+                  </Box>
                 </Box>
               );
             })
@@ -615,9 +671,9 @@ const PackageDetailsForm = ({
                           sx={{ fontSize: "16px", color: "#1C1B1F" }}
                           type="text"
                           label="Product Name"
-                          value={order.productName}
+                          value={order.itemName}
                           onChange={(e) =>
-                            handleInputChange(i, "productName", e.target.value)
+                            handleInputChange(i, "itemName", e.target.value)
                           }
                           fullWidth
                           InputProps={{
@@ -638,11 +694,11 @@ const PackageDetailsForm = ({
                             id="cost"
                             sx={{ fontSize: "16px", color: "#1C1B1F" }}
                             type="text"
-                            value={order.originalCost}
+                            value={order.itemOriginalCost}
                             onChange={(e) =>
                               handleInputChange(
                                 i,
-                                "originalCost",
+                                "itemOriginalCost",
                                 e.target.value
                               )
                             }
@@ -792,11 +848,11 @@ const PackageDetailsForm = ({
                           sx={{ fontSize: "16px", color: "#1C1B1F" }}
                           type="text"
                           label="Product/Item Description"
-                          value={order.productDescription}
+                          value={order.itemDescription}
                           onChange={(e) =>
                             handleInputChange(
                               i,
-                              "productDescription",
+                              "itemDescription",
                               e.target.value
                             )
                           }

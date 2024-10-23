@@ -76,6 +76,15 @@ export const toTitleCase = (str) => {
 function OrderDetails() {
   const location = useLocation();
   const navigate = useNavigate();
+  const {
+    customPutRequest,
+    customPostRequest,
+    loading,
+    error,
+    data: procurement,
+    setError,
+    success,
+  } = Requests();
   // const requestId = location.state?.requestId;
   const { requestid } = useParams();
   // const order = location?.state?.order;
@@ -84,9 +93,48 @@ function OrderDetails() {
   const [drop, setDrop] = useState(null);
   const [saveAsDraft, setSaveAsDraft] = useState(false);
   const [required, setRequired] = useState(false);
-  const { data, refetch } = useCustomGetRequest(`/admin/get-request-by-id/${requestid}`);
+  const { data, refetch } = useCustomGetRequest(
+    `/admin/get-request-by-id/${requestid}`
+  );
   const shipmentMethods = ["Road", "Air", "Rail", "Sea"];
   const deliveryCompanies = ["DHL", "Gokada", "Glovo"];
+  const [origin, setOrigin] = useState("");
+
+  useEffect(() => {
+    refetch();
+  }, [loading]);
+
+  const [requests, setrequests] = useState([
+    {
+      itemName: "",
+      itemOriginalCost: "",
+      quantity: 0,
+      itemDescription: "",
+      itemImage: null,
+    },
+  ]);
+
+  const editRequestData = {
+    service: toTitleCase(data?.serviceType),
+    requestId: data?.request?.requestId,
+    generalUpdate: {
+      ...data?.request,
+      requestItems: requests,
+      origin: origin,
+    },
+    shippingAndBillingInfo: data?.request?.shippingAndBillingInfo,
+  };
+
+  const handleUpdateRequest = async () => {
+    try {
+      customPostRequest(`/cross-service/edit-requests`, editRequestData);
+    } catch (e) {
+    } finally {
+      localStorage.removeItem("requests");
+    }
+  };
+
+  console.log(editRequestData, "editRequestData");
 
   const [shipmentMethod, setShipmentMethod] = useState("");
   const [deliveryCompany, setDeliveryCompany] = useState("");
@@ -97,7 +145,7 @@ function OrderDetails() {
   const [productDescription, setProductDescription] = useState("");
   const [discountType, setDiscoutType] = useState("");
   const [checked, setChecked] = useState(false);
-  const [origin, setOrigin] = useState("");
+
   const [weight, setWeight] = useState("");
   const [length, setLength] = useState("");
   const [height, setHeight] = useState("");
@@ -206,13 +254,11 @@ function OrderDetails() {
         setOpenError(true);
         setError("Please input all fields");
         setRequired(true);
-      }
-      else if (activeStep === 3 && (!shippingCost || !otherCharges)) {
+      } else if (activeStep === 3 && (!shippingCost || !otherCharges)) {
         setOpenError(true);
         setError("Please input all fields");
         setRequired(true);
-      }
-      else {
+      } else {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
         setRequired(false);
       }
@@ -248,18 +294,9 @@ function OrderDetails() {
     else setProceed(false);
   };
 
-  const {
-    customPutRequest,
-    loading,
-    error,
-    data: procurement,
-    setError,
-    success,
-  } = Requests();
-
   const totalCost = () => {
     let total = data?.serviceType === "shopForMe" ? Number(warehouseCost) : 0;
-    if (data?.serviceType === "shopForMe"){
+    if (data?.serviceType === "shopForMe") {
       data?.request?.requestItems?.map(
         (x) => (total += x.qty * x.originalCost)
       );
@@ -267,10 +304,9 @@ function OrderDetails() {
         ? total - Number(discountValue)
         : Number(discountValue) - total;
     }
-    if (data?.serviceType === "autoImport"){
-      let cost =
-        Number(shippingCost) + Number(otherCharges);
-      total += cost
+    if (data?.serviceType === "autoImport") {
+      let cost = Number(shippingCost) + Number(otherCharges);
+      total += cost;
       return total > Number(discountValue)
         ? total - Number(discountValue)
         : Number(discountValue) - total;
@@ -307,7 +343,7 @@ function OrderDetails() {
   };
 
   const approveAutoImportRequestData = {
-    status: 'responded',
+    status: "responded",
     orderId: data?.request?.orderId,
     discount: discountValue,
     serviceType: data?.serviceType,
@@ -319,7 +355,7 @@ function OrderDetails() {
   };
 
   const approveExportRequestData = {
-    requestStatus: 'responded',
+    requestStatus: "responded",
     orderId: data?.request?.orderId,
     discount: Number(discountValue),
     shipmentMethod: shipmentMethod,
@@ -328,7 +364,7 @@ function OrderDetails() {
     totalWidth: Number(width),
     totalLength: Number(length),
     totalWeight: Number(weight),
-    otherCharges: Number(otherCharges)
+    otherCharges: Number(otherCharges),
   };
 
   // console.log(approveExportRequestData);
@@ -390,12 +426,7 @@ function OrderDetails() {
       }
     }
     if (toTitleCase(data?.serviceType) === "Auto Import") {
-      if (
-        shipmentMethod &&
-        deliveryCompany &&
-        shippingCost &&
-        otherCharges
-      ) {
+      if (shipmentMethod && deliveryCompany && shippingCost && otherCharges) {
         customPutRequest(
           `/auto-import/admin/autoimport-status-update`,
           approveAutoImportRequestData
@@ -745,6 +776,8 @@ function OrderDetails() {
                     ) : (
                       <PackageDetailsForm
                         required={required}
+                        requests={requests}
+                        setrequests={setrequests}
                         order={data}
                         service={toTitleCase(data?.serviceType)}
                         setProductName={setProductName}
@@ -1507,7 +1540,23 @@ function OrderDetails() {
                               textTransform: "none",
                             }}
                             onClick={() => {
-                              if (!finish) handleNext();
+                              if (!finish) {
+                                handleNext();
+                                if (
+                                  data?.serviceType === "export" ||
+                                  data?.serviceType === "import"
+                                ) {
+                                  if (activeStep === 0) {
+                                    setrequests([
+                                      ...data?.request?.requestItems,
+                                    ]);
+                                  }
+                                  if (activeStep === 1) {
+                                    handleUpdateRequest();
+                                    console.log("object");
+                                  }
+                                }
+                              }
                             }}
                           >
                             Next
