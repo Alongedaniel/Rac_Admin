@@ -10,11 +10,9 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { IoChevronUpCircleOutline } from "react-icons/io5";
 import EditIcon from "../../../assets/icons/EditIcon";
 import CardWrapper from "../../../components/order/components/CardWrapper";
 import UserModals from "../../Users/components/UserModals";
-import PackageDetailsForm from "../../../components/order/components/PackageDetailsForm";
 import ArrowLeftPurple from "../../../assets/icons/ArrowLeftPurple";
 import ArrowRightWhite from "../../../assets/icons/ArrowRightWhite";
 import { toTitleCase } from "../order-details";
@@ -36,8 +34,13 @@ const ItemBox = ({
   isRequest,
   activeStep,
   refetch,
+  confirm,
+  requestId,
+  requestService,
+  setActiveStep,
 }) => {
-  const { customPostRequest, loading, error, success, setSuccess, setError } = Requests();
+  const { customPostRequest, loading, error, success, setSuccess, setError } =
+    Requests();
   const [open, setOpen] = useState(false);
   const service = toTitleCase(order?.serviceType);
   const [productName, setProductName] = useState(item?.itemName);
@@ -62,10 +65,13 @@ const ItemBox = ({
 
   useEffect(() => {
     refetch();
-  }, [loading])
+  }, [loading]);
 
   const editedData = {
-    service: service === "Shop For Me" ? order?.serviceType : service,
+    service:
+      service === "Shop For Me"
+        ? order?.serviceType ?? requestService
+        : service ?? requestService,
     update:
       service === "Shop For Me"
         ? {
@@ -85,7 +91,7 @@ const ItemBox = ({
             quantity: quantityValue,
             itemDescription: productDescription,
           },
-    requestId: order?.request?.requestId,
+    requestId: order?.request?.requestId ?? requestId,
     requestItemIndex: itemNumber - 1,
   };
   console.log(editedData);
@@ -98,7 +104,7 @@ const ItemBox = ({
   const handleUpdateItem = async () => {
     try {
       customPostRequest(`/cross-service/edit-requests`, editedData);
-      } catch (e) { }
+    } catch (e) {}
   };
   return (
     <Box
@@ -166,7 +172,7 @@ const ItemBox = ({
                     {currencyFormatter.format(item?.originalCost ?? 0)}
                   </p>
                 </div>
-              ) : (
+              ) : !confirm ? null : (
                 <div className="">
                   <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                     ID: {item?.idType}
@@ -184,7 +190,7 @@ const ItemBox = ({
                   {item?.qty ?? item?.quantity ?? "N/A"}
                 </p>
               </div>
-              {service === "Shop For Me" ? null : (
+              {service === "Shop For Me" || !confirm ? null : (
                 <>
                   {" "}
                   <div className="">
@@ -371,7 +377,13 @@ const ItemBox = ({
         )}
       </CardWrapper>
       {!activeStep && !proceed ? null : (
-        <Box onClick={() => setOpen(true)}>
+        <Box
+          onClick={() => {
+            if (confirm || service === "Shop For Me") {
+              setOpen(true);
+            } else setActiveStep(1);
+          }}
+        >
           <EditIcon />
         </Box>
       )}

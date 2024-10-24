@@ -1,20 +1,12 @@
-import { Backdrop, Box, Button, CircularProgress, Grid, MenuItem, Snackbar, TextField, Typography } from "@mui/material";
+import { Backdrop, Box, Button, CircularProgress, Grid, Snackbar, TextField, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import car from "../../../assets/images/car.png";
 import CardWrapper from "./CardWrapper";
 import EditIcon from "../../../assets/icons/EditIcon";
 import currencyFormatter from "../../CurrencyFormatter";
-import AutoImportPackageDetails from "./AutoImportPackageDetails";
 import ArrowLeftPurple from "../../../assets/icons/ArrowLeftPurple";
 import ArrowRightWhite from "../../../assets/icons/ArrowRightWhite";
 import UserModals from "../../../pages/Users/components/UserModals";
 import DollarIcon from "../../../assets/icons/DollarIcon";
-import CircleRight from "../../../assets/icons/CircleRight";
-import { BsPlus } from "react-icons/bs";
-import SwitchCopm from "./SwitchCopm";
-import TooltipIcon from "../../../assets/icons/TooltipIcon";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import UploadIcon from "../../../assets/icons/UploadIcon";
 import dayjs from "dayjs";
 import { City, Country, State } from "country-state-city";
@@ -22,7 +14,7 @@ import Requests from "../../../utils/hooks/api/requests";
 import CloseIcon from "../../../assets/icons/CloseIcon";
 import { toTitleCase } from "../../../pages/orders/order-details";
 
-const AutoImportItem = ({ view, item, itemNumber, proceed, refetch, order }) => {
+const AutoImportItem = ({ view, item, itemNumber, proceed, refetch=() => {}, order }) => {
   const { customPostRequest, loading, error, success, setSuccess, setError } =
     Requests();
   const today = dayjs();

@@ -601,7 +601,7 @@ const OrderPricing = ({
                   sx={{ display: "flex", alignItems: "center", gap: "10px" }}
                 >
                   <img
-                    src={car}
+                    src={item.carImage}
                     alt="car"
                     style={{
                       width: "61px",
