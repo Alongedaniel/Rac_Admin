@@ -69,17 +69,29 @@ const PackageDetailsForm = ({
   console.log(requests);
 
   const addNewOrder = () => {
-    const newOrder = {
-      itemName: "",
-      itemOriginalCost: 0,
-      quantity: 0,
-      itemDescription: "",
-      itemImage: null,
-      deliveredBy: "",
-      itemDeliveryStatus: "",
-      idNumber: "",
-      idType: "",
-    };
+    const newOrder =
+      service === "Shop For Me"
+        ? {
+            itemName: "",
+            originalCost: 0,
+            qty: 0,
+            additionalDescription: "",
+            itemImage: null,
+            store: "",
+            urgentPurchase: false,
+            itemUrl: "",
+          }
+        : {
+            itemName: "",
+            itemOriginalCost: 0,
+            quantity: 0,
+            itemDescription: "",
+            itemImage: null,
+            deliveredBy: "",
+            itemDeliveryStatus: "",
+            idNumber: "",
+            idType: "",
+          };
     setrequests([...requests, newOrder]);
   };
 
@@ -206,8 +218,14 @@ const PackageDetailsForm = ({
                                       }}
                                       type="text"
                                       label="Store"
-                                      // value={productName}
-                                      // onChange={(e) => setProductName(e.target.value)}
+                                      value={request.store}
+                                      onChange={(e) =>
+                                        handleInputChange(
+                                          i,
+                                          "store",
+                                          e.target.value
+                                        )
+                                      }
                                       fullWidth
                                       placeholder="Select a store"
                                       select
@@ -239,7 +257,9 @@ const PackageDetailsForm = ({
                                       }}
                                       type="text"
                                       label="Urgent Purchase"
-                                      // value={productName}
+                                      value={
+                                        request.urgentPurchase ? "Yes" : "No"
+                                      }
                                       // onChange={(e) => setProductName(e.target.value)}
                                       fullWidth
                                       // placeholder="Select origin"
@@ -253,7 +273,23 @@ const PackageDetailsForm = ({
                                           color: "#1C1B1F",
                                         },
                                       }}
-                                    />
+                                    >
+                                      {["Yes", "No"].map((x) => (
+                                        <MenuItem
+                                          value={x}
+                                          key={i}
+                                          onClick={() =>
+                                            handleInputChange(
+                                              i,
+                                              "urgentPurchase",
+                                              x === "Yes" ? true : false
+                                            )
+                                          }
+                                        >
+                                          {x}
+                                        </MenuItem>
+                                      ))}
+                                    </TextField>
                                     <TooltipIcon />
                                   </Box>
                                 </Grid>
@@ -264,8 +300,14 @@ const PackageDetailsForm = ({
                                 sx={{ fontSize: "16px", color: "#1C1B1F" }}
                                 type="text"
                                 label="Item URL"
-                                // value={productName}
-                                // onChange={(e) => setProductName(e.target.value)}
+                                value={request.itemUrl}
+                                onChange={(e) =>
+                                  handleInputChange(
+                                    i,
+                                    "itemUrl",
+                                    e.target.value
+                                  )
+                                }
                                 fullWidth
                                 placeholder="Paste the item link here"
                                 InputProps={{
@@ -286,8 +328,8 @@ const PackageDetailsForm = ({
                             sx={{ fontSize: "16px", color: "#1C1B1F" }}
                             type="text"
                             label="Product Name"
-                            value={request.itemName}
                             // onChange={(e) => setProductName(e.target.value)}
+                            value={request.itemName}
                             onChange={(e) =>
                               handleInputChange(i, "itemName", e.target.value)
                             }
@@ -310,12 +352,16 @@ const PackageDetailsForm = ({
                               id="cost"
                               sx={{ fontSize: "16px", color: "#1C1B1F" }}
                               type="text"
-                              value={request.itemOriginalCost}
+                              value={
+                                request.itemOriginalCost ?? request.originalCost
+                              }
                               // onChange={(e) => setOriginalCost(e.target.value)}
                               onChange={(e) =>
                                 handleInputChange(
                                   i,
-                                  "itemOriginalCost",
+                                  service === "Shop For Me"
+                                    ? "originalCost"
+                                    : "itemOriginalCost",
                                   Number(e.target.value)
                                 )
                               }
@@ -341,7 +387,7 @@ const PackageDetailsForm = ({
                               sx={{ fontSize: "16px", color: "#1C1B1F" }}
                               type="number"
                               label="Quantity"
-                              value={request.quantity}
+                              value={request.quantity ?? request.qty}
                               fullWidth
                               // placeholder="Select origin"
                               InputProps={{
@@ -359,7 +405,9 @@ const PackageDetailsForm = ({
                                         setQuantityValue((prev) => prev - 1);
                                         handleInputChange(
                                           i,
-                                          "quantity",
+                                          service === "Shop For Me"
+                                            ? "qty"
+                                            : "quantity",
                                           quantityValue
                                         );
                                       }
@@ -379,7 +427,9 @@ const PackageDetailsForm = ({
                                       setQuantityValue((prev) => prev + 1);
                                       handleInputChange(
                                         i,
-                                        "quantity",
+                                        service === "Shop For Me"
+                                          ? "qty"
+                                          : "quantity",
                                         quantityValue
                                       );
                                     }}
@@ -476,14 +526,16 @@ const PackageDetailsForm = ({
                             sx={{ fontSize: "16px", color: "#1C1B1F" }}
                             type="text"
                             label="Product/Item Description"
-                            value={request.itemDescription}
-                            // onChange={(e) =>
-                            //   setProductDescription(e.target.value)
-                            // }
+                            value={
+                              request.itemDescription ??
+                              request.additionalDescription
+                            }
                             onChange={(e) =>
                               handleInputChange(
                                 i,
-                                "itemDescription",
+                                service === "Shop For Me"
+                                  ? "additionalDescription"
+                                  : "itemDescription",
                                 e.target.value
                               )
                             }
@@ -570,7 +622,7 @@ const PackageDetailsForm = ({
                 </Box>
               );
             })
-          : requests.map((order, i) => (
+          : requests?.map((order, i) => (
               <Box
                 sx={{
                   width: "100%",
@@ -599,11 +651,16 @@ const PackageDetailsForm = ({
                                     sx={{ fontSize: "16px", color: "#1C1B1F" }}
                                     type="text"
                                     label="Store"
-                                    // value={productName}
-                                    // onChange={(e) => setProductName(e.target.value)}
+                                    value={order.store}
+                                    onChange={(e) =>
+                                      handleInputChange(
+                                        i,
+                                        "store",
+                                        e.target.value
+                                      )
+                                    }
                                     fullWidth
                                     placeholder="Select a store"
-                                    select
                                     InputProps={{
                                       sx: {
                                         borderRadius: "20px", // Apply border radius to the input element
@@ -629,8 +686,7 @@ const PackageDetailsForm = ({
                                     sx={{ fontSize: "16px", color: "#1C1B1F" }}
                                     type="text"
                                     label="Urgent Purchase"
-                                    // value={productName}
-                                    // onChange={(e) => setProductName(e.target.value)}
+                                    value={order.urgentPurchase ? "Yes" : "No"}
                                     fullWidth
                                     // placeholder="Select origin"
                                     select
@@ -643,7 +699,23 @@ const PackageDetailsForm = ({
                                         color: "#1C1B1F",
                                       },
                                     }}
-                                  />
+                                  >
+                                    {["Yes", "No"].map((x) => (
+                                      <MenuItem
+                                        value={x}
+                                        key={i}
+                                        onClick={() =>
+                                          handleInputChange(
+                                            i,
+                                            "urgentPurchase",
+                                            x === "Yes" ? true : false
+                                          )
+                                        }
+                                      >
+                                        {x}
+                                      </MenuItem>
+                                    ))}
+                                  </TextField>
                                   <TooltipIcon />
                                 </Box>
                               </Grid>
@@ -654,8 +726,10 @@ const PackageDetailsForm = ({
                               sx={{ fontSize: "16px", color: "#1C1B1F" }}
                               type="text"
                               label="Item URL"
-                              // value={productName}
-                              // onChange={(e) => setProductName(e.target.value)}
+                              value={order.itemUrl}
+                              onChange={(e) =>
+                                handleInputChange(i, "itemUrl", e.target.value)
+                              }
                               fullWidth
                               placeholder="Paste the item link here"
                               InputProps={{
@@ -699,11 +773,13 @@ const PackageDetailsForm = ({
                             id="cost"
                             sx={{ fontSize: "16px", color: "#1C1B1F" }}
                             type="text"
-                            value={order.itemOriginalCost}
+                            value={order.itemOriginalCost ?? order.originalCost}
                             onChange={(e) =>
                               handleInputChange(
                                 i,
-                                "itemOriginalCost",
+                                service === "Shop For Me"
+                                  ? "originalCost"
+                                  : "itemOriginalCost",
                                 Number(e.target.value)
                               )
                             }
@@ -729,7 +805,7 @@ const PackageDetailsForm = ({
                             sx={{ fontSize: "16px", color: "#1C1B1F" }}
                             type="number"
                             label="Quantity"
-                            value={order.quantity}
+                            value={order.quantity ?? order.qty}
                             fullWidth
                             // placeholder="Select origin"
                             InputProps={{
@@ -742,7 +818,9 @@ const PackageDetailsForm = ({
                                       setQuantityValue((prev) => prev - 1);
                                     handleInputChange(
                                       i,
-                                      "quantity",
+                                      service === "Shop For Me"
+                                        ? "qty"
+                                        : "quantity",
                                       quantityValue
                                     );
                                   }}
@@ -757,7 +835,9 @@ const PackageDetailsForm = ({
                                     setQuantityValue((prev) => prev + 1);
                                     handleInputChange(
                                       i,
-                                      "quantity",
+                                      service === "Shop For Me"
+                                        ? "qty"
+                                        : "quantity",
                                       quantityValue
                                     );
                                   }}
@@ -853,18 +933,22 @@ const PackageDetailsForm = ({
                           sx={{ fontSize: "16px", color: "#1C1B1F" }}
                           type="text"
                           label="Product/Item Description"
-                          value={order.itemDescription}
+                          value={
+                            order.itemDescription ??
+                            order.additionalDescription
+                          }
                           onChange={(e) =>
                             handleInputChange(
                               i,
-                              "itemDescription",
+                              service === "Shop For Me"
+                                ? "additionalDescription"
+                                : "itemDescription",
                               e.target.value
                             )
                           }
                           fullWidth
                           multiline
                           rows={5}
-                          maxRows={5}
                           // placeholder="Select origin"
                           InputProps={{
                             sx: {

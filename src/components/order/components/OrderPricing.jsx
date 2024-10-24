@@ -47,7 +47,7 @@ const OrderPricing = ({
   setOtherCharges,
   totalPickupCost,
   setTotalPickupCost,
-  isRequest
+  isRequest,
 }) => {
   const [discountType, setDiscoutType] = useState("");
   const totalShopForMeCost = () => {
@@ -250,7 +250,7 @@ const OrderPricing = ({
   };
 
   let totalItems = 0;
-  let total = 0
+  let total = 0;
 
   const theme = useTheme();
   return (
@@ -1262,17 +1262,19 @@ const OrderPricing = ({
                   <Typography fontSize={"14px"} color="#49454F" mb="20px">
                     Pickup Costs
                   </Typography>
-                  <Grid container wrap="nowrap" gap="20px" mt="20px">
+                  <Grid container spacing={2.5}>
                     {requestItems.map((car, i) => (
-                      <CarPickupBox
-                        requestItems={requestItems}
-                        car={car}
-                        index={i + 1}
-                        required={required}
-                        totalPickupCost={totalPickupCost}
-                        setTotalPickupCost={setTotalPickupCost}
-                        isRequest={isRequest}
-                      />
+                      <Grid item xs={6}>
+                        <CarPickupBox
+                          requestItems={requestItems}
+                          car={car}
+                          index={i + 1}
+                          required={required}
+                          totalPickupCost={totalPickupCost}
+                          setTotalPickupCost={setTotalPickupCost}
+                          isRequest={isRequest}
+                        />
+                      </Grid>
                     ))}
                   </Grid>
                 </Box>

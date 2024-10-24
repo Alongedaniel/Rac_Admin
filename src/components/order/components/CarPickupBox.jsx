@@ -41,9 +41,8 @@ const CarPickupBox = ({
   };
 
   return (
-    <Grid
-      item
-      xs={6}
+    <Box
+      
       p="16px"
       bgcolor={!car?.pickupDetails?.firstName ? "#fff" : "#F4EFF4"}
       border="1px solid #CAC4D0"
@@ -390,7 +389,7 @@ const CarPickupBox = ({
           </Box>
         </Box>
       </UserModals>
-    </Grid>
+    </Box>
   );
 };
 

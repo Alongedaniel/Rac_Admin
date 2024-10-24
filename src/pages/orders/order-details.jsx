@@ -100,19 +100,51 @@ function OrderDetails() {
     refetch();
   }, [loading]);
 
-  const [requests, setrequests] = useState([
-    {
-      itemName: "",
-      itemOriginalCost: 0,
-      quantity: 0,
-      itemDescription: "",
-      itemImage: null,
-      deliveredBy: "",
-      itemDeliveryStatus: "",
-      idNumber: "",
-      idType: "",
-    },
-  ]);
+  const [requests, setrequests] = useState(
+    toTitleCase(data?.serviceType) === "Auto Import"
+      ? [
+          {
+            carBrand: "",
+            carCondition: "",
+            color: "",
+            link: "",
+            model: "",
+            carValue: 0,
+            mileage: 0,
+            additionalDescription: "",
+            carImage: null,
+            carTitle: null,
+            productionYear: "",
+            vehicleIdNumber: "",
+          },
+        ]
+      : toTitleCase(data?.serviceType) === "Shop For Me"
+      ? [
+          {
+            itemName: "",
+            originalCost: 0,
+            qty: 0,
+            additionalDescription: "",
+            itemImage: null,
+            store: "",
+            urgentPurchase: false,
+            itemUrl: "",
+          },
+        ]
+      : [
+          {
+            itemName: "",
+            itemOriginalCost: 0,
+            quantity: 0,
+            itemDescription: "",
+            itemImage: null,
+            deliveredBy: "",
+            itemDeliveryStatus: "",
+            idNumber: "",
+            idType: "",
+          },
+        ]
+  );
 
   useEffect(() => {
     const storedRequests = localStorage.getItem("requests");
@@ -783,6 +815,10 @@ function OrderDetails() {
                         isRequest={Boolean(requestid)}
                         order={data}
                         type={type}
+                        requests={requests}
+                        setrequests={setrequests}
+                        setOrigin={setOrigin}
+                        origin={origin}
                       />
                     ) : (
                       <PackageDetailsForm
@@ -822,7 +858,7 @@ function OrderDetails() {
                       <OrderPricing
                         id={data?.request?._id}
                         service={toTitleCase(data?.serviceType)}
-                        requestItems={data?.request?.requestItems}
+                        requestItems={request}
                         data={data?.request}
                         setDiscountValue={setDiscountValue}
                         discountValue={discountValue}
@@ -1101,7 +1137,7 @@ function OrderDetails() {
                           <OrderPricing
                             id={data?.request?._id}
                             service={toTitleCase(data?.serviceType)}
-                            requestItems={data?.request?.requestItems}
+                            requestItems={requests}
                             data={data?.request}
                             setDiscountValue={setDiscountValue}
                             discountValue={discountValue}
@@ -1134,8 +1170,7 @@ function OrderDetails() {
                         />
                         <PackageDetails
                           refetch={refetch}
-                          order={
-                            data?.serviceType === "shopForMe" ? data : requests
+                          order={requests
                           }
                           origin={origin}
                           requestId={data?.request?.requestId}
@@ -1562,16 +1597,9 @@ function OrderDetails() {
                             onClick={() => {
                               if (!finish) {
                                 handleNext();
-                                if (
-                                  data?.serviceType === "export" ||
-                                  data?.serviceType === "import"
-                                ) {
-                                  if (activeStep === 0) {
-                                    setrequests([
-                                      ...data?.request?.requestItems,
-                                    ]);
-                                    setOrigin(data?.request?.origin);
-                                  }
+                                if (activeStep === 0) {
+                                  setrequests([...data?.request?.requestItems]);
+                                  setOrigin(data?.request?.origin);
                                 }
                               }
                             }}
