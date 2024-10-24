@@ -10,11 +10,9 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { IoChevronUpCircleOutline } from "react-icons/io5";
 import EditIcon from "../../../assets/icons/EditIcon";
 import CardWrapper from "../../../components/order/components/CardWrapper";
 import UserModals from "../../Users/components/UserModals";
-import PackageDetailsForm from "../../../components/order/components/PackageDetailsForm";
 import ArrowLeftPurple from "../../../assets/icons/ArrowLeftPurple";
 import ArrowRightWhite from "../../../assets/icons/ArrowRightWhite";
 import { toTitleCase } from "../order-details";
