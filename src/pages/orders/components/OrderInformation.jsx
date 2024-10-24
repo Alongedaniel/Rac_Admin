@@ -18,7 +18,15 @@ import { useNavigate } from "react-router-dom";
 import { toTitleCase } from "../order-details";
 import { getStatusBgColor } from "../../../components/order/order-request";
 
-const OrderInformation = ({ order, type, isRequest, activeStep, deliveryCompany, shipmentMethod }) => {
+const OrderInformation = ({
+  order,
+  type,
+  isRequest,
+  activeStep,
+  deliveryCompany,
+  shipmentMethod,
+  setActiveStep = () => {},
+}) => {
   const navigate = useNavigate();
   const [editOrderInfo, setEditOrderInfo] = useState(false);
   const customer =
@@ -107,9 +115,7 @@ const OrderInformation = ({ order, type, isRequest, activeStep, deliveryCompany,
                       width: "fit-content",
                       padding: "5px 10px",
                       textTransform: "capitalize",
-                      ...getStatusBgColor(
-                        toTitleCase(requestStatus)
-                      ),
+                      ...getStatusBgColor(toTitleCase(requestStatus)),
                     }}
                     className="font-roboto  text-[20px] text-brand/200"
                   >
@@ -203,7 +209,7 @@ const OrderInformation = ({ order, type, isRequest, activeStep, deliveryCompany,
           {(type === "request" || isRequest) &&
           activeStep !== 3 &&
           activeStep !== 4 ? null : (
-            <Box onClick={() => setEditOrderInfo(true)}>
+            <Box onClick={() => setActiveStep(0)}>
               <EditIcon />
             </Box>
           )}

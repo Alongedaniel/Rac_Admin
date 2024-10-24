@@ -22,7 +22,7 @@ import Requests from "../../../utils/hooks/api/requests";
 import CloseIcon from "../../../assets/icons/CloseIcon";
 import { toTitleCase } from "../../../pages/orders/order-details";
 
-const AutoImportItem = ({ view, item, itemNumber, proceed, refetch, order }) => {
+const AutoImportItem = ({ view, item, itemNumber, proceed, refetch=() => {}, order }) => {
   const { customPostRequest, loading, error, success, setSuccess, setError } =
     Requests();
   const today = dayjs();

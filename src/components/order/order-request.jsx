@@ -84,7 +84,7 @@ function OrderRequestComp({ home = false, all = false }) {
       setOpenError(true);
     } else setOpenError(false);
     setRows(
-      data?.requests[0]?.allData?.map((row) => ({
+      data?.requests[0]?.allData?.reverse()?.map((row) => ({
         ...row,
         id: row.requestId,
         requestStatus:

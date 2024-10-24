@@ -78,7 +78,9 @@ const CarPickupBox = ({
               <span style={{ fontWeight: 500 }}>Car {`${index}`}</span>
               {`: ${car.carBrand}`}
             </Typography>
-            <Typography>Houston</Typography>
+            {!car?.pickupDetails?.firstName ? null : (
+              <Typography>{car?.pickupDetails?.city}</Typography>
+            )}
           </Box>
         </Box>
         <Box onClick={() => setOpenCar(true)} sx={{ cursor: "pointer" }}>
@@ -151,7 +153,7 @@ const CarPickupBox = ({
             fullWidth
             value={pickupCosts[index]}
             onChange={(e) => {
-              handleInputChange(index, e.target.value)
+              handleInputChange(index, e.target.value);
             }}
             // placeholder="Select origin"
             InputProps={{

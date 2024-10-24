@@ -18,6 +18,7 @@ const BillingDetails = ({
   isRequest,
   totalCost,
   activeStep,
+  setActiveStep = () => {},
 }) => {
   console.log(totalCost);
   const [open, setOpen] = useState(false);
@@ -32,7 +33,8 @@ const BillingDetails = ({
       ? order?.insurance +
         order?.vat +
         order?.storageCharges +
-        order?.paymentMethodSurcharge + totalCost
+        order?.paymentMethodSurcharge +
+        totalCost
       : order?.insurance +
         order?.vat +
         order?.storageCharges +
@@ -250,7 +252,11 @@ const BillingDetails = ({
                     </div>
                   )}
                 </CardWrapper>
-                {type === "request" || isRequest ? null : <EditIcon />}
+                {type === "request" || isRequest ? null : (
+                  <Box onClick={() => setActiveStep(2)}>
+                    <EditIcon />
+                  </Box>
+                )}
               </Box>
             )}
           </div>

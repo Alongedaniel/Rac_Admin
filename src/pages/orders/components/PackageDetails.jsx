@@ -10,12 +10,16 @@ import { toTitleCase } from '../order-details';
 import AutoImportItem from '../../../components/order/components/AutoImportItem';
 
 const PackageDetails = ({
+  confirm = false,
   type = "",
   order,
   proceed = false,
   isRequest = false,
   activeStep,
-  refetch
+  setActiveStep,
+  refetch,
+  requestId,
+  service, origin
 }) => {
   return (
     <div className="">
@@ -40,7 +44,8 @@ const PackageDetails = ({
         >
           {(type === "request" || isRequest) && activeStep === 3
             ? null
-            : toTitleCase(order?.request?.serviceType) !== "Auto Import" && (
+            : toTitleCase(order?.request?.serviceType ?? service) !==
+                "Auto Import" && (
                 <div
                   style={{
                     marginTop: "30px",
@@ -57,7 +62,8 @@ const PackageDetails = ({
                       color: "#49454F",
                     }}
                   >
-                    {toTitleCase(order?.request?.serviceType) === "Shop For Me"
+                    {toTitleCase(order?.request?.serviceType ?? service) ===
+                    "Shop For Me"
                       ? "This is the RAC Facility where the items will be delivered after they are purchased and they will be shipped from here to our pickup office in Nigeria"
                       : "This is the RAC Facility the customer claimed to have dropped the package off at"}
                   </p>
@@ -70,7 +76,7 @@ const PackageDetails = ({
                   Origin warehouse:
                 </p>
                 <p className="font-roboto  text-[20px] text-brand/100">
-                  {order?.request?.origin}
+                  {order?.request?.origin ?? origin}
                 </p>
               </div>
             </div>
@@ -153,8 +159,8 @@ const PackageDetails = ({
                 item={item}
                 itemNumber={i + 1}
                 proceed={proceed}
-              refetch={refetch}
-              order={order}
+                refetch={refetch}
+                order={order}
               />
             ) : (
               <ProductBox
@@ -168,8 +174,10 @@ const PackageDetails = ({
               />
             )
           )
-        : order?.request?.requestItems?.map((item, i) => (
+        : order?.request?.requestItems
+        ? order?.request?.requestItems?.map((item, i) => (
             <ItemBox
+              confirm={order?.request?.requestStatus === "Not Responded"}
               activeStep={activeStep}
               proceed={proceed}
               isRequest={isRequest}
@@ -178,6 +186,22 @@ const PackageDetails = ({
               type={type}
               itemNumber={i + 1}
               refetch={refetch}
+            />
+          ))
+        : order?.map((item, i) => (
+            <ItemBox
+              confirm={false}
+              activeStep={activeStep}
+              setActiveStep={setActiveStep}
+              proceed={proceed}
+              isRequest={isRequest}
+              order={order}
+              item={item}
+              type={type}
+              itemNumber={i + 1}
+              refetch={refetch}
+              requestId={requestId}
+              requestService={service}
             />
           ))}
     </div>

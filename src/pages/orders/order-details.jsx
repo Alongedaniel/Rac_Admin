@@ -107,22 +107,37 @@ function OrderDetails() {
   const [requests, setrequests] = useState([
     {
       itemName: "",
-      itemOriginalCost: "",
+      itemOriginalCost: 0,
       quantity: 0,
       itemDescription: "",
       itemImage: null,
+      deliveredBy: "",
+      itemDeliveryStatus: "",
+      idNumber: "",
+      idType: "",
     },
   ]);
+
+  useEffect(() => {
+    const storedRequests = localStorage.getItem("requests");
+    if (storedRequests) {
+      setrequests(JSON.parse(storedRequests));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("requests", JSON.stringify(requests));
+  }, [requests]);
 
   const editRequestData = {
     service: toTitleCase(data?.serviceType),
     requestId: data?.request?.requestId,
     generalUpdate: {
-      ...data?.request,
-      requestItems: requests,
+      // ...data?.request,
       origin: origin,
     },
-    shippingAndBillingInfo: data?.request?.shippingAndBillingInfo,
+    requestItems: requests,
+    // shippingAndBillingInfo: data?.request?.shippingAndBillingInfo,
   };
 
   const handleUpdateRequest = async () => {
@@ -1119,13 +1134,21 @@ function OrderDetails() {
                           isRequest={requestid}
                           deliveryCompany={deliveryCompany}
                           shipmentMethod={shipmentMethod}
+                          setActiveStep={setActiveStep}
                         />
                         <PackageDetails
                           refetch={refetch}
-                          order={data}
+                          order={
+                            data?.serviceType === "shopForMe" ? data : requests
+                          }
+                          origin={origin}
+                          requestId={data?.request?.requestId}
+                          service={data?.request?.serviceType}
                           isRequest={Boolean(requestid)}
                           type={type}
                           activeStep={activeStep}
+                          setActiveStep={setActiveStep}
+                          confirm={true}
                         />
                         {data?.serviceType === "shopForMe" ? (
                           <>
@@ -1133,6 +1156,7 @@ function OrderDetails() {
                               order={data?.request}
                               type={type}
                               totalCost={totalCost()}
+                              setActiveStep={setActiveStep}
                             />
                           </>
                         ) : null}
@@ -1519,7 +1543,7 @@ function OrderDetails() {
                               onClick={() => {
                                 if (!finish) {
                                   approveOrder();
-                                  // console.log('clicked')
+                                  handleUpdateRequest();
                                 }
                               }}
                             >
@@ -1550,10 +1574,7 @@ function OrderDetails() {
                                     setrequests([
                                       ...data?.request?.requestItems,
                                     ]);
-                                  }
-                                  if (activeStep === 1) {
-                                    handleUpdateRequest();
-                                    console.log("object");
+                                    setOrigin(data?.request?.origin);
                                   }
                                 }
                               }

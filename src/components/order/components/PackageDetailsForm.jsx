@@ -47,7 +47,12 @@ const PackageDetailsForm = ({
   setOrigin = () => {},
   service = "",
 }) => {
- const [origins, setOrigins] = useState(["UK Warehouse", "Nigeria Warehouse"]);
+ const [origins, setOrigins] = useState(order?.request?.serviceType === 'Export' ? ['Nigeria Warehouse (Lagos)'] : [
+   "UK Warehouse (London)",
+   "Dubai Warehouse",
+   "China Warehouse (Guangzhou city)",
+   "US Warehouse (Richmond Texas)",
+ ]);
   const [quantityValue, setQuantityValue] = useState(1);
   const [open, setOpen] = useState(false);
   // const [requests, setrequests] = useState([
@@ -66,24 +71,19 @@ const PackageDetailsForm = ({
   const addNewOrder = () => {
     const newOrder = {
       itemName: "",
-      itemOriginalCost: "",
+      itemOriginalCost: 0,
       quantity: 0,
       itemDescription: "",
       itemImage: null,
+      deliveredBy: "",
+      itemDeliveryStatus: "",
+      idNumber: "",
+      idType: "",
     };
     setrequests([...requests, newOrder]);
   };
 
-    useEffect(() => {
-      const storedRequests = localStorage.getItem("requests");
-      if (storedRequests) {
-        setrequests(JSON.parse(storedRequests));
-      }
-    }, []);
-
-    useEffect(() => {
-      localStorage.setItem("requests", JSON.stringify(requests));
-    }, [requests]);
+    
 
   console.log(requests);
 
@@ -143,7 +143,13 @@ const PackageDetailsForm = ({
                 },
               }}
               // placeholder="Enter your country"
-            >{origins.map((x) => <MenuItem key={x} value={x} onClick={() => setOrigin(x)}>{x}</MenuItem>)}</TextField>
+            >
+              {origins.map((x) => (
+                <MenuItem key={x} value={x} onClick={() => setOrigin(x)}>
+                  {x}
+                </MenuItem>
+              ))}
+            </TextField>
             <TooltipIcon />
           </Box>
         </Box>
@@ -173,7 +179,7 @@ const PackageDetailsForm = ({
                     marginTop: "20px",
                   }}
                 >
-                  <CardWrapper title={`Item - #${i + 1}`}>
+                  <CardWrapper fullByDefault title={`Item - #${i + 1}`}>
                     <Box>
                       <Box mt="10px" pt="30px">
                         <Box mb="30px">
@@ -310,7 +316,7 @@ const PackageDetailsForm = ({
                                 handleInputChange(
                                   i,
                                   "itemOriginalCost",
-                                  e.target.value
+                                  Number(e.target.value)
                                 )
                               }
                               label="Item Original Cost"
@@ -349,8 +355,7 @@ const PackageDetailsForm = ({
                                     //   setQuantity(quantityValue);
                                     // }}
                                     onClick={() => {
-                                      if (quantityValue > 1)
-                                      {
+                                      if (quantityValue > 1) {
                                         setQuantityValue((prev) => prev - 1);
                                         handleInputChange(
                                           i,
@@ -699,7 +704,7 @@ const PackageDetailsForm = ({
                               handleInputChange(
                                 i,
                                 "itemOriginalCost",
-                                e.target.value
+                                Number(e.target.value)
                               )
                             }
                             label="Item Original Cost"
