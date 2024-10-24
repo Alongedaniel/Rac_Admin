@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const ArrowSquare = () => {
   return (
@@ -15,6 +15,6 @@ const ArrowSquare = () => {
       />
     </svg>
   );
-}
+};
 
-export default ArrowSquare
+export default ArrowSquare;

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const SearchIcon = () => {
   return (
@@ -19,6 +19,6 @@ const SearchIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default SearchIcon
+export default SearchIcon;

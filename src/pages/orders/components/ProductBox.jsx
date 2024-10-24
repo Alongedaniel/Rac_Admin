@@ -2,7 +2,7 @@ import { Box, Button } from "@mui/material";
 import React, { useState } from "react";
 import { IoChevronUpCircleOutline } from "react-icons/io5";
 import EditIcon from "../../../assets/icons/EditIcon";
-import car from '../../../assets/images/car.png';
+import car from "../../../assets/images/car.png";
 import CardWrapper from "../../../components/order/components/CardWrapper";
 import UserModals from "../../Users/components/UserModals";
 import AutoImportPackageDetails from "../../../components/order/components/AutoImportPackageDetails";

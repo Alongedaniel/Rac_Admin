@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const DollarIcon = () => {
   return (
@@ -31,6 +31,6 @@ const DollarIcon = () => {
       </defs>
     </svg>
   );
-}
+};
 
-export default DollarIcon
+export default DollarIcon;

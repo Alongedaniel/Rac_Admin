@@ -1,7 +1,7 @@
-import { Box, Grid, MenuItem, Radio, TextField } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import CircleRight from '../../../assets/icons/CircleRight';
-import CardWrapper from './CardWrapper';
+import { Box, Grid, MenuItem, Radio, TextField } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import CircleRight from "../../../assets/icons/CircleRight";
+import CardWrapper from "./CardWrapper";
 
 const BillingDetailsForm = ({
   firstName = "",
@@ -23,32 +23,32 @@ const BillingDetailsForm = ({
   zipCode = "",
   setZipCode = () => {},
 }) => {
-    const countries = [
-      "Nigeria",
-      "United States",
-      "United Kingdom",
-      "Canada",
-      "Australia",
-    ];
-    const states = ["Lagos", "Kano", "Abuja", "Rivers", "Anambra"];
-    const cities = ["Ikeja", "Badagry", "Lekki", "Oshodi", "Ikoyi"];
-    const countryCodes = [
-      { name: "Nigeria", code: "+234" },
-      { name: "United States", code: "+1" },
-      { name: "United Kingdom", code: "+44" },
-      { name: "Canada", code: "+1" },
-      { name: "Australia", code: "+61" },
-    ];
-    const [code, setCode] = useState("");
+  const countries = [
+    "Nigeria",
+    "United States",
+    "United Kingdom",
+    "Canada",
+    "Australia",
+  ];
+  const states = ["Lagos", "Kano", "Abuja", "Rivers", "Anambra"];
+  const cities = ["Ikeja", "Badagry", "Lekki", "Oshodi", "Ikoyi"];
+  const countryCodes = [
+    { name: "Nigeria", code: "+234" },
+    { name: "United States", code: "+1" },
+    { name: "United Kingdom", code: "+44" },
+    { name: "Canada", code: "+1" },
+    { name: "Australia", code: "+61" },
+  ];
+  const [code, setCode] = useState("");
   const [number, setNumber] = useState("");
   const [selectedValue, setSelectedValue] = useState(null);
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
   };
-    useEffect(() => {
-      setPhoneNumber(code + number);
-    }, [code, number]);
+  useEffect(() => {
+    setPhoneNumber(code + number);
+  }, [code, number]);
   return (
     <div>
       <div className="flex items-center space-x-[10px] ">
@@ -63,8 +63,8 @@ const BillingDetailsForm = ({
           <CardWrapper
             showRadio={
               <Radio
-                value='default'
-                checked={selectedValue === 'default'}
+                value="default"
+                checked={selectedValue === "default"}
                 onChange={handleChange}
                 color="primary"
               />
@@ -77,14 +77,14 @@ const BillingDetailsForm = ({
           title="Custom Billing Address"
           showRadio={
             <Radio
-              value='custom'
+              value="custom"
               checked={selectedValue === "custom"}
               onChange={handleChange}
               color="primary"
             />
           }
         >
-          <Box display="flex" flexDirection="column" gap="30px" mt='5px'>
+          <Box display="flex" flexDirection="column" gap="30px" mt="5px">
             <Grid container gap="30px" wrap="nowrap">
               <Grid item xs={6}>
                 <TextField
@@ -348,4 +348,4 @@ const BillingDetailsForm = ({
   );
 };
 
-export default BillingDetailsForm
+export default BillingDetailsForm;

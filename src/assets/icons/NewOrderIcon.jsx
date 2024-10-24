@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const NewOrderIcon = () => {
   return (
@@ -19,6 +19,6 @@ const NewOrderIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default NewOrderIcon
+export default NewOrderIcon;

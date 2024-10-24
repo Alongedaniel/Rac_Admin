@@ -64,7 +64,7 @@ import currencyFormatter from "../../components/CurrencyFormatter";
 export const toTitleCase = (str) => {
   const words = str?.match(/[A-Z][a-z]+|[a-z]+/g);
   const titleCasedWords = words?.map(
-    (word) => word.charAt(0).toUpperCase() + word.slice(1)
+    (word) => word.charAt(0).toUpperCase() + word.slice(1),
   );
   return titleCasedWords?.join(" ");
 };
@@ -90,7 +90,7 @@ function OrderDetails() {
   const [saveAsDraft, setSaveAsDraft] = useState(false);
   const [required, setRequired] = useState(false);
   const { data, refetch } = useCustomGetRequest(
-    `/admin/get-request-by-id/${requestid}`
+    `/admin/get-request-by-id/${requestid}`,
   );
   const shipmentMethods = ["Road", "Air", "Rail", "Sea"];
   const deliveryCompanies = ["DHL", "Gokada", "Glovo"];
@@ -119,31 +119,31 @@ function OrderDetails() {
           },
         ]
       : toTitleCase(data?.serviceType) === "Shop For Me"
-      ? [
-          {
-            itemName: "",
-            originalCost: 0,
-            qty: 0,
-            additionalDescription: "",
-            itemImage: null,
-            store: "",
-            urgentPurchase: false,
-            itemUrl: "",
-          },
-        ]
-      : [
-          {
-            itemName: "",
-            itemOriginalCost: 0,
-            quantity: 0,
-            itemDescription: "",
-            itemImage: null,
-            deliveredBy: "",
-            itemDeliveryStatus: "",
-            idNumber: "",
-            idType: "",
-          },
-        ]
+        ? [
+            {
+              itemName: "",
+              originalCost: 0,
+              qty: 0,
+              additionalDescription: "",
+              itemImage: null,
+              store: "",
+              urgentPurchase: false,
+              itemUrl: "",
+            },
+          ]
+        : [
+            {
+              itemName: "",
+              itemOriginalCost: 0,
+              quantity: 0,
+              itemDescription: "",
+              itemImage: null,
+              deliveredBy: "",
+              itemDeliveryStatus: "",
+              idNumber: "",
+              idType: "",
+            },
+          ],
   );
 
   useEffect(() => {
@@ -341,7 +341,7 @@ function OrderDetails() {
     let total = data?.serviceType === "shopForMe" ? Number(warehouseCost) : 0;
     if (data?.serviceType === "shopForMe") {
       data?.request?.requestItems?.map(
-        (x) => (total += x.qty * x.originalCost)
+        (x) => (total += x.qty * x.originalCost),
       );
       return total > Number(discountValue)
         ? total - Number(discountValue)
@@ -423,7 +423,7 @@ function OrderDetails() {
       ) {
         customPutRequest(
           `/admin/admin/update-request-status/${data?.request?._id}`,
-          approveSfmRequestData
+          approveSfmRequestData,
         );
       } else {
         setOpenError(true);
@@ -442,7 +442,7 @@ function OrderDetails() {
       ) {
         customPutRequest(
           `/export/admin/update-order-status`,
-          approveExportRequestData
+          approveExportRequestData,
         );
       } else {
         setOpenError(true);
@@ -461,7 +461,7 @@ function OrderDetails() {
       ) {
         customPutRequest(
           `/import/admin/update-order-status`,
-          approveExportRequestData
+          approveExportRequestData,
         );
       } else {
         setOpenError(true);
@@ -472,7 +472,7 @@ function OrderDetails() {
       if (shipmentMethod && deliveryCompany && shippingCost && otherCharges) {
         customPutRequest(
           `/auto-import/admin/autoimport-status-update`,
-          approveAutoImportRequestData
+          approveAutoImportRequestData,
         );
       } else {
         setOpenError(true);
@@ -658,7 +658,7 @@ function OrderDetails() {
                               </p>
                               <p className="font-roboto  text-[20px]">
                                 {moment(data?.request?.createdAt).format(
-                                  "DD/MM/YYYY"
+                                  "DD/MM/YYYY",
                                 )}
                               </p>
                             </div>
@@ -669,7 +669,7 @@ function OrderDetails() {
                               </p>
                               <p className="font-roboto  text-[20px]">
                                 {moment(data?.request?.createdAt).format(
-                                  "HH:mm"
+                                  "HH:mm",
                                 )}
                               </p>
                             </div>
@@ -943,7 +943,7 @@ function OrderDetails() {
                                         ["background-color"],
                                         {
                                           duration: 500,
-                                        }
+                                        },
                                       ),
                                     },
                                   },
@@ -1037,7 +1037,7 @@ function OrderDetails() {
                                 </Typography>
                                 <Typography fontSize={"20px"} color="#1C1B1F">
                                   {currencyFormatter.format(
-                                    data?.request?.storageCharges
+                                    data?.request?.storageCharges,
                                   )}
                                 </Typography>
                               </Grid>
@@ -1047,7 +1047,7 @@ function OrderDetails() {
                                 </Typography>
                                 <Typography fontSize={"20px"} color="#1C1B1F">
                                   {currencyFormatter.format(
-                                    data?.request?.insurance
+                                    data?.request?.insurance,
                                   )}
                                 </Typography>
                               </Grid>
@@ -1057,7 +1057,7 @@ function OrderDetails() {
                                 </Typography>
                                 <Typography fontSize={"20px"} color="#1C1B1F">
                                   {currencyFormatter.format(
-                                    data?.request?.paymentMethodSurcharge
+                                    data?.request?.paymentMethodSurcharge,
                                   )}
                                 </Typography>
                               </Grid>
@@ -1170,8 +1170,7 @@ function OrderDetails() {
                         />
                         <PackageDetails
                           refetch={refetch}
-                          order={requests
-                          }
+                          order={requests}
                           origin={origin}
                           requestId={data?.request?.requestId}
                           service={data?.request?.serviceType}
@@ -1252,10 +1251,10 @@ function OrderDetails() {
                               <Typography fontSize="20px" color="#fff">
                                 {saveAsDraft
                                   ? `You have just saved this ${toTitleCase(
-                                      data?.serviceType
+                                      data?.serviceType,
                                     )} request to draft. The customer will not be informed about this order until this request has been approved.`
                                   : `You have just successfully approved this ${toTitleCase(
-                                      data?.serviceType
+                                      data?.serviceType,
                                     )} order request`}
                               </Typography>
                             </Box>

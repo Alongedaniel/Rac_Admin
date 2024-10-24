@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const QuoteIcon = () => {
   return (
@@ -23,6 +23,6 @@ const QuoteIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default QuoteIcon
+export default QuoteIcon;

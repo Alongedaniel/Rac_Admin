@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const ActivityIcon = () => {
   return (
@@ -15,6 +15,6 @@ const ActivityIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default ActivityIcon
+export default ActivityIcon;

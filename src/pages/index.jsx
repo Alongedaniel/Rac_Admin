@@ -1,8 +1,5 @@
-
 function Dashome() {
-  return (
-    <div>Dashome</div>
-  )
+  return <div>Dashome</div>;
 }
 
-export default Dashome
+export default Dashome;

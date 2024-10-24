@@ -1,5 +1,5 @@
-import { IconButton } from '@mui/material';
-import React from 'react'
+import { IconButton } from "@mui/material";
+import React from "react";
 
 const EditIcon = () => {
   return (
@@ -38,6 +38,6 @@ const EditIcon = () => {
       </svg>
     </IconButton>
   );
-}
+};
 
-export default EditIcon
+export default EditIcon;

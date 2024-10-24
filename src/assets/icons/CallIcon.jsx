@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const CallIcon = () => {
   return (
@@ -17,6 +17,6 @@ const CallIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default CallIcon
+export default CallIcon;

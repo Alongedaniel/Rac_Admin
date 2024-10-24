@@ -15,14 +15,16 @@ function CreateOrder() {
         <div className="p-[20px] bg-white rounded-[20px] font-roboto flex space-y-[20px] flex-col items-center">
           <p className="font-[400] text-[22px]">Want to Create a new order?</p>
           <button className=" w-full bg-brand/200 text-white p-[10px_30px] rounded-full">
-          Create new order
-        </button>
+            Create new order
+          </button>
         </div>
         <div className="p-[20px] bg-white rounded-[20px] font-roboto flex space-y-[20px] flex-col items-center">
-          <p className="font-[400] text-[22px]">Want to Create a new invoice?</p>
+          <p className="font-[400] text-[22px]">
+            Want to Create a new invoice?
+          </p>
           <button className=" w-full bg-brand/200 text-white p-[10px_30px] rounded-full">
-          Create new invoice
-        </button>
+            Create new invoice
+          </button>
         </div>
       </div>
     </div>

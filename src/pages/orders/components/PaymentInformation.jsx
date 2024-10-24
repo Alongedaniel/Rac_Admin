@@ -25,11 +25,11 @@ import CardWrapper from "../../../components/order/components/CardWrapper";
 import currencyFormatter from "../../../components/CurrencyFormatter";
 
 const PaymentInformation = ({ requestItems }) => {
-    const totalDeclaredValue = () => {
-      let total = 0;
-      requestItems.map((x) => (total += x.carValue));
-      return currencyFormatter.format(total);
-    };
+  const totalDeclaredValue = () => {
+    let total = 0;
+    requestItems.map((x) => (total += x.carValue));
+    return currencyFormatter.format(total);
+  };
   const theme = useTheme();
   return (
     <div>
@@ -382,7 +382,7 @@ const PaymentInformation = ({ requestItems }) => {
                           ["background-color"],
                           {
                             duration: 500,
-                          }
+                          },
                         ),
                       },
                     },

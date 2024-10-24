@@ -1,18 +1,18 @@
-import { Box, Button, IconButton, Typography } from '@mui/material';
-import React from 'react'
-import { useNavigate } from 'react-router-dom';
-import ArrowBack from '../../assets/icons/ArrowBack';
-import PaymentsTable from './components/PaymentsTable';
-import TableValue from './components/TableValue';
-import CloseCircle from '../../assets/icons/CloseCircle';
-import ArrowRightWhite from '../../assets/icons/ArrowRightWhite';
+import { Box, Button, IconButton, Typography } from "@mui/material";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import ArrowBack from "../../assets/icons/ArrowBack";
+import PaymentsTable from "./components/PaymentsTable";
+import TableValue from "./components/TableValue";
+import CloseCircle from "../../assets/icons/CloseCircle";
+import ArrowRightWhite from "../../assets/icons/ArrowRightWhite";
 
 const ShippingMethods = () => {
-       const rows = ["Duration", "Take off"];
-       const navigate = useNavigate();
+  const rows = ["Duration", "Take off"];
+  const navigate = useNavigate();
   return (
     <Box p="24px 40px">
-      <Box p="24px" borderRadius="20px" bgcolor="#fff" >
+      <Box p="24px" borderRadius="20px" bgcolor="#fff">
         <IconButton onClick={() => navigate(-1)} sx={{ mb: "10px" }}>
           <ArrowBack />
         </IconButton>
@@ -192,31 +192,31 @@ const ShippingMethods = () => {
                 <Typography fontSize="12px" fontWeight={500} color="#1C1B1F">
                   Shipping method description
                 </Typography>
-</Box>
-                <Typography fontSize="16px" color="#938F99" mb="5px">
-                  This shipping method takes your package{" "}
-                  <Typography
-                    fontSize="16px"
-                    display="inline"
-                    fontWeight={500}
-                    color="#1C1B1F"
-                  >{`{5 working days}`}</Typography>{" "}
-                  to arrive your destination from the{" "}
-                  <Typography
-                    fontSize="16px"
-                    display="inline"
-                    fontWeight={500}
-                    color="#1C1B1F"
-                  >{`{1st Wednesday after your payment}`}</Typography>
-                  , You can call us on +234 700 700 6000 or +1 888 567 8765 or
-                  send us a dm to get alternative shipping methods with
-                  different benefits.
-                </Typography>
-                <Typography fontSize="16px" fontWeight={500} color="#79747E">
-                  The cost paid here covers clearing, documentation and delivery
-                  to the destination.
-                </Typography>
               </Box>
+              <Typography fontSize="16px" color="#938F99" mb="5px">
+                This shipping method takes your package{" "}
+                <Typography
+                  fontSize="16px"
+                  display="inline"
+                  fontWeight={500}
+                  color="#1C1B1F"
+                >{`{5 working days}`}</Typography>{" "}
+                to arrive your destination from the{" "}
+                <Typography
+                  fontSize="16px"
+                  display="inline"
+                  fontWeight={500}
+                  color="#1C1B1F"
+                >{`{1st Wednesday after your payment}`}</Typography>
+                , You can call us on +234 700 700 6000 or +1 888 567 8765 or
+                send us a dm to get alternative shipping methods with different
+                benefits.
+              </Typography>
+              <Typography fontSize="16px" fontWeight={500} color="#79747E">
+                The cost paid here covers clearing, documentation and delivery
+                to the destination.
+              </Typography>
+            </Box>
           </Box>
         </Box>
         <Box mt="24px" display="flex" alignItems="center" gap="10px">
@@ -256,6 +256,6 @@ const ShippingMethods = () => {
       </Box>
     </Box>
   );
-}
+};
 
-export default ShippingMethods
+export default ShippingMethods;

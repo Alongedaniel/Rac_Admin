@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const SettingsIcon = () => {
   return (
@@ -66,6 +66,6 @@ const SettingsIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default SettingsIcon
+export default SettingsIcon;

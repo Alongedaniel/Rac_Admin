@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const XCloseIcon = () => {
   return (
@@ -23,6 +23,6 @@ const XCloseIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default XCloseIcon
+export default XCloseIcon;

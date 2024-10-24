@@ -112,7 +112,6 @@ const initialState = loadState() || {
   destinationState: "",
   destinationCity: "",
   destinationZip: "",
-
 };
 
 const orderSlice = createSlice({
@@ -144,7 +143,7 @@ const orderSlice = createSlice({
 
       if (isPreviousItemFilled) {
         state.items.push(newItem);
-      } else {  
+      } else {
         toast.error("Please fill all fields of the previous item first");
       }
     },
@@ -304,13 +303,13 @@ const orderSlice = createSlice({
       state.shopItem[index].properties[propertyIndex] = updatedProperty;
       saveState(state);
     },
-    
+
     deleteProperty: (state, action) => {
       const { index, propertyIndex } = action.payload;
 
       // Use filter to create a new array excluding the property to be deleted
       state.items[index].properties = state.items[index].properties.filter(
-        (_, i) => i !== propertyIndex
+        (_, i) => i !== propertyIndex,
       );
       saveState(state);
     },
@@ -319,7 +318,7 @@ const orderSlice = createSlice({
 
       // Use filter to create a new array excluding the property to be deleted
       state.carItem[index].properties = state.carItem[index].properties.filter(
-        (_, i) => i !== propertyIndex
+        (_, i) => i !== propertyIndex,
       );
       saveState(state);
     },
@@ -328,12 +327,10 @@ const orderSlice = createSlice({
 
       // Use filter to create a new array excluding the property to be deleted
       state.carItem[index].properties = state.carItem[index].properties.filter(
-        (_, i) => i !== propertyIndex
+        (_, i) => i !== propertyIndex,
       );
       saveState(state);
     },
-
-    
   },
 });
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const ArrowBack = () => {
   return (
@@ -15,6 +15,6 @@ const ArrowBack = () => {
       />
     </svg>
   );
-}
+};
 
-export default ArrowBack
+export default ArrowBack;

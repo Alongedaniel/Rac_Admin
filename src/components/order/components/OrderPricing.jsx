@@ -588,152 +588,152 @@ const OrderPricing = ({
               </Grid>
             ))
           : service === "Auto Import"
-          ? requestItems.map((item, i) => (
-              <Grid
-                key={i}
-                sx={{ bgcolor: "#fff", borderBottom: "1px solid #79747E" }}
-                container
-                p="20px"
-              >
+            ? requestItems.map((item, i) => (
                 <Grid
-                  item
-                  xs={3}
-                  sx={{ display: "flex", alignItems: "center", gap: "10px" }}
+                  key={i}
+                  sx={{ bgcolor: "#fff", borderBottom: "1px solid #79747E" }}
+                  container
+                  p="20px"
                 >
-                  <img
-                    src={item.carImage}
-                    alt="car"
-                    style={{
-                      width: "61px",
-                      height: "54px",
-                      objectFit: "cover",
-                    }}
-                  />
-                  <Typography
-                    fontSize={"14px"}
-                    fontWeight={600}
-                    color="#1D192B"
+                  <Grid
+                    item
+                    xs={3}
+                    sx={{ display: "flex", alignItems: "center", gap: "10px" }}
                   >
-                    {item.carBrand?.length > 20
-                      ? item?.carBrand?.slice(0, 20) + "..."
-                      : item?.carBrand}
-                  </Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={3}
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Typography fontSize={"14px"} fontWeight={600}>
-                    {item.color}
-                  </Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={3}
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Typography fontSize={"14px"} fontWeight={600}>
-                    {currencyFormatter.format(item.carValue)}
-                  </Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={3}
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Typography fontSize={"14px"} fontWeight={600}>
-                    {item?.pickupDetails?.firstName ? "Yes" : "No"}
-                  </Typography>
-                </Grid>
-              </Grid>
-            ))
-          : data.map((item, i) => (
-              <Grid
-                key={i}
-                sx={{ bgcolor: "#fff", borderBottom: "1px solid #79747E" }}
-                container
-                p="20px"
-              >
-                <Grid
-                  item
-                  xs={3}
-                  sx={{ display: "flex", alignItems: "center", gap: "10px" }}
-                >
-                  <img
-                    src={item.productImage}
-                    alt="car"
-                    style={{
-                      width: "61px",
-                      height: "54px",
-                      objectFit: "cover",
+                    <img
+                      src={item.carImage}
+                      alt="car"
+                      style={{
+                        width: "61px",
+                        height: "54px",
+                        objectFit: "cover",
+                      }}
+                    />
+                    <Typography
+                      fontSize={"14px"}
+                      fontWeight={600}
+                      color="#1D192B"
+                    >
+                      {item.carBrand?.length > 20
+                        ? item?.carBrand?.slice(0, 20) + "..."
+                        : item?.carBrand}
+                    </Typography>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={3}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
                     }}
-                  />
-                  <Typography
-                    fontSize={"14px"}
-                    fontWeight={600}
-                    color="#1D192B"
                   >
-                    {item.productName?.length > 20
-                      ? item?.productName?.slice(0, 20) + "..."
-                      : item?.productName}
-                  </Typography>
+                    <Typography fontSize={"14px"} fontWeight={600}>
+                      {item.color}
+                    </Typography>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={3}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Typography fontSize={"14px"} fontWeight={600}>
+                      {currencyFormatter.format(item.carValue)}
+                    </Typography>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={3}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Typography fontSize={"14px"} fontWeight={600}>
+                      {item?.pickupDetails?.firstName ? "Yes" : "No"}
+                    </Typography>
+                  </Grid>
                 </Grid>
+              ))
+            : data.map((item, i) => (
                 <Grid
-                  item
-                  xs={3}
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
+                  key={i}
+                  sx={{ bgcolor: "#fff", borderBottom: "1px solid #79747E" }}
+                  container
+                  p="20px"
                 >
-                  <Typography fontSize={"14px"} fontWeight={600}>
-                    {currencyFormatter.format(item.originalCost)}
-                  </Typography>
+                  <Grid
+                    item
+                    xs={3}
+                    sx={{ display: "flex", alignItems: "center", gap: "10px" }}
+                  >
+                    <img
+                      src={item.productImage}
+                      alt="car"
+                      style={{
+                        width: "61px",
+                        height: "54px",
+                        objectFit: "cover",
+                      }}
+                    />
+                    <Typography
+                      fontSize={"14px"}
+                      fontWeight={600}
+                      color="#1D192B"
+                    >
+                      {item.productName?.length > 20
+                        ? item?.productName?.slice(0, 20) + "..."
+                        : item?.productName}
+                    </Typography>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={3}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Typography fontSize={"14px"} fontWeight={600}>
+                      {currencyFormatter.format(item.originalCost)}
+                    </Typography>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={3}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Typography fontSize={"14px"} fontWeight={600}>
+                      {item.quantity}
+                    </Typography>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={3}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Typography fontSize={"14px"} fontWeight={600}>
+                      {currencyFormatter.format(
+                        item.originalCost * item.quantity,
+                      )}
+                    </Typography>
+                  </Grid>
                 </Grid>
-                <Grid
-                  item
-                  xs={3}
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Typography fontSize={"14px"} fontWeight={600}>
-                    {item.quantity}
-                  </Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={3}
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Typography fontSize={"14px"} fontWeight={600}>
-                    {currencyFormatter.format(
-                      item.originalCost * item.quantity
-                    )}
-                  </Typography>
-                </Grid>
-              </Grid>
-            ))}
+              ))}
         <Grid
           sx={{
             bgcolor: "#fff",
@@ -899,7 +899,7 @@ const OrderPricing = ({
                   </Typography>
                   <Typography fontSize={"20px"} color="#1C1B1F">
                     {currencyFormatter.format(
-                      Number(data?.totalUrgentPurchaseCost)
+                      Number(data?.totalUrgentPurchaseCost),
                     )}
                   </Typography>
                 </Grid>
@@ -911,7 +911,7 @@ const OrderPricing = ({
                   </Typography>
                   <Typography fontSize={"20px"} color="#1C1B1F">
                     {currencyFormatter.format(
-                      Number(data?.orderPaymentMethodSurcharge ?? 0)
+                      Number(data?.orderPaymentMethodSurcharge ?? 0),
                     )}
                   </Typography>
                 </Grid>
@@ -1117,7 +1117,7 @@ const OrderPricing = ({
                       </Typography>
                       <Typography fontSize={"20px"} color="#1C1B1F">
                         {currencyFormatter.format(
-                          Number(data?.storageCharges ?? 0)
+                          Number(data?.storageCharges ?? 0),
                         )}
                       </Typography>
                     </Grid>
@@ -1135,7 +1135,7 @@ const OrderPricing = ({
                       </Typography>
                       <Typography fontSize={"20px"} color="#1C1B1F">
                         {currencyFormatter.format(
-                          Number(data?.paymentMethodSurcharge ?? 0)
+                          Number(data?.paymentMethodSurcharge ?? 0),
                         )}
                       </Typography>
                     </Grid>
@@ -1352,7 +1352,7 @@ const OrderPricing = ({
                             ["background-color"],
                             {
                               duration: 500,
-                            }
+                            },
                           ),
                         },
                       },

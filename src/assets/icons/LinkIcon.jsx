@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const LinkIcon = () => {
   return (
@@ -19,6 +19,6 @@ const LinkIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default LinkIcon
+export default LinkIcon;

@@ -1,11 +1,11 @@
-import { Box, Button, TextField, Typography } from '@mui/material'
-import React from 'react'
-import SearchIcon from '../../../assets/icons/SearchIcon'
-import TrackShipmentIcon from '../../../assets/icons/TrackShipmentIcon'
-import { useNavigate } from 'react-router-dom'
+import { Box, Button, TextField, Typography } from "@mui/material";
+import React from "react";
+import SearchIcon from "../../../assets/icons/SearchIcon";
+import TrackShipmentIcon from "../../../assets/icons/TrackShipmentIcon";
+import { useNavigate } from "react-router-dom";
 
 const TrackShipment = () => {
-    const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <Box p="30px 40px">
       <Box p="30px" borderRadius="24px" bgcolor="#fff" maxWidth="1140px">
@@ -71,6 +71,6 @@ const TrackShipment = () => {
       </Box>
     </Box>
   );
-}
+};
 
-export default TrackShipment
+export default TrackShipment;

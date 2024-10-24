@@ -9,12 +9,12 @@ import { useNavigate } from "react-router-dom";
 
 const ExchangeRates = () => {
   const columns = ["Currency", "Naira Rate (₦)"];
-    const rows = ["US Dollars ($)", "Pounds (£)", "Dubai AED", "RMB (¥)"];
-    const [value, setValue] = useState('2000')
-    const navigate = useNavigate()
+  const rows = ["US Dollars ($)", "Pounds (£)", "Dubai AED", "RMB (¥)"];
+  const [value, setValue] = useState("2000");
+  const navigate = useNavigate();
   return (
     <Box p="24px 40px">
-      <Box p="24px" borderRadius="20px" bgcolor="#fff" >
+      <Box p="24px" borderRadius="20px" bgcolor="#fff">
         <IconButton onClick={() => navigate(-1)} sx={{ mb: "10px" }}>
           <ArrowBack />
         </IconButton>

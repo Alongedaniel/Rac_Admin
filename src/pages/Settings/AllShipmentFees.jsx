@@ -22,7 +22,7 @@ import useCustomGetRequest from "../../utils/hooks/api/useCustomGetRequest";
 
 const AllShipmentFees = () => {
   const { data: shipments, loading: shipLoading } = useCustomGetRequest(
-    "/settings/general-charges"
+    "/settings/general-charges",
   );
   console.log(shipments);
   const navigate = useNavigate();
@@ -183,7 +183,7 @@ const AllShipmentFees = () => {
     setStorageCharge(shipments?.data?.generalCharges?.storageCharge);
     setInsuranceCharge(shipments?.data?.generalCharges?.insuranceCharge);
     setPaymentMethodSurcharge(
-      shipments?.data?.generalCharges?.paymentMethodSurcharge
+      shipments?.data?.generalCharges?.paymentMethodSurcharge,
     );
     setVat(shipments?.data?.generalCharges?.vat);
     setUsBelow4(shipments?.data?.importShippingRates?.unitedStates[0]?.rate);
@@ -192,12 +192,13 @@ const AllShipmentFees = () => {
     setUkAbove4(shipments?.data?.importShippingRates?.unitedKingdom[1]?.rate);
     setUkBelow4CustomClearing(
       shipments?.data?.importShippingRates?.unitedKingdom[1]
-        ?.customClearingPortHandling
+        ?.customClearingPortHandling,
     );
     setDubaiAbove(shipments?.data?.importShippingRates?.dubai[0]?.rate);
     setChinaAbove(shipments?.data?.importShippingRates?.china[0]?.rate);
     setChinaAboveCustomClearing(
-      shipments?.data?.importShippingRates?.china[0]?.customClearingPortHandling
+      shipments?.data?.importShippingRates?.china[0]
+        ?.customClearingPortHandling,
     );
     setZone1(shipments?.data?.exportShippingRates[0]?.zone1);
     setZone2(shipments?.data?.exportShippingRates[0]?.zone2);
@@ -1488,7 +1489,7 @@ const AllShipmentFees = () => {
               onClick={() =>
                 customPutRequest(
                   "/settings/export-rate-update",
-                  updateExportShippingRates
+                  updateExportShippingRates,
                 )
               }
             >
@@ -1852,7 +1853,7 @@ const AllShipmentFees = () => {
               onClick={() =>
                 customPutRequest(
                   "/settings/import-rate-update",
-                  updateImportShippingRate
+                  updateImportShippingRate,
                 )
               }
             >

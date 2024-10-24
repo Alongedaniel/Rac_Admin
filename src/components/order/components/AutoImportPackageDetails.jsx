@@ -1,34 +1,42 @@
-import { Box, Button, Grid, MenuItem, TextField, Typography } from '@mui/material';
-import React, { useState } from 'react'
-import CircleRight from '../../../assets/icons/CircleRight';
-import CardWrapper from './CardWrapper';
-import DollarIcon from '../../../assets/icons/DollarIcon';
-import SubtractIcon from '../../../assets/icons/SubtractIcon';
-import PlusIcon from '../../../assets/icons/PlusIcon';
-import UploadIcon from '../../../assets/icons/UploadIcon';
-import { BsPlus } from 'react-icons/bs';
-import DeletIcon from '../../../assets/icons/DeletIcon';
-import TooltipIcon from '../../../assets/icons/TooltipIcon';
-import SwitchCopm from './SwitchCopm';
-import dayjs from 'dayjs';
 import {
-  DatePicker,
-  LocalizationProvider
-} from "@mui/x-date-pickers";
+  Box,
+  Button,
+  Grid,
+  MenuItem,
+  TextField,
+  Typography,
+} from "@mui/material";
+import React, { useState } from "react";
+import CircleRight from "../../../assets/icons/CircleRight";
+import CardWrapper from "./CardWrapper";
+import DollarIcon from "../../../assets/icons/DollarIcon";
+import SubtractIcon from "../../../assets/icons/SubtractIcon";
+import PlusIcon from "../../../assets/icons/PlusIcon";
+import UploadIcon from "../../../assets/icons/UploadIcon";
+import { BsPlus } from "react-icons/bs";
+import DeletIcon from "../../../assets/icons/DeletIcon";
+import TooltipIcon from "../../../assets/icons/TooltipIcon";
+import SwitchCopm from "./SwitchCopm";
+import dayjs from "dayjs";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import AddPropertyModal from './AddPropertyModal';
+import AddPropertyModal from "./AddPropertyModal";
 
-const AutoImportPackageDetails = ({ origin = "", setOrigin = () => { }, requests, setrequests }) => {
-    const today = dayjs()
+const AutoImportPackageDetails = ({
+  origin = "",
+  setOrigin = () => {},
+  requests,
+  setrequests,
+}) => {
+  const today = dayjs();
   const [date, setDate] = useState(today);
-  const [open, setOpen] = useState(false)
-  const [origins, setOrigins] = useState( [
-          "UK Warehouse (London)",
-          "Dubai Warehouse",
-          "China Warehouse (Guangzhou city)",
-          "US Warehouse (Richmond Texas)",
-        ]
-  );
+  const [open, setOpen] = useState(false);
+  const [origins, setOrigins] = useState([
+    "UK Warehouse (London)",
+    "Dubai Warehouse",
+    "China Warehouse (Guangzhou city)",
+    "US Warehouse (Richmond Texas)",
+  ]);
   const addNewOrder = () => {
     const newOrder = {
       carBrand: "",
@@ -47,17 +55,17 @@ const AutoImportPackageDetails = ({ origin = "", setOrigin = () => { }, requests
     setrequests([...requests, newOrder]);
   };
 
-    const handleInputChange = (id, field, value) => {
-      const updatedrequests = requests.map((order, i) =>
-        i === id ? { ...order, [field]: value } : order
-      );
-      setrequests(updatedrequests);
+  const handleInputChange = (id, field, value) => {
+    const updatedrequests = requests.map((order, i) =>
+      i === id ? { ...order, [field]: value } : order,
+    );
+    setrequests(updatedrequests);
   };
-  
-    const handleDeleteItem = (id) => {
-      const filteredOrder = requests.filter((order, i) => i !== id);
-      setrequests(filteredOrder);
-    };
+
+  const handleDeleteItem = (id) => {
+    const filteredOrder = requests.filter((order, i) => i !== id);
+    setrequests(filteredOrder);
+  };
   return (
     <Box>
       <Box>
@@ -196,7 +204,7 @@ const AutoImportPackageDetails = ({ origin = "", setOrigin = () => { }, requests
                             handleInputChange(
                               i,
                               "productionYear",
-                              e.target.value
+                              e.target.value,
                             )
                           }
                           fullWidth
@@ -340,7 +348,7 @@ const AutoImportPackageDetails = ({ origin = "", setOrigin = () => { }, requests
                             handleInputChange(
                               i,
                               "vehicleIdNumber",
-                              e.target.value
+                              e.target.value,
                             )
                           }
                           fullWidth
@@ -404,7 +412,7 @@ const AutoImportPackageDetails = ({ origin = "", setOrigin = () => { }, requests
                               handleInputChange(
                                 i,
                                 "carImage",
-                                e.target.files[0]
+                                e.target.files[0],
                               )
                             }
                           />
@@ -473,7 +481,7 @@ const AutoImportPackageDetails = ({ origin = "", setOrigin = () => { }, requests
                               handleInputChange(
                                 i,
                                 "carTitle",
-                                e.target.files[0]
+                                e.target.files[0],
                               )
                             }
                           />
@@ -554,7 +562,7 @@ const AutoImportPackageDetails = ({ origin = "", setOrigin = () => { }, requests
                         handleInputChange(
                           i,
                           "additionalDescription",
-                          e.target.value
+                          e.target.value,
                         )
                       }
                       fullWidth
@@ -934,4 +942,4 @@ const AutoImportPackageDetails = ({ origin = "", setOrigin = () => { }, requests
   );
 };
 
-export default AutoImportPackageDetails
+export default AutoImportPackageDetails;

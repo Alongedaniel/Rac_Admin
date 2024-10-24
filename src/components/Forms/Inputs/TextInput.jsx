@@ -1,13 +1,9 @@
 /* eslint-disable react/prop-types */
-import {
-  forwardRef,
-} from "react";
-
-
+import { forwardRef } from "react";
 
 const TextInput = (
-  { id, label, placeholder,  bg = "bg-neutral-10", type = "text", ...props },
-  ref
+  { id, label, placeholder, bg = "bg-neutral-10", type = "text", ...props },
+  ref,
 ) => {
   return (
     <div className="relative flex w-full flex-col">

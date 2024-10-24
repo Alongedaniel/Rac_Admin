@@ -47,12 +47,16 @@ const PackageDetailsForm = ({
   setOrigin = () => {},
   service = "",
 }) => {
- const [origins, setOrigins] = useState(order?.request?.serviceType === 'Export' ? ['Nigeria Warehouse (Lagos)'] : [
-   "UK Warehouse (London)",
-   "Dubai Warehouse",
-   "China Warehouse (Guangzhou city)",
-   "US Warehouse (Richmond Texas)",
- ]);
+  const [origins, setOrigins] = useState(
+    order?.request?.serviceType === "Export"
+      ? ["Nigeria Warehouse (Lagos)"]
+      : [
+          "UK Warehouse (London)",
+          "Dubai Warehouse",
+          "China Warehouse (Guangzhou city)",
+          "US Warehouse (Richmond Texas)",
+        ],
+  );
   const [quantityValue, setQuantityValue] = useState(1);
   const [open, setOpen] = useState(false);
   // const [requests, setrequests] = useState([
@@ -95,13 +99,11 @@ const PackageDetailsForm = ({
     setrequests([...requests, newOrder]);
   };
 
-    
-
   console.log(requests);
 
   const handleInputChange = (id, field, value) => {
     const updatedrequests = requests.map((order, i) =>
-      i === id ? { ...order, [field]: value } : order
+      i === id ? { ...order, [field]: value } : order,
     );
     setrequests(updatedrequests);
   };
@@ -223,7 +225,7 @@ const PackageDetailsForm = ({
                                         handleInputChange(
                                           i,
                                           "store",
-                                          e.target.value
+                                          e.target.value,
                                         )
                                       }
                                       fullWidth
@@ -282,7 +284,7 @@ const PackageDetailsForm = ({
                                             handleInputChange(
                                               i,
                                               "urgentPurchase",
-                                              x === "Yes" ? true : false
+                                              x === "Yes" ? true : false,
                                             )
                                           }
                                         >
@@ -305,7 +307,7 @@ const PackageDetailsForm = ({
                                   handleInputChange(
                                     i,
                                     "itemUrl",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 fullWidth
@@ -362,7 +364,7 @@ const PackageDetailsForm = ({
                                   service === "Shop For Me"
                                     ? "originalCost"
                                     : "itemOriginalCost",
-                                  Number(e.target.value)
+                                  Number(e.target.value),
                                 )
                               }
                               label="Item Original Cost"
@@ -408,7 +410,7 @@ const PackageDetailsForm = ({
                                           service === "Shop For Me"
                                             ? "qty"
                                             : "quantity",
-                                          quantityValue
+                                          quantityValue,
                                         );
                                       }
                                     }}
@@ -430,7 +432,7 @@ const PackageDetailsForm = ({
                                         service === "Shop For Me"
                                           ? "qty"
                                           : "quantity",
-                                        quantityValue
+                                        quantityValue,
                                       );
                                     }}
                                   >
@@ -471,7 +473,7 @@ const PackageDetailsForm = ({
                                   handleInputChange(
                                     i,
                                     "productImage",
-                                    e.target.files[0]
+                                    e.target.files[0],
                                   )
                                 }
                               />
@@ -536,7 +538,7 @@ const PackageDetailsForm = ({
                                 service === "Shop For Me"
                                   ? "additionalDescription"
                                   : "itemDescription",
-                                e.target.value
+                                e.target.value,
                               )
                             }
                             fullWidth
@@ -656,7 +658,7 @@ const PackageDetailsForm = ({
                                       handleInputChange(
                                         i,
                                         "store",
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                     fullWidth
@@ -708,7 +710,7 @@ const PackageDetailsForm = ({
                                           handleInputChange(
                                             i,
                                             "urgentPurchase",
-                                            x === "Yes" ? true : false
+                                            x === "Yes" ? true : false,
                                           )
                                         }
                                       >
@@ -780,7 +782,7 @@ const PackageDetailsForm = ({
                                 service === "Shop For Me"
                                   ? "originalCost"
                                   : "itemOriginalCost",
-                                Number(e.target.value)
+                                Number(e.target.value),
                               )
                             }
                             label="Item Original Cost"
@@ -821,7 +823,7 @@ const PackageDetailsForm = ({
                                       service === "Shop For Me"
                                         ? "qty"
                                         : "quantity",
-                                      quantityValue
+                                      quantityValue,
                                     );
                                   }}
                                 >
@@ -838,7 +840,7 @@ const PackageDetailsForm = ({
                                       service === "Shop For Me"
                                         ? "qty"
                                         : "quantity",
-                                      quantityValue
+                                      quantityValue,
                                     );
                                   }}
                                 >
@@ -878,7 +880,7 @@ const PackageDetailsForm = ({
                                 handleInputChange(
                                   i,
                                   "productImage",
-                                  e.target.files[0]
+                                  e.target.files[0],
                                 )
                               }
                             />
@@ -934,8 +936,7 @@ const PackageDetailsForm = ({
                           type="text"
                           label="Product/Item Description"
                           value={
-                            order.itemDescription ??
-                            order.additionalDescription
+                            order.itemDescription ?? order.additionalDescription
                           }
                           onChange={(e) =>
                             handleInputChange(
@@ -943,7 +944,7 @@ const PackageDetailsForm = ({
                               service === "Shop For Me"
                                 ? "additionalDescription"
                                 : "itemDescription",
-                              e.target.value
+                              e.target.value,
                             )
                           }
                           fullWidth

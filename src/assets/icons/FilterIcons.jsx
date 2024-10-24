@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const FilterIcons = () => {
   return (
@@ -27,6 +27,6 @@ const FilterIcons = () => {
       />
     </svg>
   );
-}
+};
 
-export default FilterIcons
+export default FilterIcons;

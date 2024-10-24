@@ -16,7 +16,7 @@ import { useAuth } from "../../utils/contexts/userContext/UserContext";
 
 function CustomLink({ children, to, icon, showFullBar, title, ...props }) {
   const childMatch = useMatch(to !== "" ? `/` + to + "/*" : "/");
-  const location = useLocation()
+  const location = useLocation();
   const pathname = location.pathname;
   return (
     <Tooltip
@@ -61,8 +61,8 @@ function CustomLink({ children, to, icon, showFullBar, title, ...props }) {
 }
 
 function Sidebar({ showFullBar, setShowFullBar }) {
-  const { user } = useAuth()
-  
+  const { user } = useAuth();
+
   const handleClick = () => {
     setShowFullBar(!showFullBar);
   };
@@ -189,43 +189,43 @@ const links = [
     id: 1,
     title: "Home",
     to: "/",
-    icon: <HomeIcon/>
+    icon: <HomeIcon />,
   },
   {
     id: 2,
     title: "Users",
     to: "/users-customers",
-    icon: <UserIcon />
+    icon: <UserIcon />,
   },
   {
     id: 3,
     title: "Orders",
     to: "/order-requests",
-    icon: <OrderIcon />
+    icon: <OrderIcon />,
   },
   {
     id: 4,
     title: "Shipments",
     to: "/shipments",
-    icon: <ShipmentIcon />
+    icon: <ShipmentIcon />,
   },
   {
     id: 5,
     title: "Shop For Me",
     to: "/shop-for-me",
-    icon: <ShopIcon />
+    icon: <ShopIcon />,
   },
   {
     id: 6,
     title: "Payments",
     to: "/payment-history",
-    icon: <WalletIcon />
+    icon: <WalletIcon />,
   },
   {
     id: 7,
     title: "Blog",
     to: "/blog",
-    icon: <BlogIcon />
+    icon: <BlogIcon />,
   },
   // {
   //   id: 8,
@@ -236,12 +236,12 @@ const links = [
     id: 9,
     title: "Get a Quote",
     to: "/get-a-quote",
-    icon: <CalculatorIcon />
+    icon: <CalculatorIcon />,
   },
   {
     id: 10,
     title: "Settings",
     to: "/settings",
-    icon: <SettingsIcon />
+    icon: <SettingsIcon />,
   },
 ];

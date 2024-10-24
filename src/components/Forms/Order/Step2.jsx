@@ -32,7 +32,7 @@ function Step2() {
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
   const [open2, setOpen2] = useState(false);
-  const toggle = (i) => { 
+  const toggle = (i) => {
     setDrop((prevFaq) => (prevFaq === i ? null : i));
   };
   const dispatch = useDispatch();
@@ -53,8 +53,8 @@ function Step2() {
     dispatch(updateCarItem({ index, field, value }));
   }
 
-  function deleteCarItemFunc(index){
-     dispatch(deleteCarItem(index))
+  function deleteCarItemFunc(index) {
+    dispatch(deleteCarItem(index));
   }
 
   function addNewItem() {
@@ -72,15 +72,15 @@ function Step2() {
             description: "",
           },
         ],
-      })
+      }),
     );
   }
 
-  function addNewCarItem(){
-    dispatch(addCarItem())
+  function addNewCarItem() {
+    dispatch(addCarItem());
   }
-  function addNewShopItem(){
-    dispatch(addShopItem())
+  function addNewShopItem() {
+    dispatch(addShopItem());
   }
 
   function deleteSingleItem(index) {
@@ -209,7 +209,7 @@ function Step2() {
                               handleItemChange(
                                 index,
                                 "description",
-                                e.target.value
+                                e.target.value,
                               )
                             }
                             label="Product/Item Description"
@@ -231,7 +231,7 @@ function Step2() {
                                   handleItemChange(
                                     index,
                                     "color",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 label="Item Color"
@@ -350,7 +350,7 @@ function Step2() {
                               handleItemChange(
                                 index,
                                 "description",
-                                e.target.value
+                                e.target.value,
                               )
                             }
                             label="Product/Item Description"
@@ -372,7 +372,7 @@ function Step2() {
                                   handleItemChange(
                                     index,
                                     "color",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 label="Item Color"
@@ -454,7 +454,7 @@ function Step2() {
                               handleCarItemChange(
                                 index,
                                 "brand",
-                                e.target.value
+                                e.target.value,
                               )
                             }
                             options={
@@ -479,7 +479,7 @@ function Step2() {
                               handleCarItemChange(
                                 index,
                                 "model",
-                                e.target.value
+                                e.target.value,
                               )
                             }
                             options={
@@ -501,7 +501,7 @@ function Step2() {
                               handleCarItemChange(
                                 index,
                                 "prodYear",
-                                e.target.value
+                                e.target.value,
                               )
                             }
                             options={
@@ -527,7 +527,7 @@ function Step2() {
                                 handleCarItemChange(
                                   index,
                                   "value",
-                                  e.target.value
+                                  e.target.value,
                                 )
                               }
                             />
@@ -540,7 +540,7 @@ function Step2() {
                               handleCarItemChange(
                                 index,
                                 "condition",
-                                e.target.value
+                                e.target.value,
                               )
                             }
                             options={
@@ -560,7 +560,7 @@ function Step2() {
                               handleCarItemChange(
                                 index,
                                 "color",
-                                e.target.value
+                                e.target.value,
                               )
                             }
                             label="Car Color"
@@ -573,7 +573,7 @@ function Step2() {
                               handleCarItemChange(
                                 index,
                                 "millage",
-                                e.target.value
+                                e.target.value,
                               )
                             }
                             label="Millage"
@@ -591,10 +591,9 @@ function Step2() {
                               handleCarItemChange(
                                 index,
                                 "weblink",
-                                e.target.value
+                                e.target.value,
                               )
                             }
-                           
                             label="Direct URL/Website Link to the Car"
                           />
                         </div>
@@ -616,10 +615,9 @@ function Step2() {
                             value={item.description}
                             onChange={(e) =>
                               handleCarItemChange(
-                                
                                 index,
                                 "description",
-                                e.target.value
+                                e.target.value,
                               )
                             }
                             label="Additional Car Description"
@@ -639,22 +637,24 @@ function Step2() {
                                 value={item.color}
                                 onChange={(e) =>
                                   handleCarItemChange(
-                                    
                                     index,
                                     "color",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 label="Item Color"
                               />
                             </div>
                             <CarProperties
-                      item={item}
-                      index={index}
-                      isOpen={open1}
-                      setIsOpen={setOpen1}
-                    />
-                            <button onClick={()=>setOpen1(!open1)} className=" min-w-[200px] rounded-[20px] bg-gray-600 p-[15px_20px] font-roboto text-white">
+                              item={item}
+                              index={index}
+                              isOpen={open1}
+                              setIsOpen={setOpen1}
+                            />
+                            <button
+                              onClick={() => setOpen1(!open1)}
+                              className=" min-w-[200px] rounded-[20px] bg-gray-600 p-[15px_20px] font-roboto text-white"
+                            >
                               Add Properties
                             </button>
                           </div>
@@ -676,7 +676,7 @@ function Step2() {
                                     handleCarItemChange(
                                       index,
                                       "contactName",
-                                      e.target.value
+                                      e.target.value,
                                     )
                                   }
                                   label="Pick up Contact Name *"
@@ -689,7 +689,7 @@ function Step2() {
                                     handleCarItemChange(
                                       index,
                                       "contactPhone",
-                                      e.target.value
+                                      e.target.value,
                                     )
                                   }
                                   label="Contact Phone number *"
@@ -704,7 +704,7 @@ function Step2() {
                                   handleCarItemChange(
                                     index,
                                     "contactEmail",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 label="Pick up Contact Email Address"
@@ -717,7 +717,7 @@ function Step2() {
                                   handleCarItemChange(
                                     index,
                                     "contactAddress",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 label="Pick up Address *"
@@ -732,7 +732,7 @@ function Step2() {
                                   handleCarItemChange(
                                     index,
                                     "carCountry",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 options={
@@ -754,7 +754,7 @@ function Step2() {
                                   handleCarItemChange(
                                     index,
                                     "carState",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 options={
@@ -776,7 +776,7 @@ function Step2() {
                                   handleCarItemChange(
                                     index,
                                     "carCity",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 options={
@@ -798,16 +798,15 @@ function Step2() {
                             </p>
 
                             <div className="grid grid-cols-2 gap-[30px]">
-                              
                               <DateInput
-                              id="date"
-                              label="Pick up date *"
-                              value={item.pickupDate}
+                                id="date"
+                                label="Pick up date *"
+                                value={item.pickupDate}
                                 onChange={(e) =>
                                   handleCarItemChange(
                                     index,
                                     "pickupDate",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                               />
@@ -819,7 +818,7 @@ function Step2() {
                                   handleCarItemChange(
                                     index,
                                     "locationType",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 options={
@@ -838,206 +837,246 @@ function Step2() {
                         </div>
                       </div>
                     </div>
-                    <button onClick={()=>deleteCarItemFunc(index)}>delete</button>
+                    <button onClick={() => deleteCarItemFunc(index)}>
+                      delete
+                    </button>
                   </div>
                 ))}
               </div>
-              <button onClick={addNewCarItem} className=" mt-[20px] w-[200px] rounded-[20px] bg-gray-600 p-[15px_20px] font-roboto text-white">
+              <button
+                onClick={addNewCarItem}
+                className=" mt-[20px] w-[200px] rounded-[20px] bg-gray-600 p-[15px_20px] font-roboto text-white"
+              >
                 Add New
               </button>
             </div>
           </div>
         )}
-           {order.service === "shop-for-me" && (
-        <div>
-         
-          <div className="w-full">
-            <div className="flex items-center space-x-[10px] mt-[30px]">
-              <ChevronRight />
-              <p className="font-roboto font-[500] text-[14px] ">
-                Add details about your package
-              </p>
-            </div>
+        {order.service === "shop-for-me" && (
+          <div>
+            <div className="w-full">
+              <div className="flex items-center space-x-[10px] mt-[30px]">
+                <ChevronRight />
+                <p className="font-roboto font-[500] text-[14px] ">
+                  Add details about your package
+                </p>
+              </div>
 
-            <div className="w-full mt-[20px] flex flex-col space-y-[10px]">
-              {order.shopItem.map((item, index) => (
-                <div key={index} className="flex items-center  space-x-[20px]">
+              <div className="w-full mt-[20px] flex flex-col space-y-[10px]">
+                {order.shopItem.map((item, index) => (
                   <div
-                    className={`${
-                      drop === index + 1
-                        ? "h-full p-[10px]"
-                        : "h-[40px] overflow-hidden"
-                    } transition-all  border w-full  rounded-[10px]`}
+                    key={index}
+                    className="flex items-center  space-x-[20px]"
                   >
                     <div
-                      onClick={() => toggle(index + 1)}
                       className={`${
-                        drop === index + 1 ? "" : "p-[10px]"
-                      } transition-all  h-[40px] flex items-center justify-between cursor-pointer`}
+                        drop === index + 1
+                          ? "h-full p-[10px]"
+                          : "h-[40px] overflow-hidden"
+                      } transition-all  border w-full  rounded-[10px]`}
                     >
-                      <p className="text-[22px]">
-                        Item -{" "}
-                        <span className="text-brand/200"># {index + 1}</span>
-                      </p>
-                      <ArrowCircleDown color="#292D32" variant="Outline" />
-                    </div>
-                    <div className="mt-[20px flex flex-col space-y-[30px]">
-                      <div className="mt-[20px] grid grid-cols-3 gap-[30px]">
-                        <div className="col-span-2">
-                          <SelectInput
-                            id="store"
-                            label="Store"
-                            value={item.store}
+                      <div
+                        onClick={() => toggle(index + 1)}
+                        className={`${
+                          drop === index + 1 ? "" : "p-[10px]"
+                        } transition-all  h-[40px] flex items-center justify-between cursor-pointer`}
+                      >
+                        <p className="text-[22px]">
+                          Item -{" "}
+                          <span className="text-brand/200"># {index + 1}</span>
+                        </p>
+                        <ArrowCircleDown color="#292D32" variant="Outline" />
+                      </div>
+                      <div className="mt-[20px flex flex-col space-y-[30px]">
+                        <div className="mt-[20px] grid grid-cols-3 gap-[30px]">
+                          <div className="col-span-2">
+                            <SelectInput
+                              id="store"
+                              label="Store"
+                              value={item.store}
+                              onChange={(e) =>
+                                handleShopItemChange(
+                                  index,
+                                  "store",
+                                  e.target.value,
+                                )
+                              }
+                              options={
+                                <>
+                                  <option value="" className="">
+                                    Select a Store
+                                  </option>
+                                  <option value="common" className="">
+                                    Common
+                                  </option>
+                                </>
+                              }
+                            />
+                          </div>
+                          <div>
+                            <SelectInput
+                              id="store"
+                              label="Urgent Purchase"
+                              value={item.urgentPurchase}
+                              onChange={(e) =>
+                                handleShopItemChange(
+                                  index,
+                                  "urgentPurchase",
+                                  e.target.value,
+                                )
+                              }
+                              options={
+                                <>
+                                  <option value="" className="">
+                                    Select an Option
+                                  </option>
+                                  <option value="yes" className="">
+                                    Yes
+                                  </option>
+                                  <option value="no" className="">
+                                    No
+                                  </option>
+                                </>
+                              }
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid gap-[30px]">
+                          <TextInput
+                            value={item.itemUrl}
                             onChange={(e) =>
-                              handleShopItemChange(index, "store", e.target.value)
+                              handleShopItemChange(
+                                index,
+                                "itemUrl",
+                                e.target.value,
+                              )
                             }
-                            options={
-                              <>
-                                <option value="" className="">
-                                  Select a Store
-                                </option>
-                                <option value="common" className="">
-                                  Common
-                                </option>
-                              </>
+                            label="Item URL *"
+                          />
+                          <TextInput
+                            value={item.itemName}
+                            onChange={(e) =>
+                              handleShopItemChange(
+                                index,
+                                "itemName",
+                                e.target.value,
+                              )
+                            }
+                            label="Item Name *"
+                          />
+                        </div>
+                        <div className="grid grid-cols-3 gap-[20px]">
+                          <div className="col-span-2">
+                            <CurrencyInput
+                              label="Item Original Cost"
+                              id="itemCost"
+                              value={item.originalPrice}
+                              onChange={(e) =>
+                                handleShopItemChange(
+                                  index,
+                                  "originalPrice",
+                                  e.target.value,
+                                )
+                              }
+                            />
+                          </div>
+                          <div className="">
+                            <QuantityInput
+                              quantity={item.quantity}
+                              label="Quantity"
+                              id="quantity"
+                              index={index}
+                              value={item.quantity}
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <CurrencyInput
+                            label="Total shipping cost to your warehouse & Sales Tax"
+                            id="itemCost"
+                            value={item.shippingCost}
+                            onChange={(e) =>
+                              handleShopItemChange(
+                                index,
+                                "shippingCost",
+                                e.target.value,
+                              )
                             }
                           />
                         </div>
                         <div>
-                          <SelectInput
-                            id="store"
-                            label="Urgent Purchase"
-                            value={item.urgentPurchase}
+                          <FileInput label="Upload Product/Item Picture" />
+                        </div>
+                        <div>
+                          <TextAreaInput
+                            value={item.description}
                             onChange={(e) =>
-                              handleShopItemChange(index, "urgentPurchase", e.target.value)
+                              handleShopItemChange(
+                                index,
+                                "description",
+                                e.target.value,
+                              )
                             }
-                            options={
-                              <>
-                                <option value="" className="">
-                                  Select an Option
-                                </option>
-                                <option value="yes" className="">
-                                  Yes
-                                </option>
-                                <option value="no" className="">
-                                  No
-                                </option>
-                              </>
-                            }
+                            label="Additional Product/Item Description"
                           />
                         </div>
-                      </div>
-
-                      <div className="grid gap-[30px]">
-                        <TextInput
-                          value={item.itemUrl}
-                          onChange={(e) =>
-                            handleShopItemChange(index, "itemUrl", e.target.value)
-                          }
-                          label="Item URL *"
-                        />
-                        <TextInput
-                          value={item.itemName}
-                          onChange={(e) =>
-                            handleShopItemChange(index, "itemName", e.target.value)
-                          }
-                          label="Item Name *"
-                        />
-                      </div>
-                      <div className="grid grid-cols-3 gap-[20px]">
-                        <div className="col-span-2">
-                          <CurrencyInput
-                            label="Item Original Cost"
-                            id="itemCost"
-                            value={item.originalPrice}
-                            onChange={(e) =>
-                              handleShopItemChange(index, "originalPrice", e.target.value)
-                            }
-                          />
-                        </div>
-                        <div className="">
-                          <QuantityInput
-                            quantity={item.quantity}
-                            label="Quantity"
-                            id="quantity"
-                            index={index}
-                            value={item.quantity}
-                          />
-                        </div>
-                      </div>
-                      <div>
-                        <CurrencyInput
-                          label="Total shipping cost to your warehouse & Sales Tax"
-                          id="itemCost"
-                          value={item.shippingCost}
-                          onChange={(e) =>
-                            handleShopItemChange(index, "shippingCost", e.target.value)
-                          }
-                        />
-                      </div>
-                      <div>
-                        <FileInput label="Upload Product/Item Picture" />
-                      </div>
-                      <div>
-                        <TextAreaInput
-                        value={item.description}
-                        onChange={(e) =>
-                          handleShopItemChange(index, "description", e.target.value)
-                        }
-                          
-                          label="Additional Product/Item Description"
-                        />
-                      </div>
-                      <div className="mt-[30px]">
-                        <div className="flex items-center space-x-[10px] ">
-                          <ChevronRight />
-                          <p className="font-roboto font-[500] text-[14px] ">
-                            Describe the item you wish to purchase further with
-                            the following properties
-                          </p>
-                        </div>
-                        <div className="my-[20px]  flex items-center space-x-[20px]">
-                          <div className="w-[500px]">
-                            <TextInput
-                              value={item.color}
-                              onChange={(e) =>
-                                handleShopItemChange(index, "color", e.target.value)
-                              }
-                              label="Item Color"
-                            />
+                        <div className="mt-[30px]">
+                          <div className="flex items-center space-x-[10px] ">
+                            <ChevronRight />
+                            <p className="font-roboto font-[500] text-[14px] ">
+                              Describe the item you wish to purchase further
+                              with the following properties
+                            </p>
                           </div>
-                          <button onClick={()=> setOpen2(true)} className=" min-w-[200px] rounded-[20px] bg-gray-600 p-[15px_20px] font-roboto text-white">
-                            Add Properties
-                          </button>
+                          <div className="my-[20px]  flex items-center space-x-[20px]">
+                            <div className="w-[500px]">
+                              <TextInput
+                                value={item.color}
+                                onChange={(e) =>
+                                  handleShopItemChange(
+                                    index,
+                                    "color",
+                                    e.target.value,
+                                  )
+                                }
+                                label="Item Color"
+                              />
+                            </div>
+                            <button
+                              onClick={() => setOpen2(true)}
+                              className=" min-w-[200px] rounded-[20px] bg-gray-600 p-[15px_20px] font-roboto text-white"
+                            >
+                              Add Properties
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <ShopProperties
+                    <ShopProperties
                       item={item}
                       index={index}
                       isOpen={open2}
                       setIsOpen={setOpen2}
                     />
-                 <button
+                    <button
                       className="w-fit border"
                       onClick={() => deleteShopItemFunc(index)}
                     >
                       <Bag className="text-red-500" />
                     </button>
-                </div>
-              ))}
-           
+                  </div>
+                ))}
+              </div>
+              <button
+                onClick={addNewShopItem}
+                className=" mt-[20px] w-[200px] rounded-[20px] bg-gray-600 p-[15px_20px] font-roboto text-white"
+              >
+                Add item
+              </button>
             </div>
-            <button
-              onClick={addNewShopItem}
-              className=" mt-[20px] w-[200px] rounded-[20px] bg-gray-600 p-[15px_20px] font-roboto text-white"
-            >
-              Add item
-            </button>
           </div>
-        </div>
-      )}
+        )}
         <div className="mt-[20px] border-t pt-[20px] grid grid-cols-4 gap-[30px]">
           <TextInput
             value={order.weight}
@@ -1061,9 +1100,6 @@ function Step2() {
           />
         </div>
       </div>
-
-
-   
     </div>
   );
 }

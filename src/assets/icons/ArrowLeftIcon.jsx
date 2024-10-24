@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const ArrowLeftIcon = () => {
   return (
@@ -19,6 +19,6 @@ const ArrowLeftIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default ArrowLeftIcon
+export default ArrowLeftIcon;

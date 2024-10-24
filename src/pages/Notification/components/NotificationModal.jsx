@@ -14,7 +14,7 @@ import Panel from "./Panel";
 import { useNavigate } from "react-router-dom";
 
 const NotificationModal = ({ open, onClose }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const notifications = [
     {
       title:
@@ -47,7 +47,7 @@ const NotificationModal = ({ open, onClose }) => {
       open={open}
       onClose={onClose}
       title="Notifications"
-      height={notifications.length > 0 ? '80%' : "fit-content"}
+      height={notifications.length > 0 ? "80%" : "fit-content"}
     >
       <Box mb="30px">
         {notifications.length > 0 ? (
@@ -124,8 +124,8 @@ const NotificationModal = ({ open, onClose }) => {
               </Box>
             }
             onClick={() => {
-              navigate('/notifications')
-              onClose()
+              navigate("/notifications");
+              onClose();
             }}
             variant="contained"
             sx={{

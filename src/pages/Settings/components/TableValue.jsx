@@ -1,4 +1,11 @@
-import { Box, IconButton, TextField, Typography, Tooltip, CircularProgress } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  TextField,
+  Typography,
+  Tooltip,
+  CircularProgress,
+} from "@mui/material";
 import React, { useState } from "react";
 import EditValue from "../../../assets/icons/EditValue";
 import CheckWhiteIcon from "../../../assets/icons/CheckWhiteIcon";
@@ -6,7 +13,15 @@ import { CheckmarkIcon } from "react-hot-toast";
 import CheckIcon from "../../../assets/icons/CheckIcon";
 import TickCircle from "../../../assets/icons/TickCircle";
 
-const TableValue = ({value, setValue, percentage=false, dollar=false, weight=false, loading, ...props}) => {
+const TableValue = ({
+  value,
+  setValue,
+  percentage = false,
+  dollar = false,
+  weight = false,
+  loading,
+  ...props
+}) => {
   const [edit, setEdit] = useState(false);
   const [hover, setHover] = useState(false);
   const onHover = () => {
@@ -25,7 +40,7 @@ const TableValue = ({value, setValue, percentage=false, dollar=false, weight=fal
           display="flex"
           alignItems="center"
           borderBottom="1px solid #E7E0EC"
-          bgcolor='#fff'
+          bgcolor="#fff"
         >
           <CircularProgress size={20} />
         </Box>
@@ -36,8 +51,8 @@ const TableValue = ({value, setValue, percentage=false, dollar=false, weight=fal
             hover
               ? "1px solid #1C1B1F"
               : edit
-              ? "1px solid #6750A4"
-              : "1px solid #E7E0EC"
+                ? "1px solid #6750A4"
+                : "1px solid #E7E0EC"
           }
           onMouseOver={onHover}
           onMouseOut={onHoverRemove}
@@ -60,28 +75,28 @@ const TableValue = ({value, setValue, percentage=false, dollar=false, weight=fal
               </Typography>
             ) : null}
             {edit ? (
-                <TextField
-                  variant="standard"
-                  autoFocus={edit}
-                  sx={{
+              <TextField
+                variant="standard"
+                autoFocus={edit}
+                sx={{
+                  p: 0,
+                  m: 0,
+                  border: "none",
+                  input: {
                     p: 0,
                     m: 0,
                     border: "none",
-                    input: {
-                      p: 0,
-                      m: 0,
-                      border: "none",
-                    },
-                    "& .MuiTextfield-root": {
-                      border: "none", // Remove border
-                    },
-                  }}
-                  type='number'
-                  InputProps={{ disableUnderline: true }}
-                  fullWidth
-                  value={value}
-                  onChange={(e) => setValue(e.target.value)}
-                />
+                  },
+                  "& .MuiTextfield-root": {
+                    border: "none", // Remove border
+                  },
+                }}
+                type="number"
+                InputProps={{ disableUnderline: true }}
+                fullWidth
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+              />
             ) : (
               <Typography
                 fontSize="16px"

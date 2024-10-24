@@ -1,6 +1,6 @@
-import React from 'react'
-import CardWrapper from '../../components/order/components/CardWrapper';
-import { Box } from '@mui/material';
+import React from "react";
+import CardWrapper from "../../components/order/components/CardWrapper";
+import { Box } from "@mui/material";
 
 const BillingInfo = () => {
   return (
@@ -73,6 +73,6 @@ const BillingInfo = () => {
       </CardWrapper>
     </Box>
   );
-}
+};
 
-export default BillingInfo
+export default BillingInfo;

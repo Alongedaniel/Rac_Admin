@@ -1,16 +1,8 @@
 /* eslint-disable react/prop-types */
 import { Eye, EyeSlash } from "iconsax-react";
-import {
-  forwardRef,
-  useState,
-} from "react";
+import { forwardRef, useState } from "react";
 
-
-
-function PasswordInput  (
-  { id, label, ...props },
-  ref
-)  {
+function PasswordInput({ id, label, ...props }, ref) {
   const [show, setShow] = useState(false);
 
   const toggleVisibility = () => {

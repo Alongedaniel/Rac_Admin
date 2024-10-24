@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const EyeIconOpen = () => {
   return (
@@ -19,6 +19,6 @@ const EyeIconOpen = () => {
       />
     </svg>
   );
-}
+};
 
-export default EyeIconOpen
+export default EyeIconOpen;

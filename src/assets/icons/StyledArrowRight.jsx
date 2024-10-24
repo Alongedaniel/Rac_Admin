@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react";
 
-const StyledArrowRight = ({color="#21005D"}) => {
+const StyledArrowRight = ({ color = "#21005D" }) => {
   return (
     <svg
       width="24"
@@ -19,6 +19,6 @@ const StyledArrowRight = ({color="#21005D"}) => {
       />
     </svg>
   );
-}
+};
 
-export default StyledArrowRight
+export default StyledArrowRight;

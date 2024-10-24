@@ -5,7 +5,7 @@ export const resetLogoutTimer = () => {
   // Update the last interaction time
   localStorage.setItem(
     "lastInteractionTime",
-    JSON.stringify(new Date().getTime())
+    JSON.stringify(new Date().getTime()),
   );
 
   clearTimeout(logoutTimer); // Clear existing timer
@@ -22,7 +22,7 @@ function logout() {
 // Function to check inactivity and log out if necessary
 function checkInactivity() {
   const lastInteractionTime = JSON.parse(
-    localStorage.getItem("lastInteractionTime")
+    localStorage.getItem("lastInteractionTime"),
   );
 
   if (lastInteractionTime) {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const WhatsappIcon = () => {
   return (
@@ -25,6 +25,6 @@ const WhatsappIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default WhatsappIcon
+export default WhatsappIcon;

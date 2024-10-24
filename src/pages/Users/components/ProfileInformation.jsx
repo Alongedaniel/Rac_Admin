@@ -1,10 +1,10 @@
-import { Box } from '@mui/material';
-import React from 'react'
-import SectionHeader from '../../../components/SectionHeader';
-import CardWrapper from '../../../components/order/components/CardWrapper';
-import EditIcon from '../../../assets/icons/EditIcon';
+import { Box } from "@mui/material";
+import React from "react";
+import SectionHeader from "../../../components/SectionHeader";
+import CardWrapper from "../../../components/order/components/CardWrapper";
+import EditIcon from "../../../assets/icons/EditIcon";
 
-const ProfileInformation = ({setActiveStep, data}) => {
+const ProfileInformation = ({ setActiveStep, data }) => {
   return (
     <>
       <Box mt="30px">
@@ -192,6 +192,6 @@ const ProfileInformation = ({setActiveStep, data}) => {
       </Box>
     </>
   );
-}
+};
 
-export default ProfileInformation
+export default ProfileInformation;

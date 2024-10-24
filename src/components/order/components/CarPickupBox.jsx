@@ -19,7 +19,7 @@ const CarPickupBox = ({
   requestItems,
 }) => {
   const [pickupCosts, setPickupCosts] = useState(
-    Array(requestItems.length).fill(0)
+    Array(requestItems.length).fill(0),
   );
   const [open, setOpen] = useState("");
   const [openCar, setOpenCar] = useState("");
@@ -42,7 +42,6 @@ const CarPickupBox = ({
 
   return (
     <Box
-      
       p="16px"
       bgcolor={!car?.pickupDetails?.firstName ? "#fff" : "#F4EFF4"}
       border="1px solid #CAC4D0"

@@ -24,12 +24,12 @@ import ArrowForwardIcon from "../../assets/icons/ArrowForwardIcon";
 import NotificationModal from "../../pages/Notification/components/NotificationModal";
 import { useAuth } from "../../utils/contexts/userContext/UserContext";
 
-function Navbar({navbarTitle}) {
+function Navbar({ navbarTitle }) {
   const location = useLocation();
-  const [anchorEl, setAnchorEl] = useState(null)
-  const { logout, loading } = useAuth()
-  const [openNotification, setOpenNotification] = useState(false)
-  const open = Boolean(anchorEl)
+  const [anchorEl, setAnchorEl] = useState(null);
+  const { logout, loading } = useAuth();
+  const [openNotification, setOpenNotification] = useState(false);
+  const open = Boolean(anchorEl);
   const menuItems = [
     {
       icon: <Profile />,
@@ -197,7 +197,7 @@ function Navbar({navbarTitle}) {
               }}
               onClick={logout}
             >
-              {loading ? <CircularProgress /> :  'Logout'}
+              {loading ? <CircularProgress /> : "Logout"}
             </Button>
           </MenuItem>
         </Box>

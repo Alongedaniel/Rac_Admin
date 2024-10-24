@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const ManageIcon = () => {
   return (
@@ -19,6 +19,6 @@ const ManageIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default ManageIcon
+export default ManageIcon;

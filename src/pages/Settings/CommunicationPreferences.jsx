@@ -1,11 +1,11 @@
-import { Box, Button, IconButton, Typography } from '@mui/material'
-import React from 'react'
-import ArrowBack from '../../assets/icons/ArrowBack'
-import ArrowLeftPurple from '../../assets/icons/ArrowLeftPurple';
-import { useNavigate } from 'react-router-dom';
+import { Box, Button, IconButton, Typography } from "@mui/material";
+import React from "react";
+import ArrowBack from "../../assets/icons/ArrowBack";
+import ArrowLeftPurple from "../../assets/icons/ArrowLeftPurple";
+import { useNavigate } from "react-router-dom";
 
 const CommunicationPreferences = () => {
-    const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <Box p="24px 40px">
       <Box p="24px" borderRadius="20px" bgcolor="#fff">
@@ -82,6 +82,6 @@ const CommunicationPreferences = () => {
       </Box>
     </Box>
   );
-}
+};
 
-export default CommunicationPreferences
+export default CommunicationPreferences;

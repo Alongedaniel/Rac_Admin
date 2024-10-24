@@ -1,8 +1,8 @@
-import { Box, Modal, Typography } from '@mui/material'
-import React, { useEffect, useRef, useState } from 'react'
-import CloseCircle from '../../../assets/icons/CloseCircle';
-import CloseCircleRed from '../../../assets/icons/CloseCircleRed';
-import ArrowSquare from '../../../assets/icons/ArrowSquare';
+import { Box, Modal, Typography } from "@mui/material";
+import React, { useEffect, useRef, useState } from "react";
+import CloseCircle from "../../../assets/icons/CloseCircle";
+import CloseCircleRed from "../../../assets/icons/CloseCircleRed";
+import ArrowSquare from "../../../assets/icons/ArrowSquare";
 
 const UserModals = ({
   open = false,
@@ -25,14 +25,12 @@ const UserModals = ({
       if (!sectionRef?.current) return;
 
       const currentScrollPos = sectionRef.current.scrollTop;
-        // const isScrollingDown =
-        //   currentScrollPos >
-        //       (sectionRef.current.scrollTop || sectionRef.current.scrollTop);
+      // const isScrollingDown =
+      //   currentScrollPos >
+      //       (sectionRef.current.scrollTop || sectionRef.current.scrollTop);
       console.log(currentScrollPos);
       console.log(prevScrollPos);
-      setScrollDirection(
-        currentScrollPos 
-      );
+      setScrollDirection(currentScrollPos);
       setPrevScrollPos(currentScrollPos);
     };
 
@@ -42,9 +40,8 @@ const UserModals = ({
     };
   }, [prevScrollPos]);
 
-
   return (
-    <Modal open={open} onClose={onClose} sx={{zIndex: 999}}>
+    <Modal open={open} onClose={onClose} sx={{ zIndex: 999 }}>
       <Box
         bgcolor="#fff"
         sx={{
@@ -69,7 +66,7 @@ const UserModals = ({
             },
           }}
           height={"fit-content"}
-          maxHeight={{xs: '500px' , lg: '600px', xl: "800px"}}
+          maxHeight={{ xs: "500px", lg: "600px", xl: "800px" }}
           overflow="auto"
           position={"relative"}
           bgcolor="#6750A41C"
@@ -163,4 +160,4 @@ const UserModals = ({
   );
 };
 
-export default UserModals
+export default UserModals;

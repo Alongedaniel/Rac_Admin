@@ -1,10 +1,10 @@
-import React from 'react'
-import CardWrapper from './CardWrapper';
-import { Box } from '@mui/material';
-import EditIcon from '../../../assets/icons/EditIcon';
-import laptop from '../../../assets/images/laptop.png'
+import React from "react";
+import CardWrapper from "./CardWrapper";
+import { Box } from "@mui/material";
+import EditIcon from "../../../assets/icons/EditIcon";
+import laptop from "../../../assets/images/laptop.png";
 
-const OrderItem = ({order, service, view}) => {
+const OrderItem = ({ order, service, view }) => {
   return (
     <Box
       sx={{
@@ -16,7 +16,7 @@ const OrderItem = ({order, service, view}) => {
       }}
     >
       <CardWrapper title={` Item - #1`}>
-        {order?.orderInformation?.service ?? service === "Shop For Me" ? (
+        {(order?.orderInformation?.service ?? service === "Shop For Me") ? (
           <>
             <div className="grid grid-cols-5 mt-[30px] gap-[20px]">
               <>
@@ -206,6 +206,6 @@ const OrderItem = ({order, service, view}) => {
       {view ? null : <EditIcon />}
     </Box>
   );
-}
+};
 
-export default OrderItem
+export default OrderItem;

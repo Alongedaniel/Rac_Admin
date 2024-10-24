@@ -1,9 +1,9 @@
-import { Box } from '@mui/material'
-import React from 'react'
-import { CustomLink } from '../orders';
-import { Outlet } from 'react-router-dom';
+import { Box } from "@mui/material";
+import React from "react";
+import { CustomLink } from "../orders";
+import { Outlet } from "react-router-dom";
 
-const Users = ({children, showFullBar}) => {
+const Users = ({ children, showFullBar }) => {
   return (
     <Box position="relative">
       <Box
@@ -33,6 +33,6 @@ const Users = ({children, showFullBar}) => {
       </Box>
     </Box>
   );
-}
+};
 
-export default Users
+export default Users;

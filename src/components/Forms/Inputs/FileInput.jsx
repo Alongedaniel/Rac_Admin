@@ -1,9 +1,6 @@
 /* eslint-disable react/prop-types */
 import { ExportCurve } from "iconsax-react";
 
-
-
-
 const FileInput = ({ id, label, value, onChange }) => {
   let filename;
   if (value) {

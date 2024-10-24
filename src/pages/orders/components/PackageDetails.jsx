@@ -181,38 +181,38 @@ const PackageDetails = ({
                 isRequest={isRequest}
                 activeStep={activeStep}
               />
-            )
+            ),
           )
         : order?.request?.requestItems
-        ? order?.request?.requestItems?.map((item, i) => (
-            <ItemBox
-              confirm={order?.request?.requestStatus === "Not Responded"}
-              activeStep={activeStep}
-              proceed={proceed}
-              isRequest={isRequest}
-              order={order}
-              item={item}
-              type={type}
-              itemNumber={i + 1}
-              refetch={refetch}
-            />
-          ))
-        : order?.map((item, i) => (
-            <ItemBox
-              confirm={false}
-              activeStep={activeStep}
-              setActiveStep={setActiveStep}
-              proceed={proceed}
-              isRequest={isRequest}
-              order={order}
-              item={item}
-              type={type}
-              itemNumber={i + 1}
-              refetch={refetch}
-              requestId={requestId}
-              requestService={service}
-            />
-          ))}
+          ? order?.request?.requestItems?.map((item, i) => (
+              <ItemBox
+                confirm={order?.request?.requestStatus === "Not Responded"}
+                activeStep={activeStep}
+                proceed={proceed}
+                isRequest={isRequest}
+                order={order}
+                item={item}
+                type={type}
+                itemNumber={i + 1}
+                refetch={refetch}
+              />
+            ))
+          : order?.map((item, i) => (
+              <ItemBox
+                confirm={false}
+                activeStep={activeStep}
+                setActiveStep={setActiveStep}
+                proceed={proceed}
+                isRequest={isRequest}
+                order={order}
+                item={item}
+                type={type}
+                itemNumber={i + 1}
+                refetch={refetch}
+                requestId={requestId}
+                requestService={service}
+              />
+            ))}
       {(type === "request" || isRequest) && proceed && (
         <Button
           startIcon={<AddIcon color="#E6E1E5" />}

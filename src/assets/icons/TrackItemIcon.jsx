@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const TrackItemIcon = () => {
   return (
@@ -39,6 +39,6 @@ const TrackItemIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default TrackItemIcon
+export default TrackItemIcon;

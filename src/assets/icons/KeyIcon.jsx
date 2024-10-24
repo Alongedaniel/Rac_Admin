@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const KeyIcon = () => {
   return (
@@ -15,6 +15,6 @@ const KeyIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default KeyIcon
+export default KeyIcon;

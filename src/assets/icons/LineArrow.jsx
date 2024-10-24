@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const LineArrow = () => {
   return (
@@ -15,6 +15,6 @@ const LineArrow = () => {
       />
     </svg>
   );
-}
+};
 
-export default LineArrow
+export default LineArrow;
