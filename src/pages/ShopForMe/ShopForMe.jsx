@@ -31,7 +31,7 @@ import UserModals from "../Users/components/UserModals";
 
 const ShopForMe = () => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [packageDetails, setPackageDetails] = useState(false)
+  const [packageDetails, setPackageDetails] = useState(false);
   const open = Boolean(anchorEl);
   const handleOpenMenu = (e) => {
     setAnchorEl(e.currentTarget);
@@ -72,18 +72,18 @@ const ShopForMe = () => {
       default:
         return null;
     }
-    };
-    let procId = [];
+  };
+  let procId = [];
   const navigate = useNavigate();
   const columns = [
-    {flex: 1,
+    {
+      flex: 1,
       field: "image",
       headerName: <HeaderName header="Package(s) Image" />,
       width: 150,
       sortable: false,
       renderCell: (params) => (
-        <Box
-        >
+        <Box>
           {/* {params.row.image.length} */}
           {params.row.image.length === 1 ? (
             <Box display="flex" flexDirection="column" gap="5px">
@@ -93,7 +93,7 @@ const ShopForMe = () => {
                   src={image}
                   alt=""
                   style={{
-                    borderRadius: '5px',
+                    borderRadius: "5px",
                     width: "110px",
                     height: "50px",
                     objectFit: "cover",
@@ -109,7 +109,7 @@ const ShopForMe = () => {
                   src={image}
                   alt=""
                   style={{
-                    borderRadius: '5px',
+                    borderRadius: "5px",
                     width: "110px",
                     height: `${(50 - 5) / 2}px`,
                     objectFit: "cover",
@@ -126,7 +126,7 @@ const ShopForMe = () => {
                     src={image}
                     alt=""
                     style={{
-                        borderRadius: '5px',
+                      borderRadius: "5px",
                       width: `${(110 - 5) / 2}px`,
                       height: `${(50 - 5) / 2}px`,
                       objectFit: "cover",
@@ -141,7 +141,7 @@ const ShopForMe = () => {
                     src={image}
                     alt=""
                     style={{
-                        borderRadius: '5px',
+                      borderRadius: "5px",
                       width: `${(110 - 5) / 2}px`,
                       height: `${50}px`,
                       objectFit: "cover",
@@ -159,7 +159,7 @@ const ShopForMe = () => {
                     src={image}
                     alt=""
                     style={{
-                        borderRadius: '5px',
+                      borderRadius: "5px",
                       width: `${(110 - 5) / 2}px`,
                       height: `${(50 - 5) / 2}px`,
                       objectFit: "cover",
@@ -175,7 +175,7 @@ const ShopForMe = () => {
                       src={image}
                       alt=""
                       style={{
-                        borderRadius: '5px',
+                        borderRadius: "5px",
                         width: `${(110 - 5) / 2}px`,
                         height: `${(50 - 5) / 2}px`,
                         objectFit: "cover",
@@ -183,7 +183,7 @@ const ShopForMe = () => {
                     />
                   </Box>
                 ))}
-                <Typography textAlign='center' fontSize="12px" color="#49454F">
+                <Typography textAlign="center" fontSize="12px" color="#49454F">
                   +{params.row.image.length - 3}
                 </Typography>
               </Box>
@@ -192,14 +192,13 @@ const ShopForMe = () => {
         </Box>
       ),
     },
-    {flex: 1,
+    {
+      flex: 1,
       field: "procid",
       headerName: <HeaderName header="Procurement ID" />,
       width: 160,
       renderCell: (params) => (
-        <Box
-          onClick={() => setPackageDetails(true)}
-        >
+        <Box onClick={() => setPackageDetails(true)}>
           {/* {params.row.procid.map((proc) => {
               let id = []
             id.push(proc);
@@ -239,13 +238,14 @@ const ShopForMe = () => {
             color="#000"
           >
             {params.row.procid.join().length > 12
-              ? params.row.procid.join(', ').slice(0, 12) + "..."
+              ? params.row.procid.join(", ").slice(0, 12) + "..."
               : params.row.procid.map((item) => item)}
           </Typography>
         </Box>
       ),
     },
-    {flex: 1,
+    {
+      flex: 1,
       field: "id",
       headerName: <HeaderName header="Order ID" />,
       width: 110,
@@ -255,7 +255,7 @@ const ShopForMe = () => {
             navigate(`/orders/order-id_${params.row.id}`, {
               state: {
                 order: params.row,
-                type: 'shop for me'
+                type: "shop for me",
               },
             })
           }
@@ -278,7 +278,8 @@ const ShopForMe = () => {
     //     headerName: <HeaderName header="Shipment ID" />,
     //     width: 115,
     //   },
-    {flex: 1,
+    {
+      flex: 1,
       field: "customer",
       headerName: <HeaderName header="Customer" />,
       // type: "number",
@@ -295,7 +296,8 @@ const ShopForMe = () => {
         </Typography>
       ),
     },
-    {flex: 1,
+    {
+      flex: 1,
       field: "status",
       headerName: <HeaderName header="Status" />,
       // type: "number",
@@ -307,13 +309,15 @@ const ShopForMe = () => {
         </Typography>
       ),
     },
-    {flex: 1,
+    {
+      flex: 1,
       field: "origin",
       sortable: false,
       headerName: <HeaderName header="Origin" />,
       width: 150,
     },
-    {flex: 1,
+    {
+      flex: 1,
       field: "destination",
       headerName: <HeaderName header="Destination" />,
       // type: "number",
@@ -341,13 +345,15 @@ const ShopForMe = () => {
       ),
     },
 
-    {flex: 1,
+    {
+      flex: 1,
       field: "date",
       headerName: <HeaderName header="Created On" />,
       // type: "number",
       width: 150,
     },
-    {flex: 1,
+    {
+      flex: 1,
       field: "cost",
       headerName: <HeaderName header="Total Cost" />,
       // type: "number",
@@ -425,7 +431,8 @@ const ShopForMe = () => {
     //       </Typography>
     //     ),
     //   },
-    {flex: 1,
+    {
+      flex: 1,
       field: "actions",
       headerName: <HeaderName header="Actions" />,
       // type: "number",
@@ -614,7 +621,7 @@ const ShopForMe = () => {
         laptop,
         laptop,
         laptop,
-        laptop
+        laptop,
       ],
       procid: ["PR08756", "PR08756", "PR08756"],
       origin: "London, UK",

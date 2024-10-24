@@ -1,21 +1,21 @@
-import { Box, Button, IconButton, TextField, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react'
-import ArrowBack from '../../assets/icons/ArrowBack';
-import ArrowLeftPurple from '../../assets/icons/ArrowLeftPurple';
-import { useNavigate } from 'react-router-dom';
-import UserModals from '../Users/components/UserModals';
-import CustomStepper from '../../components/CustomStepper';
-import ArrowRightWhite from '../../assets/icons/ArrowRightWhite';
-import AuthenticatorIcon from '../../assets/icons/AuthenticatorIcon';
-import Qr from '../../assets/icons/Qr';
-import MinusCircle from '../../assets/icons/MinusCircle';
-import BoxIcon from '../../assets/icons/BoxIcon';
+import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import ArrowBack from "../../assets/icons/ArrowBack";
+import ArrowLeftPurple from "../../assets/icons/ArrowLeftPurple";
+import { useNavigate } from "react-router-dom";
+import UserModals from "../Users/components/UserModals";
+import CustomStepper from "../../components/CustomStepper";
+import ArrowRightWhite from "../../assets/icons/ArrowRightWhite";
+import AuthenticatorIcon from "../../assets/icons/AuthenticatorIcon";
+import Qr from "../../assets/icons/Qr";
+import MinusCircle from "../../assets/icons/MinusCircle";
+import BoxIcon from "../../assets/icons/BoxIcon";
 
 const Security = () => {
-  const navigate = useNavigate()
-  const [openModal, setOpenModal] = useState(false)
-  const [openModal2, setOpenModal2] = useState(false)
-  const [activeStep, setActiveStep] = useState(0)
+  const navigate = useNavigate();
+  const [openModal, setOpenModal] = useState(false);
+  const [openModal2, setOpenModal2] = useState(false);
+  const [activeStep, setActiveStep] = useState(0);
   const appAuthStep = [
     "Email Verification",
     "Download Authentication app",
@@ -356,16 +356,16 @@ const Security = () => {
             {activeStep === 2
               ? "Verify"
               : activeStep === 3
-              ? "Finish Setup"
-              : "Confirm"}
+                ? "Finish Setup"
+                : "Confirm"}
           </Button>
         </Box>
       </UserModals>
       <UserModals
         open={openModal2}
         onClose={() => {
-          setOpenModal2(false)
-          setActiveStep(0)
+          setOpenModal2(false);
+          setActiveStep(0);
         }}
         title="Authentication via Email Setup"
         // height='fit-content'
@@ -399,9 +399,17 @@ const Security = () => {
               <Typography fontSize="22px" color="#49454F" mb="15px">
                 Each time you access your account, you’ll be required to input a
                 code sent to your email address:{" "}
-                  <Typography fontSize="22px" color="#49454F" fontWeight={700} display='inline'> offorrex@gmail.com.</Typography> In case you lose
-                access to your mobile device, utilize the backup codes below to
-                disable mobile authentication.
+                <Typography
+                  fontSize="22px"
+                  color="#49454F"
+                  fontWeight={700}
+                  display="inline"
+                >
+                  {" "}
+                  offorrex@gmail.com.
+                </Typography>{" "}
+                In case you lose access to your mobile device, utilize the
+                backup codes below to disable mobile authentication.
               </Typography>
               <Box
                 p="20px"
@@ -534,6 +542,6 @@ const Security = () => {
       </UserModals>
     </Box>
   );
-}
+};
 
-export default Security
+export default Security;

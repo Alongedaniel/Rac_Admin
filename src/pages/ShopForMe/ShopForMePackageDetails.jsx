@@ -1,9 +1,9 @@
-import { Box, Grid, TextField, Typography } from '@mui/material'
-import React from 'react'
-import CircleRight from '../../assets/icons/CircleRight'
-import CardWrapper from '../../components/order/components/CardWrapper';
-import SectionHeader from '../../components/SectionHeader';
-import ShopForMeItems from './ShopForMeItems';
+import { Box, Grid, TextField, Typography } from "@mui/material";
+import React from "react";
+import CircleRight from "../../assets/icons/CircleRight";
+import CardWrapper from "../../components/order/components/CardWrapper";
+import SectionHeader from "../../components/SectionHeader";
+import ShopForMeItems from "./ShopForMeItems";
 
 const ShopForMePackageDetails = () => {
   return (
@@ -133,13 +133,13 @@ const ShopForMePackageDetails = () => {
         </CardWrapper>
       </Box>
       <Box>
-        <Box mb='12px'>
+        <Box mb="12px">
           <SectionHeader title="Details About This Package" noBorder />
-              </Box>
-              <ShopForMeItems service='Shop For Me' />
+        </Box>
+        <ShopForMeItems service="Shop For Me" />
       </Box>
     </Box>
   );
-}
+};
 
-export default ShopForMePackageDetails
+export default ShopForMePackageDetails;

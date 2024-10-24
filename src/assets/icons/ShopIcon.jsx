@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const ShopIcon = ({ color = "#938F99", width = "24", height = "24" }) => {
   return (
@@ -27,4 +27,4 @@ const ShopIcon = ({ color = "#938F99", width = "24", height = "24" }) => {
   );
 };
 
-export default ShopIcon
+export default ShopIcon;

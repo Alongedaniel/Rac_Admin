@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const ChangeIcon = () => {
   return (
@@ -31,6 +31,6 @@ const ChangeIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default ChangeIcon
+export default ChangeIcon;

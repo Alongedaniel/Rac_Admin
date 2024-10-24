@@ -1,43 +1,36 @@
-import React, { useEffect, useState } from 'react'
-import SectionHeader from '../../components/SectionHeader'
-import {
-  Box,
-  Button,
-  Grid,
-  Radio,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { useLocation, useNavigate } from 'react-router-dom';
-import ArrowSquare from '../../assets/icons/ArrowSquare';
-import UserTag from '../../assets/icons/UserTag';
-import Eye from '../../assets/icons/Eye';
-import CardWrapper from '../../components/order/components/CardWrapper';
-import EditIcon from '../../assets/icons/EditIcon';
-import NewShipmentIcon from '../../assets/icons/NewShipmentIcon';
-import Line from '../../assets/icons/Line';
-import EventUpdates from './EventUpdates';
-import ArrowLeftPurple from '../../assets/icons/ArrowLeftPurple';
-import UserModals from '../Users/components/UserModals';
-import CircleRight from '../../assets/icons/CircleRight';
-import Joiner from '../../assets/icons/Joiner';
-import MenuIcon from '../../assets/icons/MenuIcon';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import DeletIcon from '../../assets/icons/DeletIcon';
-import AddIcon from '../../assets/icons/AddIcon';
-import dayjs from 'dayjs';
-import ArrowRightWhite from '../../assets/icons/ArrowRightWhite';
+import React, { useEffect, useState } from "react";
+import SectionHeader from "../../components/SectionHeader";
+import { Box, Button, Grid, Radio, TextField, Typography } from "@mui/material";
+import { useLocation, useNavigate } from "react-router-dom";
+import ArrowSquare from "../../assets/icons/ArrowSquare";
+import UserTag from "../../assets/icons/UserTag";
+import Eye from "../../assets/icons/Eye";
+import CardWrapper from "../../components/order/components/CardWrapper";
+import EditIcon from "../../assets/icons/EditIcon";
+import NewShipmentIcon from "../../assets/icons/NewShipmentIcon";
+import Line from "../../assets/icons/Line";
+import EventUpdates from "./EventUpdates";
+import ArrowLeftPurple from "../../assets/icons/ArrowLeftPurple";
+import UserModals from "../Users/components/UserModals";
+import CircleRight from "../../assets/icons/CircleRight";
+import Joiner from "../../assets/icons/Joiner";
+import MenuIcon from "../../assets/icons/MenuIcon";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import DeletIcon from "../../assets/icons/DeletIcon";
+import AddIcon from "../../assets/icons/AddIcon";
+import dayjs from "dayjs";
+import ArrowRightWhite from "../../assets/icons/ArrowRightWhite";
 // import drone from '../../assets/images/boxes.png'
-import { IoClose } from 'react-icons/io5';
-import { LuCheck } from 'react-icons/lu';
-import BillingDetailsInfo from '../../components/order/components/BillingDetailsInfo';
-import BillingDetails from '../orders/components/BillingDetails';
-import PaymentInformation from '../orders/components/PaymentInformation';
+import { IoClose } from "react-icons/io5";
+import { LuCheck } from "react-icons/lu";
+import BillingDetailsInfo from "../../components/order/components/BillingDetailsInfo";
+import BillingDetails from "../orders/components/BillingDetails";
+import PaymentInformation from "../orders/components/PaymentInformation";
 
 const ShipmentDetails = () => {
-  const [open, setOpen] = useState(false)
-  const location = useLocation()
+  const [open, setOpen] = useState(false);
+  const location = useLocation();
   const today = dayjs();
   const [date, setDate] = useState(today);
 
@@ -48,25 +41,23 @@ const ShipmentDetails = () => {
   const [openClearanceModal, setOpenClearanceModal] = useState(false);
   const [clearance, setClearance] = useState(false);
   const [update, setUpdate] = useState(false);
-  const order = location?.state?.order
+  const order = location?.state?.order;
 
   const handleRadioChange = (event) => {
-    if (order?.service === 'Auto Import')
-    {
-      setSelectedRadioValue(event.target.value)
-      
-    }
-    else
+    if (order?.service === "Auto Import") {
       setSelectedRadioValue(event.target.value);
+    } else setSelectedRadioValue(event.target.value);
   };
 
   useEffect(() => {
-    if (order?.service === 'Auto Import' && selectedRadioValue === "Undergoing Customs Clearing")
-      setOpenClearanceModal(true)
-  }, [selectedRadioValue])
+    if (
+      order?.service === "Auto Import" &&
+      selectedRadioValue === "Undergoing Customs Clearing"
+    )
+      setOpenClearanceModal(true);
+  }, [selectedRadioValue]);
 
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <Box py="30px" px="40px">
       <Box p="30px" borderRadius="20px" bgcolor="#fff">
@@ -1121,7 +1112,7 @@ const ShipmentDetails = () => {
             <Box width="100%">
               <Box bgcolor="#6750A4" borderRadius="20px" px="1px">
                 <Box mb="40px" display="flex" gap="10px" alignItems="center">
-                  <img src='../../assets/images/drone.png' alt="drone" />
+                  <img src="../../assets/images/drone.png" alt="drone" />
                   <Box>
                     <Typography
                       fontSize="24px"
@@ -1250,8 +1241,8 @@ const ShipmentDetails = () => {
                 </Button>
                 <Button
                   startIcon={<ArrowRightWhite />}
-                    variant="contained"
-                    onClick={() => setUpdate(true)}
+                  variant="contained"
+                  onClick={() => setUpdate(true)}
                   sx={{
                     bgcolor: "#6750A4",
                     color: "#fff",
@@ -1300,10 +1291,10 @@ const ShipmentDetails = () => {
                 height="40px"
                 startIcon={<LuCheck />}
                 sx={{ fontSize: "14px", color: "#6750A4", fontWeight: 500 }}
-                  onClick={() => {
-                    setClearance(true)
-                    setAssignedOrderModal(false);
-                  }}
+                onClick={() => {
+                  setClearance(true);
+                  setAssignedOrderModal(false);
+                }}
               >
                 {" "}
                 Yes, let’s go on
@@ -1314,6 +1305,6 @@ const ShipmentDetails = () => {
       </UserModals>
     </Box>
   );
-}
+};
 
-export default ShipmentDetails
+export default ShipmentDetails;

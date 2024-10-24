@@ -1,7 +1,7 @@
-import { Step, StepLabel, Stepper } from '@mui/material';
-import React from 'react'
+import { Step, StepLabel, Stepper } from "@mui/material";
+import React from "react";
 
-const CustomStepper = ({steps, activeStep}) => {
+const CustomStepper = ({ steps, activeStep }) => {
   return (
     <Stepper activeStep={activeStep}>
       {steps.map((step, i) => (
@@ -30,8 +30,8 @@ const CustomStepper = ({steps, activeStep}) => {
                   i === activeStep
                     ? "#21005D"
                     : activeStep > i
-                    ? "#fff"
-                    : "#CAC4D0", // Custom circle icon color
+                      ? "#fff"
+                      : "#CAC4D0", // Custom circle icon color
               },
             }}
           >
@@ -41,6 +41,6 @@ const CustomStepper = ({steps, activeStep}) => {
       ))}
     </Stepper>
   );
-}
+};
 
-export default CustomStepper
+export default CustomStepper;

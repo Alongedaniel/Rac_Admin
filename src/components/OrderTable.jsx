@@ -54,11 +54,12 @@ const OrderTable = ({ rows, columns, pageSize = 10, height = "75vh" }) => {
       })}
       sx={{
         zIndex: 1,
-        height: 'fit-content',
-        maxHeight: '75vh',
+        height: "fit-content",
+        maxHeight: "75vh",
         bgcolor: "#fff",
         borderRadius: "20px",
-        boxShadow: 'inset 4px 0 10px -4px rgba(0, 0, 0, 0.2), inset -4px 0 10px -4px rgba(0, 0, 0, 0.2)'
+        boxShadow:
+          "inset 4px 0 10px -4px rgba(0, 0, 0, 0.2), inset -4px 0 10px -4px rgba(0, 0, 0, 0.2)",
       }}
     />
     // </div>

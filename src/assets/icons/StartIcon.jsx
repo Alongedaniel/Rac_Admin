@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const StartIcon = () => {
   return (
@@ -23,6 +23,6 @@ const StartIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default StartIcon
+export default StartIcon;

@@ -1,15 +1,15 @@
-import React from 'react'
-import UserModals from '../../pages/Users/components/UserModals';
-import { Box, Grid, Typography } from '@mui/material';
-import SectionHeader from '../SectionHeader';
-import CardWrapper from '../order/components/CardWrapper';
-import UserTag from '../../assets/icons/UserTag';
-import Line from '../../assets/icons/Line';
-import PackageDetailsInfo from '../order/components/PackageDetailsInfo';
-import ShippingDetailsInfo from '../order/components/ShippingDetailsInfo';
-import BillingDetailsInfo from '../order/components/BillingDetailsInfo';
+import React from "react";
+import UserModals from "../../pages/Users/components/UserModals";
+import { Box, Grid, Typography } from "@mui/material";
+import SectionHeader from "../SectionHeader";
+import CardWrapper from "../order/components/CardWrapper";
+import UserTag from "../../assets/icons/UserTag";
+import Line from "../../assets/icons/Line";
+import PackageDetailsInfo from "../order/components/PackageDetailsInfo";
+import ShippingDetailsInfo from "../order/components/ShippingDetailsInfo";
+import BillingDetailsInfo from "../order/components/BillingDetailsInfo";
 
-const AssigneOrderModal = ({open, onClose, order}) => {
+const AssigneOrderModal = ({ open, onClose, order }) => {
   return (
     <UserModals
       open={open}
@@ -142,6 +142,6 @@ const AssigneOrderModal = ({open, onClose, order}) => {
       </Box>
     </UserModals>
   );
-}
+};
 
-export default AssigneOrderModal
+export default AssigneOrderModal;

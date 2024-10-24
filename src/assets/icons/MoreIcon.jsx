@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const MoreIcon = () => {
   return (
@@ -26,6 +26,6 @@ const MoreIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default MoreIcon
+export default MoreIcon;

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const CalculatorIcon = () => {
   return (
@@ -67,6 +67,6 @@ const CalculatorIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default CalculatorIcon
+export default CalculatorIcon;

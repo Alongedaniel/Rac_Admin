@@ -29,8 +29,8 @@ import EditIcon from "../../assets/icons/EditIcon";
 import UserTag from "../../assets/icons/UserTag";
 import Eye from "../../assets/icons/Eye";
 import LinkIcon from "../../assets/icons/LinkIcon";
-import drone from "../../assets/images/drone.png"
-import laptop from "../../assets/images/laptop.png"
+import drone from "../../assets/images/drone.png";
+import laptop from "../../assets/images/laptop.png";
 import CheckWhiteIcon from "../../assets/icons/CheckWhiteIcon";
 import UserModals from "../Users/components/UserModals";
 import OrderInformation from "../orders/components/OrderInformation";
@@ -53,10 +53,10 @@ const CreateShipment = () => {
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
-  const [assignedOrder, setAssignedOrder] = useState(false)
-  const [assignedOrder1, setAssignedOrder1] = useState(false)
-  const [assignedOrder2, setAssignedOrder2] = useState(false)
-  const [assignedOrder3, setAssignedOrder3] = useState(false)
+  const [assignedOrder, setAssignedOrder] = useState(false);
+  const [assignedOrder1, setAssignedOrder1] = useState(false);
+  const [assignedOrder2, setAssignedOrder2] = useState(false);
+  const [assignedOrder3, setAssignedOrder3] = useState(false);
   const today = dayjs();
   const [date, setDate] = useState(today);
 
@@ -72,87 +72,87 @@ const CreateShipment = () => {
     if (activeStep > 0) setActiveStep((prevActiveStep) => prevActiveStep - 1);
     else setProceed(false);
   };
-    const order = {
-      image: laptop,
-      service: "Auto Import",
-      id: "SH08758",
-      customer: "Rexo Offorex",
-      shippingMethod: "Basic",
-      shipmentMethod: "Air",
-      destination: "Lagos, Nigeria",
-      status: "Not Started",
-      origin: "London, UK",
-      date: "22-03-2023 ",
-      time: "13:05",
-      cost: "$107.76",
-      deliveryCompany: "---",
-      dispatchCompany: "---",
-      staff: "Micheal Sam obalodu",
-      packaging: "Packaging In Progress",
-      actions: "actions",
-    };
-    const order1 = {
-      image: laptop,
-      service: "Export",
-      id: "SH08758",
-      customer: "Rexo Offorex",
-      shippingMethod: "Basic",
-      shipmentMethod: "Air",
-      destination: "Lagos, Nigeria",
-      status: "Not Started",
-      origin: "London, UK",
-      date: "22-03-2023 ",
-      time: "13:05",
-      cost: "$107.76",
-      deliveryCompany: "---",
-      dispatchCompany: "---",
-      staff: "Micheal Sam obalodu",
-      packaging: "Packaging In Progress",
-      actions: "actions",
-    };
-    const order2 = {
-      image: laptop,
-      service: "Import",
-      id: "SH08758",
-      customer: "Rexo Offorex",
-      shippingMethod: "Basic",
-      shipmentMethod: "Air",
-      destination: "Lagos, Nigeria",
-      status: "Not Started",
-      origin: "London, UK",
-      date: "22-03-2023 ",
-      time: "13:05",
-      cost: "$107.76",
-      deliveryCompany: "---",
-      dispatchCompany: "---",
-      staff: "Micheal Sam obalodu",
-      packaging: "Packaging In Progress",
-      actions: "actions",
-    };
-    const order3 = {
-      image: laptop,
-      service: "Shop For Me",
-      id: "SH08758",
-      customer: "Rexo Offorex",
-      shippingMethod: "Basic",
-      shipmentMethod: "Air",
-      destination: "Lagos, Nigeria",
-      status: "Not Started",
-      origin: "London, UK",
-      date: "22-03-2023 ",
-      time: "13:05",
-      cost: "$107.76",
-      deliveryCompany: "---",
-      dispatchCompany: "---",
-      staff: "Micheal Sam obalodu",
-      packaging: "Packaging In Progress",
-      actions: "actions",
-    };
+  const order = {
+    image: laptop,
+    service: "Auto Import",
+    id: "SH08758",
+    customer: "Rexo Offorex",
+    shippingMethod: "Basic",
+    shipmentMethod: "Air",
+    destination: "Lagos, Nigeria",
+    status: "Not Started",
+    origin: "London, UK",
+    date: "22-03-2023 ",
+    time: "13:05",
+    cost: "$107.76",
+    deliveryCompany: "---",
+    dispatchCompany: "---",
+    staff: "Micheal Sam obalodu",
+    packaging: "Packaging In Progress",
+    actions: "actions",
+  };
+  const order1 = {
+    image: laptop,
+    service: "Export",
+    id: "SH08758",
+    customer: "Rexo Offorex",
+    shippingMethod: "Basic",
+    shipmentMethod: "Air",
+    destination: "Lagos, Nigeria",
+    status: "Not Started",
+    origin: "London, UK",
+    date: "22-03-2023 ",
+    time: "13:05",
+    cost: "$107.76",
+    deliveryCompany: "---",
+    dispatchCompany: "---",
+    staff: "Micheal Sam obalodu",
+    packaging: "Packaging In Progress",
+    actions: "actions",
+  };
+  const order2 = {
+    image: laptop,
+    service: "Import",
+    id: "SH08758",
+    customer: "Rexo Offorex",
+    shippingMethod: "Basic",
+    shipmentMethod: "Air",
+    destination: "Lagos, Nigeria",
+    status: "Not Started",
+    origin: "London, UK",
+    date: "22-03-2023 ",
+    time: "13:05",
+    cost: "$107.76",
+    deliveryCompany: "---",
+    dispatchCompany: "---",
+    staff: "Micheal Sam obalodu",
+    packaging: "Packaging In Progress",
+    actions: "actions",
+  };
+  const order3 = {
+    image: laptop,
+    service: "Shop For Me",
+    id: "SH08758",
+    customer: "Rexo Offorex",
+    shippingMethod: "Basic",
+    shipmentMethod: "Air",
+    destination: "Lagos, Nigeria",
+    status: "Not Started",
+    origin: "London, UK",
+    date: "22-03-2023 ",
+    time: "13:05",
+    cost: "$107.76",
+    deliveryCompany: "---",
+    dispatchCompany: "---",
+    staff: "Micheal Sam obalodu",
+    packaging: "Packaging In Progress",
+    actions: "actions",
+  };
   const finish = activeStep === steps.length - 1;
   useEffect(() => {
-    window.scroll(0, 0)
-  }, [activeStep])
-  
+    window.scroll(0, 0);
+  }, [activeStep]);
+
   return (
     <Box px="40px" pt="30px">
       <Box

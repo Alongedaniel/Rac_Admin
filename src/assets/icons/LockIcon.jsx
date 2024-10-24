@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const LockIcon = () => {
   return (
@@ -19,6 +19,6 @@ const LockIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default LockIcon
+export default LockIcon;

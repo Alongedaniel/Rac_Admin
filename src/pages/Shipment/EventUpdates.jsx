@@ -1,8 +1,7 @@
-import React from 'react'
+import React from "react";
 import { Box, Grid, Typography } from "@mui/material";
 
-
-const EventUpdates = ({id}) => {
+const EventUpdates = ({ id }) => {
   return (
     <Box
       p="20px"
@@ -88,6 +87,6 @@ const EventUpdates = ({id}) => {
       </Grid>
     </Box>
   );
-}
+};
 
-export default EventUpdates
+export default EventUpdates;

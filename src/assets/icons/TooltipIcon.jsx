@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const TooltipIcon = () => {
   return (
@@ -26,6 +26,6 @@ const TooltipIcon = () => {
       <circle cx="12" cy="12" r="10" stroke="#79747E" stroke-width="1.5" />
     </svg>
   );
-}
+};
 
-export default TooltipIcon
+export default TooltipIcon;

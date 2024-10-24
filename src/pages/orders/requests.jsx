@@ -1,11 +1,11 @@
-import OrderRequestComp from "../../components/order/order-request"
+import OrderRequestComp from "../../components/order/order-request";
 
 function OrderRequests() {
   return (
     <div>
-      <OrderRequestComp all/>
+      <OrderRequestComp all />
     </div>
-  )
+  );
 }
 
-export default OrderRequests
+export default OrderRequests;

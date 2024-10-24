@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const PercentageIcon = () => {
   return (
@@ -39,6 +39,6 @@ const PercentageIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default PercentageIcon
+export default PercentageIcon;

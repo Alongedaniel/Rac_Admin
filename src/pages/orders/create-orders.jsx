@@ -1,13 +1,13 @@
-import OrderFormRoot from "../../components/Forms/Order"
-import CreateOrder from "../../components/order/CreateOrder"
+import OrderFormRoot from "../../components/Forms/Order";
+import CreateOrder from "../../components/order/CreateOrder";
 
 function CreateOrders() {
   return (
-    <div >
+    <div>
       {/* <OrderFormRoot/> */}
-      <CreateOrder  />
+      <CreateOrder />
     </div>
-  )
+  );
 }
 
-export default CreateOrders
+export default CreateOrders;

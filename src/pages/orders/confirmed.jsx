@@ -1,11 +1,11 @@
-import OrderHome from "../../components/order"
+import OrderHome from "../../components/order";
 
 function Confirmed() {
   return (
     <div>
-      <OrderHome all/>
+      <OrderHome all />
     </div>
-  )
+  );
 }
 
-export default Confirmed
+export default Confirmed;

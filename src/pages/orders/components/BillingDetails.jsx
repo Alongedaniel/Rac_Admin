@@ -30,16 +30,16 @@ const BillingDetails = ({
         order?.orderVat +
         totalCost
       : serviceType === "Auto Import"
-      ? order?.insurance +
-        order?.vat +
-        order?.storageCharges +
-        order?.paymentMethodSurcharge +
-        totalCost
-      : order?.insurance +
-        order?.vat +
-        order?.storageCharges +
-        order?.paymentMethodSurcharge +
-        totalCost;
+        ? order?.insurance +
+          order?.vat +
+          order?.storageCharges +
+          order?.paymentMethodSurcharge +
+          totalCost
+        : order?.insurance +
+          order?.vat +
+          order?.storageCharges +
+          order?.paymentMethodSurcharge +
+          totalCost;
   return (
     <>
       {(type === "request" || isRequest) &&

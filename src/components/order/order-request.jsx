@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
@@ -30,7 +29,7 @@ import { toTitleCase } from "../../pages/orders/order-details";
 
 export const GetCustomerName = ({ id }) => {
   const { data: customer, loading } = useCustomGetRequest(
-    `/admin/users/${id}` ?? ""
+    `/admin/users/${id}` ?? "",
   );
   return (
     <Typography color="#21005D">
@@ -71,7 +70,7 @@ function OrderRequestComp({ home = false, all = false }) {
   const { userid } = useParams();
   console.log(userid);
   const { data, loading, setError, error } = useCustomGetRequest(
-    all ? `/cross-service/all-services` : `/admin/user-orders/${userid}`
+    all ? `/cross-service/all-services` : `/admin/user-orders/${userid}`,
   );
   console.log(data);
   const [openError, setOpenError] = useState(false);
@@ -89,15 +88,16 @@ function OrderRequestComp({ home = false, all = false }) {
           row.requestStatus === "responded"
             ? "Approved"
             : row.requestStatus === "not responded" ||
-              row.requestStatus === "Not Responded"
-            ? "Not Responded"
-            : "Declined"
-                .split(" ")
-                .map(
-                  (x, i) => x.charAt(0).toUpperCase() + x.slice(1).toLowerCase()
-                )
-                .join(" "),
-      }))
+                row.requestStatus === "Not Responded"
+              ? "Not Responded"
+              : "Declined"
+                  .split(" ")
+                  .map(
+                    (x, i) =>
+                      x.charAt(0).toUpperCase() + x.slice(1).toLowerCase(),
+                  )
+                  .join(" "),
+      })),
     );
   }, [loading]);
 
@@ -375,7 +375,7 @@ function OrderRequestComp({ home = false, all = false }) {
       ? rows.filter(
           (row) =>
             row.requestId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            row.requestStatus.toLowerCase().includes(searchQuery.toLowerCase())
+            row.requestStatus.toLowerCase().includes(searchQuery.toLowerCase()),
         )
       : rows;
 

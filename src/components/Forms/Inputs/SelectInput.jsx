@@ -2,13 +2,7 @@
 
 import { forwardRef } from "react";
 
-
-
-
-const SelectInput = (
-  { id, label, options, ...props },
-  ref
-) => {
+const SelectInput = ({ id, label, options, ...props }, ref) => {
   return (
     <div className="relative z-0 w-full">
       <select

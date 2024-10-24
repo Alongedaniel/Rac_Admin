@@ -1,4 +1,11 @@
-import { Box, Button, Grid, MenuItem, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid,
+  MenuItem,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 import { IoChevronUpCircleOutline } from "react-icons/io5";
 import UserTag from "../../../assets/icons/UserTag";
@@ -34,9 +41,10 @@ const OrderInformation = ({
   const requestStatus =
     order?.request?.requestStatus === "responded"
       ? "Approved"
-      : order?.request?.requestStatus === "Not Responded"
-      ? "Not Responded"
-      : "Declined";
+      : (order?.request?.requestStatus === "Not Responded" ??
+          order?.request?.requestStatus === "not responded")
+        ? "Not Responded"
+        : "Declined";
   return type === "request" || isRequest ? (
     <>
       <div className="flex items-center space-x-[10px] ">

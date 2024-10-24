@@ -2,8 +2,6 @@
 import { DollarSquare } from "iconsax-react";
 import { useRef } from "react";
 
-
-
 const CurrencyInput = ({ id, label, value, onChange }) => {
   const ref = useRef(null);
 

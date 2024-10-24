@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const SecurityIcon = () => {
   return (
@@ -34,6 +34,6 @@ const SecurityIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default SecurityIcon
+export default SecurityIcon;

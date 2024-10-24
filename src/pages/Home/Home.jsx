@@ -80,7 +80,7 @@ const Home = () => {
     },
   ];
   if (!isAuthenticated && !openModal)
-    return <Navigate to='/login' state={{from: location.pathname}} />
+    return <Navigate to="/login" state={{ from: location.pathname }} />;
   return (
     <Box p="32px 40px">
       <Box display="flex" gap="16px" mb="24px">

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const UserTag = () => {
   return (
@@ -17,6 +17,6 @@ const UserTag = () => {
       />
     </svg>
   );
-}
+};
 
-export default UserTag
+export default UserTag;

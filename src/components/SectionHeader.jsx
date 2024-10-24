@@ -1,8 +1,8 @@
-import { Box } from '@mui/material'
-import React from 'react'
-import CircleRight from '../assets/icons/CircleRight';
+import { Box } from "@mui/material";
+import React from "react";
+import CircleRight from "../assets/icons/CircleRight";
 
-const SectionHeader = ({title, noBorder}) => {
+const SectionHeader = ({ title, noBorder }) => {
   return (
     <Box>
       <div className="flex items-center space-x-[10px] ">
@@ -11,11 +11,13 @@ const SectionHeader = ({title, noBorder}) => {
           {title}
         </p>
       </div>
-      {!noBorder && <Box pl="30px">
-        <Box mt="10px" width="100%" height="1px" bgcolor="#79747E"></Box>
-          </Box>}
+      {!noBorder && (
+        <Box pl="30px">
+          <Box mt="10px" width="100%" height="1px" bgcolor="#79747E"></Box>
+        </Box>
+      )}
     </Box>
   );
-}
+};
 
-export default SectionHeader
+export default SectionHeader;

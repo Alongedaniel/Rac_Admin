@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const CloseSquare = () => {
   return (
@@ -15,6 +15,6 @@ const CloseSquare = () => {
       />
     </svg>
   );
-}
+};
 
-export default CloseSquare
+export default CloseSquare;

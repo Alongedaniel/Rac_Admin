@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const AuthenticatorIcon = () => {
   return (
@@ -31,6 +31,6 @@ const AuthenticatorIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default AuthenticatorIcon
+export default AuthenticatorIcon;

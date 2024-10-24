@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react";
 
-const NewShipmentIcon = ({color='white'}) => {
+const NewShipmentIcon = ({ color = "white" }) => {
   return (
     <svg
       width="18"
@@ -23,6 +23,6 @@ const NewShipmentIcon = ({color='white'}) => {
       />
     </svg>
   );
-}
+};
 
-export default NewShipmentIcon
+export default NewShipmentIcon;

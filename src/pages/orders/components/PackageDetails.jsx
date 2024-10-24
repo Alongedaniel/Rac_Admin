@@ -1,13 +1,17 @@
-import React from 'react'
-import EditIcon from '../../../assets/icons/EditIcon';
-import { IoChevronUpCircleOutline } from 'react-icons/io5';
-import CircleRight from '../../../assets/icons/CircleRight';
-import { Box } from '@mui/material';
-import ItemBox from './ItemBox';
-import ProductBox from './ProductBox';
-import CardWrapper from '../../../components/order/components/CardWrapper';
-import { toTitleCase } from '../order-details';
-import AutoImportItem from '../../../components/order/components/AutoImportItem';
+import React, { useState } from "react";
+import EditIcon from "../../../assets/icons/EditIcon";
+import { IoChevronUpCircleOutline } from "react-icons/io5";
+import CircleRight from "../../../assets/icons/CircleRight";
+import { Box, Button } from "@mui/material";
+import ItemBox from "./ItemBox";
+import ProductBox from "./ProductBox";
+import CardWrapper from "../../../components/order/components/CardWrapper";
+import { toTitleCase } from "../order-details";
+import AutoImportItem from "../../../components/order/components/AutoImportItem";
+import AddIcon from "../../../assets/icons/AddIcon";
+import PackageDetailsForm from "../../../components/order/components/PackageDetailsForm";
+import UserModals from "../../Users/components/UserModals";
+import AutoImportPackageDetails from "../../../components/order/components/AutoImportPackageDetails";
 
 const PackageDetails = ({
   confirm = false,
@@ -19,8 +23,13 @@ const PackageDetails = ({
   setActiveStep,
   refetch,
   requestId,
-  service, origin
+  service,
+  origin,
+  setOrigin,
+  requests,
+  setrequests,
 }) => {
+  const [open, setOpen] = useState(false);
   return (
     <div className="">
       <div className="flex items-center space-x-[10px] ">
@@ -172,40 +181,81 @@ const PackageDetails = ({
                 isRequest={isRequest}
                 activeStep={activeStep}
               />
-            )
+            ),
           )
         : order?.request?.requestItems
-        ? order?.request?.requestItems?.map((item, i) => (
-            <ItemBox
-              confirm={order?.request?.requestStatus === "Not Responded"}
-              activeStep={activeStep}
-              proceed={proceed}
-              isRequest={isRequest}
-              order={order}
-              item={item}
-              type={type}
-              itemNumber={i + 1}
-              refetch={refetch}
-            />
-          ))
-        : order?.map((item, i) => (
-            <ItemBox
-              confirm={false}
-              activeStep={activeStep}
-              setActiveStep={setActiveStep}
-              proceed={proceed}
-              isRequest={isRequest}
-              order={order}
-              item={item}
-              type={type}
-              itemNumber={i + 1}
-              refetch={refetch}
-              requestId={requestId}
-              requestService={service}
-            />
-          ))}
+          ? order?.request?.requestItems?.map((item, i) => (
+              <ItemBox
+                confirm={order?.request?.requestStatus === "Not Responded"}
+                activeStep={activeStep}
+                proceed={proceed}
+                isRequest={isRequest}
+                order={order}
+                item={item}
+                type={type}
+                itemNumber={i + 1}
+                refetch={refetch}
+              />
+            ))
+          : order?.map((item, i) => (
+              <ItemBox
+                confirm={false}
+                activeStep={activeStep}
+                setActiveStep={setActiveStep}
+                proceed={proceed}
+                isRequest={isRequest}
+                order={order}
+                item={item}
+                type={type}
+                itemNumber={i + 1}
+                refetch={refetch}
+                requestId={requestId}
+                requestService={service}
+              />
+            ))}
+      {(type === "request" || isRequest) && proceed && (
+        <Button
+          startIcon={<AddIcon color="#E6E1E5" />}
+          variant="contained"
+          sx={{
+            mt: "20px",
+            bgcolor: "#49454F",
+            color: "#E6E1E5",
+            width: "233px",
+            height: "56px",
+            borderRadius: "20px",
+            textTransform: "none",
+          }}
+          onClick={() => setOpen(true)}
+        >
+          Add new product/item
+        </Button>
+      )}
+      <UserModals
+        open={open}
+        onClose={() => setOpen(false)}
+        title="Edit Package Details"
+      >
+        {toTitleCase(order?.serviceType) === "Auto Import" ? (
+          <AutoImportPackageDetails
+            setOrigin={setOrigin}
+            origin={origin}
+            requests={requests}
+            setrequests={setrequests}
+            service={toTitleCase(order?.request?.serviceType)}
+          />
+        ) : (
+          <PackageDetailsForm
+            setOrigin={setOrigin}
+            origin={origin}
+            requests={requests}
+            setrequests={setrequests}
+            service={toTitleCase(order?.request?.serviceType)}
+          />
+        )}
+      </UserModals>
     </div>
   );
 };
 
-export default PackageDetails
+export default PackageDetails;

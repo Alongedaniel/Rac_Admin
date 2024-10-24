@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const RetryIcon = () => {
   return (
@@ -23,6 +23,6 @@ const RetryIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default RetryIcon
+export default RetryIcon;

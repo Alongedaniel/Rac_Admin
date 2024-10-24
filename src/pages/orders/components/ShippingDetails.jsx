@@ -1,16 +1,21 @@
-import React, { useState } from 'react'
-import { IoChevronUpCircleOutline } from 'react-icons/io5';
-import EditIcon from '../../../assets/icons/EditIcon';
-import { Box, Button } from '@mui/material';
-import CircleRight from '../../../assets/icons/CircleRight';
-import CardWrapper from '../../../components/order/components/CardWrapper';
-import UserModals from '../../Users/components/UserModals';
-import ShippingDetailsForm from '../../../components/order/components/ShippingDetailsForm';
-import ArrowLeftPurple from '../../../assets/icons/ArrowLeftPurple';
-import ArrowRightWhite from '../../../assets/icons/ArrowRightWhite';
+import React, { useState } from "react";
+import { IoChevronUpCircleOutline } from "react-icons/io5";
+import EditIcon from "../../../assets/icons/EditIcon";
+import { Box, Button } from "@mui/material";
+import CircleRight from "../../../assets/icons/CircleRight";
+import CardWrapper from "../../../components/order/components/CardWrapper";
+import UserModals from "../../Users/components/UserModals";
+import ShippingDetailsForm from "../../../components/order/components/ShippingDetailsForm";
+import ArrowLeftPurple from "../../../assets/icons/ArrowLeftPurple";
+import ArrowRightWhite from "../../../assets/icons/ArrowRightWhite";
 
-const ShippingDetails = ({ type='', order, proceed=false, isRequest='' }) => {
-  const [open, setOpen] = useState(false)
+const ShippingDetails = ({
+  type = "",
+  order,
+  proceed = false,
+  isRequest = "",
+}) => {
+  const [open, setOpen] = useState(false);
   return (
     <>
       {type === "request" ||
@@ -111,7 +116,7 @@ const ShippingDetails = ({ type='', order, proceed=false, isRequest='' }) => {
                   </div>
                 </div>
               </CardWrapper>
-              {(type === "request" || isRequest ) && !proceed ? null : (
+              {(type === "request" || isRequest) && !proceed ? null : (
                 <Box onClick={() => setOpen(true)}>
                   <EditIcon />
                 </Box>
@@ -160,6 +165,6 @@ const ShippingDetails = ({ type='', order, proceed=false, isRequest='' }) => {
       )}
     </>
   );
-}
+};
 
-export default ShippingDetails
+export default ShippingDetails;

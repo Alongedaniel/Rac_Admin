@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const TickCircle = ({ color = "#21005D" }) => {
   return (
@@ -17,4 +17,4 @@ const TickCircle = ({ color = "#21005D" }) => {
   );
 };
 
-export default TickCircle
+export default TickCircle;

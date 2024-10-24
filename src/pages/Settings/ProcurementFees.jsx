@@ -22,7 +22,7 @@ import useCustomGetRequest from "../../utils/hooks/api/useCustomGetRequest";
 
 const ProcurementFees = () => {
   const { data: procurement, loading: procLoading } = useCustomGetRequest(
-    "/settings/urgent-purchase-fee/processing-fee"
+    "/settings/urgent-purchase-fee/processing-fee",
   );
   const navigate = useNavigate();
   const columns = ["Amount ($)", "Processing Fee ($)"];
@@ -347,7 +347,7 @@ const ProcurementFees = () => {
               onClick={() =>
                 customPutRequest(
                   "/settings/processing-fee-update",
-                  ProcurementFeesUpdateData
+                  ProcurementFeesUpdateData,
                 )
               }
             >

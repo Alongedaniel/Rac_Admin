@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const SuccessImageIcon = () => {
   return (
@@ -32,6 +32,6 @@ const SuccessImageIcon = () => {
       </defs>
     </svg>
   );
-}
+};
 
-export default SuccessImageIcon
+export default SuccessImageIcon;

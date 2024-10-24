@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const MenuIcon = () => {
   return (
@@ -29,6 +29,6 @@ const MenuIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default MenuIcon
+export default MenuIcon;

@@ -1,11 +1,11 @@
-import React from 'react'
-import CircleRight from '../../../assets/icons/CircleRight';
-import { Box, Tooltip } from '@mui/material';
-import CardWrapper from './CardWrapper';
-import EditIcon from '../../../assets/icons/EditIcon';
-import TooltipIcon from '../../../assets/icons/TooltipIcon';
+import React from "react";
+import CircleRight from "../../../assets/icons/CircleRight";
+import { Box, Tooltip } from "@mui/material";
+import CardWrapper from "./CardWrapper";
+import EditIcon from "../../../assets/icons/EditIcon";
+import TooltipIcon from "../../../assets/icons/TooltipIcon";
 
-const BillingDetailsInfo = ({order, service, view}) => {
+const BillingDetailsInfo = ({ order, service, view }) => {
   return (
     <div className="">
       <div className="flex items-center space-x-[10px] ">
@@ -171,6 +171,6 @@ items have been procured and brought to the origin warehouse."
       </div>
     </div>
   );
-}
+};
 
-export default BillingDetailsInfo
+export default BillingDetailsInfo;

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const PlusIcon = () => {
   return (
@@ -30,6 +30,6 @@ const PlusIcon = () => {
       </defs>
     </svg>
   );
-}
+};
 
-export default PlusIcon
+export default PlusIcon;

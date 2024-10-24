@@ -94,8 +94,8 @@ const TwoFactorAuth = () => {
             {step === 1
               ? "Enter a 6-digit code from your back up codes that you have not used before to finish the login procedure"
               : step === 2
-              ? " Access your selected authenticator app (eg. Google Authenticator or any other one) and enter the 6-digit code provided to finish the login procedure"
-              : "A distinct code has been sent to your email address. Kindly check your inbox and enter the code provided to finish the login procedure"}
+                ? " Access your selected authenticator app (eg. Google Authenticator or any other one) and enter the 6-digit code provided to finish the login procedure"
+                : "A distinct code has been sent to your email address. Kindly check your inbox and enter the code provided to finish the login procedure"}
           </Typography>
         </Box>
         <Box

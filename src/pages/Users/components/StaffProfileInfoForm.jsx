@@ -275,6 +275,6 @@ const StaffProfileInfoForm = () => {
       </Box>
     </>
   );
-}
+};
 
-export default StaffProfileInfoForm
+export default StaffProfileInfoForm;

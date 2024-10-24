@@ -1,14 +1,7 @@
 /* eslint-disable react/prop-types */
-import {
-  forwardRef,
-} from "react";
+import { forwardRef } from "react";
 
-
-
-const TextAreaInput = (
-  { id, label, bg = "bg-neutral-10", ...props },
-  ref
-) => {
+const TextAreaInput = ({ id, label, bg = "bg-neutral-10", ...props }, ref) => {
   return (
     <div className="relative flex w-full flex-col">
       <textarea

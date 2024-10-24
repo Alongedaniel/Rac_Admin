@@ -1,4 +1,13 @@
-import { Backdrop, Box, Button, CircularProgress, Grid, Snackbar, TextField, Typography } from "@mui/material";
+import {
+  Backdrop,
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  Snackbar,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import CardWrapper from "./CardWrapper";
 import EditIcon from "../../../assets/icons/EditIcon";
@@ -14,7 +23,14 @@ import Requests from "../../../utils/hooks/api/requests";
 import CloseIcon from "../../../assets/icons/CloseIcon";
 import { toTitleCase } from "../../../pages/orders/order-details";
 
-const AutoImportItem = ({ view, item, itemNumber, proceed, refetch=() => {}, order }) => {
+const AutoImportItem = ({
+  view,
+  item,
+  itemNumber,
+  proceed,
+  refetch = () => {},
+  order,
+}) => {
   const { customPostRequest, loading, error, success, setSuccess, setError } =
     Requests();
   const today = dayjs();
@@ -30,37 +46,37 @@ const AutoImportItem = ({ view, item, itemNumber, proceed, refetch=() => {}, ord
   const [mileage, setMileage] = useState(item?.mileage || 0);
   const [model, setModel] = useState(item?.model || "");
   const [productionYear, setProductionYear] = useState(
-    item?.productionYear || ""
+    item?.productionYear || "",
   );
   const [vehicleIdNumber, setVehicleIdNumber] = useState(
-    item?.vehicleIdNumber || ""
+    item?.vehicleIdNumber || "",
   );
   const [additionalDescription, setAdditionalDescription] = useState(
-    item?.additionalDescription || ""
+    item?.additionalDescription || "",
   );
   const [address, setAddress] = useState(item?.pickupDetails?.address || "");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
   const [countryCode, setCountryCode] = useState(
-    item?.pickupDetails?.countryCode || ""
+    item?.pickupDetails?.countryCode || "",
   );
   const [email, setEmail] = useState(item?.pickupDetails?.email || "");
   const [firstName, setFirstName] = useState(
-    item?.pickupDetails?.firstName || ""
+    item?.pickupDetails?.firstName || "",
   );
   const [lastName, setLastName] = useState(item?.pickupDetails?.lastName || "");
   const [locationType, setLocationType] = useState(
-    item?.pickupDetails?.locationType || ""
+    item?.pickupDetails?.locationType || "",
   );
   const [phoneNumber, setPhoneNumber] = useState(
-    item?.pickupDetails?.phoneNumber || ""
+    item?.pickupDetails?.phoneNumber || "",
   );
   const [pickUpDate, setPickUpDate] = useState(
-    item?.pickupDetails?.pickUpDate || ""
+    item?.pickupDetails?.pickUpDate || "",
   );
   const [state, setState] = useState("");
   const [zipPostalCode, setZipPostalCode] = useState(
-    item?.pickupDetails?.zipPostalCode || ""
+    item?.pickupDetails?.zipPostalCode || "",
   );
   const [selectedCountry, setSelectedCountry] = useState();
   const [selectedState, setSelectedState] = useState();
@@ -70,18 +86,18 @@ const AutoImportItem = ({ view, item, itemNumber, proceed, refetch=() => {}, ord
   useEffect(() => {
     setStates(State.getStatesOfCountry(selectedCountry?.isoCode));
     setCities(
-      City.getCitiesOfState(selectedCountry?.isoCode, selectedState?.isoCode)
+      City.getCitiesOfState(selectedCountry?.isoCode, selectedState?.isoCode),
     );
   }, []);
 
-    useEffect(() => {
-      refetch();
-    }, [loading]);
-  
-    const handleClose = () => {
-      setError("");
-      setSuccess(false);
-    };
+  useEffect(() => {
+    refetch();
+  }, [loading]);
+
+  const handleClose = () => {
+    setError("");
+    setSuccess(false);
+  };
 
   const editedData = {
     service: toTitleCase(order?.serviceType),
@@ -101,12 +117,12 @@ const AutoImportItem = ({ view, item, itemNumber, proceed, refetch=() => {}, ord
     requestId: order?.request?.requestId,
     requestItemIndex: itemNumber - 1,
   };
-  console.log(editedData)
-    const handleUpdateItem = async () => {
-      try {
-        customPostRequest(`/cross-service/edit-requests`, editedData);
-      } catch (e) {}
-    };
+  console.log(editedData);
+  const handleUpdateItem = async () => {
+    try {
+      customPostRequest(`/cross-service/edit-requests`, editedData);
+    } catch (e) {}
+  };
   return (
     <Box
       sx={{
@@ -1077,7 +1093,7 @@ const AutoImportItem = ({ view, item, itemNumber, proceed, refetch=() => {}, ord
               textTransform: "none",
             }}
             onClick={() => {
-              handleUpdateItem()
+              handleUpdateItem();
               setOpenModal(false);
             }}
           >

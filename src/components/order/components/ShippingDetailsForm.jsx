@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import CircleRight from "../../../assets/icons/CircleRight";
-import { Box, Grid, MenuItem, TextField, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  Grid,
+  MenuItem,
+  TextField,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import TooltipIcon from "../../../assets/icons/TooltipIcon";
 
 const ShippingDetailsForm = ({
@@ -127,7 +134,10 @@ const ShippingDetailsForm = ({
                 },
               }}
             />
-            <Tooltip title="This is your shipping address, it is the location your package will be delivered to. You can then request for doorstep delivery upon arrival." placement="left-start">
+            <Tooltip
+              title="This is your shipping address, it is the location your package will be delivered to. You can then request for doorstep delivery upon arrival."
+              placement="left-start"
+            >
               <Box>
                 <TooltipIcon />
               </Box>

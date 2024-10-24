@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const UploadIcon = () => {
   return (
@@ -23,6 +23,6 @@ const UploadIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default UploadIcon
+export default UploadIcon;

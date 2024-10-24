@@ -40,20 +40,19 @@ const useCustomGetRequest = (url) => {
       setLoading(false);
     } catch (e) {
       if (e?.response?.request?.status === 401) {
-          setError("Token expired, Login again")
-          localStorage.removeItem("jwtToken");
-          localStorage.removeItem("isAuthenticated");
-          navigate("/login");
+        setError("Token expired, Login again");
+        localStorage.removeItem("jwtToken");
+        localStorage.removeItem("isAuthenticated");
+        navigate("/login");
       } else {
-        setError(e?.response?.data?.message)
-        if (e?.response?.data?.message === 'jwt expired') {
+        setError(e?.response?.data?.message);
+        if (e?.response?.data?.message === "jwt expired") {
           localStorage.removeItem("jwtToken");
           localStorage.removeItem("isAuthenticated");
           navigate("/login");
         }
         console.log(e?.response?.data?.message);
-        
-      };
+      }
       setData(null);
       setLoading(false);
     }

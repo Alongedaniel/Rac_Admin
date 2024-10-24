@@ -1,5 +1,5 @@
-import { IconButton } from '@mui/material'
-import React from 'react'
+import { IconButton } from "@mui/material";
+import React from "react";
 
 const DeletIcon = () => {
   return (
@@ -22,6 +22,6 @@ const DeletIcon = () => {
       </svg>
     </IconButton>
   );
-}
+};
 
-export default DeletIcon
+export default DeletIcon;

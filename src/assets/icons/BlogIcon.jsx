@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const BlogIcon = () => {
   return (
@@ -32,6 +32,6 @@ const BlogIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default BlogIcon
+export default BlogIcon;

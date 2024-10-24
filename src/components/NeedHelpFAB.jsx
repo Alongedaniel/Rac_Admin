@@ -14,7 +14,6 @@ function NeedHelpFAB() {
 
 export default NeedHelpFAB;
 
-
 const SupportIcon = () => {
   return (
     <svg
@@ -39,4 +38,3 @@ const SupportIcon = () => {
     </svg>
   );
 };
-

@@ -1,8 +1,8 @@
-import { Switch, useTheme } from '@mui/material';
-import React from 'react'
+import { Switch, useTheme } from "@mui/material";
+import React from "react";
 
 const SwitchCopm = () => {
-    const theme = useTheme()
+  const theme = useTheme();
   return (
     <Switch
       sx={{
@@ -44,6 +44,6 @@ const SwitchCopm = () => {
       }}
     />
   );
-}
+};
 
-export default SwitchCopm
+export default SwitchCopm;

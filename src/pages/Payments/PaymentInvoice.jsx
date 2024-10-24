@@ -37,29 +37,34 @@ const PaymentInvoice = ({ showFullBar, setShowFullBar }) => {
           "Discount:",
         ]
       : state.order.service === "Auto Import" &&
-        state.order.paymentFor === "Clearing & Port Handling Cost"
-      ? ["Customs Clearing:", "VAT:", "Payment Method Surcharge:", "Discount:"]
-      : state.order.service === "Auto Import"
-      ? [
-          "Pickup Cost:",
-          "Shipping Cost:",
-          "Other Charges:",
-          "Storage Charge:",
-          "Insurance:",
-          "VAT:",
-          "Payment Method Surcharge:",
-          "Discount:",
-        ]
-      : [
-          "Shipping Cost:",
-          "Clearing, Port Handling:",
-          "Other Charges:",
-          "Storage Charge:",
-          "Insurance:",
-          "VAT:",
-          "Payment Method Surcharge:",
-          "Discount:",
-        ];
+          state.order.paymentFor === "Clearing & Port Handling Cost"
+        ? [
+            "Customs Clearing:",
+            "VAT:",
+            "Payment Method Surcharge:",
+            "Discount:",
+          ]
+        : state.order.service === "Auto Import"
+          ? [
+              "Pickup Cost:",
+              "Shipping Cost:",
+              "Other Charges:",
+              "Storage Charge:",
+              "Insurance:",
+              "VAT:",
+              "Payment Method Surcharge:",
+              "Discount:",
+            ]
+          : [
+              "Shipping Cost:",
+              "Clearing, Port Handling:",
+              "Other Charges:",
+              "Storage Charge:",
+              "Insurance:",
+              "VAT:",
+              "Payment Method Surcharge:",
+              "Discount:",
+            ];
   const shopForMeItems = [
     {
       image: laptop,
@@ -992,160 +997,160 @@ const PaymentInvoice = ({ showFullBar, setShowFullBar }) => {
                       </Grid>
                     ))
                   : state.order.service === "Auto Import"
-                  ? autoImportItems.map((item, i) => (
-                      <Grid
-                        key={i}
-                        sx={{
-                          bgcolor: "#fff",
-                          borderBottom: "1px solid #79747E",
-                        }}
-                        container
-                        p="20px"
-                      >
+                    ? autoImportItems.map((item, i) => (
                         <Grid
-                          item
-                          xs={3}
+                          key={i}
                           sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "10px",
+                            bgcolor: "#fff",
+                            borderBottom: "1px solid #79747E",
                           }}
+                          container
+                          p="20px"
                         >
-                          <img
-                            src={item.image}
-                            alt="car"
-                            style={{
-                              width: "61px",
-                              height: "54px",
-                              borderRadius: "10px",
+                          <Grid
+                            item
+                            xs={3}
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "10px",
                             }}
-                          />
-                          <Typography
-                            fontSize={"14px"}
-                            fontWeight={600}
-                            color="#1D192B"
                           >
-                            {item.itemName}
-                          </Typography>
-                        </Grid>
-                        <Grid
-                          item
-                          xs={3}
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                          }}
-                        >
-                          <Typography fontSize={"14px"} fontWeight={600}>
-                            {item.itemColor}
-                          </Typography>
-                        </Grid>
-                        <Grid
-                          item
-                          xs={3}
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                          }}
-                        >
-                          <Typography fontSize={"14px"} fontWeight={600}>
-                            {item.itemValue}
-                          </Typography>
-                        </Grid>
-                        <Grid
-                          item
-                          xs={3}
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                          }}
-                        >
-                          <Typography fontSize={"14px"} fontWeight={600}>
-                            {item.pickupCost}
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                    ))
-                  : items.map((item, i) => (
-                      <Grid
-                        key={i}
-                        sx={{
-                          bgcolor: "#fff",
-                          borderBottom: "1px solid #79747E",
-                        }}
-                        container
-                        p="20px"
-                      >
-                        <Grid
-                          item
-                          xs={3}
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "10px",
-                          }}
-                        >
-                          <img
-                            src={item.image}
-                            alt="car"
-                            style={{
-                              width: "61px",
-                              height: "54px",
-                              borderRadius: "10px",
+                            <img
+                              src={item.image}
+                              alt="car"
+                              style={{
+                                width: "61px",
+                                height: "54px",
+                                borderRadius: "10px",
+                              }}
+                            />
+                            <Typography
+                              fontSize={"14px"}
+                              fontWeight={600}
+                              color="#1D192B"
+                            >
+                              {item.itemName}
+                            </Typography>
+                          </Grid>
+                          <Grid
+                            item
+                            xs={3}
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
                             }}
-                          />
-                          <Typography
-                            fontSize={"14px"}
-                            fontWeight={600}
-                            color="#1D192B"
                           >
-                            {item.itemName}
-                          </Typography>
+                            <Typography fontSize={"14px"} fontWeight={600}>
+                              {item.itemColor}
+                            </Typography>
+                          </Grid>
+                          <Grid
+                            item
+                            xs={3}
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <Typography fontSize={"14px"} fontWeight={600}>
+                              {item.itemValue}
+                            </Typography>
+                          </Grid>
+                          <Grid
+                            item
+                            xs={3}
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <Typography fontSize={"14px"} fontWeight={600}>
+                              {item.pickupCost}
+                            </Typography>
+                          </Grid>
                         </Grid>
+                      ))
+                    : items.map((item, i) => (
                         <Grid
-                          item
-                          xs={3}
+                          key={i}
                           sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
+                            bgcolor: "#fff",
+                            borderBottom: "1px solid #79747E",
                           }}
+                          container
+                          p="20px"
                         >
-                          <Typography fontSize={"14px"} fontWeight={600}>
-                            {item.itemCost}
-                          </Typography>
+                          <Grid
+                            item
+                            xs={3}
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "10px",
+                            }}
+                          >
+                            <img
+                              src={item.image}
+                              alt="car"
+                              style={{
+                                width: "61px",
+                                height: "54px",
+                                borderRadius: "10px",
+                              }}
+                            />
+                            <Typography
+                              fontSize={"14px"}
+                              fontWeight={600}
+                              color="#1D192B"
+                            >
+                              {item.itemName}
+                            </Typography>
+                          </Grid>
+                          <Grid
+                            item
+                            xs={3}
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <Typography fontSize={"14px"} fontWeight={600}>
+                              {item.itemCost}
+                            </Typography>
+                          </Grid>
+                          <Grid
+                            item
+                            xs={3}
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <Typography fontSize={"14px"} fontWeight={600}>
+                              {item.quantity}
+                            </Typography>
+                          </Grid>
+                          <Grid
+                            item
+                            xs={3}
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <Typography fontSize={"14px"} fontWeight={600}>
+                              {item.totalItemValue}
+                            </Typography>
+                          </Grid>
                         </Grid>
-                        <Grid
-                          item
-                          xs={3}
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                          }}
-                        >
-                          <Typography fontSize={"14px"} fontWeight={600}>
-                            {item.quantity}
-                          </Typography>
-                        </Grid>
-                        <Grid
-                          item
-                          xs={3}
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                          }}
-                        >
-                          <Typography fontSize={"14px"} fontWeight={600}>
-                            {item.totalItemValue}
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                    ))}
+                      ))}
                 <Grid
                   sx={{
                     bgcolor: "#fff",
@@ -1244,8 +1249,8 @@ const PaymentInvoice = ({ showFullBar, setShowFullBar }) => {
                 {state.order.paymentFor === "Procurement Cost"
                   ? "Procurement Costs Summary"
                   : state.order.service === "Auto Import"
-                  ? "Order Costs Summary"
-                  : "Shipping Costs Summary"}
+                    ? "Order Costs Summary"
+                    : "Shipping Costs Summary"}
               </Typography>
               <Box mb="15px">
                 {costDetails.map((x) => (
@@ -1316,16 +1321,16 @@ const PaymentInvoice = ({ showFullBar, setShowFullBar }) => {
                       ? "The total you are paying now includes only the Shop-for-me cost and excludes Shipment Cost which you are to pay upon arrival/clearing of your package."
                       : "The total you paid included only the Shop-for-me cost and excludes Shipment Cost which you are to pay upon arrival/clearing of your package."
                     : state.order.service === "Auto Import"
-                    ? type === "Invoice"
-                      ? "The total you are paying now includes the Shipping fees (and Pick up cost if applicable)  but excludes Clearing & Port Handling Cost which you are to pay upon arrival/clearing of your Car(s) in the port in Lagos, Nigeria"
-                      : "The total you paid included the Shipping fees (and Pick up cost if applicable)  but excludes Clearing & Port Handling Cost which you are to pay upon arrival/clearing of your Car(s) in the port in Lagos, Nigeria"
-                    : type === "Invoice"
-                    ? state.order.service === "Export"
-                      ? "The total the customer are paying here includes only the Shipping related costs"
-                      : "The total you are paying now includes only the Shipping related costs which you are to pay upon arrival/clearing of your package."
-                    : state.order.service === "Export"
-                    ? "The total paid includes only the Shipping related costs."
-                    : "The total paid upon arrival/clearing of this package includes only the Shipping related costs."}
+                      ? type === "Invoice"
+                        ? "The total you are paying now includes the Shipping fees (and Pick up cost if applicable)  but excludes Clearing & Port Handling Cost which you are to pay upon arrival/clearing of your Car(s) in the port in Lagos, Nigeria"
+                        : "The total you paid included the Shipping fees (and Pick up cost if applicable)  but excludes Clearing & Port Handling Cost which you are to pay upon arrival/clearing of your Car(s) in the port in Lagos, Nigeria"
+                      : type === "Invoice"
+                        ? state.order.service === "Export"
+                          ? "The total the customer are paying here includes only the Shipping related costs"
+                          : "The total you are paying now includes only the Shipping related costs which you are to pay upon arrival/clearing of your package."
+                        : state.order.service === "Export"
+                          ? "The total paid includes only the Shipping related costs."
+                          : "The total paid upon arrival/clearing of this package includes only the Shipping related costs."}
                 </Typography>
               </Box>
               <Box display="flex" alignItems="center" gap="10px">

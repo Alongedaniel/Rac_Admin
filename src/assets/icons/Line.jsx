@@ -1,5 +1,5 @@
-import React from 'react'
-import { Box } from '@mui/material'
+import React from "react";
+import { Box } from "@mui/material";
 
 const Line = () => {
   return (
@@ -7,6 +7,6 @@ const Line = () => {
       <Box borderTop="2px dashed #21005D" width="100%"></Box>
     </Box>
   );
-}
+};
 
-export default Line
+export default Line;

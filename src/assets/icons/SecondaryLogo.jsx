@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const SecondaryLogo = () => {
   return (
@@ -31,6 +31,6 @@ const SecondaryLogo = () => {
       />
     </svg>
   );
-}
+};
 
-export default SecondaryLogo
+export default SecondaryLogo;

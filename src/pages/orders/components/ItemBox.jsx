@@ -45,16 +45,16 @@ const ItemBox = ({
   const service = toTitleCase(order?.serviceType);
   const [productName, setProductName] = useState(item?.itemName);
   const [originalCost, setOriginalCost] = useState(
-    item?.itemOriginalCost ?? item?.originalCost ?? 0
+    item?.itemOriginalCost ?? item?.originalCost ?? 0,
   );
   const [store, setStore] = useState(item?.store);
   const [itemUrl, setItemUrl] = useState(item?.itemUrl);
   const [urgentPurchase, setUrgentPurchase] = useState(item?.urgentPurchase);
   const [quantityValue, setQuantityValue] = useState(
-    item?.qty ?? item?.quantity ?? 0
+    item?.qty ?? item?.quantity ?? 0,
   );
   const [productDescription, setProductDescription] = useState(
-    item?.itemDescription ?? item?.additionalDescription
+    item?.itemDescription ?? item?.additionalDescription,
   );
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -70,8 +70,8 @@ const ItemBox = ({
   const editedData = {
     service:
       service === "Shop For Me"
-        ? order?.serviceType ?? requestService
-        : service ?? requestService,
+        ? (order?.serviceType ?? requestService)
+        : (service ?? requestService),
     update:
       service === "Shop For Me"
         ? {
@@ -247,7 +247,7 @@ const ItemBox = ({
                 <p className="font-roboto  text-[20px] text-brand/100">
                   {service === "Shop For Me"
                     ? item?.additionalDescription
-                    : item?.itemDescription ?? "N/A"}
+                    : (item?.itemDescription ?? "N/A")}
                 </p>
               </div>
               {service === "Shop For Me" ? null : (

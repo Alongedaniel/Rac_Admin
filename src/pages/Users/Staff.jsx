@@ -381,7 +381,7 @@ const Staff = () => {
           color="#fff"
           sx={{
             bgcolor: getStatusBgColor(
-              params.row.isEmailVerified ? "Verified" : "Unverified"
+              params.row.isEmailVerified ? "Verified" : "Unverified",
             ),
             p: "5px 10px",
             borderRadius: "10px",

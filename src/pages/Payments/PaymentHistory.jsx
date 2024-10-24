@@ -31,7 +31,7 @@ const PaymentHistory = ({ all = false }) => {
   const location = useLocation();
   const userId = location?.state?.id;
   const { data, loading, setError, error } = useCustomGetRequest(
-    all ? `` : `/admin/user-payment-history/${userId}`
+    all ? `` : `/admin/user-payment-history/${userId}`,
   );
   console.log(data);
   const [openError, setOpenError] = useState(false);

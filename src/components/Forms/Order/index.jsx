@@ -10,10 +10,8 @@ import { SaveAdd, TickCircle } from "iconsax-react";
 // import { useSelector } from "react-redux";
 
 function OrderFormRoot() {
-
   const [formState, setFormState] = useState(0);
   // const order = useSelector((state) => state.order);
-
 
   const renderButtons = () => {
     return (

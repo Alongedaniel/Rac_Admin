@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const SubtractIcon = () => {
   return (
@@ -19,6 +19,6 @@ const SubtractIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default SubtractIcon
+export default SubtractIcon;

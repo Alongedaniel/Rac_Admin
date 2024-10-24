@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const GmailIcon = () => {
   return (
@@ -19,6 +19,6 @@ const GmailIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default GmailIcon
+export default GmailIcon;

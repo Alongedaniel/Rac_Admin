@@ -1,8 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useRef } from "react";
 
-
-
 const DateInput = ({ id, label, value, onChange }) => {
   const ref = useRef(null);
 
@@ -14,7 +12,6 @@ const DateInput = ({ id, label, value, onChange }) => {
   return (
     <div className="relative flex w-full flex-col">
       <div className="relative z-0">
-
         <input
           ref={ref}
           type="date"

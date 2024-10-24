@@ -8,22 +8,22 @@ export const UserContext = createContext(null);
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({});
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [bearerToken, setBearerToken] = useState('')
+  const [bearerToken, setBearerToken] = useState("");
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('')
-        // const job = new CronJob(
-        //   "1 * * * * *",
-        //   function () {
-        //     const res = axiosInstance.post("/admin/auth", '')
-        //     const res1 = axiosInstance.post("/admin/auth/otp", '')
-        //     const res2 =  axiosInstance.post("/users", '');
-        //   },
-        //   true
-        // );
-        // job.start();
+  const [error, setError] = useState("");
+  // const job = new CronJob(
+  //   "1 * * * * *",
+  //   function () {
+  //     const res = axiosInstance.post("/admin/auth", '')
+  //     const res1 = axiosInstance.post("/admin/auth/otp", '')
+  //     const res2 =  axiosInstance.post("/users", '');
+  //   },
+  //   true
+  // );
+  // job.start();
 
   useEffect(() => {
     const user = localStorage.getItem("user");
@@ -36,13 +36,10 @@ export const UserProvider = ({ children }) => {
       setBearerToken(JSON.parse(token));
     }
 
-
     const isAuthenticated = localStorage.getItem("isAuthenticated");
     if (isAuthenticated) {
       setIsAuthenticated(JSON.parse(isAuthenticated));
     }
-
-
   }, [loading]);
 
   const signUpMutation = useAccountAuthenticate();
@@ -75,14 +72,14 @@ export const UserProvider = ({ children }) => {
 
       setUser(res.data);
       setIsAuthenticated(true);
-      setBearerToken(res.data.jwt)
+      setBearerToken(res.data.jwt);
 
       localStorage.setItem("user", JSON.stringify(res.data));
       localStorage.setItem("jwtToken", JSON.stringify(res.data.jwt));
       localStorage.setItem("isAuthenticated", JSON.stringify(true));
 
       navigate("/");
-      setSuccess('Account verification successful')
+      setSuccess("Account verification successful");
       setLoading(false);
     } catch (e) {
       setError(e?.response?.data?.message);
@@ -97,21 +94,21 @@ export const UserProvider = ({ children }) => {
       setMessage(res.data.message);
       setLoading(false);
       navigate("/two-factor-auth");
-      setError('')
+      setError("");
     } catch (e) {
-      console.log(e)
-      if (e?.response?.request?.status == 404) setError('Not found')
-      else if (e?.response.request?.status == 500) setError("Invalid credentials");
+      console.log(e);
+      if (e?.response?.request?.status == 404) setError("Not found");
+      else if (e?.response.request?.status == 500)
+        setError("Invalid credentials");
       else setError(e?.response?.data?.message);
       setLoading(false);
     }
   };
   const logout = () => {
-
-      navigate("/login");
-      localStorage.removeItem("user");
-      localStorage.removeItem("jwtToken");
-      localStorage.removeItem("isAuthenticated");
+    navigate("/login");
+    localStorage.removeItem("user");
+    localStorage.removeItem("jwtToken");
+    localStorage.removeItem("isAuthenticated");
   };
   return (
     <UserContext.Provider

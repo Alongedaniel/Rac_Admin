@@ -1,127 +1,125 @@
-import { Box, Grid, Typography } from '@mui/material'
-import React from 'react'
-import car from'../../assets/images/car.png'
-import laptop from'../../assets/images/laptop.png'
+import { Box, Grid, Typography } from "@mui/material";
+import React from "react";
+import car from "../../assets/images/car.png";
+import laptop from "../../assets/images/laptop.png";
 
 const ShopForMeItems = ({ service }) => {
-    
-const shopForMeItems = [
-  {
-    image: laptop,
-    itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
-    itemLink: "htttp/jjnkkukja.jhgyja...",
-    itemCost: "$88.99",
-    urgentPurchase: "No",
-    quantity: 3,
-    totalItemValue: "$112.49",
-  },
-  {
-    image: laptop,
-    itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
-    itemLink: "htttp/jjnkkukja.jhgyja...",
-    itemCost: "$88.99",
-    urgentPurchase: "No",
-    quantity: 3,
-    totalItemValue: "$112.49",
-  },
-  {
-    image: laptop,
-    itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
-    itemLink: "htttp/jjnkkukja.jhgyja...",
-    itemCost: "$88.99",
-    urgentPurchase: "No",
-    quantity: 3,
-    totalItemValue: "$112.49",
-  },
-  {
-    image: laptop,
-    itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
-    itemLink: "htttp/jjnkkukja.jhgyja...",
-    itemCost: "$88.99",
-    urgentPurchase: "No",
-    quantity: 3,
-    totalItemValue: "$112.49",
-  },
-  {
-    image: laptop,
-    itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
-    itemLink: "htttp/jjnkkukja.jhgyja...",
-    itemCost: "$88.99",
-    urgentPurchase: "No",
-    quantity: 3,
-    totalItemValue: "$112.49",
-  },
-  {
-    image: laptop,
-    itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
-    itemLink: "htttp/jjnkkukja.jhgyja...",
-    itemCost: "$88.99",
-    urgentPurchase: "No",
-    quantity: 3,
-    totalItemValue: "$112.49",
-  },
-];
-const autoImportItems = [
-  {
-    image: car,
-    itemName: "Benz s10",
-    itemColor: "blue",
-    itemValue: "$88.99",
-    pickupCost: "$22.00",
-  },
-  {
-    image: car,
-    itemName: "Benz s10",
-    itemColor: "blue",
-    itemValue: "$88.99",
-    pickupCost: "$22.00",
-  },
-  {
-    image: car,
-    itemName: "Benz s10",
-    itemColor: "blue",
-    itemValue: "$88.99",
-    pickupCost: "$22.00",
-  },
-  {
-    image: car,
-    itemName: "Benz s10",
-    itemColor: "blue",
-    itemValue: "$88.99",
-    pickupCost: "$22.00",
-  },
-];
-const items = [
-  {
-    image: laptop,
-    itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
-    itemCost: "$88.99",
-    quantity: 3,
-    totalItemValue: "$112.49",
-  },
-  {
-    image: laptop,
-    itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
-    itemCost: "$88.99",
-    quantity: 3,
-    totalItemValue: "$112.49",
-  },
-  {
-    image: laptop,
-    itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
-    itemCost: "$88.99",
-    quantity: 3,
-    totalItemValue: "$112.49",
-  },
-  {
-    image: laptop,
-    itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
-    itemCost: "$88.99",
-    quantity: 3,
-    totalItemValue: "$112.49",
-  },
-];
-
+  const shopForMeItems = [
+    {
+      image: laptop,
+      itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
+      itemLink: "htttp/jjnkkukja.jhgyja...",
+      itemCost: "$88.99",
+      urgentPurchase: "No",
+      quantity: 3,
+      totalItemValue: "$112.49",
+    },
+    {
+      image: laptop,
+      itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
+      itemLink: "htttp/jjnkkukja.jhgyja...",
+      itemCost: "$88.99",
+      urgentPurchase: "No",
+      quantity: 3,
+      totalItemValue: "$112.49",
+    },
+    {
+      image: laptop,
+      itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
+      itemLink: "htttp/jjnkkukja.jhgyja...",
+      itemCost: "$88.99",
+      urgentPurchase: "No",
+      quantity: 3,
+      totalItemValue: "$112.49",
+    },
+    {
+      image: laptop,
+      itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
+      itemLink: "htttp/jjnkkukja.jhgyja...",
+      itemCost: "$88.99",
+      urgentPurchase: "No",
+      quantity: 3,
+      totalItemValue: "$112.49",
+    },
+    {
+      image: laptop,
+      itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
+      itemLink: "htttp/jjnkkukja.jhgyja...",
+      itemCost: "$88.99",
+      urgentPurchase: "No",
+      quantity: 3,
+      totalItemValue: "$112.49",
+    },
+    {
+      image: laptop,
+      itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
+      itemLink: "htttp/jjnkkukja.jhgyja...",
+      itemCost: "$88.99",
+      urgentPurchase: "No",
+      quantity: 3,
+      totalItemValue: "$112.49",
+    },
+  ];
+  const autoImportItems = [
+    {
+      image: car,
+      itemName: "Benz s10",
+      itemColor: "blue",
+      itemValue: "$88.99",
+      pickupCost: "$22.00",
+    },
+    {
+      image: car,
+      itemName: "Benz s10",
+      itemColor: "blue",
+      itemValue: "$88.99",
+      pickupCost: "$22.00",
+    },
+    {
+      image: car,
+      itemName: "Benz s10",
+      itemColor: "blue",
+      itemValue: "$88.99",
+      pickupCost: "$22.00",
+    },
+    {
+      image: car,
+      itemName: "Benz s10",
+      itemColor: "blue",
+      itemValue: "$88.99",
+      pickupCost: "$22.00",
+    },
+  ];
+  const items = [
+    {
+      image: laptop,
+      itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
+      itemCost: "$88.99",
+      quantity: 3,
+      totalItemValue: "$112.49",
+    },
+    {
+      image: laptop,
+      itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
+      itemCost: "$88.99",
+      quantity: 3,
+      totalItemValue: "$112.49",
+    },
+    {
+      image: laptop,
+      itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
+      itemCost: "$88.99",
+      quantity: 3,
+      totalItemValue: "$112.49",
+    },
+    {
+      image: laptop,
+      itemName: "SteelSeries Rival 5 Gaming Laptop with PrismSync RGB...",
+      itemCost: "$88.99",
+      quantity: 3,
+      totalItemValue: "$112.49",
+    },
+  ];
 
   return (
     <Box border="1px solid #CAC4D0" borderRadius="20px">
@@ -413,130 +411,138 @@ const items = [
             </Grid>
           ))
         : service === "Auto Import"
-        ? autoImportItems.map((item, i) => (
-            <Grid
-              key={i}
-              sx={{ bgcolor: "#fff", borderBottom: "1px solid #79747E" }}
-              container
-              p="20px"
-            >
+          ? autoImportItems.map((item, i) => (
               <Grid
-                item
-                xs={3}
-                sx={{ display: "flex", alignItems: "center", gap: "10px" }}
+                key={i}
+                sx={{ bgcolor: "#fff", borderBottom: "1px solid #79747E" }}
+                container
+                p="20px"
               >
-                <img
-                  src={item.image}
-                  alt="car"
-                  style={{ width: "61px", height: "54px" }}
-                />
-                <Typography fontSize={"14px"} fontWeight={600} color="#1D192B">
-                  {item.itemName}
-                </Typography>
+                <Grid
+                  item
+                  xs={3}
+                  sx={{ display: "flex", alignItems: "center", gap: "10px" }}
+                >
+                  <img
+                    src={item.image}
+                    alt="car"
+                    style={{ width: "61px", height: "54px" }}
+                  />
+                  <Typography
+                    fontSize={"14px"}
+                    fontWeight={600}
+                    color="#1D192B"
+                  >
+                    {item.itemName}
+                  </Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={3}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography fontSize={"14px"} fontWeight={600}>
+                    {item.itemColor}
+                  </Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={3}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography fontSize={"14px"} fontWeight={600}>
+                    {item.itemValue}
+                  </Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={3}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography fontSize={"14px"} fontWeight={600}>
+                    {item.pickupCost}
+                  </Typography>
+                </Grid>
               </Grid>
+            ))
+          : items.map((item, i) => (
               <Grid
-                item
-                xs={3}
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
+                key={i}
+                sx={{ bgcolor: "#fff", borderBottom: "1px solid #79747E" }}
+                container
+                p="20px"
               >
-                <Typography fontSize={"14px"} fontWeight={600}>
-                  {item.itemColor}
-                </Typography>
+                <Grid
+                  item
+                  xs={3}
+                  sx={{ display: "flex", alignItems: "center", gap: "10px" }}
+                >
+                  <img
+                    src={item.image}
+                    alt="car"
+                    style={{ width: "61px", height: "54px" }}
+                  />
+                  <Typography
+                    fontSize={"14px"}
+                    fontWeight={600}
+                    color="#1D192B"
+                  >
+                    {item.itemName}
+                  </Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={3}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography fontSize={"14px"} fontWeight={600}>
+                    {item.itemCost}
+                  </Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={3}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography fontSize={"14px"} fontWeight={600}>
+                    {item.quantity}
+                  </Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={3}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography fontSize={"14px"} fontWeight={600}>
+                    {item.totalItemValue}
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid
-                item
-                xs={3}
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Typography fontSize={"14px"} fontWeight={600}>
-                  {item.itemValue}
-                </Typography>
-              </Grid>
-              <Grid
-                item
-                xs={3}
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Typography fontSize={"14px"} fontWeight={600}>
-                  {item.pickupCost}
-                </Typography>
-              </Grid>
-            </Grid>
-          ))
-        : items.map((item, i) => (
-            <Grid
-              key={i}
-              sx={{ bgcolor: "#fff", borderBottom: "1px solid #79747E" }}
-              container
-              p="20px"
-            >
-              <Grid
-                item
-                xs={3}
-                sx={{ display: "flex", alignItems: "center", gap: "10px" }}
-              >
-                <img
-                  src={item.image}
-                  alt="car"
-                  style={{ width: "61px", height: "54px" }}
-                />
-                <Typography fontSize={"14px"} fontWeight={600} color="#1D192B">
-                  {item.itemName}
-                </Typography>
-              </Grid>
-              <Grid
-                item
-                xs={3}
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Typography fontSize={"14px"} fontWeight={600}>
-                  {item.itemCost}
-                </Typography>
-              </Grid>
-              <Grid
-                item
-                xs={3}
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Typography fontSize={"14px"} fontWeight={600}>
-                  {item.quantity}
-                </Typography>
-              </Grid>
-              <Grid
-                item
-                xs={3}
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Typography fontSize={"14px"} fontWeight={600}>
-                  {item.totalItemValue}
-                </Typography>
-              </Grid>
-            </Grid>
-          ))}
+            ))}
       <Grid
         sx={{
           bgcolor: "#fff",
@@ -627,6 +633,6 @@ const items = [
       </Grid>
     </Box>
   );
-}
+};
 
-export default ShopForMeItems
+export default ShopForMeItems;

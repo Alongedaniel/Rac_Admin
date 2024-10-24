@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const CircleRight = () => {
   return (
@@ -15,6 +15,6 @@ const CircleRight = () => {
       />
     </svg>
   );
-}
+};
 
-export default CircleRight
+export default CircleRight;

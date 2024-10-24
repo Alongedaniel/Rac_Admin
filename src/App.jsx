@@ -76,7 +76,7 @@ function App() {
       },
     },
   });
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated } = useAuth();
   const [showFullBar, setShowFullBar] = useState(true);
   return (
     <ThemeProvider theme={theme}>

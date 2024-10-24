@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const Qr = () => {
   return (
@@ -15,6 +15,6 @@ const Qr = () => {
       />
     </svg>
   );
-}
+};
 
-export default Qr
+export default Qr;
