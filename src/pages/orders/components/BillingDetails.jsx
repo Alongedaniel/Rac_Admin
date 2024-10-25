@@ -39,7 +39,9 @@ const BillingDetails = ({
           order?.vat +
           order?.storageCharges +
           order?.paymentMethodSurcharge +
-          totalCost;
+        totalCost;
+  
+  const details = order?.request?.billingInformation
   return (
     <>
       {(type === "request" || isRequest) &&
@@ -71,7 +73,7 @@ const BillingDetails = ({
                         Receiver's First Name:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        Malibu
+                        {details?.firstName}
                       </p>
                     </div>
                     <div className="">
@@ -79,7 +81,7 @@ const BillingDetails = ({
                         Receiver's Last Name:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        SHedrack
+                        {details?.lastName}
                       </p>
                     </div>
                     <div className="">
@@ -87,7 +89,7 @@ const BillingDetails = ({
                         Receiver's Phone Number:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        +234 803 456 7845
+                        {details?.phoneNumber}
                       </p>
                     </div>
                     <div className="">
@@ -95,7 +97,7 @@ const BillingDetails = ({
                         Receiver's Email:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        Malibushdrack@gmail.com
+                        {details?.email}
                       </p>
                     </div>
                   </div>
@@ -104,32 +106,32 @@ const BillingDetails = ({
                       Receiver's Address:
                     </p>
                     <p className="font-roboto  text-[20px] text-brand/100">
-                      No, 1osolo way, ikeja road, behind scaint merry
+                      {details?.address}
                     </p>
                   </div>
                   <div className="grid grid-cols-4 gap-[20px] mt-[30px] ">
                     <div className="">
                       <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        Destination Country:
+                        details Country:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        Turkey
+                        {details?.country}
                       </p>
                     </div>
                     <div className="">
                       <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        Destination State:
+                        details State:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        Istanbul
+                        {details?.state}
                       </p>
                     </div>
                     <div className="">
                       <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        Destination City:
+                        details City:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        Cyprusic
+                        {details?.city}
                       </p>
                     </div>
                     <div className="">
@@ -137,7 +139,7 @@ const BillingDetails = ({
                         Zip/postal Code:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        98765
+                        {details?.zipPostalCode}
                       </p>
                     </div>
                   </div>

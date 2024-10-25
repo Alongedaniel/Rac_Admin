@@ -95,6 +95,17 @@ function OrderDetails() {
   const shipmentMethods = ["Road", "Air", "Rail", "Sea"];
   const deliveryCompanies = ["DHL", "Gokada", "Glovo"];
   const [origin, setOrigin] = useState("");
+  const [destinationDetails, setDestinationDetails] = useState({
+    address: '',
+    firstName: '',
+    state: '',
+    country: '',
+    city: '',
+    email: '',
+    zipPostalCode: '',
+    countryCode: '',
+    phoneNumber: ''
+  });
 
   useEffect(() => {
     refetch();
@@ -116,6 +127,20 @@ function OrderDetails() {
             carTitle: null,
             productionYear: "",
             vehicleIdNumber: "",
+            pickupCost: {
+              address: "",
+              city: "",
+              country: "",
+              countryCode: "",
+              email: "",
+              firstName: "",
+              lastName: "",
+              locationType: "",
+              phoneNumber: "",
+              pickUpDate: "",
+              state: "",
+              zipPostalCode: "",
+            },
           },
         ]
       : toTitleCase(data?.serviceType) === "Shop For Me"
@@ -143,7 +168,7 @@ function OrderDetails() {
               idNumber: "",
               idType: "",
             },
-          ],
+          ]
   );
 
   useEffect(() => {
@@ -164,6 +189,7 @@ function OrderDetails() {
       // ...data?.request,
       origin: origin,
     },
+    destinationDetails: destinationDetails,
     requestItems: requests,
     // shippingAndBillingInfo: data?.request?.shippingAndBillingInfo,
   };
@@ -658,7 +684,7 @@ function OrderDetails() {
                               </p>
                               <p className="font-roboto  text-[20px]">
                                 {moment(data?.request?.createdAt).format(
-                                  "DD/MM/YYYY",
+                                  "DD/MM/YYYY"
                                 )}
                               </p>
                             </div>
@@ -669,7 +695,7 @@ function OrderDetails() {
                               </p>
                               <p className="font-roboto  text-[20px]">
                                 {moment(data?.request?.createdAt).format(
-                                  "HH:mm",
+                                  "HH:mm"
                                 )}
                               </p>
                             </div>
@@ -819,6 +845,7 @@ function OrderDetails() {
                         setrequests={setrequests}
                         setOrigin={setOrigin}
                         origin={origin}
+                        confirm={true}
                       />
                     ) : (
                       <PackageDetailsForm
@@ -850,6 +877,8 @@ function OrderDetails() {
                       <>
                         <ShippingDetails
                           proceed={proceed}
+                          destinationDetail={destinationDetails}
+                          setDestinationDetails={setDestinationDetails}
                           order={data}
                           type={type}
                         />
@@ -943,7 +972,7 @@ function OrderDetails() {
                                         ["background-color"],
                                         {
                                           duration: 500,
-                                        },
+                                        }
                                       ),
                                     },
                                   },
@@ -1037,7 +1066,7 @@ function OrderDetails() {
                                 </Typography>
                                 <Typography fontSize={"20px"} color="#1C1B1F">
                                   {currencyFormatter.format(
-                                    data?.request?.storageCharges,
+                                    data?.request?.storageCharges
                                   )}
                                 </Typography>
                               </Grid>
@@ -1047,7 +1076,7 @@ function OrderDetails() {
                                 </Typography>
                                 <Typography fontSize={"20px"} color="#1C1B1F">
                                   {currencyFormatter.format(
-                                    data?.request?.insurance,
+                                    data?.request?.insurance
                                   )}
                                 </Typography>
                               </Grid>
@@ -1057,7 +1086,7 @@ function OrderDetails() {
                                 </Typography>
                                 <Typography fontSize={"20px"} color="#1C1B1F">
                                   {currencyFormatter.format(
-                                    data?.request?.paymentMethodSurcharge,
+                                    data?.request?.paymentMethodSurcharge
                                   )}
                                 </Typography>
                               </Grid>
@@ -1127,7 +1156,8 @@ function OrderDetails() {
                   ) : activeStep === 3 ? (
                     data?.serviceType === "autoImport" ? (
                       <>
-                        <BillingDetails
+                                <BillingDetails
+                                
                           proceed={proceed}
                           order={data}
                           type={type}
@@ -1251,10 +1281,10 @@ function OrderDetails() {
                               <Typography fontSize="20px" color="#fff">
                                 {saveAsDraft
                                   ? `You have just saved this ${toTitleCase(
-                                      data?.serviceType,
+                                      data?.serviceType
                                     )} request to draft. The customer will not be informed about this order until this request has been approved.`
                                   : `You have just successfully approved this ${toTitleCase(
-                                      data?.serviceType,
+                                      data?.serviceType
                                     )} order request`}
                               </Typography>
                             </Box>
