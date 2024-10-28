@@ -304,7 +304,7 @@ const PackageDetails = ({
                 isRequest={isRequest}
                 activeStep={activeStep}
               />
-            )
+            ),
           )
         : order?.request?.requestItems
           ? order?.request?.requestItems?.map((item, i) => (

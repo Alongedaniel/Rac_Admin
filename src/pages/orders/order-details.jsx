@@ -684,7 +684,7 @@ function OrderDetails() {
                               </p>
                               <p className="font-roboto  text-[20px]">
                                 {moment(data?.request?.createdAt).format(
-                                  "DD/MM/YYYY"
+                                  "DD/MM/YYYY",
                                 )}
                               </p>
                             </div>
@@ -695,7 +695,7 @@ function OrderDetails() {
                               </p>
                               <p className="font-roboto  text-[20px]">
                                 {moment(data?.request?.createdAt).format(
-                                  "HH:mm"
+                                  "HH:mm",
                                 )}
                               </p>
                             </div>
@@ -972,7 +972,7 @@ function OrderDetails() {
                                         ["background-color"],
                                         {
                                           duration: 500,
-                                        }
+                                        },
                                       ),
                                     },
                                   },
@@ -1066,7 +1066,7 @@ function OrderDetails() {
                                 </Typography>
                                 <Typography fontSize={"20px"} color="#1C1B1F">
                                   {currencyFormatter.format(
-                                    data?.request?.storageCharges
+                                    data?.request?.storageCharges,
                                   )}
                                 </Typography>
                               </Grid>
@@ -1076,7 +1076,7 @@ function OrderDetails() {
                                 </Typography>
                                 <Typography fontSize={"20px"} color="#1C1B1F">
                                   {currencyFormatter.format(
-                                    data?.request?.insurance
+                                    data?.request?.insurance,
                                   )}
                                 </Typography>
                               </Grid>
@@ -1086,7 +1086,7 @@ function OrderDetails() {
                                 </Typography>
                                 <Typography fontSize={"20px"} color="#1C1B1F">
                                   {currencyFormatter.format(
-                                    data?.request?.paymentMethodSurcharge
+                                    data?.request?.paymentMethodSurcharge,
                                   )}
                                 </Typography>
                               </Grid>
@@ -1281,10 +1281,10 @@ function OrderDetails() {
                               <Typography fontSize="20px" color="#fff">
                                 {saveAsDraft
                                   ? `You have just saved this ${toTitleCase(
-                                      data?.serviceType
+                                      data?.serviceType,
                                     )} request to draft. The customer will not be informed about this order until this request has been approved.`
                                   : `You have just successfully approved this ${toTitleCase(
-                                      data?.serviceType
+                                      data?.serviceType,
                                     )} order request`}
                               </Typography>
                             </Box>
