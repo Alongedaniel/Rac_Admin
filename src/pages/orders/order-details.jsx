@@ -186,7 +186,7 @@ function OrderDetails() {
   const finish = activeStep === steps.length - 1;
   const handleNext = () => {
     if (toTitleCase(data?.serviceType) === "Shop For Me") {
-      if (!shipmentMethod && !deliveryCompany && activeStep === 0) {
+      if ((!shipmentMethod || !deliveryCompany) && activeStep === 0) {
         setOpenError(true);
         setError("Please input all fields");
         setRequired(true);
@@ -203,11 +203,11 @@ function OrderDetails() {
       toTitleCase(data?.serviceType) === "Export" ||
       toTitleCase(data?.serviceType) === "Import"
     ) {
-      if (!shipmentMethod && !deliveryCompany && activeStep === 0) {
+      if ((!shipmentMethod || !deliveryCompany) && activeStep === 0) {
         setOpenError(true);
         setError("Please input all fields");
         setRequired(true);
-      } else if (activeStep === 1 && !height && !width && !weight && !length) {
+      } else if (activeStep === 1 && (!height || !width || !weight || !length)) {
         setOpenError(true);
         setError("Please input all fields");
         setRequired(true);
