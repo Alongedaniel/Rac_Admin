@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const BackIcon = () => {
   return (
@@ -15,6 +15,6 @@ const BackIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default BackIcon
+export default BackIcon;

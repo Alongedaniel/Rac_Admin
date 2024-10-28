@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react";
 
-const AddIcon = ({color="#49454F"}) => {
+const AddIcon = ({ color = "#49454F" }) => {
   return (
     <svg
       width="25"
@@ -19,6 +19,6 @@ const AddIcon = ({color="#49454F"}) => {
       />
     </svg>
   );
-}
+};
 
-export default AddIcon
+export default AddIcon;

@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react";
 
-const MinusCircle = ({left = '-10px'}) => {
+const MinusCircle = ({ left = "-10px" }) => {
   return (
     <svg
       style={{ position: "relative", left: left }}
@@ -16,6 +16,6 @@ const MinusCircle = ({left = '-10px'}) => {
       />
     </svg>
   );
-}
+};
 
-export default MinusCircle
+export default MinusCircle;

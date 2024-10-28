@@ -1,21 +1,21 @@
-import { Box, Button, IconButton, Typography } from '@mui/material';
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-import ArrowBack from '../../assets/icons/ArrowBack';
-import PaymentsTable from './components/PaymentsTable';
-import TableValue from './components/TableValue';
-import CloseCircle from '../../assets/icons/CloseCircle';
-import ArrowRightWhite from '../../assets/icons/ArrowRightWhite';
+import { Box, Button, IconButton, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import ArrowBack from "../../assets/icons/ArrowBack";
+import PaymentsTable from "./components/PaymentsTable";
+import TableValue from "./components/TableValue";
+import CloseCircle from "../../assets/icons/CloseCircle";
+import ArrowRightWhite from "../../assets/icons/ArrowRightWhite";
 
 const CustomerSupport = () => {
-    // const columns = ["Currency", "Naira Rate (₦)"];
-    const rows = ["Call Phone Number", "WhatsApp Number", "Email"];
-    const navigate = useNavigate();
-    const [value, setValue] = useState("0000000000");
-    const [email, setEmail] = useState("abcd@raclogistics.com");
+  // const columns = ["Currency", "Naira Rate (₦)"];
+  const rows = ["Call Phone Number", "WhatsApp Number", "Email"];
+  const navigate = useNavigate();
+  const [value, setValue] = useState("0000000000");
+  const [email, setEmail] = useState("abcd@raclogistics.com");
   return (
     <Box p="24px 40px">
-      <Box p="24px" borderRadius="20px" bgcolor="#fff" >
+      <Box p="24px" borderRadius="20px" bgcolor="#fff">
         <IconButton onClick={() => navigate(-1)} sx={{ mb: "10px" }}>
           <ArrowBack />
         </IconButton>
@@ -64,6 +64,6 @@ const CustomerSupport = () => {
       </Box>
     </Box>
   );
-}
+};
 
-export default CustomerSupport
+export default CustomerSupport;

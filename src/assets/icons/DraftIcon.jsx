@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const DraftIcon = () => {
   return (
@@ -19,6 +19,6 @@ const DraftIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default DraftIcon
+export default DraftIcon;

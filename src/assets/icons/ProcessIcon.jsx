@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const ProcessIcon = () => {
   return (
@@ -15,6 +15,6 @@ const ProcessIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default ProcessIcon
+export default ProcessIcon;

@@ -1,10 +1,19 @@
-import { Box, IconButton, Typography } from '@mui/material'
-import React, { useState } from 'react'
-import ArrowCircleUp from '../../../assets/icons/ArrowCircleUp';
-import { ArrowCircleDown } from 'iconsax-react';
+import { Box, IconButton, Typography } from "@mui/material";
+import React, { useState } from "react";
+import ArrowCircleUp from "../../../assets/icons/ArrowCircleUp";
+import { ArrowCircleDown } from "iconsax-react";
 
-const CardWrapper = ({children, title, showRadio, fullByDefault, removeArrows, bottomRadius, topRadius, ...props }) => {
-    const [showFull, setShowFull] = useState(fullByDefault ? true : false)
+const CardWrapper = ({
+  children,
+  title,
+  showRadio,
+  fullByDefault,
+  removeArrows,
+  bottomRadius,
+  topRadius,
+  ...props
+}) => {
+  const [showFull, setShowFull] = useState(fullByDefault ? true : false);
   return (
     <Box
       {...props}
@@ -59,6 +68,6 @@ const CardWrapper = ({children, title, showRadio, fullByDefault, removeArrows, b
       </Box>
     </Box>
   );
-}
+};
 
-export default CardWrapper
+export default CardWrapper;

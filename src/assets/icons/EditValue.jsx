@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const EditValue = () => {
   return (
@@ -23,6 +23,6 @@ const EditValue = () => {
       />
     </svg>
   );
-}
+};
 
-export default EditValue
+export default EditValue;

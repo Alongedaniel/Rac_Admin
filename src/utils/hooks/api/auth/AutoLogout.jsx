@@ -1,11 +1,15 @@
 let logoutTimer;
-const logoutTime = 30 * 60 * 1000; 
+const logoutTime = 30 * 60 * 1000; // 30 minutes
 
 export const resetLogoutTimer = () => {
-  const currentTime = new Date().getTime();
-  localStorage.setItem("lastInteractionTime", currentTime);
-  clearTimeout(logoutTimer);
-  logoutTimer = setTimeout(checkInactivity, logoutTime);
+  // Update the last interaction time
+  localStorage.setItem(
+    "lastInteractionTime",
+    JSON.stringify(new Date().getTime()),
+  );
+
+  clearTimeout(logoutTimer); // Clear existing timer
+  logoutTimer = setTimeout(checkInactivity, logoutTime); // Set new timer
 };
 
 // Function to log out the user
@@ -17,25 +21,30 @@ function logout() {
 
 // Function to check inactivity and log out if necessary
 function checkInactivity() {
-  const lastInteractionTime = localStorage.getItem("lastInteractionTime");
+  const lastInteractionTime = JSON.parse(
+    localStorage.getItem("lastInteractionTime"),
+  );
+
   if (lastInteractionTime) {
     const currentTime = new Date().getTime();
     const timeElapsed = currentTime - lastInteractionTime;
+
     if (timeElapsed > logoutTime) {
       logout();
     }
   } else {
-    logout();
+    logout(); // If last interaction time is not set, log out immediately
   }
 }
 
-
+// Initialize event listeners
 window.addEventListener("load", () => {
-  checkInactivity();
-  resetLogoutTimer();
+  resetLogoutTimer(); // Start the timer on load
 });
 
-document.addEventListener("mousemove", resetLogoutTimer);
-document.addEventListener("keypress", resetLogoutTimer);
-document.addEventListener("click", resetLogoutTimer);
-document.addEventListener("scroll", resetLogoutTimer);
+// Use a single handler for multiple events
+const resetTimerHandler = () => resetLogoutTimer();
+document.addEventListener("mousemove", resetTimerHandler);
+document.addEventListener("keypress", resetTimerHandler);
+document.addEventListener("click", resetTimerHandler);
+document.addEventListener("scroll", resetTimerHandler);

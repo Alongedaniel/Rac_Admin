@@ -4,7 +4,7 @@ import ArrowLeftPurple from "../../assets/icons/ArrowLeftPurple";
 import { useNavigate } from "react-router-dom";
 
 const Settings = () => {
-    const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <Box p="32px 40px">
       <Box p="24px 30px" borderRadius="20px" bgcolor="#fff" maxWidth={"1300px"}>

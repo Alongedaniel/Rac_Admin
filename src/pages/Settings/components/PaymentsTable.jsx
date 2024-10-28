@@ -1,9 +1,15 @@
-import { Box, Typography } from '@mui/material'
-import React from 'react'
-import Information from '../../../assets/icons/Information';
+import { Box, Typography } from "@mui/material";
+import React from "react";
+import Information from "../../../assets/icons/Information";
 
-const PaymentsTable = ({columns=[], rows=[], allColored=false, children, tooltip=false, flex=undefined}) => {
-
+const PaymentsTable = ({
+  columns = [],
+  rows = [],
+  allColored = false,
+  children,
+  tooltip = false,
+  flex = undefined,
+}) => {
   return (
     <Box width="100%" overflow="auto">
       <Box display="flex" width="100%">
@@ -26,10 +32,10 @@ const PaymentsTable = ({columns=[], rows=[], allColored=false, children, tooltip
                 columns.length === 2 && i === 1
                   ? "100%"
                   : columns.length > 1 && i === 0
-                  ? "155px"
-                  : columns.length > 0 && i === 0
-                  ? "170px !important"
-                  : "110px"
+                    ? "155px"
+                    : columns.length > 0 && i === 0
+                      ? "170px !important"
+                      : "110px"
               }
               fontSize="14px"
               fontWeight={500}
@@ -59,8 +65,8 @@ const PaymentsTable = ({columns=[], rows=[], allColored=false, children, tooltip
                 allColored
                   ? "#F4EFF4"
                   : !allColored && (i + 1) % 2 === 0
-                  ? "#fff"
-                  : "#F4EFF4"
+                    ? "#fff"
+                    : "#F4EFF4"
               }
               borderBottom={
                 i + 1 === rows.length ? "none" : "1px solid #E7E0EC"
@@ -76,6 +82,6 @@ const PaymentsTable = ({columns=[], rows=[], allColored=false, children, tooltip
       </Box>
     </Box>
   );
-}
+};
 
-export default PaymentsTable
+export default PaymentsTable;

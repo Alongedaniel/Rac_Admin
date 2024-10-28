@@ -1,5 +1,5 @@
-import { IconButton } from '@mui/material';
-import React from 'react'
+import { IconButton } from "@mui/material";
+import React from "react";
 
 const EyeIconRed = () => {
   return (
@@ -28,6 +28,6 @@ const EyeIconRed = () => {
       </svg>
     </IconButton>
   );
-}
+};
 
-export default EyeIconRed
+export default EyeIconRed;

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const UserProfile = () => {
   return (
@@ -19,6 +19,6 @@ const UserProfile = () => {
       />
     </svg>
   );
-}
+};
 
-export default UserProfile
+export default UserProfile;

@@ -1,8 +1,5 @@
-import { BsThreeDots } from "react-icons/bs";
-// import { Menu, Transition } from "@headlessui/react";
-import { Fragment, useEffect, useState } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { useOrderRequestQuery } from "../../services/routes/order";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   Box,
   Button,
@@ -32,7 +29,7 @@ import { toTitleCase } from "../../pages/orders/order-details";
 
 export const GetCustomerName = ({ id }) => {
   const { data: customer, loading } = useCustomGetRequest(
-    `/admin/users/${id}` ?? ""
+    `/admin/users/${id}` ?? "",
   );
   return (
     <Typography color="#21005D">
@@ -45,7 +42,7 @@ export const GetCustomerName = ({ id }) => {
 
 export const getStatusBgColor = (status) => {
   switch (status) {
-    case "Responded":
+    case "Approved":
       return {
         backgroundColor: "#DF5000",
         borderColor: "transparent",
@@ -73,15 +70,35 @@ function OrderRequestComp({ home = false, all = false }) {
   const { userid } = useParams();
   console.log(userid);
   const { data, loading, setError, error } = useCustomGetRequest(
-    all ? `/cross-service/all-services` : `/admin/user-orders/${userid}`
+    all ? `/cross-service/all-services` : `/admin/user-orders/${userid}`,
   );
   console.log(data);
   const [openError, setOpenError] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
+  const [rows, setRows] = useState([]);
   useEffect(() => {
     if (error) {
       setOpenError(true);
     } else setOpenError(false);
+    setRows(
+      data?.requests[0]?.allData?.reverse()?.map((row) => ({
+        ...row,
+        id: row.requestId,
+        requestStatus:
+          row.requestStatus === "responded"
+            ? "Approved"
+            : row.requestStatus === "not responded" ||
+                row.requestStatus === "Not Responded"
+              ? "Not Responded"
+              : "Declined"
+                  .split(" ")
+                  .map(
+                    (x, i) =>
+                      x.charAt(0).toUpperCase() + x.slice(1).toLowerCase(),
+                  )
+                  .join(" "),
+      })),
+    );
   }, [loading]);
 
   const handleClose = (event, reason) => {
@@ -134,7 +151,7 @@ function OrderRequestComp({ home = false, all = false }) {
       renderCell: (params) => (
         <Typography
           onClick={() => navigate(`/order-requests/${params.row._id}`)}
-          sx={{ cursor: "pointer", display: 'flex', alignItems: 'center' }}
+          sx={{ cursor: "pointer", display: "flex", alignItems: "center" }}
           fontSize="14px"
           fontWeight={500}
           color="#000"
@@ -220,8 +237,8 @@ function OrderRequestComp({ home = false, all = false }) {
           p="5px 10px"
           sx={{
             borderRadius: "10px",
-      width: "120px",
-            cursor: 'pointer',
+            width: "120px",
+            cursor: "pointer",
             ...getStatusBgColor(params.row.requestStatus),
           }}
         >
@@ -244,57 +261,6 @@ function OrderRequestComp({ home = false, all = false }) {
         ),
       width: 150,
     },
-    // {
-    // flex: 1,
-    //   field: "cost",
-    //   headerName: <HeaderName header="Total Cost" />,
-    //   // type: "number",
-    //   width: 130,
-    //   renderCell: (params) => (
-    //     <Typography
-    //       fontSize="14px"
-    //       fontWeight={500}
-    //       color="#000"
-    //       sx={{ display: "flex", alignItems: "center", gap: "5px" }}
-    //     >
-    //       {params.row.status === "Responded" ? (
-    //         <Tooltip title={<Tip text1="Shipping cost: Paid" />}>
-    //           <div>
-    //             <CheckIcon />
-    //           </div>
-    //         </Tooltip>
-    //       ) : params.row.status === "Processing" ? (
-    //         <Tooltip title={<Tip text1="Shipping cost: Processing" />}>
-    //           <div>
-    //             <ProcessIcon />
-    //           </div>
-    //         </Tooltip>
-    //       ) : params.row.status === "Cancelled" ? (
-    //         <Tooltip title={<Tip text1="Shipping cost: Cancelled" />}>
-    //           <div>
-    //             <CloseSquare />
-    //           </div>
-    //         </Tooltip>
-    //       ) : (
-    //         <Tooltip
-    //           title={<Tip text1="Shipping cost: To be paid upon clearing" />}
-    //         >
-    //           <div>
-    //             <CheckMoreIcon />
-    //           </div>
-    //         </Tooltip>
-    //       )}
-    //       {params.row.cost}
-    //     </Typography>
-    //   ),
-    // },
-    // {
-    // flex: 1,
-    //   field: "type",
-    //   headerName: <HeaderName header="Type" />,
-    //   // type: "number",
-    //   width: 120,
-    // },
     {
       flex: 1,
       field: "staff",
@@ -303,28 +269,6 @@ function OrderRequestComp({ home = false, all = false }) {
       width: 170,
       renderCell: (params) => "N/A",
     },
-    // {
-    // flex: 1,
-    //   field: "packaging",
-    //   headerName: <HeaderName header="Packaging" />,
-    //   // type: "number",
-    //   width: 180,
-    //   sortable: false,
-    //   renderCell: (params) => (
-    //     <Typography
-    //       fontSize="14px"
-    //       fontWeight={500}
-    //       color="#fff"
-    //       sx={{
-    //         bgcolor: getPackagingBgColor(params.row.packaging),
-    //         p: "5px 10px",
-    //         borderRadius: "10px",
-    //       }}
-    //     >
-    //       {params.row.packaging}
-    //     </Typography>
-    //   ),
-    // },
     {
       flex: 1,
       field: "actions",
@@ -410,49 +354,137 @@ function OrderRequestComp({ home = false, all = false }) {
     // },
   ];
 
-  // const exports = (
-  //   data?.data?.allExportRequests ??
-  //   data?.exportOrders ??
-  //   []
-  // )?.map((request) => ({
-  //   ...request,
-  //   service: "Export",
+  // const rows = data?.requests[0]?.allData?.map((row) => ({
+  //   ...row,
+  //   id: row.requestId,
+  //   requestStatus:
+  //     row.requestStatus === "responded"
+  //       ? "Approved"
+  //       : row.requestStatus ===
+  //         "not responded" || row.requestStatus ===
+  //         "Not Responded" ? 'Not Responded' : 'Declined'
+  //           .split(" ")
+  //           .map((x, i) => x.charAt(0).toUpperCase() + x.slice(1).toLowerCase())
+  //           .join(" "),
   // }));
-  // const imports = (
-  //   data?.data?.allImportRequests ??
-  //   data?.importOrders ??
-  //   []
-  // )?.map((request) => ({
-  //   ...request,
-  //   service: "Import",
-  // }));
-  // const autoImports = (
-  //   data?.data?.allAutoImportRequests ??
-  //   data?.autoImportOrders ??
-  //   []
-  // )?.map((request) => ({
-  //   ...request,
-  //   service: "Auto Import",
-  // }));
-  // const shopForMe = (data?.data?.allSfmRequests ?? data?.sfmOrders ?? [])?.map(
-  //   (request) => ({
-  //     ...request,
-  //     service: "Shop For Me",
-  //   })
-  // );
+  const [searchQuery, setSearchQuery] = useState(null);
+  const [filteredRows, setFilteredRows] = useState(rows);
 
-  const rows = data?.requests[0]?.allData?.map((row) => ({
-    ...row,
-    id: row.requestId,
-    requestStatus: row.requestStatus
-      .split(" ")
-      .map((x, i) => x.charAt(0).toUpperCase() + x.slice(1).toLowerCase())
-      .join(" "),
-  }));
+  useEffect(() => {
+    const result = searchQuery
+      ? rows.filter(
+          (row) =>
+            row.requestId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            row.requestStatus.toLowerCase().includes(searchQuery.toLowerCase()),
+        )
+      : rows;
+
+    setFilteredRows(result);
+  }, [searchQuery, rows]);
+
+  const filterOptions = {
+    header: "Show Orders only under the following category",
+    options: [
+      {
+        title: "Staff(s) in charge",
+        subOptions: [
+          "Micheal Sam",
+          "Rexomi Off",
+          "Feradic Fintech",
+          "Exlemu Nudo",
+          "Ferincle Modifyv",
+          "Vickony Else",
+        ],
+      },
+      {
+        title: "Packaging status",
+        subOptions: [
+          "Not started",
+          "Packaging in progress",
+          "Packaging complete",
+        ],
+      },
+      {
+        title: "Order status",
+        subOptions: ["Processed", "Processing", "unprocessed"],
+      },
+      {
+        title: "Order cost",
+        subOptions: [
+          "$0 - $20",
+          "$20 - $50",
+          "$50 - $100",
+          "$100 - $500",
+          "Above $500",
+        ],
+      },
+      {
+        title: "Payment status",
+        subOptions: ["Confirmed", "Not yet confirmed", "Reversed"],
+      },
+      {
+        title: "Processed date",
+        subOptions: [],
+      },
+    ],
+  };
 
   console.log(rows);
+
   return (
     <>
+      <Box
+        display={home ? "none" : "flex"}
+        alignItems="center"
+        gap="50px"
+        sx={{ justifyContent: "space-between" }}
+        width="100%"
+        mb="16px"
+      >
+        <Box display="flex" alignItems="center" gap="20px" flex={1}>
+          <ActionButton
+            title="Filter view"
+            icon={<FilterIcons />}
+            items={filterOptions}
+          />
+          <TextField
+            id="search"
+            type="text"
+            placeholder="Search for orders with any related keyword"
+            value={searchQuery}
+            fullWidth
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+            }}
+            InputProps={{
+              sx: {
+                border: "1px solid #79747E",
+                height: "50px",
+                // width: "458px",
+                p: "4px 16px",
+                borderRadius: "16px",
+                input: {
+                  ml: "12px",
+                },
+              },
+              startAdornment: <SearchIcon />,
+            }}
+          />
+          <ActionButton
+            title="Bulk Actions"
+            icon={<BulkIcon />}
+            items={{ options: ["Decline Order Requests"] }}
+          />
+        </Box>
+        {/* <Box sx={{ flex: 1 }}> */}
+        {/* action={() => navigate("/create-new-order")} */}
+        <ActionButton
+          title="Create new request"
+          icon={<NewOrderIcon />}
+          action={() => navigate("/create-new-order")}
+        />
+        {/* </Box> */}
+      </Box>
       {loading ? (
         <Box
           width="100%"
@@ -463,44 +495,10 @@ function OrderRequestComp({ home = false, all = false }) {
         >
           <CircularProgress />
         </Box>
-      ) : rows?.length > 0 ? (
+      ) : filteredRows?.length > 0 ? (
         <Box>
-          <Box
-            display={home ? "none" : "flex"}
-            alignItems="center"
-            gap="10px"
-            sx={{ justifyContent: "space-between" }}
-            width="100%"
-            mb="16px"
-          >
-            <Box display="flex" alignItems="center" gap="20px">
-              <ActionButton title="Filter view" icon={<FilterIcons />} />
-              <TextField
-                id="search"
-                type="text"
-                placeholder="Search for orders with any related keyword"
-                InputProps={{
-                  sx: {
-                    border: "1px solid #79747E",
-                    height: "50px",
-                    // width: "458px",
-                    p: "4px 16px",
-                    borderRadius: "16px",
-                    input: {
-                      ml: "12px",
-                    },
-                  },
-                  startAdornment: <SearchIcon />,
-                }}
-              />
-              <ActionButton title="Bulk Actions" icon={<BulkIcon />} />
-            </Box>
-            {/* <Box sx={{ flex: 1 }}> */}
-            <ActionButton title="Create new request" icon={<NewOrderIcon />} />
-            {/* </Box> */}
-          </Box>
           <Box>
-            <OrderTable columns={columns} rows={rows} />
+            <OrderTable columns={columns} rows={filteredRows} />
           </Box>
         </Box>
       ) : (

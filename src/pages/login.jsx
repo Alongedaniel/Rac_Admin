@@ -4,16 +4,20 @@ import NeedHelpFAB from "../components/NeedHelpFAB";
 import ResetPasswordForm from "../components/Forms/Login/ResetPasswordForm";
 import TwoFactorAuth from "../components/Forms/Login/TwoFactorAuth";
 function Login() {
-  const location = useLocation()
+  const location = useLocation();
 
   const getCurrentPage = () => {
     switch (location.pathname) {
-      case "/login": return <LoginForm />;
-      case '/reset-password': return <ResetPasswordForm />;
-      case '/two-factor-auth': return <TwoFactorAuth />;
-      default: return <LoginForm />;
+      case "/login":
+        return <LoginForm />;
+      case "/reset-password":
+        return <ResetPasswordForm />;
+      case "/two-factor-auth":
+        return <TwoFactorAuth />;
+      default:
+        return <LoginForm />;
     }
-  }
+  };
   return (
     <>
       {getCurrentPage()}

@@ -1,88 +1,107 @@
-import { Box, Button, Card, CardContent, IconButton, InputAdornment, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
-import React, { useState } from 'react'
-import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import Shop from '../../../assets/icons/Shop';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import ArrowDown from '../../../assets/icons/ArrowDown';
-import dayjs from 'dayjs';
-import Calendar from '../../../assets/icons/Calendar';
-import DropDown from '../../../assets/icons/DropDown';
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  IconButton,
+  InputAdornment,
+  TextField,
+  ToggleButton,
+  ToggleButtonGroup,
+  Typography,
+} from "@mui/material";
+import React, { useState } from "react";
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+import Shop from "../../../assets/icons/Shop";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import ArrowDown from "../../../assets/icons/ArrowDown";
+import dayjs from "dayjs";
+import Calendar from "../../../assets/icons/Calendar";
+import DropDown from "../../../assets/icons/DropDown";
 
 const Chart = () => {
-    const [trend, setTrend] = useState('Orders');
-    const data = [
-      { name: "JAN", uv: 1000 },
-      { name: "FEB", uv: 3000 },
-      { name: "MAR", uv: 5000 },
-      { name: "APR", uv: 7000 },
-      { name: "MAY", uv: 20000 },
-      { name: "JUN", uv: 12000 },
-      { name: "JUL", uv: 25000 },
-      { name: "AUG", uv: 10000 },
-      { name: "SEP", uv: 15000 },
-      { name: "OCT", uv: 30000 },
-      { name: "NOV", uv: 20000 },
-      { name: "DEC", uv: 10000 },
-    ];
-    const revenueData = [
-      { name: "JAN", uv: "50000" },
-      { name: "FEB", uv: "100000" },
-      { name: "MAR", uv: "5000000" },
-      { name: "APR", uv: "3000000" },
-      { name: "MAY", uv: "1000000" },
-      { name: "JUN", uv: "5000000" },
-      { name: "JUL", uv: "7000000" },
-      { name: "AUG", uv: '500000'},
-      { name: "SEP", uv: '300000'},
-      { name: "OCT", uv: '8000000'},
-      { name: "NOV", uv: '5000000'},
-      { name: "DEC", uv: '10000000'},
-    ];
-    const [startDate, setStartDate] = useState(dayjs("Jan 01 2024"));
-    const [endDate, setEndDate] = useState(dayjs());
+  const [trend, setTrend] = useState("Orders");
+  const data = [
+    { name: "JAN", uv: 1000 },
+    { name: "FEB", uv: 3000 },
+    { name: "MAR", uv: 5000 },
+    { name: "APR", uv: 7000 },
+    { name: "MAY", uv: 20000 },
+    { name: "JUN", uv: 12000 },
+    { name: "JUL", uv: 25000 },
+    { name: "AUG", uv: 10000 },
+    { name: "SEP", uv: 15000 },
+    { name: "OCT", uv: 30000 },
+    { name: "NOV", uv: 20000 },
+    { name: "DEC", uv: 10000 },
+  ];
+  const revenueData = [
+    { name: "JAN", uv: "50000" },
+    { name: "FEB", uv: "100000" },
+    { name: "MAR", uv: "5000000" },
+    { name: "APR", uv: "3000000" },
+    { name: "MAY", uv: "1000000" },
+    { name: "JUN", uv: "5000000" },
+    { name: "JUL", uv: "7000000" },
+    { name: "AUG", uv: "500000" },
+    { name: "SEP", uv: "300000" },
+    { name: "OCT", uv: "8000000" },
+    { name: "NOV", uv: "5000000" },
+    { name: "DEC", uv: "10000000" },
+  ];
+  const [startDate, setStartDate] = useState(dayjs("Jan 01 2024"));
+  const [endDate, setEndDate] = useState(dayjs());
 
-    const formatYAxis = (tickItem) => {
-      if (tickItem >= 1000000) {
-        return `${trend === 'Revenue' ? '₦' : ''}${(tickItem / 1000000)}m`;
-      } else if (tickItem >= 1000) {
-        return `${trend === "Revenue" ? "₦" : ""}${tickItem / 1000}k`;
-      } else {
-        return trend === 'Revenue' ? "₦" : '' + tickItem;
-      }
-    };
+  const formatYAxis = (tickItem) => {
+    if (tickItem >= 1000000) {
+      return `${trend === "Revenue" ? "₦" : ""}${tickItem / 1000000}m`;
+    } else if (tickItem >= 1000) {
+      return `${trend === "Revenue" ? "₦" : ""}${tickItem / 1000}k`;
+    } else {
+      return trend === "Revenue" ? "₦" : "" + tickItem;
+    }
+  };
 
-    const CustomTooltip = ({ active, payload, label }) => {
-      if (active && payload && payload.length) {
-        return (
-          <Box
-            p="4px 24px"
-            bgcolor={trend === "Orders" ? "#6750A4" : "#7D5260"}
-            borderRadius="10px"
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      return (
+        <Box
+          p="4px 24px"
+          bgcolor={trend === "Orders" ? "#6750A4" : "#7D5260"}
+          borderRadius="10px"
+        >
+          <Typography textAlign="center" fontSize="11px" color="#fff">
+            {trend}
+          </Typography>
+          <Typography
+            textAlign="center"
+            fontSize="12px"
+            color="#fff"
+            fontWeight={500}
           >
-            <Typography textAlign="center" fontSize="11px" color="#fff">
-              {trend}
-            </Typography>
-            <Typography
-              textAlign="center"
-              fontSize="12px"
-              color="#fff"
-              fontWeight={500}
-            >
-              {payload[0].value}
-            </Typography>
-            <Typography
-              textAlign="center"
-              fontSize="8px"
-              color="#D0BCFF"
-              fontWeight={500}
-            >{`${label} ${dayjs().year()}`}</Typography>
-          </Box>
-        );
-      }
+            {payload[0].value}
+          </Typography>
+          <Typography
+            textAlign="center"
+            fontSize="8px"
+            color="#D0BCFF"
+            fontWeight={500}
+          >{`${label} ${dayjs().year()}`}</Typography>
+        </Box>
+      );
+    }
 
-      return null;
-    };
+    return null;
+  };
   return (
     <Card variant="outlined" sx={{ maxWidth: 640, borderRadius: "20px" }}>
       <CardContent>
@@ -212,10 +231,10 @@ const Chart = () => {
             </LocalizationProvider>
           </Box>
         </Box>
-        <Typography fontSize="11px" fontWeight={500} color="#625B71" mb='15px'>
+        <Typography fontSize="11px" fontWeight={500} color="#625B71" mb="15px">
           {trend === "Orders" ? "No of orders" : "Amount made"}
         </Typography>
-        <ResponsiveContainer width="100%" height={257} >
+        <ResponsiveContainer width="100%" height={257}>
           <AreaChart
             data={trend === "Orders" ? data : revenueData}
             margin={{
@@ -263,6 +282,6 @@ const Chart = () => {
       </CardContent>
     </Card>
   );
-}
+};
 
-export default Chart
+export default Chart;

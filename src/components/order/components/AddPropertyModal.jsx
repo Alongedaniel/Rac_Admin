@@ -1,9 +1,9 @@
-import { Box, Button, Modal, TextField, Typography } from '@mui/material'
-import React from 'react'
-import ArrowRightWhite from '../../../assets/icons/ArrowRightWhite';
-import AddIcon from '../../../assets/icons/AddIcon';
+import { Box, Button, Modal, TextField, Typography } from "@mui/material";
+import React from "react";
+import ArrowRightWhite from "../../../assets/icons/ArrowRightWhite";
+import AddIcon from "../../../assets/icons/AddIcon";
 
-const AddPropertyModal = ({open, onClose}) => {
+const AddPropertyModal = ({ open, onClose }) => {
   return (
     <Modal open={open} onClose={onClose}>
       <Box
@@ -35,7 +35,7 @@ const AddPropertyModal = ({open, onClose}) => {
           label (name of the property) like size, color, e.t.c, and optionally
           the description of the property.
         </Typography>
-        <Box display='flex' flexDirection='column' gap='30px'>
+        <Box display="flex" flexDirection="column" gap="30px">
           <TextField
             required
             id="item-url"
@@ -65,8 +65,8 @@ const AddPropertyModal = ({open, onClose}) => {
             label="Property Description"
             // value={productName}
             // onChange={(e) => setProductName(e.target.value)}
-                      fullWidth
-                      multiline
+            fullWidth
+            multiline
             rows={3}
             maxRows={3}
             placeholder="Property Description"
@@ -94,9 +94,15 @@ const AddPropertyModal = ({open, onClose}) => {
         >
           Add more properties
         </Button>
-        <Box p='24px' display='flex' alignItems='center' justifyContent='flex-end' gap='10px'>
-                  <Button
-                      onClick={onClose}
+        <Box
+          p="24px"
+          display="flex"
+          alignItems="center"
+          justifyContent="flex-end"
+          gap="10px"
+        >
+          <Button
+            onClick={onClose}
             variant="text"
             sx={{
               color: "#6750A4",
@@ -125,6 +131,6 @@ const AddPropertyModal = ({open, onClose}) => {
       </Box>
     </Modal>
   );
-}
+};
 
-export default AddPropertyModal
+export default AddPropertyModal;

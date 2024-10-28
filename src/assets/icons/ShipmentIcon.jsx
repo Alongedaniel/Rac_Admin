@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const ShipmentIcon = () => {
   return (
@@ -39,6 +39,6 @@ const ShipmentIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default ShipmentIcon
+export default ShipmentIcon;

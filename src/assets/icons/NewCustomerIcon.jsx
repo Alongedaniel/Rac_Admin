@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const NewCustomerIcon = () => {
   return (
@@ -19,6 +19,6 @@ const NewCustomerIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default NewCustomerIcon
+export default NewCustomerIcon;

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const BoxIcon = () => {
   return (
@@ -31,6 +31,6 @@ const BoxIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default BoxIcon
+export default BoxIcon;

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const Location = () => {
   return (
@@ -21,6 +21,6 @@ const Location = () => {
       />
     </svg>
   );
-}
+};
 
-export default Location
+export default Location;

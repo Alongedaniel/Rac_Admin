@@ -43,7 +43,7 @@ const ShipmentHistory = ({ all = false }) => {
   const location = useLocation();
   const userId = location?.state?.id;
   const { data, loading, setError, error } = useCustomGetRequest(
-    all ? `/admin/manage-all-shipment` : `/admin/get-shipments/${userId}`
+    all ? `/admin/manage-all-shipment` : `/admin/get-shipments/${userId}`,
   );
   console.log(data);
   const [openError, setOpenError] = useState(false);
@@ -482,13 +482,13 @@ const ShipmentHistory = ({ all = false }) => {
     (request) => ({
       ...request,
       service: "Export",
-    })
+    }),
   );
   const imports = (data?.data?.importOrders ?? data?.importOrders ?? [])?.map(
     (request) => ({
       ...request,
       service: "Import",
-    })
+    }),
   );
   const autoImports = (
     data?.data?.autoImportOrders ??
@@ -502,7 +502,7 @@ const ShipmentHistory = ({ all = false }) => {
     (request) => ({
       ...request,
       service: "Shop For Me",
-    })
+    }),
   );
 
   const rows = [...imports, ...exports, ...autoImports, ...shopForMe].map(
@@ -513,7 +513,7 @@ const ShipmentHistory = ({ all = false }) => {
         .split(" ")
         .map((x, i) => x.charAt(0).toUpperCase() + x.slice(1).toLowerCase())
         .join(" "),
-    })
+    }),
   );
   // const rows = [
   //   {

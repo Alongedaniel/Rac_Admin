@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const SwitchIcon = () => {
   return (
@@ -45,6 +45,6 @@ const SwitchIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default SwitchIcon
+export default SwitchIcon;

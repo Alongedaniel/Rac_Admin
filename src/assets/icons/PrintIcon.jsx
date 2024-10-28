@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const PrintIcon = () => {
   return (
@@ -23,6 +23,6 @@ const PrintIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default PrintIcon
+export default PrintIcon;

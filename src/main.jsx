@@ -18,5 +18,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </UserProvider>
       </QueryClientProvider>
     </Provider>
-  </BrowserRouter>
+  </BrowserRouter>,
 );

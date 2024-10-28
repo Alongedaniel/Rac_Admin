@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const ArrowRightWhite = () => {
   return (
@@ -15,6 +15,6 @@ const ArrowRightWhite = () => {
       />
     </svg>
   );
-}
+};
 
-export default ArrowRightWhite
+export default ArrowRightWhite;

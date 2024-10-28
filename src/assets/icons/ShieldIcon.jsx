@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const ShieldIcon = () => {
   return (
@@ -18,6 +18,6 @@ const ShieldIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default ShieldIcon
+export default ShieldIcon;

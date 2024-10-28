@@ -4,12 +4,11 @@ import CircleRight from "../../../assets/icons/CircleRight";
 import ArrowRightWhite from "../../../assets/icons/ArrowRightWhite";
 import ArrowLeftPurple from "../../../assets/icons/ArrowLeftPurple";
 
-
 const OrderInformationForm = ({
   shopForMe,
   setAssignedCustomer,
   assignedCustomer,
-    orderType,
+  orderType,
   setOrderType,
   service,
   setService,
@@ -21,8 +20,8 @@ const OrderInformationForm = ({
   const shipmentMethods = ["Road", "Air", "Rail", "Sea"];
   const deliveryCompanies = ["DHL", "Gokada", "Glovo"];
   const serviceList = ["Import", "Export", "Auto Import", "Shop For Me"];
-    const orderTypeList = ['Shipment', 'New Order', 'Reorder', 'Return']
-    
+  const orderTypeList = ["Shipment", "New Order", "Reorder", "Return"];
+
   return (
     <Box>
       <div className="flex items-center space-x-[10px] ">

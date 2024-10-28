@@ -1,132 +1,117 @@
-import { Box, Button, IconButton, Typography } from '@mui/material'
-import React from 'react'
-import ArrowBack from '../../assets/icons/ArrowBack'
-import Panel from './components/Panel';
-import SectionHeader from '../../components/SectionHeader';
-import { useNavigate } from 'react-router-dom';
-import CloseCircle from '../../assets/icons/CloseCircle';
-import { LuCheck } from 'react-icons/lu';
-import ScrollableSection from '../../components/ScrollableSection';
+import { Box, Button, IconButton, Typography } from "@mui/material";
+import React from "react";
+import ArrowBack from "../../assets/icons/ArrowBack";
+import Panel from "./components/Panel";
+import SectionHeader from "../../components/SectionHeader";
+import { useNavigate } from "react-router-dom";
+import CloseCircle from "../../assets/icons/CloseCircle";
+import { LuCheck } from "react-icons/lu";
+import ScrollableSection from "../../components/ScrollableSection";
 
 const NotificationsPage = () => {
-    const navigate = useNavigate()
-    const notifications = [
-      {
-        title: "Your payment for the Order OD78667 has been confirmed",
-        time: "1h ago",
-      },
-      {
-        title: "Your payment for the Order OD78667 has been confirmed",
-        time: "2d ago",
-      },
-      {
-        title:
-          "Your payment for the Order OD78667 has been confirmed",
-        time: "6d ago",
-      },
-      {
-        title:
-          "Your payment for the Order OD78667 has been confirmed",
-        time: "3w ago",
-      },
-      {
-        title:
-          "Your payment for the Order OD78667 has been confirmed",
-        time: "3w ago",
-      },
-      {
-        title: "Your payment for the Order OD78667 has been confirmed",
-        time: "1h ago",
-      },
-      {
-        title: "Your payment for the Order OD78667 has been confirmed",
-        time: "2d ago",
-      },
-      {
-        title:
-          "Your payment for the Order OD78667 has been confirmed",
-        time: "6d ago",
-      },
-      {
-        title:
-          "Your payment for the Order OD78667 has been confirmed",
-        time: "3w ago",
-      },
-      {
-        title:
-          "Your payment for the Order OD78667 has been confirmed",
-        time: "3w ago",
-      },
-      {
-        title: "Your payment for the Order OD78667 has been confirmed",
-        time: "1h ago",
-      },
-      {
-        title: "Your payment for the Order OD78667 has been confirmed",
-        time: "2d ago",
-      },
-      {
-        title:
-          "Your payment for the Order OD78667 has been confirmed",
-        time: "6d ago",
-      },
-      {
-        title:
-          "Your payment for the Order OD78667 has been confirmed",
-        time: "3w ago",
-      },
-      {
-        title:
-          "Your payment for the Order OD78667 has been confirmed",
-        time: "3w ago",
-      },
-      {
-        title: "Your payment for the Order OD78667 has been confirmed",
-        time: "1h ago",
-      },
-      {
-        title: "Your payment for the Order OD78667 has been confirmed",
-        time: "2d ago",
-      },
-      {
-        title:
-          "Your payment for the Order OD78667 has been confirmed",
-        time: "6d ago",
-      },
-      {
-        title:
-          "Your payment for the Order OD78667 has been confirmed",
-        time: "3w ago",
-      },
-      {
-        title:
-          "Your payment for the Order OD78667 has been confirmed",
-        time: "3w ago",
-      },
-      {
-        title: "Your payment for the Order OD78667 has been confirmed",
-        time: "1h ago",
-      },
-      {
-        title: "Your payment for the Order OD78667 has been confirmed",
-        time: "2d ago",
-      },
-      {
-        title:
-          "Your payment for the Order OD78667 has been confirmed",
-        time: "6d ago",
-      },
-      {
-        title:
-          "Your payment for the Order OD78667 has been confirmed",
-        time: "3w ago",
-      },
-      {
-        title:
-          "Your payment for the Order OD78667 has been confirmed",
-        time: "3w ago",
-      },
-    ];
+  const navigate = useNavigate();
+  const notifications = [
+    {
+      title: "Your payment for the Order OD78667 has been confirmed",
+      time: "1h ago",
+    },
+    {
+      title: "Your payment for the Order OD78667 has been confirmed",
+      time: "2d ago",
+    },
+    {
+      title: "Your payment for the Order OD78667 has been confirmed",
+      time: "6d ago",
+    },
+    {
+      title: "Your payment for the Order OD78667 has been confirmed",
+      time: "3w ago",
+    },
+    {
+      title: "Your payment for the Order OD78667 has been confirmed",
+      time: "3w ago",
+    },
+    {
+      title: "Your payment for the Order OD78667 has been confirmed",
+      time: "1h ago",
+    },
+    {
+      title: "Your payment for the Order OD78667 has been confirmed",
+      time: "2d ago",
+    },
+    {
+      title: "Your payment for the Order OD78667 has been confirmed",
+      time: "6d ago",
+    },
+    {
+      title: "Your payment for the Order OD78667 has been confirmed",
+      time: "3w ago",
+    },
+    {
+      title: "Your payment for the Order OD78667 has been confirmed",
+      time: "3w ago",
+    },
+    {
+      title: "Your payment for the Order OD78667 has been confirmed",
+      time: "1h ago",
+    },
+    {
+      title: "Your payment for the Order OD78667 has been confirmed",
+      time: "2d ago",
+    },
+    {
+      title: "Your payment for the Order OD78667 has been confirmed",
+      time: "6d ago",
+    },
+    {
+      title: "Your payment for the Order OD78667 has been confirmed",
+      time: "3w ago",
+    },
+    {
+      title: "Your payment for the Order OD78667 has been confirmed",
+      time: "3w ago",
+    },
+    {
+      title: "Your payment for the Order OD78667 has been confirmed",
+      time: "1h ago",
+    },
+    {
+      title: "Your payment for the Order OD78667 has been confirmed",
+      time: "2d ago",
+    },
+    {
+      title: "Your payment for the Order OD78667 has been confirmed",
+      time: "6d ago",
+    },
+    {
+      title: "Your payment for the Order OD78667 has been confirmed",
+      time: "3w ago",
+    },
+    {
+      title: "Your payment for the Order OD78667 has been confirmed",
+      time: "3w ago",
+    },
+    {
+      title: "Your payment for the Order OD78667 has been confirmed",
+      time: "1h ago",
+    },
+    {
+      title: "Your payment for the Order OD78667 has been confirmed",
+      time: "2d ago",
+    },
+    {
+      title: "Your payment for the Order OD78667 has been confirmed",
+      time: "6d ago",
+    },
+    {
+      title: "Your payment for the Order OD78667 has been confirmed",
+      time: "3w ago",
+    },
+    {
+      title: "Your payment for the Order OD78667 has been confirmed",
+      time: "3w ago",
+    },
+  ];
   return (
     <Box p="40px">
       <Box p="28px 24px" maxWidth="1200px" bgcolor="#fff" borderRadius="24px">
@@ -236,6 +221,6 @@ const NotificationsPage = () => {
       </Box>
     </Box>
   );
-}
+};
 
-export default NotificationsPage
+export default NotificationsPage;

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const Calendar = () => {
   return (
@@ -78,6 +78,6 @@ const Calendar = () => {
       />
     </svg>
   );
-}
+};
 
-export default Calendar
+export default Calendar;

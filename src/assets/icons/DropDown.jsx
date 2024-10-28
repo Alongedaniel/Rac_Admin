@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const DropDown = () => {
   return (
@@ -12,6 +12,6 @@ const DropDown = () => {
       <path d="M5.25 7.5L9 11.25L12.75 7.5H5.25Z" fill="#1C1B1F" />
     </svg>
   );
-}
+};
 
-export default DropDown
+export default DropDown;

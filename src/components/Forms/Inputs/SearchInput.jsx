@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import { SearchNormal1 } from "iconsax-react";
 
-
 const SearchInput = ({ id, label, value, onChange }) => {
   return (
     <div className="relative flex w-full">

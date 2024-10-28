@@ -20,7 +20,7 @@ import PlusIcon from "../../assets/icons/PlusIcon";
 import SubtractIcon from "../../assets/icons/SubtractIcon";
 import ArrowBack from "../../assets/icons/ArrowBack";
 import ArrowLeftPurple from "../../assets/icons/ArrowLeftPurple";
-import image from '../../assets/images/boxes.png'
+import image from "../../assets/images/boxes.png";
 import QuoteIcon from "../../assets/icons/QuoteIcon";
 
 const GetAQuote = () => {
@@ -710,8 +710,8 @@ const GetAQuote = () => {
             </Box>
           </Box>
         ) : (
-          <Box display='flex' justifyContent='space-between'>
-            <Box maxWidth='457px'>
+          <Box display="flex" justifyContent="space-between">
+            <Box maxWidth="457px">
               <Typography
                 fontSize="24px"
                 fontWeight={700}
@@ -743,7 +743,7 @@ const GetAQuote = () => {
                   $126.66
                 </Typography>
                 <Typography fontSize="14px" color="#fff">
-                  The Naira Equivalent that will be charged if paid now is{' '}
+                  The Naira Equivalent that will be charged if paid now is{" "}
                   <Typography
                     display="inline"
                     fontSize="14px"
@@ -764,7 +764,7 @@ const GetAQuote = () => {
                     <Box display="flex" gap="10px" alignItems="center">
                       <Button
                         variant="contained"
-                        startIcon={<QuoteIcon color='#fff' />}
+                        startIcon={<QuoteIcon color="#fff" />}
                         sx={{
                           bgcolor: "#6750A4",
                           color: "#fff",
@@ -805,7 +805,7 @@ const GetAQuote = () => {
                     <Box display="flex" gap="10px" alignItems="center">
                       <Button
                         variant="contained"
-                        startIcon={<QuoteIcon color='#fff' />}
+                        startIcon={<QuoteIcon color="#fff" />}
                         sx={{
                           bgcolor: "#6750A4",
                           color: "#fff",
@@ -846,7 +846,7 @@ const GetAQuote = () => {
                     <Box display="flex" gap="10px" alignItems="center">
                       <Button
                         variant="contained"
-                        startIcon={<QuoteIcon color='#fff' />}
+                        startIcon={<QuoteIcon color="#fff" />}
                         sx={{
                           bgcolor: "#6750A4",
                           color: "#fff",
@@ -881,8 +881,12 @@ const GetAQuote = () => {
                   </Box>
                 )}
               </Box>
-              </Box>
-              <img src={image} style={{maxHeight: '343px', maxWidth: '445px'}} alt="boxes" />
+            </Box>
+            <img
+              src={image}
+              style={{ maxHeight: "343px", maxWidth: "445px" }}
+              alt="boxes"
+            />
           </Box>
         )}
       </Box>

@@ -42,10 +42,10 @@ const SignupForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('object')
-                  signUp(data);
-                  localStorage.setItem("email", JSON.stringify(email));
-                }
+    console.log("object");
+    signUp(data);
+    localStorage.setItem("email", JSON.stringify(email));
+  };
 
   const data = {
     firstName: firstName,
@@ -66,17 +66,17 @@ const SignupForm = () => {
   };
 
   // console.log(data);
-  const [selectedCountry, setSelectedCountry] = useState()
-  const [selectedState, setSelectedState] = useState()
-  const [countries, setCountries] = useState(Country.getAllCountries())
-  const [states, setStates] = useState([])
-  const [cities, setCities] = useState([])
+  const [selectedCountry, setSelectedCountry] = useState();
+  const [selectedState, setSelectedState] = useState();
+  const [countries, setCountries] = useState(Country.getAllCountries());
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
   useEffect(() => {
-    setStates(State.getStatesOfCountry(selectedCountry?.isoCode))
+    setStates(State.getStatesOfCountry(selectedCountry?.isoCode));
     setCities(
-      City.getCitiesOfState(selectedCountry?.isoCode, selectedState?.isoCode)
+      City.getCitiesOfState(selectedCountry?.isoCode, selectedState?.isoCode),
     );
-  })
+  });
   // const countries = [
   //   "United States",
   //   "Canada",
@@ -132,7 +132,6 @@ const SignupForm = () => {
   const isMinLength = password.length > 8;
   const isConfirmed = password === confirmPassword;
 
-  
   const isValid = () => {
     if (
       containsAlpha &&
@@ -317,8 +316,8 @@ const SignupForm = () => {
                       containsLower
                         ? "#6750A4"
                         : password.length === 0
-                        ? "#79747E"
-                        : "#B3261E"
+                          ? "#79747E"
+                          : "#B3261E"
                     }
                   />
                   <Typography
@@ -327,8 +326,8 @@ const SignupForm = () => {
                       containsLower
                         ? "#21005D"
                         : password.length === 0
-                        ? "#49454F"
-                        : "#410E0B"
+                          ? "#49454F"
+                          : "#410E0B"
                     }
                     letterSpacing=".4px"
                   >
@@ -348,8 +347,8 @@ const SignupForm = () => {
                       isMinLength
                         ? "#6750A4"
                         : password.length === 0
-                        ? "#79747E"
-                        : "#B3261E"
+                          ? "#79747E"
+                          : "#B3261E"
                     }
                   />
                   <Typography
@@ -358,8 +357,8 @@ const SignupForm = () => {
                       isMinLength
                         ? "#21005D"
                         : password.length === 0
-                        ? "#49454F"
-                        : "#410E0B"
+                          ? "#49454F"
+                          : "#410E0B"
                     }
                     letterSpacing=".4px"
                   >
@@ -379,8 +378,8 @@ const SignupForm = () => {
                       containsAlpha
                         ? "#6750A4"
                         : password.length === 0
-                        ? "#79747E"
-                        : "#B3261E"
+                          ? "#79747E"
+                          : "#B3261E"
                     }
                   />
                   <Typography
@@ -389,8 +388,8 @@ const SignupForm = () => {
                       containsAlpha
                         ? "#21005D"
                         : password.length === 0
-                        ? "#49454F"
-                        : "#410E0B"
+                          ? "#49454F"
+                          : "#410E0B"
                     }
                     letterSpacing=".4px"
                   >
@@ -410,8 +409,8 @@ const SignupForm = () => {
                       containsSymbol
                         ? "#6750A4"
                         : password.length === 0
-                        ? "#79747E"
-                        : "#B3261E"
+                          ? "#79747E"
+                          : "#B3261E"
                     }
                   />
                   <Typography
@@ -420,8 +419,8 @@ const SignupForm = () => {
                       containsSymbol
                         ? "#21005D"
                         : password.length === 0
-                        ? "#49454F"
-                        : "#410E0B"
+                          ? "#49454F"
+                          : "#410E0B"
                     }
                     letterSpacing=".4px"
                   >
@@ -457,8 +456,8 @@ const SignupForm = () => {
                     isConfirmed && confirmPassword.length > 0
                       ? "#6750A4"
                       : confirmPassword.length === 0
-                      ? "#79747E"
-                      : "#B3261E"
+                        ? "#79747E"
+                        : "#B3261E"
                   }
                 />
                 <Typography
@@ -467,8 +466,8 @@ const SignupForm = () => {
                     isConfirmed && confirmPassword.length > 0
                       ? "#21005D"
                       : confirmPassword.length === 0
-                      ? "#49454F"
-                      : "#410E0B"
+                        ? "#49454F"
+                        : "#410E0B"
                   }
                   letterSpacing=".4px"
                 >
@@ -498,7 +497,13 @@ const SignupForm = () => {
               </Button>
             </Box>
             <Box>
-              <Box mb="12px" display="flex" alignItems={"center"} justifyContent='center' gap="10px">
+              <Box
+                mb="12px"
+                display="flex"
+                alignItems={"center"}
+                justifyContent="center"
+                gap="10px"
+              >
                 <Typography fontSize="14px" color="#fff" fontFamily={"Roboto"}>
                   Already have an account?
                 </Typography>
@@ -578,7 +583,11 @@ const SignupForm = () => {
                   placeholder="Enter your country"
                 >
                   {countries.map((country, i) => (
-                    <MenuItem value={country.name} key={i} onClick={() => setSelectedCountry(country)}>
+                    <MenuItem
+                      value={country.name}
+                      key={i}
+                      onClick={() => setSelectedCountry(country)}
+                    >
                       {country.name}
                     </MenuItem>
                   ))}
@@ -605,7 +614,11 @@ const SignupForm = () => {
                   placeholder="Enter your state"
                 >
                   {states.map((state, i) => (
-                    <MenuItem value={state.name} key={i} onClick={() => setSelectedState(state)}>
+                    <MenuItem
+                      value={state.name}
+                      key={i}
+                      onClick={() => setSelectedState(state)}
+                    >
                       {state.name}
                     </MenuItem>
                   ))}

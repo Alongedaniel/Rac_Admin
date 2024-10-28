@@ -20,7 +20,7 @@ const WarehouseLocations = () => {
   const navigate = useNavigate();
   return (
     <Box p="24px 40px">
-      <Box p="24px" borderRadius="20px" bgcolor="#fff" >
+      <Box p="24px" borderRadius="20px" bgcolor="#fff">
         <IconButton onClick={() => navigate(-1)} sx={{ mb: "10px" }}>
           <ArrowBack />
         </IconButton>
@@ -33,7 +33,7 @@ const WarehouseLocations = () => {
             py="18px"
             borderRadius="8px"
             borderTop="1px solid #CAC4D0"
-                  borderLeft="1px solid #CAC4D0"
+            borderLeft="1px solid #CAC4D0"
           >
             <Typography fontSize="14px" fontWeight={500} color="#1D192B">
               Nigeria Warehouse (Lagos)
@@ -54,7 +54,7 @@ const WarehouseLocations = () => {
                 py="18px"
                 borderRadius="8px"
                 borderTop="1px solid #CAC4D0"
-                  borderLeft="1px solid #CAC4D0"
+                borderLeft="1px solid #CAC4D0"
               >
                 <Typography fontSize="14px" fontWeight={500} color="#1D192B">
                   US Warehouse (Richmond Texas)
@@ -75,7 +75,7 @@ const WarehouseLocations = () => {
                 py="18px"
                 borderRadius="8px"
                 borderTop="1px solid #CAC4D0"
-                  borderLeft="1px solid #CAC4D0"
+                borderLeft="1px solid #CAC4D0"
               >
                 <Typography fontSize="14px" fontWeight={500} color="#1D192B">
                   UK Warehouse (London)
@@ -98,7 +98,7 @@ const WarehouseLocations = () => {
                 py="18px"
                 borderRadius="8px"
                 borderTop="1px solid #CAC4D0"
-                  borderLeft="1px solid #CAC4D0"
+                borderLeft="1px solid #CAC4D0"
               >
                 <Typography fontSize="14px" fontWeight={500} color="#1D192B">
                   Dubai Warehouse
@@ -119,7 +119,7 @@ const WarehouseLocations = () => {
                 py="18px"
                 borderRadius="8px"
                 borderTop="1px solid #CAC4D0"
-                  borderLeft="1px solid #CAC4D0"
+                borderLeft="1px solid #CAC4D0"
               >
                 <Typography fontSize="14px" fontWeight={500} color="#1D192B">
                   China Warehouse (Guangzhou City)

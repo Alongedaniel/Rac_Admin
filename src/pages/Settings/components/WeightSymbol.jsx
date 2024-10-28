@@ -3,11 +3,11 @@ import React, { useState } from "react";
 
 const WeightSymbol = () => {
   const [anchorEl, setAnchorEl] = useState(null);
-    const [selectedSymbol, setSelectedSymbol] = useState("Kg");
-    const open = Boolean(anchorEl)
-    const close = () => {
-        setAnchorEl(null)
-    }
+  const [selectedSymbol, setSelectedSymbol] = useState("Kg");
+  const open = Boolean(anchorEl);
+  const close = () => {
+    setAnchorEl(null);
+  };
   return (
     <>
       <Box
@@ -21,7 +21,7 @@ const WeightSymbol = () => {
         borderBottom="1px solid #E7E0EC"
         pb="8px"
         onClick={(e) => setAnchorEl(e.currentTarget)}
-        sx={{cursor: 'pointer'}}
+        sx={{ cursor: "pointer" }}
       >
         <Typography color="#1C1B1F" fontSize="16px" fontWeight={500}>
           /{selectedSymbol}

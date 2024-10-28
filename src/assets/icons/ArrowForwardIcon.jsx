@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const ArrowForwardIcon = () => {
   return (
@@ -12,6 +12,6 @@ const ArrowForwardIcon = () => {
       <path d="M10 17L15 12L10 7V17Z" fill="#1C1B1F" />
     </svg>
   );
-}
+};
 
-export default ArrowForwardIcon
+export default ArrowForwardIcon;

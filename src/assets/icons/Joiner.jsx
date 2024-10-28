@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const Joiner = () => {
   return (
@@ -15,6 +15,6 @@ const Joiner = () => {
       />
     </svg>
   );
-}
+};
 
-export default Joiner
+export default Joiner;

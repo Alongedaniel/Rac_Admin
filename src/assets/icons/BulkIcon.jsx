@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const BulkIcon = () => {
   return (
@@ -31,6 +31,6 @@ const BulkIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default BulkIcon
+export default BulkIcon;

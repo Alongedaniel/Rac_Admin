@@ -1,10 +1,10 @@
-import React from 'react'
-import CardWrapper from './CardWrapper';
-import CircleRight from '../../../assets/icons/CircleRight';
-import EditIcon from '../../../assets/icons/EditIcon';
-import { Box } from '@mui/material';
+import React from "react";
+import CardWrapper from "./CardWrapper";
+import CircleRight from "../../../assets/icons/CircleRight";
+import EditIcon from "../../../assets/icons/EditIcon";
+import { Box } from "@mui/material";
 
-const OrderInfo = ({order}) => {
+const OrderInfo = ({ order }) => {
   return (
     <div>
       <div className="flex items-center space-x-[10px] ">
@@ -13,7 +13,7 @@ const OrderInfo = ({order}) => {
           Order Information
         </p>
       </div>
-      <Box mt='20px' display='flex' alignItems='center' gap='30px'>
+      <Box mt="20px" display="flex" alignItems="center" gap="30px">
         <CardWrapper title="Order Information" style={{ width: "100%" }}>
           <div className="grid grid-cols-5 mt-[30px]  gap-[20px]">
             <div>
@@ -79,11 +79,11 @@ const OrderInfo = ({order}) => {
               </p>
             </div>
           </div>
-              </CardWrapper>
-              <EditIcon />
+        </CardWrapper>
+        <EditIcon />
       </Box>
     </div>
   );
-}
+};
 
-export default OrderInfo
+export default OrderInfo;

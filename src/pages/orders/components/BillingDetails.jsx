@@ -1,24 +1,45 @@
-import React, { useState } from 'react'
-import EditIcon from '../../../assets/icons/EditIcon';
-import { IoChevronUpCircleOutline } from 'react-icons/io5';
-import CircleRight from '../../../assets/icons/CircleRight';
-import { Box, Button } from '@mui/material';
-import CardWrapper from '../../../components/order/components/CardWrapper';
-import UserModals from '../../Users/components/UserModals';
-import BillingDetailsForm from '../../../components/order/components/BillingDetailsForm';
-import ArrowLeftPurple from '../../../assets/icons/ArrowLeftPurple';
-import ArrowRightWhite from '../../../assets/icons/ArrowRightWhite';
-import { toTitleCase } from '../order-details';
-import currencyFormatter from '../../../components/CurrencyFormatter';
+import React, { useState } from "react";
+import EditIcon from "../../../assets/icons/EditIcon";
+import { IoChevronUpCircleOutline } from "react-icons/io5";
+import CircleRight from "../../../assets/icons/CircleRight";
+import { Box, Button } from "@mui/material";
+import CardWrapper from "../../../components/order/components/CardWrapper";
+import UserModals from "../../Users/components/UserModals";
+import BillingDetailsForm from "../../../components/order/components/BillingDetailsForm";
+import ArrowLeftPurple from "../../../assets/icons/ArrowLeftPurple";
+import ArrowRightWhite from "../../../assets/icons/ArrowRightWhite";
+import { toTitleCase } from "../order-details";
+import currencyFormatter from "../../../components/CurrencyFormatter";
 
-const BillingDetails = ({ order, type = "", proceed = false, isRequest, totalCost }) => {
+const BillingDetails = ({
+  order,
+  type = "",
+  proceed = false,
+  isRequest,
+  totalCost,
+  activeStep,
+  setActiveStep = () => {},
+}) => {
+  console.log(totalCost);
   const [open, setOpen] = useState(false);
-  const serviceType = toTitleCase(order?.serviceType)
-    const overallCost =
-      order?.totalProcessingFee +
-      order?.totalUrgentPurchaseCost +
-      order?.orderVat +
-      totalCost;
+  const serviceType = toTitleCase(order?.serviceType);
+  const overallCost =
+    serviceType === "Shop For Me"
+      ? order?.totalProcessingFee +
+        order?.totalUrgentPurchaseCost +
+        order?.orderVat +
+        totalCost
+      : serviceType === "Auto Import"
+        ? order?.insurance +
+          order?.vat +
+          order?.storageCharges +
+          order?.paymentMethodSurcharge +
+          totalCost
+        : order?.insurance +
+          order?.vat +
+          order?.storageCharges +
+          order?.paymentMethodSurcharge +
+          totalCost;
   return (
     <>
       {(type === "request" || isRequest) &&
@@ -129,7 +150,8 @@ const BillingDetails = ({ order, type = "", proceed = false, isRequest, totalCos
                 )}
               </Box>
             )}
-            {serviceType === "Auto Import" ? null : (
+
+            {serviceType === "Auto Import" && activeStep === 3 ? null : (
               <Box
                 sx={{
                   width: "100%",
@@ -164,29 +186,77 @@ const BillingDetails = ({ order, type = "", proceed = false, isRequest, totalCos
                         <div></div>
                       </>
                     )}
+                    {serviceType === "Auto Import" && (
+                      <>
+                        <div className="col-span-2">
+                          <p className="text-[14px] text-t/100 font-roboto text-brand/200">
+                            Total Shipment Cost:
+                          </p>
+                          <p className="font-roboto  text-[20px] text-brand/100">
+                            {currencyFormatter.format(overallCost) ??
+                              "$234,000.00"}
+                          </p>
+                        </div>
+                        <div className="">
+                          <p className="text-[14px] text-t/100 font-roboto text-brand/200">
+                            Payment Status:
+                          </p>
+                          <p className="font-roboto  text-[20px] text-brand/100">
+                            N/A
+                          </p>
+                        </div>
+                        <div></div>
+                        <div></div>
+                      </>
+                    )}
                   </div>
-                  <div className="grid grid-cols-5 mt-[30px]">
-                    <div className="col-span-2">
-                      <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        Total Shipment Cost:
-                      </p>
-                      <p className="font-roboto  text-[20px] text-brand/100">
-                        {serviceType === "Shop For Me"
-                          ? "Not yet assigned"
-                          : "$234,000.00"}
-                      </p>
+                  {serviceType === "Auto Import" ? (
+                    <div className="grid grid-cols-5 mt-[30px]">
+                      <div className="col-span-2">
+                        <p className="text-[14px] text-t/100 font-roboto text-brand/200">
+                          Total Clearing Cost:
+                        </p>
+                        <p className="font-roboto  text-[20px] text-brand/100">
+                          N/A
+                        </p>
+                      </div>
+                      <div className="">
+                        <p className="text-[14px] text-t/100 font-roboto text-brand/200">
+                          Payment Status:
+                        </p>
+                        <p className="font-roboto  text-[20px] text-brand/100">
+                          N/A
+                        </p>
+                      </div>
                     </div>
-                    <div className="">
-                      <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        Payment Status:
-                      </p>
-                      <p className="font-roboto  text-[20px] text-brand/100">
-                        {serviceType === "Shop For Me" ? "---" : "Processing"}
-                      </p>
+                  ) : (
+                    <div className="grid grid-cols-5 mt-[30px]">
+                      <div className="col-span-2">
+                        <p className="text-[14px] text-t/100 font-roboto text-brand/200">
+                          Total Shipment Cost:
+                        </p>
+                        <p className="font-roboto  text-[20px] text-brand/100">
+                          {serviceType === "Shop For Me"
+                            ? "Not yet assigned"
+                            : "$234,000.00"}
+                        </p>
+                      </div>
+                      <div className="">
+                        <p className="text-[14px] text-t/100 font-roboto text-brand/200">
+                          Payment Status:
+                        </p>
+                        <p className="font-roboto  text-[20px] text-brand/100">
+                          {serviceType === "Shop For Me" ? "---" : "Processing"}
+                        </p>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </CardWrapper>
-                {type === "request" || isRequest ? null : <EditIcon />}
+                {type === "request" || isRequest ? null : (
+                  <Box onClick={() => setActiveStep(2)}>
+                    <EditIcon />
+                  </Box>
+                )}
               </Box>
             )}
           </div>
@@ -234,4 +304,4 @@ const BillingDetails = ({ order, type = "", proceed = false, isRequest, totalCos
   );
 };
 
-export default BillingDetails
+export default BillingDetails;

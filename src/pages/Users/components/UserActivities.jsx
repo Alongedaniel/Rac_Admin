@@ -1,307 +1,320 @@
-import React, { useState } from 'react'
-import OrderTable from '../../../components/OrderTable';
-import {v4 as uuid}  from 'uuid';
-import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from '@mui/material';
-import PinnedIcon from '../../../assets/icons/PinnedIcon';
-import { useAuth } from '../../../utils/contexts/userContext/UserContext';
+import React, { useState } from "react";
+import OrderTable from "../../../components/OrderTable";
+import { v4 as uuid } from "uuid";
+import {
+  Box,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  Typography,
+} from "@mui/material";
+import PinnedIcon from "../../../assets/icons/PinnedIcon";
+import { useAuth } from "../../../utils/contexts/userContext/UserContext";
 import moment from "moment";
 
-const UserActivities = ({currentUser=false}) => {
-  const { user } = useAuth()
-    const HeaderName = ({ header }) => {
-      return (
-        <Typography fontSize="14px" fontWeight={500} color="#000">
-          {header}
-        </Typography>
-      );
-    };
-    const columns = [
-      //     {
-      //         field: 'id',
-      //         renderCell: (params) => <Box display='none'>{params.row.id}</Box>
-      // },
-      {
-        field: "event",
-        headerName: <HeaderName header="Event" />,
-        renderCell: (params) => <Box width="100%">{params.row.event}</Box>,
-        // width: 800,
-      },
-      {
-        field: "dateTime",
-        headerName: <HeaderName header="Date & Time" />,
-        // width: 150,
-        renderCell: (params) => <TableRow align={'right'}>{params.row.dateTime}</TableRow>,
-      },
-    ];
-    const rows = [
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-      {
-        id: uuid(),
-        event: "Sent a payment claim",
-        dateTime: "22-03-2023 13:05",
-      },
-    ];
-    const rowsPerPageOptions = [5, 10, 25];
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[0]);
-
-    const handleChangePage = (event, newPage) => {
-      setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (event) => {
-      setRowsPerPage(parseInt(event.target.value, 10));
-      setPage(0);
-    };
-
-    const slicedData = rows.slice(
-      page * rowsPerPage,
-      page * rowsPerPage + rowsPerPage
+const UserActivities = ({ currentUser = false }) => {
+  const { user } = useAuth();
+  const HeaderName = ({ header }) => {
+    return (
+      <Typography fontSize="14px" fontWeight={500} color="#000">
+        {header}
+      </Typography>
     );
+  };
+  const columns = [
+    //     {
+    //         field: 'id',
+    //         renderCell: (params) => <Box display='none'>{params.row.id}</Box>
+    // },
+    {
+      field: "event",
+      headerName: <HeaderName header="Event" />,
+      renderCell: (params) => <Box width="100%">{params.row.event}</Box>,
+      // width: 800,
+    },
+    {
+      field: "dateTime",
+      headerName: <HeaderName header="Date & Time" />,
+      // width: 150,
+      renderCell: (params) => (
+        <TableRow align={"right"}>{params.row.dateTime}</TableRow>
+      ),
+    },
+  ];
+  const rows = [
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+    {
+      id: uuid(),
+      event: "Sent a payment claim",
+      dateTime: "22-03-2023 13:05",
+    },
+  ];
+  const rowsPerPageOptions = [5, 10, 25];
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[0]);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const slicedData = rows.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage,
+  );
 
   return (
     <Box display="flex" gap="16px" height="262px">
@@ -395,6 +408,6 @@ const UserActivities = ({currentUser=false}) => {
       </Box>
     </Box>
   );
-}
+};
 
-export default UserActivities
+export default UserActivities;

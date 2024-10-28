@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const ReverseIcon = () => {
   return (
@@ -15,6 +15,6 @@ const ReverseIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default ReverseIcon
+export default ReverseIcon;

@@ -1,9 +1,9 @@
-import React from 'react'
+import React from "react";
 
 const CloseCircleRed = () => {
   return (
     <svg
-      style={{cursor: 'pointer'}}
+      style={{ cursor: "pointer" }}
       width="24"
       height="24"
       viewBox="0 0 24 24"
@@ -33,6 +33,6 @@ const CloseCircleRed = () => {
       />
     </svg>
   );
-}
+};
 
-export default CloseCircleRed
+export default CloseCircleRed;

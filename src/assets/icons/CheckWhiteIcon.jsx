@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const CheckWhiteIcon = () => {
   return (
@@ -15,6 +15,6 @@ const CheckWhiteIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default CheckWhiteIcon
+export default CheckWhiteIcon;

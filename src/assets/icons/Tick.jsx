@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const Tick = ({ color = "#79747E" }) => {
   return (
@@ -17,4 +17,4 @@ const Tick = ({ color = "#79747E" }) => {
   );
 };
 
-export default Tick
+export default Tick;

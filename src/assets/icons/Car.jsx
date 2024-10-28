@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const Car = () => {
   return (
@@ -67,6 +67,6 @@ const Car = () => {
       />
     </svg>
   );
-}
+};
 
-export default Car
+export default Car;

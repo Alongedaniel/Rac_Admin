@@ -1,4 +1,11 @@
-import { Box, Button, Grid, MenuItem, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid,
+  MenuItem,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 import { IoChevronUpCircleOutline } from "react-icons/io5";
 import UserTag from "../../../assets/icons/UserTag";
@@ -18,11 +25,26 @@ import { useNavigate } from "react-router-dom";
 import { toTitleCase } from "../order-details";
 import { getStatusBgColor } from "../../../components/order/order-request";
 
-const OrderInformation = ({ order, type, isRequest, activeStep, deliveryCompany, shipmentMethod }) => {
+const OrderInformation = ({
+  order,
+  type,
+  isRequest,
+  activeStep,
+  deliveryCompany,
+  shipmentMethod,
+  setActiveStep = () => {},
+}) => {
   const navigate = useNavigate();
   const [editOrderInfo, setEditOrderInfo] = useState(false);
   const customer =
     order?.customerData?.firstName + " " + order?.customerData?.lastName;
+  const requestStatus =
+    order?.request?.requestStatus === "responded"
+      ? "Approved"
+      : (order?.request?.requestStatus === "Not Responded" ??
+          order?.request?.requestStatus === "not responded")
+        ? "Not Responded"
+        : "Declined";
   return type === "request" || isRequest ? (
     <>
       <div className="flex items-center space-x-[10px] ">
@@ -72,7 +94,9 @@ const OrderInformation = ({ order, type, isRequest, activeStep, deliveryCompany,
                 </p>
                 <p className="font-roboto  text-[20px]">Shipment</p>
               </div>
-              {(type === "request" || isRequest) && activeStep !== 3 ? (
+              {(type === "request" || isRequest) &&
+              activeStep !== 3 &&
+              activeStep !== 4 ? (
                 <div className="col-span-2">
                   <p className="text-[14px] text-t/100 font-roboto">
                     {type === "request" || isRequest
@@ -83,10 +107,11 @@ const OrderInformation = ({ order, type, isRequest, activeStep, deliveryCompany,
                     style={{
                       display:
                         type === "request" || isRequest ? "none" : "block",
+                      textTransform: "capitalize",
                     }}
                     className="font-roboto  text-[20px]"
                   >
-                    {order?.request?.requestStatus}
+                    {requestStatus}
                   </p>
                   <p
                     style={{
@@ -97,9 +122,8 @@ const OrderInformation = ({ order, type, isRequest, activeStep, deliveryCompany,
                       borderRadius: "10px",
                       width: "fit-content",
                       padding: "5px 10px",
-                      ...getStatusBgColor(
-                        toTitleCase(order?.request?.requestStatus)
-                      ),
+                      textTransform: "capitalize",
+                      ...getStatusBgColor(toTitleCase(requestStatus)),
                     }}
                     className="font-roboto  text-[20px] text-brand/200"
                   >
@@ -112,7 +136,7 @@ const OrderInformation = ({ order, type, isRequest, activeStep, deliveryCompany,
                         border: "1px solid #B3261E",
                       }}
                     ></div>
-                    {order?.request?.requestStatus}
+                    {requestStatus}
                     {/* <Button
                     startIcon={<ShieldIcon />}
                     variant="outlined"
@@ -138,10 +162,14 @@ const OrderInformation = ({ order, type, isRequest, activeStep, deliveryCompany,
                   {toTitleCase(order?.serviceType)}
                 </p>
               </div>
-              {(type === "request" || isRequest) && activeStep !== 3 ? null : (
+              {(type === "request" || isRequest) &&
+              activeStep !== 3 &&
+              activeStep !== 4 ? null : (
                 <div></div>
               )}
-              {(type === "request" || isRequest) && activeStep !== 3 ? null : (
+              {(type === "request" || isRequest) &&
+              activeStep !== 3 &&
+              activeStep !== 4 ? null : (
                 <>
                   <div>
                     <p className="text-[14px] text-t/100 font-roboto">
@@ -162,7 +190,9 @@ const OrderInformation = ({ order, type, isRequest, activeStep, deliveryCompany,
                   </div>
                 </>
               )}
-              {(type === "request" || isRequest) && activeStep !== 3 ? (
+              {(type === "request" || isRequest) &&
+              activeStep !== 3 &&
+              activeStep !== 4 ? (
                 <>
                   <div>
                     <p className="text-[14px] text-t/100 font-roboto">
@@ -184,8 +214,10 @@ const OrderInformation = ({ order, type, isRequest, activeStep, deliveryCompany,
               ) : null}
             </div>
           </CardWrapper>
-          {(type === "request" || isRequest) && activeStep !== 3 ? null : (
-            <Box onClick={() => setEditOrderInfo(true)}>
+          {(type === "request" || isRequest) &&
+          activeStep !== 3 &&
+          activeStep !== 4 ? null : (
+            <Box onClick={() => setActiveStep(0)}>
               <EditIcon />
             </Box>
           )}

@@ -24,7 +24,7 @@ const DynamicItemComponent = ({
   itemColor = "",
   removeComponent,
 }) => {
-    const container = useRef(null)
+  const container = useRef(null);
   const [quantityValue, setQuantityValue] = useState(1);
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -32,9 +32,9 @@ const DynamicItemComponent = ({
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
-    };
-    
-    console.log(index);
+  };
+
+  console.log(index);
   return (
     <Box
       ref={container}

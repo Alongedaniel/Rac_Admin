@@ -1,22 +1,26 @@
-import { Box, Breadcrumbs, Typography,  } from '@mui/material'
-import React from 'react'
-import HomeIcon from '../assets/icons/HomeIcon';
-import ArrowLeftIcon from '../assets/icons/ArrowLeftIcon';
+import { Box, Breadcrumbs, Typography } from "@mui/material";
+import React from "react";
+import HomeIcon from "../assets/icons/HomeIcon";
+import ArrowLeftIcon from "../assets/icons/ArrowLeftIcon";
 import { useNavigate, useParams, Link } from "react-router-dom";
 
 const BreadcrumbNavigation = () => {
-    const url = window.location.pathname;
-    const segments = url.split("/").filter((segment) => segment !== "");
-  const navigate = useNavigate()
-  const { id } = useParams()
-  console.log(segments)
+  const url = window.location.pathname;
+  const segments = url.split("/").filter((segment) => segment !== "");
+  const navigate = useNavigate();
+  const { id } = useParams();
+  console.log(segments);
   return (
     <Box>
-      <Breadcrumbs separator={url === '/' ? null : <ArrowLeftIcon />}>
+      <Breadcrumbs separator={url === "/" ? null : <ArrowLeftIcon />}>
         <Box onClick={() => navigate("/")}>
           <HomeIcon width="19px" height="19px" />
         </Box>
-        {url === '/' ? <Typography sx={{ fontSize: "14px", color: "#625B71" }}>Home</Typography> : null}
+        {url === "/" ? (
+          <Typography sx={{ fontSize: "14px", color: "#625B71" }}>
+            Home
+          </Typography>
+        ) : null}
         {segments.map((link, i) => {
           const routeTo = `/${segments.slice(0, i + 1).join("/")}`;
           return (
@@ -41,6 +45,6 @@ const BreadcrumbNavigation = () => {
       </Breadcrumbs>
     </Box>
   );
-}
+};
 
-export default BreadcrumbNavigation
+export default BreadcrumbNavigation;

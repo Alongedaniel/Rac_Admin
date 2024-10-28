@@ -11,8 +11,8 @@ const PaymentMethods = () => {
   const navigate = useNavigate();
   return (
     <Box p="24px 40px">
-      <Box p="24px" borderRadius="20px" bgcolor="#fff" >
-        <IconButton onClick={() => navigate(-1)} sx={{mb: '10px'}}>
+      <Box p="24px" borderRadius="20px" bgcolor="#fff">
+        <IconButton onClick={() => navigate(-1)} sx={{ mb: "10px" }}>
           <ArrowBack />
         </IconButton>
         <Typography fontSize="24px" color="#1C1B1F" mb="24px">

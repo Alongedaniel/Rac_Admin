@@ -1,9 +1,9 @@
-import { Box, Button, Typography } from '@mui/material'
-import React from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Box, Button, Typography } from "@mui/material";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Shipment = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <Box
       mt="16px"
@@ -31,7 +31,7 @@ const Shipment = () => {
             View the complete shipment history of your customers.
           </Typography>
         </Box>
-        <Box pt="16px" sx={{ borderTop: "1px dotted #79747E" }} width='100%'>
+        <Box pt="16px" sx={{ borderTop: "1px dotted #79747E" }} width="100%">
           <Button
             variant="contained"
             sx={{
@@ -41,7 +41,7 @@ const Shipment = () => {
               width: "100%",
               borderRadius: "100px",
             }}
-            onClick={() => navigate('history')}
+            onClick={() => navigate("history")}
           >
             Review Shipment History
           </Button>
@@ -66,10 +66,10 @@ const Shipment = () => {
             Easily initiate a new shipment.
           </Typography>
         </Box>
-        <Box pt="16px" sx={{ borderTop: "1px dotted #79747E" }} width='100%'>
+        <Box pt="16px" sx={{ borderTop: "1px dotted #79747E" }} width="100%">
           <Button
             variant="contained"
-            onClick={() => navigate('add-new-shipment')}
+            onClick={() => navigate("add-new-shipment")}
             sx={{
               py: "10px",
               fontSize: "14px",
@@ -101,7 +101,7 @@ const Shipment = () => {
             Monitor real-time shipment status.
           </Typography>
         </Box>
-        <Box pt="16px" sx={{ borderTop: "1px dotted #79747E" }} width='100%'>
+        <Box pt="16px" sx={{ borderTop: "1px dotted #79747E" }} width="100%">
           <Button
             variant="contained"
             sx={{
@@ -118,6 +118,6 @@ const Shipment = () => {
       </Box>
     </Box>
   );
-}
+};
 
-export default Shipment
+export default Shipment;

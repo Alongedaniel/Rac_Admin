@@ -39,8 +39,18 @@ import { useAuth } from "../../utils/contexts/userContext/UserContext";
 import axiosInstance from "../../utils/hooks/api/axiosInstance";
 
 const CreateOrder = ({ shopForMe = false }) => {
-  const { bearerToken } = useAuth()
+  const { bearerToken } = useAuth();
   // console.log(bearerToken);
+  const [requests, setrequests] = useState([
+    {
+      productName: "",
+      originalCost: "",
+      quantity: 0,
+      itemColor: "",
+      productDescription: "",
+      productImage: null,
+    },
+  ]);
   const [assignedCustomer, setAssignedCustomer] = useState("");
   const [orderType, setOrderType] = useState("");
   const [service, setService] = useState("");
@@ -119,15 +129,7 @@ const CreateOrder = ({ shopForMe = false }) => {
     },
     packageDetails: {
       origin: origin,
-      product: [
-        {
-          productName: productName,
-          originalCost: originalCost,
-          quantity: quantity,
-          itemColor: itemColor,
-          productDescription: productDescription,
-        },
-      ],
+      product: requests,
       weight: weight,
       length: length,
       width: width,
@@ -186,8 +188,8 @@ const CreateOrder = ({ shopForMe = false }) => {
         additionalProperties: [
           {
             label: "horse power",
-            description: "1000hp"
-          }
+            description: "1000hp",
+          },
         ],
       },
     ],
@@ -236,7 +238,6 @@ const CreateOrder = ({ shopForMe = false }) => {
   //   "requestItems[0][additionalProperties[0][label]]"
   // );
 
-
   const handleCreateAutoImportOrder = async () => {
     // let config = {
     //   method: "post",
@@ -252,11 +253,11 @@ const CreateOrder = ({ shopForMe = false }) => {
     try {
       const res = await axiosInstance.post(
         "/auto-import-requests/create",
-        autoImportOrderData
+        autoImportOrderData,
       );
-      console.log(res)
+      console.log(res);
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
   };
   // const autoImportOrderData = {
@@ -367,6 +368,8 @@ const CreateOrder = ({ shopForMe = false }) => {
                   <ShopForMePackageDetails />
                 ) : (
                   <PackageDetailsForm
+                    requests={requests}
+                    setrequests={setrequests}
                     origin={origin}
                     productName={productName}
                     originalCost={originalCost}
@@ -510,6 +513,7 @@ const CreateOrder = ({ shopForMe = false }) => {
 
                     <Box mt="30px">
                       <OrderPricing
+                        data={exportOrder.packageDetails.product}
                         service={exportOrder.orderInformation.service}
                         shippingCost={shippingCost}
                         clearingCost={clearingCost}
@@ -838,7 +842,7 @@ const CreateOrder = ({ shopForMe = false }) => {
                       textTransform: "none",
                     }}
                     onClick={handleCreateAutoImportOrder}
-                      // if (!finish) handleNext();
+                    // if (!finish) handleNext();
                   >
                     Confirm & Submit Order
                   </Button>

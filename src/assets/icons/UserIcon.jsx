@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const UserIcon = () => {
   return (
@@ -32,6 +32,6 @@ const UserIcon = () => {
       />
     </svg>
   );
-}
+};
 
-export default UserIcon
+export default UserIcon;

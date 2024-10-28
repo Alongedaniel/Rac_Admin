@@ -131,7 +131,8 @@ const ProfileInformationForm = ({
                   // placeholder="Enter your country"
                 >
                   {countryCodes.map((country, i) => (
-                    <MenuItem value={country.code} key={i}>{country.code}
+                    <MenuItem value={country.code} key={i}>
+                      {country.code}
                     </MenuItem>
                   ))}
                 </TextField>

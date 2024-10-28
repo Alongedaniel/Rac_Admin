@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const Shop = () => {
   return (
@@ -46,6 +46,6 @@ const Shop = () => {
       />
     </svg>
   );
-}
+};
 
-export default Shop
+export default Shop;

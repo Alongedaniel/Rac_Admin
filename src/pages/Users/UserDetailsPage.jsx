@@ -1,4 +1,15 @@
-import { Box, Button, CircularProgress, Grid, IconButton, MenuItem, Modal, Radio, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  IconButton,
+  MenuItem,
+  Modal,
+  Radio,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 import CardWrapper from "../../components/order/components/CardWrapper";
 import CallIcon from "../../assets/icons/CallIcon";
@@ -29,31 +40,36 @@ import moment from "moment";
 import useCustomGetRequest from "../../utils/hooks/api/useCustomGetRequest";
 
 const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
-  const { user } = useAuth()
-  
-  const navigate = useNavigate()
-  const location = useLocation()
-  const {id} = useParams()
-  const { data, loading } = useCustomGetRequest((userType === "Customer" ? `/admin/users/${id}` : `/admin/get-single-staff/${id}`) ?? '');
-  console.log(data)
-  const userData = userType === "Customer" ? data?.user : data?.staffMember
+  const { user } = useAuth();
+  console.log(user, "54i");
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { userid } = useParams();
+  const { data, loading } = useCustomGetRequest(
+    (userType === "Customer"
+      ? `/admin/users/${userid}`
+      : `/admin/get-single-staff/${currentUser ? user?.user?._id : userid}`) ??
+      "",
+  );
+  console.log(data);
+  const userData = userType === "Customer" ? data?.user : data?.staffMember;
   const [currentTab, setCurrentTab] = useState("Account Information");
-  const [openEditProfile, setOpenEditProfile] = useState(false)
+  const [openEditProfile, setOpenEditProfile] = useState(false);
   const handleOpenEditProfile = () => setOpenEditProfile(true);
   const handleCloseEditProfile = () => setOpenEditProfile(false);
-  const [openResetPassword, setOpenResetPassword] = useState(false)
+  const [openResetPassword, setOpenResetPassword] = useState(false);
   const handleOpenResetPassword = () => setOpenResetPassword(true);
   const handleCloseResetPassword = () => setOpenResetPassword(false);
-  const [accountStatus, setAccountStatus] = useState('Unverified')
-  const [currentStatus, setCurrentStatus] = useState(accountStatus)
-  const [openAccountStatusModal, setOpenAccountStatusModal] =
-    useState(false);
-  const [open, setOpen] = useState(false)
+  const [accountStatus, setAccountStatus] = useState("Unverified");
+  const [currentStatus, setCurrentStatus] = useState(accountStatus);
+  const [openAccountStatusModal, setOpenAccountStatusModal] = useState(false);
+  const [open, setOpen] = useState(false);
   const handleUpdateAccountStatus = () => setOpenAccountStatusModal(true);
   const handleCloseUpdateAccountStatus = () => setOpenAccountStatusModal(false);
   const [openPriviledgeModal, setOpenPriviledgeModal] = useState(false);
-  const [confirmStatusChange, setConfirmStatusChange] = useState(false)
-  const [changePassword, setChangePassword] = useState(false)
+  const [confirmStatusChange, setConfirmStatusChange] = useState(false);
+  const [changePassword, setChangePassword] = useState(false);
   const tabs =
     userType === "Customer"
       ? [
@@ -141,8 +157,8 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
                   <CallIcon />
                   <Typography>
                     {userData?.contactAddress[0]?.phoneNumber
-                      ? userData?.countryCode ??
-                        userData?.contactAddress[0]?.countryCode
+                      ? (userData?.countryCode ??
+                        userData?.contactAddress[0]?.countryCode)
                       : "N/A"}{" "}
                     {userData?.contactAddress[0]?.phoneNumber}
                   </Typography>
@@ -377,7 +393,7 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
                         </p>
                         <p className="font-roboto  text-[20px] text-brand/100">
                           {moment(userData?.createdAt).format(
-                            "DD-MM-YYYY HH:mm"
+                            "DD-MM-YYYY HH:mm",
                           )}
                         </p>
                       </Box>
@@ -387,7 +403,7 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
                         </p>
                         <p className="font-roboto  text-[20px] text-brand/100">
                           {moment(userData?.lastLogin).format(
-                            "DD-MM-YYYY HH:mm"
+                            "DD-MM-YYYY HH:mm",
                           )}
                         </p>
                       </Box>
@@ -397,7 +413,7 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
                         </p>
                         <p className="font-roboto  text-[20px] text-brand/100">
                           {moment(userData?.lastLogout).format(
-                            "DD-MM-YYYY HH:mm"
+                            "DD-MM-YYYY HH:mm",
                           )}
                         </p>
                       </Box>
@@ -1022,8 +1038,8 @@ const UserDetailsPage = ({ userType = "Customer", currentUser = false }) => {
             {changePassword
               ? "Confirm New Password"
               : currentUser
-              ? "Proceed"
-              : "Confirm and Proceed"}
+                ? "Proceed"
+                : "Confirm and Proceed"}
           </Button>
           {changePassword && (
             <Box mt="10px" maxWidth="340px">
