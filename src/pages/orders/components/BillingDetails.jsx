@@ -41,7 +41,7 @@ const BillingDetails = ({
           order?.paymentMethodSurcharge +
         totalCost;
   
-  const details = order?.request?.billingInformation
+  const billingDetails = order?.request?.billingInformation;
   return (
     <>
       {(type === "request" || isRequest) &&
@@ -73,7 +73,7 @@ const BillingDetails = ({
                         Receiver's First Name:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        {details?.firstName}
+                        {billingDetails?.firstName}
                       </p>
                     </div>
                     <div className="">
@@ -81,7 +81,7 @@ const BillingDetails = ({
                         Receiver's Last Name:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        {details?.lastName}
+                        {billingDetails?.lastName}
                       </p>
                     </div>
                     <div className="">
@@ -89,7 +89,7 @@ const BillingDetails = ({
                         Receiver's Phone Number:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        {details?.phoneNumber}
+                        {billingDetails?.phoneNumber}
                       </p>
                     </div>
                     <div className="">
@@ -97,7 +97,7 @@ const BillingDetails = ({
                         Receiver's Email:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        {details?.email}
+                        {billingDetails?.email}
                       </p>
                     </div>
                   </div>
@@ -106,32 +106,32 @@ const BillingDetails = ({
                       Receiver's Address:
                     </p>
                     <p className="font-roboto  text-[20px] text-brand/100">
-                      {details?.address}
+                      {billingDetails?.address}
                     </p>
                   </div>
                   <div className="grid grid-cols-4 gap-[20px] mt-[30px] ">
                     <div className="">
                       <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        details Country:
+                        Country:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        {details?.country}
+                        {billingDetails?.country}
                       </p>
                     </div>
                     <div className="">
                       <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        details State:
+                        State:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        {details?.state}
+                        {billingDetails?.state}
                       </p>
                     </div>
                     <div className="">
                       <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                        details City:
+                        City:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        {details?.city}
+                        {billingDetails?.city}
                       </p>
                     </div>
                     <div className="">
@@ -139,7 +139,7 @@ const BillingDetails = ({
                         Zip/postal Code:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        {details?.zipPostalCode}
+                        {billingDetails?.zipPostalCode}
                       </p>
                     </div>
                   </div>
