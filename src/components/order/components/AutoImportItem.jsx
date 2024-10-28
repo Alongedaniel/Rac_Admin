@@ -225,7 +225,7 @@ const AutoImportItem = ({
                   src={item?.carImage}
                   alt="car"
                   className=" mt-[10px] rounded-[10px]"
-                  style={{ objectFit: "cover" }}
+                  style={{ objectFit: "cover", width: '100%', height: '150px' }}
                 />
               </div>
             </Box>

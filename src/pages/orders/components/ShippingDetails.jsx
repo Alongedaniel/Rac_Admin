@@ -14,12 +14,15 @@ const ShippingDetails = ({
   order,
   proceed = false,
   isRequest = "",
+  setDestinationDetails,
+  destinationDetails,
 }) => {
   const [open, setOpen] = useState(false);
+  const destination = order?.request?.destinationDetails;
   return (
     <>
       {type === "request" ||
-      (isRequest && order?.service !== "Auto Import") ? null : (
+      (isRequest && order?.request?.service !== "Auto Import") ? null : (
         <div className="">
           <div className="flex items-center space-x-[10px] ">
             <CircleRight />
@@ -45,7 +48,7 @@ const ShippingDetails = ({
                       Receiver's First Name:
                     </p>
                     <p className="font-roboto  text-[20px] text-brand/100">
-                      Malibu
+                      {destination?.firstName}
                     </p>
                   </div>
                   <div className="">
@@ -53,7 +56,7 @@ const ShippingDetails = ({
                       Receiver's Last Name:
                     </p>
                     <p className="font-roboto  text-[20px] text-brand/100">
-                      SHedrack
+                      {destination?.lastName}
                     </p>
                   </div>
                   <div className="">
@@ -61,7 +64,7 @@ const ShippingDetails = ({
                       Receiver's Phone Number:
                     </p>
                     <p className="font-roboto  text-[20px] text-brand/100">
-                      +234 803 456 7845
+                      {destination?.phoneNumber}
                     </p>
                   </div>
                   <div className="">
@@ -69,7 +72,7 @@ const ShippingDetails = ({
                       Receiver's Email:
                     </p>
                     <p className="font-roboto  text-[20px] text-brand/100">
-                      Malibushdrack@gmail.com
+                      {destination?.email}
                     </p>
                   </div>
                 </div>
@@ -78,7 +81,7 @@ const ShippingDetails = ({
                     Receiver's Address:
                   </p>
                   <p className="font-roboto  text-[20px] text-brand/100">
-                    No, 1osolo way, ikeja road, behind scaint merry
+                    {destination?.address}
                   </p>
                 </div>
                 <div className="grid grid-cols-4 gap-[20px] mt-[30px] ">
@@ -87,7 +90,7 @@ const ShippingDetails = ({
                       Destination Country:
                     </p>
                     <p className="font-roboto  text-[20px] text-brand/100">
-                      Turkey
+                      {destination?.country}
                     </p>
                   </div>
                   <div className="">
@@ -95,7 +98,7 @@ const ShippingDetails = ({
                       Destination State:
                     </p>
                     <p className="font-roboto  text-[20px] text-brand/100">
-                      Istanbul
+                      {destination?.state}
                     </p>
                   </div>
                   <div className="">
@@ -103,7 +106,7 @@ const ShippingDetails = ({
                       Destination City:
                     </p>
                     <p className="font-roboto  text-[20px] text-brand/100">
-                      Cyprusic
+                      {destination?.city}
                     </p>
                   </div>
                   <div className="">
@@ -111,7 +114,7 @@ const ShippingDetails = ({
                       Zip/postal Code:
                     </p>
                     <p className="font-roboto  text-[20px] text-brand/100">
-                      98765
+                      {destination?.zipPostalCode}
                     </p>
                   </div>
                 </div>
@@ -128,7 +131,10 @@ const ShippingDetails = ({
             onClose={() => setOpen(false)}
             title="Edit Shipping Details"
           >
-            <ShippingDetailsForm />
+            <ShippingDetailsForm
+              destinationDetail={destinationDetails}
+              setDestinationDetails={setDestinationDetails}
+            />
             <Box>
               <Button
                 startIcon={<ArrowLeftPurple />}

@@ -30,6 +30,8 @@ const ShippingDetailsForm = ({
   receiverZipCode = "",
   setReceiverZipCode = () => {},
   service = "",
+  setDestinationDetails,
+  destinationDetails,
 }) => {
   const countries = [
     "Nigeria",
@@ -52,6 +54,7 @@ const ShippingDetailsForm = ({
   useEffect(() => {
     setReceiverPhoneNumber(code + number);
   }, [code, number]);
+
   return (
     <div>
       <div className="flex items-center space-x-[10px] ">
