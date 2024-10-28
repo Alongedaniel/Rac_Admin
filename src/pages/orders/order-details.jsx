@@ -95,6 +95,17 @@ function OrderDetails() {
   const shipmentMethods = ["Road", "Air", "Rail", "Sea"];
   const deliveryCompanies = ["DHL", "Gokada", "Glovo"];
   const [origin, setOrigin] = useState("");
+  const [destinationDetails, setDestinationDetails] = useState({
+    address: '',
+    firstName: '',
+    state: '',
+    country: '',
+    city: '',
+    email: '',
+    zipPostalCode: '',
+    countryCode: '',
+    phoneNumber: ''
+  });
 
   useEffect(() => {
     refetch();
@@ -116,6 +127,20 @@ function OrderDetails() {
             carTitle: null,
             productionYear: "",
             vehicleIdNumber: "",
+            pickupCost: {
+              address: "",
+              city: "",
+              country: "",
+              countryCode: "",
+              email: "",
+              firstName: "",
+              lastName: "",
+              locationType: "",
+              phoneNumber: "",
+              pickUpDate: "",
+              state: "",
+              zipPostalCode: "",
+            },
           },
         ]
       : toTitleCase(data?.serviceType) === "Shop For Me"
@@ -143,7 +168,7 @@ function OrderDetails() {
               idNumber: "",
               idType: "",
             },
-          ],
+          ]
   );
 
   useEffect(() => {
@@ -164,6 +189,7 @@ function OrderDetails() {
       // ...data?.request,
       origin: origin,
     },
+    destinationDetails: destinationDetails,
     requestItems: requests,
     // shippingAndBillingInfo: data?.request?.shippingAndBillingInfo,
   };
@@ -819,6 +845,7 @@ function OrderDetails() {
                         setrequests={setrequests}
                         setOrigin={setOrigin}
                         origin={origin}
+                        confirm={true}
                       />
                     ) : (
                       <PackageDetailsForm
@@ -850,6 +877,8 @@ function OrderDetails() {
                       <>
                         <ShippingDetails
                           proceed={proceed}
+                          destinationDetail={destinationDetails}
+                          setDestinationDetails={setDestinationDetails}
                           order={data}
                           type={type}
                         />
@@ -1127,7 +1156,8 @@ function OrderDetails() {
                   ) : activeStep === 3 ? (
                     data?.serviceType === "autoImport" ? (
                       <>
-                        <BillingDetails
+                                <BillingDetails
+                                
                           proceed={proceed}
                           order={data}
                           type={type}

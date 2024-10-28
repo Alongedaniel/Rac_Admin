@@ -51,6 +51,20 @@ const AutoImportPackageDetails = ({
       carTitle: null,
       productionYear: "",
       vehicleIdNumber: "",
+      pickupCost: {
+        address: "",
+        city: "",
+        country: "",
+        countryCode: "",
+        email: "",
+        firstName: "",
+        lastName: "",
+        locationType: "",
+        phoneNumber: "",
+        pickUpDate: "",
+        state: "",
+        zipPostalCode: "",
+      },
     };
     setrequests([...requests, newOrder]);
   };
