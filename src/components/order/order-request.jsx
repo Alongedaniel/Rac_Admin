@@ -66,6 +66,9 @@ export const getStatusBgColor = (status) => {
 };
 
 function OrderRequestComp({ home = false, all = false }) {
+  useEffect(() => {
+    localStorage.removeItem("requests");
+  }, []);
   const location = useLocation();
   const { userid } = useParams();
   console.log(userid);

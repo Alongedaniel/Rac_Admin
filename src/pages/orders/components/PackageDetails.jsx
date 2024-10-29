@@ -51,8 +51,8 @@ const PackageDetails = ({
   const [open, setOpen] = useState(false);
   const [carBrand, setCarBrand] = useState("");
   const [carCondition, setCarCondition] = useState("");
-  const [carImage, setCarImage] = useState("");
-  const [carTitle, setCarTitle] = useState("");
+  const [carImage, setCarImage] = useState({img: '', name: ''});
+  const [carTitle, setCarTitle] = useState({img: '', name: ''});
   const [carValue, setCarValue] = useState(0);
   const [color, setColor] = useState("");
   const [link, setLink] = useState("");
@@ -69,7 +69,7 @@ const PackageDetails = ({
   const [itemUrl, setItemUrl] = useState("");
   const [urgentPurchase, setUrgentPurchase] = useState(false);
   const [quantityValue, setQuantityValue] = useState(0);
-  const [itemImage, setItemImage] = useState(null);
+  const [itemImage, setItemImage] = useState({img: '', name: ''});
   const today = dayjs();
   const [date, setDate] = useState(today);
 
@@ -138,8 +138,24 @@ const PackageDetails = ({
           "Dubai Warehouse",
           "China Warehouse (Guangzhou city)",
           "US Warehouse (Richmond Texas)",
-        ],
+        ]
   );
+
+
+
+  const handleUploadImage = (e, setImage) => {
+    const file = e.target.files[0];
+    if (file && file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImage({
+          img: reader.result,
+          name: file.name,
+        });
+      };
+      reader.readAsDataURL(file); // Converts file to a base64 string
+    }
+  };
 
   const handleAddCar = () => {
     setrequests((prev) => [
@@ -150,9 +166,9 @@ const PackageDetails = ({
             originalCost,
             qty: quantityValue,
             additionalDescription,
-            itemImage: null,
+            itemImage: itemImage?.img,
             store,
-            urgentPurchase: false,
+            urgentPurchase,
             itemUrl,
           }
         : {
@@ -164,8 +180,8 @@ const PackageDetails = ({
             carValue,
             mileage,
             additionalDescription,
-            carImage: null,
-            carTitle: null,
+            carImage: carImage?.img,
+            carTitle: carTitle?.img,
             productionYear,
             vehicleIdNumber,
             pickupDetails: {
@@ -328,6 +344,8 @@ const PackageDetails = ({
                 proceed={proceed}
                 refetch={refetch}
                 order={order}
+                requests={requests}
+                setrequests={setrequests}
               />
             ) : (
               <ProductBox
@@ -339,9 +357,9 @@ const PackageDetails = ({
                 isRequest={isRequest}
                 activeStep={activeStep}
               />
-            ),
+            )
           )
-        : order?.request?.requestItems && !confirm
+        : !confirm
           ? order?.request?.requestItems?.map((item, i) => (
               <ItemBox
                 confirm={order?.request?.requestStatus === "Not Responded"}
@@ -353,6 +371,8 @@ const PackageDetails = ({
                 type={type}
                 itemNumber={i + 1}
                 refetch={refetch}
+                requests={requests}
+                setrequests={setrequests}
               />
             ))
           : requests?.map((item, i) => (
@@ -368,9 +388,9 @@ const PackageDetails = ({
                 itemNumber={i + 1}
                 refetch={refetch}
                 requestId={requestId}
-              requestService={service}
-              requests={requests}
-              setrequests={setrequests}
+                requestService={service}
+                requests={requests}
+                setrequests={setrequests}
               />
             ))}
       {(type === "request" || isRequest) && proceed && (
@@ -755,7 +775,7 @@ const PackageDetails = ({
                             name="file"
                             id={`car-image`}
                             style={{ display: "none" }}
-                            onChange={(e) => setCarImage(e.target.files[0])}
+                            onChange={(e) => handleUploadImage(e, setCarImage)}
                           />
                           <label
                             htmlFor={`car-image`}
@@ -796,7 +816,7 @@ const PackageDetails = ({
                             borderBottomRightRadius: "100px",
                           }}
                         >
-                          {carImage ? carImage.name : "No file chosen"}
+                          {carImage.name ? carImage.name : "No file chosen"}
                         </Box>
                       </Box>
                     </Box>
@@ -816,7 +836,7 @@ const PackageDetails = ({
                             name="file"
                             id={`car-title`}
                             style={{ display: "none" }}
-                            onChange={(e) => setCarTitle(e.target.files[0])}
+                            onChange={(e) => handleUploadImage(e, setCarTitle)}
                           />
                           <label
                             htmlFor={`car-title`}
@@ -857,7 +877,7 @@ const PackageDetails = ({
                             borderBottomRightRadius: "100px",
                           }}
                         >
-                          {carTitle ? carTitle.name : "No file chosen"}
+                          {carTitle.name ? carTitle.name : "No file chosen"}
                         </Box>
                       </Box>
                     </Box>
@@ -1363,7 +1383,7 @@ const PackageDetails = ({
                                     key={x}
                                     onClick={() =>
                                       setUrgentPurchase(
-                                        x === "Yes" ? true : false,
+                                        x === "Yes" ? true : false
                                       )
                                     }
                                   >
@@ -1505,7 +1525,7 @@ const PackageDetails = ({
                           name="file"
                           id={`item-image`}
                           style={{ display: "none" }}
-                          onChange={(e) => setItemImage(e.target.files[0])}
+                          onChange={(e) => handleUploadImage(e, setItemImage)}
                         />
                         <label
                           htmlFor={`item-image`}
@@ -1546,7 +1566,7 @@ const PackageDetails = ({
                           borderBottomRightRadius: "100px",
                         }}
                       >
-                        {itemImage ? itemImage.name : "No file chosen"}
+                        {itemImage?.name ? itemImage?.name : "No file chosen"}
                       </Box>
                     </Box>
                   </Box>

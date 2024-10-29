@@ -109,28 +109,53 @@ const CarPickupBox = ({
     } else setDropOff(true);
   };
 
-  const updatePickup = () => {
-    setrequests((prev) => [
-      ...prev,
-      {
-        ...car,
-        pickupDetails: {
-          address,
-          city: city.name,
-          country: country.name,
-          countryCode,
-          email,
-          firstName,
-          lastName: "",
-          locationType,
-          phoneNumber,
-          pickUpDate: date,
-          state: state.name,
-          zipPostalCode,
-        },
-      },
-    ]);
-  };
+    const updatePickup = (i) => {
+      const updated = requestItems.map((req, id) =>
+        id === i
+          ? {
+              ...req,
+              pickupDetails: {
+                address,
+                city: city.name,
+                country: country.name,
+                countryCode,
+                email,
+                firstName,
+                lastName: "",
+                locationType,
+                phoneNumber,
+                pickUpDate: date,
+                state: state.name,
+                zipPostalCode: zipPostalCode,
+              },
+            }
+          : req
+      );
+      setrequests(updated);
+    };
+
+  // const  = () => {
+  //   setrequests((prev) => [
+  //     ...prev,
+  //     {
+  //       ...car,
+  //       pickupDetails: {
+  //         address,
+  //         city: city.name,
+  //         country: country.name,
+  //         countryCode,
+  //         email,
+  //         firstName,
+  //         lastName: "",
+  //         locationType,
+  //         phoneNumber,
+  //         pickUpDate: date,
+  //         state: state.name,
+  //         zipPostalCode,
+  //       },
+  //     },
+  //   ]);
+  // };
 
   return (
     <Box
@@ -509,7 +534,7 @@ const CarPickupBox = ({
                           <MenuItem
                             value={city.name}
                             key={i}
-                            // onClick={() => setCity(city)}
+                            onClick={() => setCity(city)}
                             sx={{ zIndex: 9999 }}
                           >
                             {city.name}
@@ -605,7 +630,7 @@ const CarPickupBox = ({
               textTransform: "none",
             }}
             onClick={() => {
-              updatePickup();
+              updatePickup(index - 1);
               setOpen(false);
             }}
           >

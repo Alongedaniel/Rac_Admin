@@ -110,20 +110,20 @@ const ItemBox = ({
   };
 
   const handleEditItem = (i) => {
-    const updated = requests.map((req, id) => {
-      if (id === i) {
-        return {
-          ...req,
-          itemName: productName,
-          originalCost: Number(originalCost),
-          additionalDescription: productDescription,
-          qty: quantityValue,
-          store: store,
-          itemUrl: itemUrl,
-          urgentPurchase: urgentPurchase,
-        };
-      }
-    });
+    const updated = requests.map((req, id) => 
+      id === i
+        ? {
+            ...req,
+            itemName: productName,
+            originalCost: Number(originalCost),
+            additionalDescription: productDescription,
+            qty: quantityValue,
+            store: store,
+            itemUrl: itemUrl,
+            urgentPurchase: urgentPurchase,
+          }
+        : req
+    );
     setrequests(updated);
   };
 
@@ -772,8 +772,7 @@ const ItemBox = ({
               textTransform: "none",
             }}
             onClick={() => {
-              
-              // handleUpdateItem();
+              handleEditItem(itemNumber - 1);
               setOpen(false);
             }}
           >

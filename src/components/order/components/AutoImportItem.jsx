@@ -36,6 +36,7 @@ const AutoImportItem = ({
   proceed,
   refetch = () => {},
   order,
+  requests, setrequests
 }) => {
   const { customPostRequest, loading, error, success, setSuccess, setError } =
     Requests();
@@ -46,8 +47,8 @@ const AutoImportItem = ({
   const [selectedImage, setSelectedImage] = useState("");
   const [carBrand, setCarBrand] = useState(item?.carBrand || "");
   const [carCondition, setCarCondition] = useState(item?.carCondition || "");
-  const [carImage, setCarImage] = useState(item?.carImage || "");
-  const [carTitle, setCarTitle] = useState(item?.carTitle || "");
+  const [carImage, setCarImage] = useState({ img: "", name: "" });
+  const [carTitle, setCarTitle] = useState({ img: "", name: "" });
   const [carValue, setCarValue] = useState(item?.carValue || 0);
   const [color, setColor] = useState(item?.color || "");
   const [link, setLink] = useState(item?.link || "");
@@ -87,8 +88,10 @@ const AutoImportItem = ({
     item?.pickupDetails?.zipPostalCode || "",
   );
   const [dropOff, setDropOff] = useState(firstName ? true : false);
-  const [selectedCountry, setSelectedCountry] = useState();
-  const [selectedState, setSelectedState] = useState();
+  const [selectedCountry, setSelectedCountry] = useState(
+    item?.pickupDetails?.country || null
+  );
+  const [selectedState, setSelectedState] = useState(item?.pickupDetails?.state || null);
   const [countries, setCountries] = useState(Country.getAllCountries());
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
@@ -97,7 +100,7 @@ const AutoImportItem = ({
     setCities(
       City.getCitiesOfState(selectedCountry?.isoCode, selectedState?.isoCode),
     );
-  }, []);
+  }, [selectedCountry, selectedState]);
 
   useEffect(() => {
     refetch();
@@ -108,9 +111,23 @@ const AutoImportItem = ({
     setSuccess(false);
   };
 
+  const handleUploadImage = (e, setImage) => {
+    const file = e.target.files[0];
+    if (file && file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImage({
+          img: reader.result,
+          name: file.name,
+        });
+      };
+      reader.readAsDataURL(file); // Converts file to a base64 string
+    }
+  };
+
   const handleAddPickup = () => {
-    setDropOff(!dropOff);
-    if (!dropOff) {
+    if (dropOff) {
+      setDropOff(false);
       setAddress("");
       setCity("");
       setCountry("");
@@ -122,7 +139,7 @@ const AutoImportItem = ({
       setPhoneNumber("");
       setPickUpDate("");
       setState("");
-    }
+    } else setDropOff(true);
   };
 
   const editedData = {
@@ -141,8 +158,8 @@ const AutoImportItem = ({
       color: color,
       pickupDetails: {
         address,
-        city: city.name,
-        country: country.name,
+        city: city?.name,
+        country: selectedCountry?.name,
         countryCode,
         email,
         firstName,
@@ -150,7 +167,7 @@ const AutoImportItem = ({
         locationType,
         phoneNumber,
         pickUpDate: date,
-        state: state.name,
+        state: selectedState?.name,
         zipPostalCode: zipPostalCode,
       },
     },
@@ -162,6 +179,41 @@ const AutoImportItem = ({
     try {
       customPostRequest(`/cross-service/edit-requests`, editedData);
     } catch (e) {}
+  };
+
+  const handleEditCar = (i) => {
+    const updated = requests.map((req, id) =>
+      id === i
+        ? {
+            ...req,
+            carBrand: carBrand,
+            carValue: Number(carValue),
+            carCondition: carCondition,
+            additionalDescription: additionalDescription,
+            vehicleIdNumber: vehicleIdNumber,
+            productionYear: productionYear,
+            model: model,
+            mileage: Number(mileage),
+            link: link,
+            color: color,
+            pickupDetails: {
+              address,
+              city: city,
+              country: country,
+              countryCode,
+              email,
+              firstName,
+              lastName: "",
+              locationType,
+              phoneNumber,
+              pickUpDate: date,
+              state: state,
+              zipPostalCode: zipPostalCode,
+            },
+          }
+        : req
+    );
+    setrequests(updated);
   };
   
   return (
@@ -642,20 +694,38 @@ const AutoImportItem = ({
                     Upload Car Picture
                   </Typography>
                   <Box height="40px" display="flex">
-                    <Box
-                      height="100%"
-                      width="100%"
-                      display="flex"
-                      gap="10px"
-                      justifyContent={"center"}
-                      alignItems={"center"}
-                      bgcolor="#E8DEF8"
-                      fontSize="14px"
-                      fontWeight={500}
-                      border="1px solid #79747E"
-                    >
-                      <UploadIcon />
-                      Choose file
+                    <Box width="100%">
+                      <input
+                        type="file"
+                        name="file"
+                        id={`car-image`}
+                        style={{ display: "none" }}
+                        onChange={(e) => handleUploadImage(e, setCarImage)}
+                      />
+                      <label
+                        htmlFor={`car-image`}
+                        style={{
+                          display: "inline-block",
+                          height: "100%",
+                          width: "100%",
+                        }}
+                      >
+                        <Box
+                          height="100%"
+                          width="100%"
+                          display="flex"
+                          gap="10px"
+                          justifyContent={"center"}
+                          alignItems={"center"}
+                          bgcolor="#E8DEF8"
+                          fontSize="14px"
+                          fontWeight={500}
+                          border="1px solid #79747E"
+                        >
+                          <UploadIcon />
+                          Choose file
+                        </Box>
+                      </label>
                     </Box>
                     <Box
                       width="100%"
@@ -671,7 +741,7 @@ const AutoImportItem = ({
                         borderBottomRightRadius: "100px",
                       }}
                     >
-                      No file chosen
+                      {carImage.name ? carImage.name : "No file chosen"}
                     </Box>
                   </Box>
                 </Box>
@@ -685,20 +755,38 @@ const AutoImportItem = ({
                     Upload Copy of Car Title
                   </Typography>
                   <Box height="40px" display="flex">
-                    <Box
-                      height="100%"
-                      width="100%"
-                      display="flex"
-                      gap="10px"
-                      justifyContent={"center"}
-                      alignItems={"center"}
-                      bgcolor="#E8DEF8"
-                      fontSize="14px"
-                      fontWeight={500}
-                      border="1px solid #79747E"
-                    >
-                      <UploadIcon />
-                      Choose file
+                    <Box width="100%">
+                      <input
+                        type="file"
+                        name="file"
+                        id={`car-title`}
+                        style={{ display: "none" }}
+                        onChange={(e) => handleUploadImage(e, setCarTitle)}
+                      />
+                      <label
+                        htmlFor={`car-title`}
+                        style={{
+                          display: "inline-block",
+                          height: "100%",
+                          width: "100%",
+                        }}
+                      >
+                        <Box
+                          height="100%"
+                          width="100%"
+                          display="flex"
+                          gap="10px"
+                          justifyContent={"center"}
+                          alignItems={"center"}
+                          bgcolor="#E8DEF8"
+                          fontSize="14px"
+                          fontWeight={500}
+                          border="1px solid #79747E"
+                        >
+                          <UploadIcon />
+                          Choose file
+                        </Box>
+                      </label>
                     </Box>
                     <Box
                       width="100%"
@@ -714,7 +802,7 @@ const AutoImportItem = ({
                         borderBottomRightRadius: "100px",
                       }}
                     >
-                      No file chosen
+                      {carTitle.name ? carTitle.name : "No file chosen"}
                     </Box>
                   </Box>
                 </Box>
@@ -1138,7 +1226,7 @@ const AutoImportItem = ({
               textTransform: "none",
             }}
             onClick={() => {
-              handleUpdateItem();
+              handleEditCar(itemNumber - 1);
               setOpenModal(false);
             }}
           >
