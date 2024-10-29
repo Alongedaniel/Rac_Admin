@@ -34,6 +34,7 @@ const OrderPricing = ({
   setShippingCost = () => {},
   setClearingCost = () => {},
   setDutyFee = () => {},
+  setrequests = () => {},
   service = "",
   shopForMe = false,
   requestItems = [],
@@ -1273,6 +1274,7 @@ const OrderPricing = ({
                           totalPickupCost={totalPickupCost}
                           setTotalPickupCost={setTotalPickupCost}
                           isRequest={isRequest}
+                          setrequests={setrequests}
                         />
                       </Grid>
                     ))}

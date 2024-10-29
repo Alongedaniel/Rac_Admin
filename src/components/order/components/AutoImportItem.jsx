@@ -4,6 +4,7 @@ import {
   Button,
   CircularProgress,
   Grid,
+  MenuItem,
   Snackbar,
   TextField,
   Typography,
@@ -22,6 +23,11 @@ import { City, Country, State } from "country-state-city";
 import Requests from "../../../utils/hooks/api/requests";
 import CloseIcon from "../../../assets/icons/CloseIcon";
 import { toTitleCase } from "../../../pages/orders/order-details";
+import CircleRight from "../../../assets/icons/CircleRight";
+import SwitchCopm from "./SwitchCopm";
+import TooltipIcon from "../../../assets/icons/TooltipIcon";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const AutoImportItem = ({
   view,
@@ -34,8 +40,10 @@ const AutoImportItem = ({
   const { customPostRequest, loading, error, success, setSuccess, setError } =
     Requests();
   const today = dayjs();
-  const [openModal, setOpenModal] = useState(false);
   const [date, setDate] = useState(today);
+  const [openModal, setOpenModal] = useState(false);
+  const [openPreviewModal, setOpenPreviewModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
   const [carBrand, setCarBrand] = useState(item?.carBrand || "");
   const [carCondition, setCarCondition] = useState(item?.carCondition || "");
   const [carImage, setCarImage] = useState(item?.carImage || "");
@@ -55,8 +63,8 @@ const AutoImportItem = ({
     item?.additionalDescription || "",
   );
   const [address, setAddress] = useState(item?.pickupDetails?.address || "");
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
+  const [city, setCity] = useState(item?.pickupDetails?.city || "");
+  const [country, setCountry] = useState(item?.pickupDetails?.country || "");
   const [countryCode, setCountryCode] = useState(
     item?.pickupDetails?.countryCode || "",
   );
@@ -74,10 +82,11 @@ const AutoImportItem = ({
   const [pickUpDate, setPickUpDate] = useState(
     item?.pickupDetails?.pickUpDate || "",
   );
-  const [state, setState] = useState("");
+  const [state, setState] = useState(item?.pickupDetails?.state || "");
   const [zipPostalCode, setZipPostalCode] = useState(
     item?.pickupDetails?.zipPostalCode || "",
   );
+  const [dropOff, setDropOff] = useState(firstName ? true : false);
   const [selectedCountry, setSelectedCountry] = useState();
   const [selectedState, setSelectedState] = useState();
   const [countries, setCountries] = useState(Country.getAllCountries());
@@ -99,6 +108,23 @@ const AutoImportItem = ({
     setSuccess(false);
   };
 
+  const handleAddPickup = () => {
+    setDropOff(!dropOff);
+    if (!dropOff) {
+      setAddress("");
+      setCity("");
+      setCountry("");
+      setCountryCode("");
+      setEmail("");
+      setFirstName("");
+      setLastName("");
+      setLocationType("");
+      setPhoneNumber("");
+      setPickUpDate("");
+      setState("");
+    }
+  };
+
   const editedData = {
     service: toTitleCase(order?.serviceType),
     update: {
@@ -113,6 +139,20 @@ const AutoImportItem = ({
       mileage: Number(mileage),
       link: link,
       color: color,
+      pickupDetails: {
+        address,
+        city: city.name,
+        country: country.name,
+        countryCode,
+        email,
+        firstName,
+        lastName: "",
+        locationType,
+        phoneNumber,
+        pickUpDate: date,
+        state: state.name,
+        zipPostalCode: zipPostalCode,
+      },
     },
     requestId: order?.request?.requestId,
     requestItemIndex: itemNumber - 1,
@@ -123,6 +163,7 @@ const AutoImportItem = ({
       customPostRequest(`/cross-service/edit-requests`, editedData);
     } catch (e) {}
   };
+  
   return (
     <Box
       sx={{
@@ -225,7 +266,7 @@ const AutoImportItem = ({
                   src={item?.carImage}
                   alt="car"
                   className=" mt-[10px] rounded-[10px]"
-                  style={{ objectFit: "cover", width: '100%', height: '150px' }}
+                  style={{ objectFit: "cover", width: "100%", height: "150px" }}
                 />
               </div>
             </Box>
@@ -756,7 +797,7 @@ const AutoImportItem = ({
                   </Box>
                 </Box>
               </Box> */}
-              {/* <Box>
+              <Box>
                 <div className="flex items-center space-x-[10px] ">
                   <CircleRight />
                   <p className="font-roboto font-[500] text-[14px] text-t/100 text-brand/200 ">
@@ -774,143 +815,280 @@ const AutoImportItem = ({
                       Drop Off
                     </Typography>
                     <Box display="flex" gap="10px" alignItems="center">
-                      <SwitchCopm />
+                      <Box onClick={handleAddPickup}>
+                        <SwitchCopm />
+                      </Box>
                       <TooltipIcon />
                     </Box>
                   </Box>
-                  <Box
-                    pl="30px"
-                    display="flex"
-                    flexDirection="column"
-                    gap="30px"
-                  >
-                    <Grid container gap="30px" wrap="nowrap">
-                      <Grid item xs={5}>
-                        {" "}
-                        <TextField
-                          required
-                          id="contact-name"
-                          sx={{ fontSize: "16px", color: "#1C1B1F" }}
-                          type="text"
-                          label="Pick up Contact Name"
-                          value={firstName}
-                          onChange={(e) => setFirstName(e.target.value)}
-                          fullWidth
-                          placeholder="Contact’s name"
-                          InputProps={{
-                            sx: {
-                              borderRadius: "20px", // Apply border radius to the input element
-                              height: "56px",
-                              borderColor: "#79747E",
-                              fontSize: "16px",
-                              color: "#1C1B1F",
-                            },
-                          }}
-                        />
+                  {dropOff && (
+                    <Box
+                      pl="30px"
+                      display="flex"
+                      flexDirection="column"
+                      gap="30px"
+                    >
+                      <Grid container gap="30px" wrap="nowrap">
+                        <Grid item xs={5}>
+                          {" "}
+                          <TextField
+                            required
+                            id="contact-name"
+                            sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                            type="text"
+                            label="Pick up Contact Name"
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                            fullWidth
+                            placeholder="Contact’s name"
+                            InputProps={{
+                              sx: {
+                                borderRadius: "20px", // Apply border radius to the input element
+                                height: "56px",
+                                borderColor: "#79747E",
+                                fontSize: "16px",
+                                color: "#1C1B1F",
+                              },
+                            }}
+                          />
+                        </Grid>
+                        <Grid item xs={7}>
+                          <Grid container wrap="nowrap">
+                            <Grid item xs={4}>
+                              {" "}
+                              <TextField
+                                required
+                                id="contact-code"
+                                sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                                type="text"
+                                label="Contact Phone Number"
+                                value={countryCode}
+                                onChange={(e) => setCountryCode(e.target.value)}
+                                fullWidth
+                                InputProps={{
+                                  sx: {
+                                    borderTopLeftRadius: "20px", // Apply border radius to the input element
+                                    borderBottomLeftRadius: "20px", // Apply border radius to the input element
+                                    height: "56px",
+                                    borderColor: "#79747E",
+                                    fontSize: "16px",
+                                    color: "#1C1B1F",
+                                  },
+                                }}
+                              />
+                            </Grid>
+                            <Grid item xs={8}>
+                              {" "}
+                              <TextField
+                                required
+                                id="contact-email-address"
+                                sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                                type="text"
+                                value={phoneNumber}
+                                onChange={(e) => setPhoneNumber(e.target.value)}
+                                fullWidth
+                                placeholder="Enter contact’s phone number"
+                                InputProps={{
+                                  sx: {
+                                    borderTopRightRadius: "20px", // Apply border radius to the input element
+                                    borderBottomRightRadius: "20px", // Apply border radius to the input element
+                                    height: "56px",
+                                    borderColor: "#79747E",
+                                    fontSize: "16px",
+                                    color: "#1C1B1F",
+                                  },
+                                }}
+                              />
+                            </Grid>
+                          </Grid>
+                        </Grid>
                       </Grid>
-                      <Grid item xs={7}>
-                        <Grid container wrap="nowrap">
+                      <TextField
+                        required
+                        id="contact-email-address"
+                        sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                        type="text"
+                        label="Pick up Contact Email Address"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        fullWidth
+                        placeholder="Contact’s email address"
+                        InputProps={{
+                          sx: {
+                            borderRadius: "20px", // Apply border radius to the input element
+                            height: "56px",
+                            borderColor: "#79747E",
+                            fontSize: "16px",
+                            color: "#1C1B1F",
+                          },
+                        }}
+                      />
+                      <TextField
+                        required
+                        id="contact-address"
+                        sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                        type="text"
+                        label="Pick up Address"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                        fullWidth
+                        placeholder="Enter the Millage"
+                        InputProps={{
+                          sx: {
+                            borderRadius: "20px", // Apply border radius to the input element
+                            height: "56px",
+                            borderColor: "#79747E",
+                            fontSize: "16px",
+                            color: "#1C1B1F",
+                          },
+                        }}
+                      />
+                      <Box>
+                        <Grid container wrap="nowrap" gap="30px">
                           <Grid item xs={4}>
                             {" "}
                             <TextField
                               required
-                              id="contact-code"
+                              id="contact-country"
                               sx={{ fontSize: "16px", color: "#1C1B1F" }}
                               type="text"
-                              label="Contact Phone Number"
-                              value={countryCode}
-                              onChange={(e) => setCountryCode(e.target.value)}
+                              label="Location Of The Car (Country)"
+                              value={country.name}
+                              onChange={(e) => setCountry(e.target.value)}
                               fullWidth
+                              select
                               InputProps={{
                                 sx: {
-                                  borderTopLeftRadius: "20px", // Apply border radius to the input element
-                                  borderBottomLeftRadius: "20px", // Apply border radius to the input element
+                                  borderRadius: "20px", // Apply border radius to the input element
                                   height: "56px",
                                   borderColor: "#79747E",
                                   fontSize: "16px",
                                   color: "#1C1B1F",
                                 },
                               }}
-                            />
+                            >
+                              {countries.map((country, i) => (
+                                <MenuItem
+                                  sx={{ zIndex: 9999 }}
+                                  value={country.name}
+                                  key={i}
+                                  onClick={() => setSelectedCountry(country)}
+                                >
+                                  {country.name}
+                                </MenuItem>
+                              ))}
+                            </TextField>
                           </Grid>
-                          <Grid item xs={8}>
+                          <Grid item xs={4}>
                             {" "}
                             <TextField
                               required
-                              id="contact-email-address"
+                              id="contact-state"
                               sx={{ fontSize: "16px", color: "#1C1B1F" }}
                               type="text"
-                              value={phoneNumber}
-                              onChange={(e) => setPhoneNumber(e.target.value)}
+                              label="Location Of The Car (State)"
+                              value={state.name}
+                              onChange={(e) => setState(e.target.value)}
                               fullWidth
-                              placeholder="Enter contact’s phone number"
+                              select
                               InputProps={{
                                 sx: {
-                                  borderTopRightRadius: "20px", // Apply border radius to the input element
-                                  borderBottomRightRadius: "20px", // Apply border radius to the input element
+                                  borderRadius: "20px", // Apply border radius to the input element
                                   height: "56px",
                                   borderColor: "#79747E",
                                   fontSize: "16px",
                                   color: "#1C1B1F",
                                 },
                               }}
-                            />
+                            >
+                              {states.map((state, i) => (
+                                <MenuItem
+                                  sx={{ zIndex: 9999 }}
+                                  value={state.name}
+                                  key={i}
+                                  onClick={() => setSelectedState(state)}
+                                >
+                                  {state.name}
+                                </MenuItem>
+                              ))}
+                            </TextField>
+                          </Grid>
+                          <Grid item xs={4}>
+                            {" "}
+                            <TextField
+                              required
+                              id="contact-city"
+                              sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                              type="text"
+                              label="Location Of The Car (City)"
+                              value={city.name}
+                              onChange={(e) => setCity(e.target.value)}
+                              fullWidth
+                              select
+                              InputProps={{
+                                sx: {
+                                  borderRadius: "20px", // Apply border radius to the input element
+                                  height: "56px",
+                                  borderColor: "#79747E",
+                                  fontSize: "16px",
+                                  color: "#1C1B1F",
+                                },
+                              }}
+                            >
+                              {cities.map((city, i) => (
+                                <MenuItem
+                                  value={city.name}
+                                  key={i}
+                                  // onClick={() => setCity(city)}
+                                  sx={{ zIndex: 9999 }}
+                                >
+                                  {city.name}
+                                </MenuItem>
+                              ))}
+                            </TextField>
                           </Grid>
                         </Grid>
-                      </Grid>
-                    </Grid>
-                    <TextField
-                      required
-                      id="contact-email-address"
-                      sx={{ fontSize: "16px", color: "#1C1B1F" }}
-                      type="text"
-                      label="Pick up Contact Email Address"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      fullWidth
-                      placeholder="Contact’s email address"
-                      InputProps={{
-                        sx: {
-                          borderRadius: "20px", // Apply border radius to the input element
-                          height: "56px",
-                          borderColor: "#79747E",
-                          fontSize: "16px",
-                          color: "#1C1B1F",
-                        },
-                      }}
-                    />
-                    <TextField
-                      required
-                      id="contact-address"
-                      sx={{ fontSize: "16px", color: "#1C1B1F" }}
-                      type="text"
-                      label="Pick up Address"
-                      value={address}
-                      onChange={(e) => setAddress(e.target.value)}
-                      fullWidth
-                      placeholder="Enter the Millage"
-                      InputProps={{
-                        sx: {
-                          borderRadius: "20px", // Apply border radius to the input element
-                          height: "56px",
-                          borderColor: "#79747E",
-                          fontSize: "16px",
-                          color: "#1C1B1F",
-                        },
-                      }}
-                    />
-                    <Box>
+                        <Typography fontSize={"12px"} px="20px" mt="5px">
+                          The car location(city) is used to determine the pickup
+                          cost. Select a car in Houston or Atlanta city to enjoy
+                          a pick-up cost of just $195
+                        </Typography>
+                      </Box>
                       <Grid container wrap="nowrap" gap="30px">
-                        <Grid item xs={4}>
+                        <Grid item xs={4.5}>
+                          {" "}
+                          <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                              label="Pick Up Date"
+                              slotProps={{
+                                textField: {
+                                  helperText: "MM/DD/YYYY",
+                                },
+                              }}
+                              value={date}
+                              onChange={(newValue) => setDate(newValue)}
+                              sx={{
+                                //   display: 'none',
+                                width: "100%",
+                                borderRadius: "20px", // Apply border radius to the input element
+                                height: "56px",
+                                borderColor: "#79747E",
+                                fontSize: "16px",
+                                color: "#1C1B1F",
+                              }}
+                            />
+                          </LocalizationProvider>
+                        </Grid>
+                        <Grid item xs={7.5}>
                           {" "}
                           <TextField
                             required
-                            id="contact-country"
+                            id="location-type"
                             sx={{ fontSize: "16px", color: "#1C1B1F" }}
                             type="text"
-                            label="Location Of The Car (Country)"
-                            value={country.name}
-                            onChange={(e) => setCountry(e.target.value)}
+                            label="Pickup Location Type *"
+                            // value={productName}
+                            // onChange={(e) => setProductName(e.target.value)}
                             fullWidth
                             select
                             InputProps={{
@@ -921,147 +1099,14 @@ const AutoImportItem = ({
                                 fontSize: "16px",
                                 color: "#1C1B1F",
                               },
-                            }}
-                          >
-                            {countries.map((country, i) => (
-                              <MenuItem
-                                sx={{ zIndex: 9999 }}
-                                value={country.name}
-                                key={i}
-                                onClick={() => setSelectedCountry(country)}
-                              >
-                                {country.name}
-                              </MenuItem>
-                            ))}
-                          </TextField>
-                        </Grid>
-                        <Grid item xs={4}>
-                          {" "}
-                          <TextField
-                            required
-                            id="contact-state"
-                            sx={{ fontSize: "16px", color: "#1C1B1F" }}
-                            type="text"
-                            label="Location Of The Car (State)"
-                            value={state.name}
-                            onChange={(e) => setState(e.target.value)}
-                            fullWidth
-                            select
-                            InputProps={{
-                              sx: {
-                                borderRadius: "20px", // Apply border radius to the input element
-                                height: "56px",
-                                borderColor: "#79747E",
-                                fontSize: "16px",
-                                color: "#1C1B1F",
-                              },
-                            }}
-                          >
-                            {states.map((state, i) => (
-                              <MenuItem
-                                sx={{ zIndex: 9999 }}
-                                value={state.name}
-                                key={i}
-                                onClick={() => setSelectedState(state)}
-                              >
-                                {state.name}
-                              </MenuItem>
-                            ))}
-                          </TextField>
-                        </Grid>
-                        <Grid item xs={4}>
-                          {" "}
-                          <TextField
-                            required
-                            id="contact-city"
-                            sx={{ fontSize: "16px", color: "#1C1B1F" }}
-                            type="text"
-                            label="Location Of The Car (City)"
-                            value={city.name}
-                            onChange={(e) => setCity(e.target.value)}
-                            fullWidth
-                            select
-                            InputProps={{
-                              sx: {
-                                borderRadius: "20px", // Apply border radius to the input element
-                                height: "56px",
-                                borderColor: "#79747E",
-                                fontSize: "16px",
-                                color: "#1C1B1F",
-                              },
-                            }}
-                          >
-                            {cities.map((city, i) => (
-                              <MenuItem
-                                value={city.name}
-                                key={i}
-                                // onClick={() => setCity(city)}
-                                sx={{ zIndex: 9999 }}
-                              >
-                                {city.name}
-                              </MenuItem>
-                            ))}
-                          </TextField>
-                        </Grid>
-                      </Grid>
-                      <Typography fontSize={"12px"} px="20px" mt="5px">
-                        The car location(city) is used to determine the pickup
-                        cost. Select a car in Houston or Atlanta city to enjoy a
-                        pick-up cost of just $195
-                      </Typography>
-                    </Box>
-                    <Grid container wrap="nowrap" gap="30px">
-                      <Grid item xs={4.5}>
-                        {" "}
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                          <DatePicker
-                            label="Pick Up Date"
-                            slotProps={{
-                              textField: {
-                                helperText: "MM/DD/YYYY",
-                              },
-                            }}
-                            value={date}
-                            onChange={(newValue) => setDate(newValue)}
-                            sx={{
-                              //   display: 'none',
-                              width: "100%",
-                              borderRadius: "20px", // Apply border radius to the input element
-                              height: "56px",
-                              borderColor: "#79747E",
-                              fontSize: "16px",
-                              color: "#1C1B1F",
                             }}
                           />
-                        </LocalizationProvider>
+                        </Grid>
                       </Grid>
-                      <Grid item xs={7.5}>
-                        {" "}
-                        <TextField
-                          required
-                          id="location-type"
-                          sx={{ fontSize: "16px", color: "#1C1B1F" }}
-                          type="text"
-                          label="Pickup Location Type *"
-                          // value={productName}
-                          // onChange={(e) => setProductName(e.target.value)}
-                          fullWidth
-                          select
-                          InputProps={{
-                            sx: {
-                              borderRadius: "20px", // Apply border radius to the input element
-                              height: "56px",
-                              borderColor: "#79747E",
-                              fontSize: "16px",
-                              color: "#1C1B1F",
-                            },
-                          }}
-                        />
-                      </Grid>
-                    </Grid>
-                  </Box>
+                    </Box>
+                  )}
                 </Box>
-              </Box> */}
+              </Box>
             </Box>
           </Box>
         </CardWrapper>
@@ -1098,6 +1143,43 @@ const AutoImportItem = ({
             }}
           >
             Update
+          </Button>
+        </Box>
+      </UserModals>
+      <UserModals
+        open={openPreviewModal}
+        onClose={() => setOpenPreviewModal(false)}
+        title="Car Preview"
+      >
+        <Box
+          sx={{
+            idth: "100%",
+            maxWidth: "518px",
+            height: "411px",
+            borderRadius: "20px",
+          }}
+        >
+          <img
+            src={selectedImage}
+            alt="car"
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
+        </Box>
+        <Box mt="30px" width="100%" display="flex" justifyContent="flex-end">
+          <Button
+            startIcon={<ArrowLeftPurple />}
+            variant="outlined"
+            sx={{
+              borderColor: "#79747E",
+              color: "#79747E",
+              height: "40px",
+              borderRadius: "100px",
+              textTransform: "none",
+              mr: "10px",
+            }}
+            onClick={() => setOpenPreviewModal(false)}
+          >
+            Back
           </Button>
         </Box>
       </UserModals>

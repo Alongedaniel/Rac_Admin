@@ -197,7 +197,7 @@ const Home = () => {
             }
           }}
         >
-          {loading ? <CircularProgress /> : "Submit"}
+          {loading ? <CircularProgress size={24} /> : "Submit"}
         </Button>
         <Typography fontSize="14px" color="#000">
           Did not receive any OTP?{" "}

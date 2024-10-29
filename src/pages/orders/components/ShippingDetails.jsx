@@ -19,6 +19,45 @@ const ShippingDetails = ({
 }) => {
   const [open, setOpen] = useState(false);
   const destination = order?.request?.destinationDetails;
+  const [receiverFirstName, setReceiverFirstName] = useState(
+    destination?.firstName || "",
+  );
+  const [receiverLastName, setReceiverLastName] = useState(
+    destination?.lastName || "",
+  );
+  const [receiverEmail, setReceiverEmail] = useState(destination?.email || "");
+  const [receiverPhoneNumber, setReceiverPhoneNumber] = useState(
+    destination?.phoneNumber || "",
+  );
+  const [destinationCountry, setDestinationCountry] = useState(
+    destination?.country || "",
+  );
+  const [destinationState, setDestinationState] = useState(
+    destination?.state || "",
+  );
+  const [destinationCity, setDestinationCity] = useState(
+    destination?.city || "",
+  );
+  const [receiverAddress, setReceiverAddress] = useState(
+    destination?.address || "",
+  );
+  const [receiverZipCode, setReceiverZipCode] = useState(
+    destination?.zipPostalCode || "",
+  );
+
+  const handleUpdateShippingDetails = () => {
+    setDestinationDetails({
+      address: receiverAddress,
+      firstName: receiverFirstName,
+      state: destinationState,
+      country: destinationCountry,
+      city: destinationCity,
+      email: receiverEmail,
+      zipPostalCode: receiverZipCode,
+      countryCode: "",
+      phoneNumber: receiverPhoneNumber,
+    });
+  };
   return (
     <>
       {type === "request" ||
@@ -132,7 +171,25 @@ const ShippingDetails = ({
             title="Edit Shipping Details"
           >
             <ShippingDetailsForm
-              destinationDetail={destinationDetails}
+              setReceiverZipCode={setReceiverZipCode}
+              receiverZipCode={receiverZipCode}
+              setReceiverAddress={setReceiverAddress}
+              receiverAddress={receiverAddress}
+              setDestinationCity={setDestinationCity}
+              destinationCity={destinationCity}
+              setDestinationState={setDestinationState}
+              destinationState={destinationState}
+              setDestinationCountry={setDestinationCountry}
+              destinationCountry={destinationCountry}
+              setReceiverPhoneNumber={setReceiverPhoneNumber}
+              receiverPhoneNumber={receiverPhoneNumber}
+              setReceiverEmail={setReceiverEmail}
+              receiverEmail={receiverEmail}
+              setReceiverLastName={setReceiverLastName}
+              receiverLastName={receiverLastName}
+              setReceiverFirstName={setReceiverFirstName}
+              receiverFirstName={receiverFirstName}
+              destinationDetails={destinationDetails}
               setDestinationDetails={setDestinationDetails}
             />
             <Box>
@@ -162,6 +219,7 @@ const ShippingDetails = ({
                   borderRadius: "100px",
                   textTransform: "none",
                 }}
+                onClick={handleUpdateShippingDetails}
               >
                 Update
               </Button>

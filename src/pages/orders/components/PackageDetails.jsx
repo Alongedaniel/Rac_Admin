@@ -90,10 +90,44 @@ const PackageDetails = ({
   const [cities, setCities] = useState([]);
   useEffect(() => {
     setStates(State.getStatesOfCountry(country?.isoCode));
-    setCities(
-      City.getCitiesOfState(country?.isoCode, state?.isoCode)
-    );
+    setCities(City.getCitiesOfState(country?.isoCode, state?.isoCode));
   }, [country, state]);
+
+  const resetFields = () => {
+    setCarBrand("");
+    setCarCondition("");
+    setCarImage("");
+    setCarTitle("");
+    setCarValue(0);
+    setColor("");
+    setLink("");
+    setMileage(0);
+    setModel("");
+    setProductionYear("");
+    setVehicleIdNumber("");
+    setAdditionalDescription("");
+    setDropOff(false);
+
+    setItemName("");
+    setOriginalCost(0);
+    setStore("");
+    setItemUrl("");
+    setUrgentPurchase(false);
+    setQuantityValue(0);
+    setItemImage(null);
+
+    setAddress("");
+    setCity("");
+    setCountry("");
+    setCountryCode("");
+    setEmail("");
+    setFirstName("");
+    setLastName("");
+    setLocationType("");
+    setPhoneNumber("");
+    setPickUpDate("");
+    setState("");
+  };
 
   const [openEditOrigin, setOpenEditOrigin] = useState(false);
   const [origins, setOrigins] = useState(
@@ -104,7 +138,7 @@ const PackageDetails = ({
           "Dubai Warehouse",
           "China Warehouse (Guangzhou city)",
           "US Warehouse (Richmond Texas)",
-        ]
+        ],
   );
 
   const handleAddCar = () => {
@@ -134,7 +168,7 @@ const PackageDetails = ({
             carTitle: null,
             productionYear,
             vehicleIdNumber,
-            pickupCost: {
+            pickupDetails: {
               address,
               city: city.name,
               country: country.name,
@@ -150,6 +184,7 @@ const PackageDetails = ({
             },
           },
     ]);
+    resetFields();
   };
   return (
     <div className="">
@@ -306,7 +341,7 @@ const PackageDetails = ({
               />
             ),
           )
-        : order?.request?.requestItems
+        : order?.request?.requestItems && !confirm
           ? order?.request?.requestItems?.map((item, i) => (
               <ItemBox
                 confirm={order?.request?.requestStatus === "Not Responded"}
@@ -320,7 +355,7 @@ const PackageDetails = ({
                 refetch={refetch}
               />
             ))
-          : order?.map((item, i) => (
+          : requests?.map((item, i) => (
               <ItemBox
                 confirm={false}
                 activeStep={activeStep}
@@ -333,7 +368,9 @@ const PackageDetails = ({
                 itemNumber={i + 1}
                 refetch={refetch}
                 requestId={requestId}
-                requestService={service}
+              requestService={service}
+              requests={requests}
+              setrequests={setrequests}
               />
             ))}
       {(type === "request" || isRequest) && proceed && (
@@ -447,7 +484,7 @@ const PackageDetails = ({
         title={
           toTitleCase(order?.serviceType) === "Auto Import"
             ? "Add New Car"
-            : "Edit Package Details"
+            : "Add New Item"
         }
       >
         {toTitleCase(order?.serviceType) === "Auto Import" ? (
@@ -1222,7 +1259,9 @@ const PackageDetails = ({
                                 type="text"
                                 label="Pickup Location Type *"
                                 value={locationType}
-                                onChange={(e) => setLocationType(e.target.value)}
+                                onChange={(e) =>
+                                  setLocationType(e.target.value)
+                                }
                                 fullWidth
                                 InputProps={{
                                   sx: {
@@ -1324,7 +1363,7 @@ const PackageDetails = ({
                                     key={x}
                                     onClick={() =>
                                       setUrgentPurchase(
-                                        x === "Yes" ? true : false
+                                        x === "Yes" ? true : false,
                                       )
                                     }
                                   >

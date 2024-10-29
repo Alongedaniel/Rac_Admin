@@ -197,7 +197,7 @@ function Navbar({ navbarTitle }) {
               }}
               onClick={logout}
             >
-              {loading ? <CircularProgress /> : "Logout"}
+              {loading ? <CircularProgress size={24} /> : "Logout"}
             </Button>
           </MenuItem>
         </Box>

@@ -9,6 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import TooltipIcon from "../../../assets/icons/TooltipIcon";
+import { City, Country, State } from "country-state-city";
 
 const ShippingDetailsForm = ({
   receiverFirstName = "",
@@ -33,15 +34,18 @@ const ShippingDetailsForm = ({
   setDestinationDetails,
   destinationDetails,
 }) => {
-  const countries = [
-    "Nigeria",
-    "United States",
-    "United Kingdom",
-    "Canada",
-    "Australia",
-  ];
-  const states = ["Lagos", "Kano", "Abuja", "Rivers", "Anambra"];
-  const cities = ["Ikeja", "Badagry", "Lekki", "Oshodi", "Ikoyi"];
+  const [countries, setCountries] = useState(Country.getAllCountries());
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
+  useEffect(() => {
+    setStates(State.getStatesOfCountry(destinationCountry?.isoCode));
+    setCities(
+      City.getCitiesOfState(
+        destinationCountry?.isoCode,
+        destinationState?.isoCode,
+      ),
+    );
+  }, []);
   const countryCodes = [
     { name: "Nigeria", code: "+234" },
     { name: "United States", code: "+1" },
@@ -292,8 +296,8 @@ const ShippingDetailsForm = ({
                   id="destination-country"
                   type="text"
                   label="Destination Country"
-                  value={destinationCountry}
-                  onChange={(e) => setDestinationCountry(e.target.value)}
+                  value={destinationCountry.name}
+                  // onChange={(e) => setDestinationCountry(e.target.value)}
                   defaultValue={"Nigeria"}
                   select
                   InputProps={{
@@ -307,11 +311,16 @@ const ShippingDetailsForm = ({
                   }}
                   // placeholder="Enter your country"
                 >
-                  {countries.map((method, i) => (
-                    <MenuItem value={method} key={i}>
-                      {method}
+                  {countries.map((country, i) => (
+                    <MenuItem
+                      sx={{ zIndex: 9999 }}
+                      value={country.name}
+                      key={i}
+                      onClick={() => setDestinationCountry(country)}
+                    >
+                      {country.name}
                     </MenuItem>
-                  ))}{" "}
+                  ))}
                 </TextField>
               </Grid>
               <Grid item xs={4}>
@@ -321,8 +330,8 @@ const ShippingDetailsForm = ({
                   sx={{ fontSize: "16px", color: "#1C1B1F" }}
                   id="destination-state"
                   type="text"
-                  value={destinationState}
-                  onChange={(e) => setDestinationState(e.target.value)}
+                  value={destinationState.name}
+                  // onChange={(e) => setDestinationState(e.target.value)}
                   label="Destination State"
                   defaultValue={"Lagos"}
                   select
@@ -337,9 +346,14 @@ const ShippingDetailsForm = ({
                   }}
                   // placeholder="Enter your country"
                 >
-                  {states.map((company, i) => (
-                    <MenuItem value={company} key={i}>
-                      {company}
+                  {states.map((state, i) => (
+                    <MenuItem
+                      sx={{ zIndex: 9999 }}
+                      value={state.name}
+                      key={i}
+                      onClick={() => setDestinationState(state)}
+                    >
+                      {state.name}
                     </MenuItem>
                   ))}
                 </TextField>
@@ -351,8 +365,8 @@ const ShippingDetailsForm = ({
                   sx={{ fontSize: "16px", color: "#1C1B1F" }}
                   id="destination-city"
                   type="text"
-                  value={destinationCity}
-                  onChange={(e) => setDestinationCity(e.target.value)}
+                  value={destinationCity.name}
+                  // onChange={(e) => setDestinationCity(e.target.value)}
                   label="Destination City"
                   defaultValue={"Ikeja"}
                   select
@@ -367,9 +381,14 @@ const ShippingDetailsForm = ({
                   }}
                   // placeholder="Enter your country"
                 >
-                  {cities.map((company, i) => (
-                    <MenuItem value={company} key={i}>
-                      {company}
+                  {cities.map((city, i) => (
+                    <MenuItem
+                      value={city.name}
+                      key={i}
+                      onClick={() => setDestinationCity(city)}
+                      sx={{ zIndex: 9999 }}
+                    >
+                      {city.name}
                     </MenuItem>
                   ))}
                 </TextField>

@@ -96,15 +96,15 @@ function OrderDetails() {
   const deliveryCompanies = ["DHL", "Gokada", "Glovo"];
   const [origin, setOrigin] = useState("");
   const [destinationDetails, setDestinationDetails] = useState({
-    address: '',
-    firstName: '',
-    state: '',
-    country: '',
-    city: '',
-    email: '',
-    zipPostalCode: '',
-    countryCode: '',
-    phoneNumber: ''
+    address: "",
+    firstName: "",
+    state: "",
+    country: "",
+    city: "",
+    email: "",
+    zipPostalCode: "",
+    countryCode: "",
+    phoneNumber: "",
   });
 
   useEffect(() => {
@@ -127,7 +127,7 @@ function OrderDetails() {
             carTitle: null,
             productionYear: "",
             vehicleIdNumber: "",
-            pickupCost: {
+            pickupDetails: {
               address: "",
               city: "",
               country: "",
@@ -168,7 +168,7 @@ function OrderDetails() {
               idNumber: "",
               idType: "",
             },
-          ]
+          ],
   );
 
   useEffect(() => {
@@ -877,7 +877,7 @@ function OrderDetails() {
                       <>
                         <ShippingDetails
                           proceed={proceed}
-                          destinationDetail={destinationDetails}
+                          destinationDetails={destinationDetails}
                           setDestinationDetails={setDestinationDetails}
                           order={data}
                           type={type}
@@ -887,7 +887,7 @@ function OrderDetails() {
                       <OrderPricing
                         id={data?.request?._id}
                         service={toTitleCase(data?.serviceType)}
-                        requestItems={request}
+                        requestItems={requests}
                         data={data?.request}
                         setDiscountValue={setDiscountValue}
                         discountValue={discountValue}
@@ -1156,8 +1156,7 @@ function OrderDetails() {
                   ) : activeStep === 3 ? (
                     data?.serviceType === "autoImport" ? (
                       <>
-                                <BillingDetails
-                                
+                        <BillingDetails
                           proceed={proceed}
                           order={data}
                           type={type}
@@ -1168,6 +1167,7 @@ function OrderDetails() {
                             id={data?.request?._id}
                             service={toTitleCase(data?.serviceType)}
                             requestItems={requests}
+                            setrequests={setrequests}
                             data={data?.request}
                             setDiscountValue={setDiscountValue}
                             discountValue={discountValue}
@@ -1627,7 +1627,11 @@ function OrderDetails() {
                               if (!finish) {
                                 handleNext();
                                 if (activeStep === 0) {
-                                  setrequests([...data?.request?.requestItems]);
+                                  if (requests.length === 1) {
+                                    setrequests([
+                                      ...data?.request?.requestItems,
+                                    ]);
+                                  }
                                   setOrigin(data?.request?.origin);
                                 }
                               }

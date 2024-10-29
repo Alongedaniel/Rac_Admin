@@ -38,6 +38,8 @@ const ItemBox = ({
   requestId,
   requestService,
   setActiveStep,
+  requests,
+  setrequests,
 }) => {
   const { customPostRequest, loading, error, success, setSuccess, setError } =
     Requests();
@@ -45,16 +47,16 @@ const ItemBox = ({
   const service = toTitleCase(order?.serviceType);
   const [productName, setProductName] = useState(item?.itemName);
   const [originalCost, setOriginalCost] = useState(
-    item?.itemOriginalCost ?? item?.originalCost ?? 0,
+    item?.itemOriginalCost ?? item?.originalCost ?? 0
   );
   const [store, setStore] = useState(item?.store);
   const [itemUrl, setItemUrl] = useState(item?.itemUrl);
   const [urgentPurchase, setUrgentPurchase] = useState(item?.urgentPurchase);
   const [quantityValue, setQuantityValue] = useState(
-    item?.qty ?? item?.quantity ?? 0,
+    item?.qty ?? item?.quantity ?? 0
   );
   const [productDescription, setProductDescription] = useState(
-    item?.itemDescription ?? item?.additionalDescription,
+    item?.itemDescription ?? item?.additionalDescription
   );
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -106,6 +108,25 @@ const ItemBox = ({
       customPostRequest(`/cross-service/edit-requests`, editedData);
     } catch (e) {}
   };
+
+  const handleEditItem = (i) => {
+    const updated = requests.map((req, id) => {
+      if (id === i) {
+        return {
+          ...req,
+          itemName: productName,
+          originalCost: Number(originalCost),
+          additionalDescription: productDescription,
+          qty: quantityValue,
+          store: store,
+          itemUrl: itemUrl,
+          urgentPurchase: urgentPurchase,
+        };
+      }
+    });
+    setrequests(updated);
+  };
+
   return (
     <Box
       key={item?.id}
@@ -751,7 +772,8 @@ const ItemBox = ({
               textTransform: "none",
             }}
             onClick={() => {
-              handleUpdateItem();
+              
+              // handleUpdateItem();
               setOpen(false);
             }}
           >

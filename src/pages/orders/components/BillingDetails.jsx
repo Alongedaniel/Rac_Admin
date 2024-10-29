@@ -39,8 +39,8 @@ const BillingDetails = ({
           order?.vat +
           order?.storageCharges +
           order?.paymentMethodSurcharge +
-        totalCost;
-  
+          totalCost;
+
   const billingDetails = order?.request?.billingInformation;
   return (
     <>
