@@ -169,7 +169,7 @@ function OrderDetails() {
               idNumber: "",
               idType: "",
             },
-          ],
+          ]
   );
 
   useEffect(() => {
@@ -1160,7 +1160,8 @@ function OrderDetails() {
                   ) : activeStep === 3 ? (
                     data?.serviceType === "autoImport" ? (
                       <>
-                        <BillingDetails
+                                <BillingDetails
+                                
                           proceed={proceed}
                           order={data}
                           type={type}
