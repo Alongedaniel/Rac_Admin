@@ -20,6 +20,8 @@ import CardWrapper from "./CardWrapper";
 import AddIcon from "../../../assets/icons/AddIcon";
 import AddPropertyModal from "./AddPropertyModal";
 import DynamicItemComponent from "../../DynamicItemComponent";
+import UserModals from "../../../pages/Users/components/UserModals";
+import ArrowLeftPurple from "../../../assets/icons/ArrowLeftPurple";
 
 const PackageDetailsForm = ({
   requests,
@@ -58,6 +60,8 @@ const PackageDetailsForm = ({
         ],
   );
   const [quantityValue, setQuantityValue] = useState(1);
+  const [openPreviewModal, setOpenPreviewModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
   const [open, setOpen] = useState(false);
   // const [requests, setrequests] = useState([
   //   {
@@ -83,6 +87,7 @@ const PackageDetailsForm = ({
             itemImage: null,
             store: "",
             urgentPurchase: false,
+            itemImageName: "",
             itemUrl: "",
           }
         : {
@@ -93,31 +98,34 @@ const PackageDetailsForm = ({
             itemImage: null,
             deliveredBy: "",
             itemDeliveryStatus: "",
+            itemImageName: "",
             idNumber: "",
             idType: "",
           };
     setrequests([...requests, newOrder]);
   };
 
-  console.log(requests);
-
   const handleInputChange = (id, field, value) => {
     const updatedrequests = requests.map((order, i) =>
-      i === id ? { ...order, [field]: value } : order,
+      i === id
+        ? {
+            ...order,
+            ...(typeof field === "string"
+              ? { [field]: value }
+              : field),
+          }
+        : order
     );
     setrequests(updatedrequests);
   };
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setSelectedFile(file);
-  };
-
   const handleDeleteItem = (id) => {
     const filteredOrder = requests.filter((order, i) => i !== id);
     setrequests(filteredOrder);
   };
+
+  console.log(selectedImage);
 
   return (
     <Box>
@@ -176,7 +184,7 @@ const PackageDetailsForm = ({
           </p>
         </div>
         {order?.request?.requestItems
-          ? requests.map((request, i) => {
+          ? requests?.map((request, i) => {
               // setProductName(request.itemName);
               // setProductDescription(request.itemDescription);
               // setOriginalCost(request.itemOriginalCost);
@@ -469,13 +477,19 @@ const PackageDetailsForm = ({
                                 id={`file-${i}`}
                                 style={{ display: "none" }}
                                 // onChange={handleFileChange}
-                                onChange={(e) =>
-                                  handleInputChange(
-                                    i,
-                                    "productImage",
-                                    e.target.files[0],
-                                  )
-                                }
+                                onChange={(e) => {
+                                  const file = e.target.files[0];
+                                  if (file && file.type.startsWith("image/")) {
+                                    const reader = new FileReader();
+                                    reader.onload = () => {
+                                      handleInputChange(i, {
+                                        itemImage: reader.result,
+                                        itemImageName: file.name,
+                                      });
+                                    };
+                                    reader.readAsDataURL(file); // Converts file to a base64 string
+                                  }
+                                }}
                               />
                               <label
                                 htmlFor={`file-${i}`}
@@ -514,11 +528,22 @@ const PackageDetailsForm = ({
                                 fontWeight: 500,
                                 borderTopRightRadius: "100px",
                                 borderBottomRightRadius: "100px",
+                                cursor: request.itemImage
+                                  ? "default"
+                                  : "pointer",
+                              }}
+                              onClick={() => {
+                                if (request.itemImage) {
+                                  setSelectedImage(request.itemImage);
+                                  setOpenPreviewModal(true);
+                                }
                               }}
                             >
-                              {request.productImage
-                                ? request.productImage.name
-                                : "No file chosen"}
+                              {request?.itemImageName
+                                ? request.itemImageName
+                                : request?.itemImage && !request.itemImageName
+                                  ? `${request?.itemImage?.slice(0, 25)}...`
+                                  : "No file chosen"}
                             </Box>
                           </Box>
                         </Box>
@@ -922,6 +947,12 @@ const PackageDetailsForm = ({
                               borderTopRightRadius: "100px",
                               borderBottomRightRadius: "100px",
                             }}
+                            onClick={() => {
+                              if (order.productImage) {
+                                setSelectedImage(order.productImage.name);
+                                setOpenPreviewModal(true);
+                              }
+                            }}
                           >
                             {order.productImage
                               ? order.productImage.name
@@ -1220,6 +1251,45 @@ const PackageDetailsForm = ({
           </Box>
         )}
       </Box>
+      <UserModals
+        open={openPreviewModal}
+        onClose={() => setOpenPreviewModal(false)}
+        title="Item Preview"
+        width='fit-content'
+        height='fit-content'
+      >
+        <Box
+          sx={{
+            width: "100%",
+            maxWidth: "518px",
+            height: "311px",
+            borderRadius: "20px",
+          }}
+        >
+          <img
+            src={selectedImage}
+            alt="car"
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
+        </Box>
+        <Box mt="30px" width="100%" display="flex" justifyContent="flex-end">
+          <Button
+            startIcon={<ArrowLeftPurple />}
+            variant="outlined"
+            sx={{
+              borderColor: "#79747E",
+              color: "#79747E",
+              height: "40px",
+              borderRadius: "100px",
+              textTransform: "none",
+              mr: "10px",
+            }}
+            onClick={() => setOpenPreviewModal(false)}
+          >
+            Back
+          </Button>
+        </Box>
+      </UserModals>
     </Box>
   );
 };

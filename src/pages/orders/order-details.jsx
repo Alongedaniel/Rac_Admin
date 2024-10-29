@@ -94,17 +94,18 @@ function OrderDetails() {
   );
   const shipmentMethods = ["Road", "Air", "Rail", "Sea"];
   const deliveryCompanies = ["DHL", "Gokada", "Glovo"];
-  const [origin, setOrigin] = useState("");
+  const [origin, setOrigin] = useState(data?.request?.origin);
   const [destinationDetails, setDestinationDetails] = useState({
-    address: '',
-    firstName: '',
-    state: '',
-    country: '',
-    city: '',
-    email: '',
-    zipPostalCode: '',
-    countryCode: '',
-    phoneNumber: ''
+    address: "",
+    firstName: "",
+    lastName: "",
+    state: "",
+    country: "",
+    city: "",
+    email: "",
+    zipPostalCode: "",
+    countryCode: "",
+    phoneNumber: "",
   });
 
   useEffect(() => {
@@ -127,7 +128,7 @@ function OrderDetails() {
             carTitle: null,
             productionYear: "",
             vehicleIdNumber: "",
-            pickupCost: {
+            pickupDetails: {
               address: "",
               city: "",
               country: "",
@@ -684,7 +685,7 @@ function OrderDetails() {
                               </p>
                               <p className="font-roboto  text-[20px]">
                                 {moment(data?.request?.createdAt).format(
-                                  "DD/MM/YYYY",
+                                  "DD/MM/YYYY"
                                 )}
                               </p>
                             </div>
@@ -695,7 +696,7 @@ function OrderDetails() {
                               </p>
                               <p className="font-roboto  text-[20px]">
                                 {moment(data?.request?.createdAt).format(
-                                  "HH:mm",
+                                  "HH:mm"
                                 )}
                               </p>
                             </div>
@@ -846,6 +847,9 @@ function OrderDetails() {
                         setOrigin={setOrigin}
                         origin={origin}
                         confirm={true}
+                        service={toTitleCase(data?.serviceType)}
+                        activeStep={activeStep}
+                        setActiveStep={setActiveStep}
                       />
                     ) : (
                       <PackageDetailsForm
@@ -877,7 +881,7 @@ function OrderDetails() {
                       <>
                         <ShippingDetails
                           proceed={proceed}
-                          destinationDetail={destinationDetails}
+                          destinationDetails={destinationDetails}
                           setDestinationDetails={setDestinationDetails}
                           order={data}
                           type={type}
@@ -887,7 +891,7 @@ function OrderDetails() {
                       <OrderPricing
                         id={data?.request?._id}
                         service={toTitleCase(data?.serviceType)}
-                        requestItems={request}
+                        requestItems={requests}
                         data={data?.request}
                         setDiscountValue={setDiscountValue}
                         discountValue={discountValue}
@@ -972,7 +976,7 @@ function OrderDetails() {
                                         ["background-color"],
                                         {
                                           duration: 500,
-                                        },
+                                        }
                                       ),
                                     },
                                   },
@@ -1066,7 +1070,7 @@ function OrderDetails() {
                                 </Typography>
                                 <Typography fontSize={"20px"} color="#1C1B1F">
                                   {currencyFormatter.format(
-                                    data?.request?.storageCharges,
+                                    data?.request?.storageCharges
                                   )}
                                 </Typography>
                               </Grid>
@@ -1076,7 +1080,7 @@ function OrderDetails() {
                                 </Typography>
                                 <Typography fontSize={"20px"} color="#1C1B1F">
                                   {currencyFormatter.format(
-                                    data?.request?.insurance,
+                                    data?.request?.insurance
                                   )}
                                 </Typography>
                               </Grid>
@@ -1086,7 +1090,7 @@ function OrderDetails() {
                                 </Typography>
                                 <Typography fontSize={"20px"} color="#1C1B1F">
                                   {currencyFormatter.format(
-                                    data?.request?.paymentMethodSurcharge,
+                                    data?.request?.paymentMethodSurcharge
                                   )}
                                 </Typography>
                               </Grid>
@@ -1168,6 +1172,7 @@ function OrderDetails() {
                             id={data?.request?._id}
                             service={toTitleCase(data?.serviceType)}
                             requestItems={requests}
+                            setrequests={setrequests}
                             data={data?.request}
                             setDiscountValue={setDiscountValue}
                             discountValue={discountValue}
@@ -1199,15 +1204,17 @@ function OrderDetails() {
                           setActiveStep={setActiveStep}
                         />
                         <PackageDetails
+                          type={type}
                           refetch={refetch}
-                          order={requests}
+                          order={data}
                           origin={origin}
                           requestId={data?.request?.requestId}
                           service={data?.request?.serviceType}
                           isRequest={Boolean(requestid)}
-                          type={type}
                           activeStep={activeStep}
                           setActiveStep={setActiveStep}
+                          requests={requests}
+                          setrequests={setrequests}
                           confirm={true}
                         />
                         {data?.serviceType === "shopForMe" ? (
@@ -1234,14 +1241,20 @@ function OrderDetails() {
                           shipmentMethod={shipmentMethod}
                         />
 
-                        {/* <PackageDetails
-                          isRequest={Boolean(requestid)}
+                        <PackageDetails
+                          refetch={refetch}
                           order={data}
-                          type={type}
-                          toggle={toggle}
-                          drop={drop}
+                          origin={origin}
+                          requestId={data?.request?.requestId}
+                          service={data?.request?.serviceType}
+                          isRequest={Boolean(requestid)}
+                          activeStep={activeStep}
+                          setActiveStep={setActiveStep}
+                          requests={requests}
+                                    setrequests={setrequests}
+                                    confirm={true}
                         />
-                        <ShippingDetails
+                        {/* <ShippingDetails
                           order={data}
                           type={type}
                           toggle={toggle}
@@ -1281,10 +1294,10 @@ function OrderDetails() {
                               <Typography fontSize="20px" color="#fff">
                                 {saveAsDraft
                                   ? `You have just saved this ${toTitleCase(
-                                      data?.serviceType,
+                                      data?.serviceType
                                     )} request to draft. The customer will not be informed about this order until this request has been approved.`
                                   : `You have just successfully approved this ${toTitleCase(
-                                      data?.serviceType,
+                                      data?.serviceType
                                     )} order request`}
                               </Typography>
                             </Box>
@@ -1627,7 +1640,11 @@ function OrderDetails() {
                               if (!finish) {
                                 handleNext();
                                 if (activeStep === 0) {
-                                  setrequests([...data?.request?.requestItems]);
+                                  if (requests.length === 1) {
+                                    setrequests([
+                                      ...data?.request?.requestItems,
+                                    ]);
+                                  }
                                   setOrigin(data?.request?.origin);
                                 }
                               }

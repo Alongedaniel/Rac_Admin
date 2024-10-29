@@ -69,12 +69,17 @@ const AutoImportPackageDetails = ({
     setrequests([...requests, newOrder]);
   };
 
-  const handleInputChange = (id, field, value) => {
-    const updatedrequests = requests.map((order, i) =>
-      i === id ? { ...order, [field]: value } : order,
-    );
-    setrequests(updatedrequests);
-  };
+const handleInputChange = (id, field, value) => {
+  const updatedrequests = requests.map((order, i) =>
+    i === id
+      ? {
+          ...order,
+          ...(typeof field === "string" ? { [field]: value } : field),
+        }
+      : order
+  );
+  setrequests(updatedrequests);
+};
 
   const handleDeleteItem = (id) => {
     const filteredOrder = requests.filter((order, i) => i !== id);

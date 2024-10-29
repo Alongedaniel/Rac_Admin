@@ -143,7 +143,7 @@ const TwoFactorAuth = () => {
             if (isAuthenticated) navigate("/");
           }}
         >
-          {loading ? <CircularProgress /> : "Verify"}
+          {loading ? <CircularProgress size={24} /> : "Verify"}
         </Button>
         {step !== 1 && (
           <Box

@@ -803,7 +803,11 @@ const SignupForm = () => {
                   }}
                   // onClick={() => }
                 >
-                  {loading ? <CircularProgress /> : "Create my account"}
+                  {loading ? (
+                    <CircularProgress size={24} />
+                  ) : (
+                    "Create my account"
+                  )}
                 </Button>
               </Box>
               <Typography

@@ -34,6 +34,7 @@ const OrderPricing = ({
   setShippingCost = () => {},
   setClearingCost = () => {},
   setDutyFee = () => {},
+  setrequests = () => {},
   service = "",
   shopForMe = false,
   requestItems = [],
@@ -728,7 +729,7 @@ const OrderPricing = ({
                   >
                     <Typography fontSize={"14px"} fontWeight={600}>
                       {currencyFormatter.format(
-                        item.originalCost * item.quantity,
+                        item.originalCost * item.quantity
                       )}
                     </Typography>
                   </Grid>
@@ -789,7 +790,7 @@ const OrderPricing = ({
                 </Typography>
                 <Typography fontSize={"20px"} color="#1C1B1F">
                   {service === "Shop For Me"
-                    ? requestItems?.map((x) => (x.qty += totalItems))
+                    ? requestItems?.map((x) => (totalItems += Number(x.qty)))
                     : data?.map((x) => (total += x.quantity))}
                 </Typography>
               </Grid>
@@ -899,7 +900,7 @@ const OrderPricing = ({
                   </Typography>
                   <Typography fontSize={"20px"} color="#1C1B1F">
                     {currencyFormatter.format(
-                      Number(data?.totalUrgentPurchaseCost),
+                      Number(data?.totalUrgentPurchaseCost)
                     )}
                   </Typography>
                 </Grid>
@@ -911,7 +912,7 @@ const OrderPricing = ({
                   </Typography>
                   <Typography fontSize={"20px"} color="#1C1B1F">
                     {currencyFormatter.format(
-                      Number(data?.orderPaymentMethodSurcharge ?? 0),
+                      Number(data?.orderPaymentMethodSurcharge ?? 0)
                     )}
                   </Typography>
                 </Grid>
@@ -1117,7 +1118,7 @@ const OrderPricing = ({
                       </Typography>
                       <Typography fontSize={"20px"} color="#1C1B1F">
                         {currencyFormatter.format(
-                          Number(data?.storageCharges ?? 0),
+                          Number(data?.storageCharges ?? 0)
                         )}
                       </Typography>
                     </Grid>
@@ -1135,7 +1136,7 @@ const OrderPricing = ({
                       </Typography>
                       <Typography fontSize={"20px"} color="#1C1B1F">
                         {currencyFormatter.format(
-                          Number(data?.paymentMethodSurcharge ?? 0),
+                          Number(data?.paymentMethodSurcharge ?? 0)
                         )}
                       </Typography>
                     </Grid>
@@ -1273,6 +1274,7 @@ const OrderPricing = ({
                           totalPickupCost={totalPickupCost}
                           setTotalPickupCost={setTotalPickupCost}
                           isRequest={isRequest}
+                          setrequests={setrequests}
                         />
                       </Grid>
                     ))}
@@ -1352,7 +1354,7 @@ const OrderPricing = ({
                             ["background-color"],
                             {
                               duration: 500,
-                            },
+                            }
                           ),
                         },
                       },

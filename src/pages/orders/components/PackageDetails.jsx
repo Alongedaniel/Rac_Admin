@@ -51,8 +51,8 @@ const PackageDetails = ({
   const [open, setOpen] = useState(false);
   const [carBrand, setCarBrand] = useState("");
   const [carCondition, setCarCondition] = useState("");
-  const [carImage, setCarImage] = useState("");
-  const [carTitle, setCarTitle] = useState("");
+  const [carImage, setCarImage] = useState({img: '', name: ''});
+  const [carTitle, setCarTitle] = useState({img: '', name: ''});
   const [carValue, setCarValue] = useState(0);
   const [color, setColor] = useState("");
   const [link, setLink] = useState("");
@@ -69,7 +69,7 @@ const PackageDetails = ({
   const [itemUrl, setItemUrl] = useState("");
   const [urgentPurchase, setUrgentPurchase] = useState(false);
   const [quantityValue, setQuantityValue] = useState(0);
-  const [itemImage, setItemImage] = useState(null);
+  const [itemImage, setItemImage] = useState({img: '', name: ''});
   const today = dayjs();
   const [date, setDate] = useState(today);
 
@@ -90,10 +90,44 @@ const PackageDetails = ({
   const [cities, setCities] = useState([]);
   useEffect(() => {
     setStates(State.getStatesOfCountry(country?.isoCode));
-    setCities(
-      City.getCitiesOfState(country?.isoCode, state?.isoCode)
-    );
+    setCities(City.getCitiesOfState(country?.isoCode, state?.isoCode));
   }, [country, state]);
+
+  const resetFields = () => {
+    setCarBrand("");
+    setCarCondition("");
+    setCarImage("");
+    setCarTitle("");
+    setCarValue(0);
+    setColor("");
+    setLink("");
+    setMileage(0);
+    setModel("");
+    setProductionYear("");
+    setVehicleIdNumber("");
+    setAdditionalDescription("");
+    setDropOff(false);
+
+    setItemName("");
+    setOriginalCost(0);
+    setStore("");
+    setItemUrl("");
+    setUrgentPurchase(false);
+    setQuantityValue(0);
+    setItemImage(null);
+
+    setAddress("");
+    setCity("");
+    setCountry("");
+    setCountryCode("");
+    setEmail("");
+    setFirstName("");
+    setLastName("");
+    setLocationType("");
+    setPhoneNumber("");
+    setPickUpDate("");
+    setState("");
+  };
 
   const [openEditOrigin, setOpenEditOrigin] = useState(false);
   const [origins, setOrigins] = useState(
@@ -107,6 +141,22 @@ const PackageDetails = ({
         ]
   );
 
+
+
+  const handleUploadImage = (e, setImage) => {
+    const file = e.target.files[0];
+    if (file && file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImage({
+          img: reader.result,
+          name: file.name,
+        });
+      };
+      reader.readAsDataURL(file); // Converts file to a base64 string
+    }
+  };
+
   const handleAddCar = () => {
     setrequests((prev) => [
       ...prev,
@@ -116,9 +166,9 @@ const PackageDetails = ({
             originalCost,
             qty: quantityValue,
             additionalDescription,
-            itemImage: null,
+            itemImage: itemImage?.img,
             store,
-            urgentPurchase: false,
+            urgentPurchase,
             itemUrl,
           }
         : {
@@ -130,11 +180,11 @@ const PackageDetails = ({
             carValue,
             mileage,
             additionalDescription,
-            carImage: null,
-            carTitle: null,
+            carImage: carImage?.img,
+            carTitle: carTitle?.img,
             productionYear,
             vehicleIdNumber,
-            pickupCost: {
+            pickupDetails: {
               address,
               city: city.name,
               country: country.name,
@@ -150,6 +200,7 @@ const PackageDetails = ({
             },
           },
     ]);
+    resetFields();
   };
   return (
     <div className="">
@@ -206,7 +257,7 @@ const PackageDetails = ({
                   Origin warehouse:
                 </p>
                 <p className="font-roboto  text-[20px] text-brand/100">
-                  {order?.request?.origin ?? origin}
+                  {origin}
                 </p>
               </div>
             </div>
@@ -275,9 +326,8 @@ const PackageDetails = ({
             </>
           )}
         </CardWrapper>
-        {(type === "request" || isRequest) &&
-        !proceed &&
-        activeStep !== 3 ? null : (
+        {(type === "request" || isRequest) && !proceed && (activeStep !== 3 &&
+        activeStep !== 4) ? null : (
           <Box onClick={() => setOpenEditOrigin(true)}>
             <EditIcon />
           </Box>
@@ -293,6 +343,8 @@ const PackageDetails = ({
                 proceed={proceed}
                 refetch={refetch}
                 order={order}
+                requests={requests}
+                setrequests={setrequests}
               />
             ) : (
               <ProductBox
@@ -304,9 +356,9 @@ const PackageDetails = ({
                 isRequest={isRequest}
                 activeStep={activeStep}
               />
-            ),
+            )
           )
-        : order?.request?.requestItems
+        : !confirm
           ? order?.request?.requestItems?.map((item, i) => (
               <ItemBox
                 confirm={order?.request?.requestStatus === "Not Responded"}
@@ -318,9 +370,11 @@ const PackageDetails = ({
                 type={type}
                 itemNumber={i + 1}
                 refetch={refetch}
+                requests={requests}
+                setrequests={setrequests}
               />
             ))
-          : order?.map((item, i) => (
+          : requests?.map((item, i) => (
               <ItemBox
                 confirm={false}
                 activeStep={activeStep}
@@ -334,6 +388,8 @@ const PackageDetails = ({
                 refetch={refetch}
                 requestId={requestId}
                 requestService={service}
+                requests={requests}
+                setrequests={setrequests}
               />
             ))}
       {(type === "request" || isRequest) && proceed && (
@@ -447,7 +503,7 @@ const PackageDetails = ({
         title={
           toTitleCase(order?.serviceType) === "Auto Import"
             ? "Add New Car"
-            : "Edit Package Details"
+            : "Add New Item"
         }
       >
         {toTitleCase(order?.serviceType) === "Auto Import" ? (
@@ -718,7 +774,7 @@ const PackageDetails = ({
                             name="file"
                             id={`car-image`}
                             style={{ display: "none" }}
-                            onChange={(e) => setCarImage(e.target.files[0])}
+                            onChange={(e) => handleUploadImage(e, setCarImage)}
                           />
                           <label
                             htmlFor={`car-image`}
@@ -759,7 +815,7 @@ const PackageDetails = ({
                             borderBottomRightRadius: "100px",
                           }}
                         >
-                          {carImage ? carImage.name : "No file chosen"}
+                          {carImage.name ? carImage.name : "No file chosen"}
                         </Box>
                       </Box>
                     </Box>
@@ -779,7 +835,7 @@ const PackageDetails = ({
                             name="file"
                             id={`car-title`}
                             style={{ display: "none" }}
-                            onChange={(e) => setCarTitle(e.target.files[0])}
+                            onChange={(e) => handleUploadImage(e, setCarTitle)}
                           />
                           <label
                             htmlFor={`car-title`}
@@ -820,7 +876,7 @@ const PackageDetails = ({
                             borderBottomRightRadius: "100px",
                           }}
                         >
-                          {carTitle ? carTitle.name : "No file chosen"}
+                          {carTitle.name ? carTitle.name : "No file chosen"}
                         </Box>
                       </Box>
                     </Box>
@@ -1222,7 +1278,9 @@ const PackageDetails = ({
                                 type="text"
                                 label="Pickup Location Type *"
                                 value={locationType}
-                                onChange={(e) => setLocationType(e.target.value)}
+                                onChange={(e) =>
+                                  setLocationType(e.target.value)
+                                }
                                 fullWidth
                                 InputProps={{
                                   sx: {
@@ -1466,7 +1524,7 @@ const PackageDetails = ({
                           name="file"
                           id={`item-image`}
                           style={{ display: "none" }}
-                          onChange={(e) => setItemImage(e.target.files[0])}
+                          onChange={(e) => handleUploadImage(e, setItemImage)}
                         />
                         <label
                           htmlFor={`item-image`}
@@ -1507,7 +1565,7 @@ const PackageDetails = ({
                           borderBottomRightRadius: "100px",
                         }}
                       >
-                        {itemImage ? itemImage.name : "No file chosen"}
+                        {itemImage?.name ? itemImage?.name : "No file chosen"}
                       </Box>
                     </Box>
                   </Box>

@@ -158,7 +158,11 @@ function LoginForm() {
               }}
               // onClick={() => }
             >
-              {loading ? <CircularProgress /> : "Login to your account"}
+              {loading ? (
+                <CircularProgress size={24} />
+              ) : (
+                "Login to your account"
+              )}
             </Button>
           </Box>
         </form>

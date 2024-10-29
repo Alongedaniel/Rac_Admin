@@ -306,7 +306,7 @@ const CreateCustomer = () => {
                   }}
                 >
                   {loading ? (
-                    <CircularProgress />
+                    <CircularProgress size={24} />
                   ) : (
                     "Confirm & Create new Customer"
                   )}
