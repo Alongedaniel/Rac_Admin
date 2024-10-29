@@ -94,10 +94,11 @@ function OrderDetails() {
   );
   const shipmentMethods = ["Road", "Air", "Rail", "Sea"];
   const deliveryCompanies = ["DHL", "Gokada", "Glovo"];
-  const [origin, setOrigin] = useState("");
+  const [origin, setOrigin] = useState(data?.request?.origin);
   const [destinationDetails, setDestinationDetails] = useState({
     address: "",
     firstName: "",
+    lastName: "",
     state: "",
     country: "",
     city: "",
@@ -1202,18 +1203,18 @@ function OrderDetails() {
                           setActiveStep={setActiveStep}
                         />
                         <PackageDetails
+                          type={type}
                           refetch={refetch}
                           order={data}
                           origin={origin}
                           requestId={data?.request?.requestId}
                           service={data?.request?.serviceType}
                           isRequest={Boolean(requestid)}
-                          type={type}
                           activeStep={activeStep}
                           setActiveStep={setActiveStep}
-                          confirm={true}
                           requests={requests}
                           setrequests={setrequests}
+                          confirm={true}
                         />
                         {data?.serviceType === "shopForMe" ? (
                           <>
@@ -1239,14 +1240,20 @@ function OrderDetails() {
                           shipmentMethod={shipmentMethod}
                         />
 
-                        {/* <PackageDetails
-                          isRequest={Boolean(requestid)}
+                        <PackageDetails
+                          refetch={refetch}
                           order={data}
-                          type={type}
-                          toggle={toggle}
-                          drop={drop}
+                          origin={origin}
+                          requestId={data?.request?.requestId}
+                          service={data?.request?.serviceType}
+                          isRequest={Boolean(requestid)}
+                          activeStep={activeStep}
+                          setActiveStep={setActiveStep}
+                          requests={requests}
+                                    setrequests={setrequests}
+                                    confirm={true}
                         />
-                        <ShippingDetails
+                        {/* <ShippingDetails
                           order={data}
                           type={type}
                           toggle={toggle}

@@ -257,7 +257,7 @@ const PackageDetails = ({
                   Origin warehouse:
                 </p>
                 <p className="font-roboto  text-[20px] text-brand/100">
-                  {order?.request?.origin ?? origin}
+                  {origin}
                 </p>
               </div>
             </div>
@@ -326,9 +326,8 @@ const PackageDetails = ({
             </>
           )}
         </CardWrapper>
-        {(type === "request" || isRequest) &&
-        !proceed &&
-        activeStep !== 3 ? null : (
+        {(type === "request" || isRequest) && !proceed && (activeStep !== 3 &&
+        activeStep !== 4) ? null : (
           <Box onClick={() => setOpenEditOrigin(true)}>
             <EditIcon />
           </Box>

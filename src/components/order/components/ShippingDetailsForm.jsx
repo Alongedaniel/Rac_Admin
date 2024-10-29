@@ -45,7 +45,7 @@ const ShippingDetailsForm = ({
         destinationState?.isoCode,
       ),
     );
-  }, []);
+  }, [destinationCountry, destinationState]);
   const countryCodes = [
     { name: "Nigeria", code: "+234" },
     { name: "United States", code: "+1" },
@@ -296,7 +296,7 @@ const ShippingDetailsForm = ({
                   id="destination-country"
                   type="text"
                   label="Destination Country"
-                  value={destinationCountry.name}
+                  value={destinationCountry?.name}
                   // onChange={(e) => setDestinationCountry(e.target.value)}
                   defaultValue={"Nigeria"}
                   select
@@ -314,11 +314,11 @@ const ShippingDetailsForm = ({
                   {countries.map((country, i) => (
                     <MenuItem
                       sx={{ zIndex: 9999 }}
-                      value={country.name}
+                      value={country?.name}
                       key={i}
                       onClick={() => setDestinationCountry(country)}
                     >
-                      {country.name}
+                      {country?.name}
                     </MenuItem>
                   ))}
                 </TextField>
@@ -330,10 +330,9 @@ const ShippingDetailsForm = ({
                   sx={{ fontSize: "16px", color: "#1C1B1F" }}
                   id="destination-state"
                   type="text"
-                  value={destinationState.name}
+                  value={destinationState?.name}
                   // onChange={(e) => setDestinationState(e.target.value)}
                   label="Destination State"
-                  defaultValue={"Lagos"}
                   select
                   InputProps={{
                     sx: {
@@ -349,11 +348,11 @@ const ShippingDetailsForm = ({
                   {states.map((state, i) => (
                     <MenuItem
                       sx={{ zIndex: 9999 }}
-                      value={state.name}
+                      value={state?.name}
                       key={i}
                       onClick={() => setDestinationState(state)}
                     >
-                      {state.name}
+                      {state?.name}
                     </MenuItem>
                   ))}
                 </TextField>
@@ -365,10 +364,9 @@ const ShippingDetailsForm = ({
                   sx={{ fontSize: "16px", color: "#1C1B1F" }}
                   id="destination-city"
                   type="text"
-                  value={destinationCity.name}
+                  value={destinationCity?.name}
                   // onChange={(e) => setDestinationCity(e.target.value)}
                   label="Destination City"
-                  defaultValue={"Ikeja"}
                   select
                   InputProps={{
                     sx: {
@@ -383,12 +381,12 @@ const ShippingDetailsForm = ({
                 >
                   {cities.map((city, i) => (
                     <MenuItem
-                      value={city.name}
+                      value={city?.name}
                       key={i}
                       onClick={() => setDestinationCity(city)}
                       sx={{ zIndex: 9999 }}
                     >
-                      {city.name}
+                      {city?.name}
                     </MenuItem>
                   ))}
                 </TextField>

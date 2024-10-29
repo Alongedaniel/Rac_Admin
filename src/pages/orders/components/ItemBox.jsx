@@ -24,6 +24,7 @@ import PlusIcon from "../../../assets/icons/PlusIcon";
 import UploadIcon from "../../../assets/icons/UploadIcon";
 import Requests from "../../../utils/hooks/api/requests";
 import CloseIcon from "../../../assets/icons/CloseIcon";
+import DeletIcon from "../../../assets/icons/DeletIcon";
 
 const ItemBox = ({
   order,
@@ -44,12 +45,15 @@ const ItemBox = ({
   const { customPostRequest, loading, error, success, setSuccess, setError } =
     Requests();
   const [open, setOpen] = useState(false);
+  const [openPreviewModal, setOpenPreviewModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState('');
   const service = toTitleCase(order?.serviceType);
   const [productName, setProductName] = useState(item?.itemName);
   const [originalCost, setOriginalCost] = useState(
     item?.itemOriginalCost ?? item?.originalCost ?? 0
   );
   const [store, setStore] = useState(item?.store);
+  const [itemImage, setItemImage] = useState(item?.itemImage ?? {img: '', name: ''});
   const [itemUrl, setItemUrl] = useState(item?.itemUrl);
   const [urgentPurchase, setUrgentPurchase] = useState(item?.urgentPurchase);
   const [quantityValue, setQuantityValue] = useState(
@@ -58,12 +62,25 @@ const ItemBox = ({
   const [productDescription, setProductDescription] = useState(
     item?.itemDescription ?? item?.additionalDescription
   );
-  const [selectedFile, setSelectedFile] = useState(null);
+  // const [selectedFile, setSelectedFile] = useState(null);
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setSelectedFile(file);
-  };
+    const handleUploadImage = (e, setImage) => {
+      const file = e.target.files[0];
+      if (file && file.type.startsWith("image/")) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          setImage({
+            img: reader.result,
+            name: file.name,
+          });
+        };
+        reader.readAsDataURL(file); // Converts file to a base64 string
+      }
+    };
+  // const handleFileChange = (event) => {
+  //   const file = event.target.files[0];
+  //   setSelectedFile(file);
+  // };
 
   useEffect(() => {
     refetch();
@@ -119,12 +136,18 @@ const ItemBox = ({
             additionalDescription: productDescription,
             qty: quantityValue,
             store: store,
-            itemUrl: itemUrl,
+          itemUrl: itemUrl,
+            itemImage: itemImage?.img,
             urgentPurchase: urgentPurchase,
           }
         : req
     );
     setrequests(updated);
+  };
+
+  const handleDeleteItem = (id) => {
+    const filteredOrder = requests.filter((order, i) => i !== id);
+    setrequests(filteredOrder);
   };
 
   return (
@@ -413,97 +436,144 @@ const ItemBox = ({
         onClose={() => setOpen(false)}
         title="Edit Package Details"
       >
-        <CardWrapper title={`Item - #${itemNumber}`}>
-          <Box>
-            <Box mt="10px" pt="30px">
-              <Box mb="30px">
-                {service === "Shop For Me" && (
-                  <Box mb="30px">
-                    <Grid container gap="30px" wrap="nowrap" mb="30px">
-                      <Grid item xs={9}>
-                        <Box display="flex" gap="10px" alignItems="center">
-                          <TextField
-                            required
-                            id="store"
-                            sx={{
-                              fontSize: "16px",
-                              color: "#1C1B1F",
-                            }}
-                            type="text"
-                            label="Store"
-                            value={store}
-                            onChange={(e) => setStore(e.target.value)}
-                            fullWidth
-                            placeholder="Select a store"
-                            InputProps={{
-                              sx: {
-                                borderRadius: "20px", // Apply border radius to the input element
-                                height: "56px",
-                                borderColor: "#79747E",
+        <Box display='flex' alignItems='center' gap='30px'>
+          <CardWrapper title={`Item - #${itemNumber}`}>
+            <Box>
+              <Box mt="10px" pt="30px">
+                <Box mb="30px">
+                  {service === "Shop For Me" && (
+                    <Box mb="30px">
+                      <Grid container gap="30px" wrap="nowrap" mb="30px">
+                        <Grid item xs={9}>
+                          <Box display="flex" gap="10px" alignItems="center">
+                            <TextField
+                              required
+                              id="store"
+                              sx={{
                                 fontSize: "16px",
                                 color: "#1C1B1F",
-                              },
-                            }}
-                          />
-                          <TooltipIcon />
-                        </Box>
-                      </Grid>
-                      <Grid item xs={3}>
-                        <Box display="flex" gap="10px" alignItems="center">
-                          <TextField
-                            required
-                            id="urgent-purchase"
-                            sx={{
-                              fontSize: "16px",
-                              color: "#1C1B1F",
-                            }}
-                            type="text"
-                            label="Urgent Purchase"
-                            value={urgentPurchase ? "Yes" : "No"}
-                            // onChange={(e) => setUrgentPurchase(e.target.value)}
-                            fullWidth
-                            // placeholder="Select origin"
-                            select
-                            InputProps={{
-                              sx: {
-                                borderRadius: "20px", // Apply border radius to the input element
-                                height: "56px",
-                                borderColor: "#79747E",
+                              }}
+                              type="text"
+                              label="Store"
+                              value={store}
+                              onChange={(e) => setStore(e.target.value)}
+                              fullWidth
+                              placeholder="Select a store"
+                              InputProps={{
+                                sx: {
+                                  borderRadius: "20px", // Apply border radius to the input element
+                                  height: "56px",
+                                  borderColor: "#79747E",
+                                  fontSize: "16px",
+                                  color: "#1C1B1F",
+                                },
+                              }}
+                            />
+                            <TooltipIcon />
+                          </Box>
+                        </Grid>
+                        <Grid item xs={3}>
+                          <Box display="flex" gap="10px" alignItems="center">
+                            <TextField
+                              required
+                              id="urgent-purchase"
+                              sx={{
                                 fontSize: "16px",
                                 color: "#1C1B1F",
-                              },
-                            }}
-                          >
-                            {["Yes", "No"].map((x) => (
-                              <MenuItem
-                                value={x}
-                                key={x}
-                                onClick={() =>
-                                  x === "Yes"
-                                    ? setUrgentPurchase(true)
-                                    : setUrgentPurchase(false)
-                                }
-                              >
-                                {x}
-                              </MenuItem>
-                            ))}
-                          </TextField>
-                          <TooltipIcon />
-                        </Box>
+                              }}
+                              type="text"
+                              label="Urgent Purchase"
+                              value={urgentPurchase ? "Yes" : "No"}
+                              // onChange={(e) => setUrgentPurchase(e.target.value)}
+                              fullWidth
+                              // placeholder="Select origin"
+                              select
+                              InputProps={{
+                                sx: {
+                                  borderRadius: "20px", // Apply border radius to the input element
+                                  height: "56px",
+                                  borderColor: "#79747E",
+                                  fontSize: "16px",
+                                  color: "#1C1B1F",
+                                },
+                              }}
+                            >
+                              {["Yes", "No"].map((x) => (
+                                <MenuItem
+                                  value={x}
+                                  key={x}
+                                  onClick={() =>
+                                    x === "Yes"
+                                      ? setUrgentPurchase(true)
+                                      : setUrgentPurchase(false)
+                                  }
+                                >
+                                  {x}
+                                </MenuItem>
+                              ))}
+                            </TextField>
+                            <TooltipIcon />
+                          </Box>
+                        </Grid>
                       </Grid>
-                    </Grid>
+                      <TextField
+                        required
+                        id="item-url"
+                        sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                        type="text"
+                        label="Item URL"
+                        value={itemUrl}
+                        onChange={(e) => setItemUrl(e.target.value)}
+                        fullWidth
+                        placeholder="Paste the item link here"
+                        InputProps={{
+                          sx: {
+                            borderRadius: "20px", // Apply border radius to the input element
+                            height: "56px",
+                            borderColor: "#79747E",
+                            fontSize: "16px",
+                            color: "#1C1B1F",
+                          },
+                        }}
+                      />
+                    </Box>
+                  )}
+                  <TextField
+                    required
+                    id="product-name"
+                    sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                    type="text"
+                    label="Product Name"
+                    value={productName}
+                    onChange={(e) => setProductName(e.target.value)}
+                    fullWidth
+                    InputProps={{
+                      sx: {
+                        borderRadius: "20px", // Apply border radius to the input element
+                        height: "56px",
+                        borderColor: "#79747E",
+                        fontSize: "16px",
+                        color: "#1C1B1F",
+                      },
+                    }}
+                  />
+                </Box>
+                <Grid container wrap="nowrap" gap="30px" mb="30px">
+                  <Grid item xs={8}>
                     <TextField
                       required
-                      id="item-url"
+                      id="cost"
                       sx={{ fontSize: "16px", color: "#1C1B1F" }}
                       type="text"
-                      label="Item URL"
-                      value={itemUrl}
-                      onChange={(e) => setItemUrl(e.target.value)}
+                      value={originalCost}
+                      onChange={(e) => setOriginalCost(e.target.value)}
+                      label="Item Original Cost"
                       fullWidth
-                      placeholder="Paste the item link here"
+                      // placeholder="Select origin"
                       InputProps={{
+                        startAdornment: <DollarIcon />,
                         sx: {
+                          // maxWidth: "540px",
                           borderRadius: "20px", // Apply border radius to the input element
                           height: "56px",
                           borderColor: "#79747E",
@@ -512,183 +582,147 @@ const ItemBox = ({
                         },
                       }}
                     />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <TextField
+                      id="quantity"
+                      sx={{ fontSize: "16px", color: "#1C1B1F" }}
+                      type="number"
+                      label="Quantity"
+                      value={quantityValue}
+                      fullWidth
+                      // placeholder="Select origin"
+                      InputProps={{
+                        startAdornment: (
+                          <Box
+                            zIndex={2}
+                            sx={{ cursor: "pointer" }}
+                            onClick={() => {
+                              if (quantityValue > 1)
+                                setQuantityValue((prev) => prev - 1);
+                              // setQuantity(quantityValue);
+                            }}
+                          >
+                            <SubtractIcon />
+                          </Box>
+                        ),
+                        endAdornment: (
+                          <Box
+                            sx={{ cursor: "pointer" }}
+                            onClick={() => {
+                              setQuantityValue((prev) => prev + 1);
+                              // setQuantity(quantityValue);
+                            }}
+                          >
+                            <PlusIcon />
+                          </Box>
+                        ),
+                        sx: {
+                          borderRadius: "20px", // Apply border radius to the input element
+                          height: "56px",
+                          borderColor: "#79747E",
+                          fontSize: "16px",
+                          color: "#1C1B1F",
+                          input: {
+                            textAlign: "center",
+                          },
+                        },
+                      }}
+                    />
+                  </Grid>
+                </Grid>
+                <Box mb="30px">
+                  <Typography
+                    fontSize="12px"
+                    sx={{ pl: "10px" }}
+                    color="#49454F"
+                  >
+                    Upload Product/Item Picture
+                  </Typography>
+                  <Box height="40px" display="flex">
+                    <Box width="100%">
+                      <input
+                        type="file"
+                        name="file"
+                        id="file"
+                        style={{ display: "none" }}
+                        onChange={(e) => handleUploadImage(e, setItemImage)}
+                      />
+                      <label
+                        htmlFor="file"
+                        style={{
+                          display: "inline-block",
+                          height: "100%",
+                          width: "100%",
+                        }}
+                      >
+                        <Box
+                          height="100%"
+                          width="100%"
+                          display="flex"
+                          gap="10px"
+                          justifyContent={"center"}
+                          alignItems={"center"}
+                          bgcolor="#E8DEF8"
+                          fontSize="14px"
+                          fontWeight={500}
+                          border="1px solid #79747E"
+                        >
+                          <UploadIcon />
+                          Choose file
+                        </Box>
+                      </label>
+                    </Box>
+                    <Box
+                      width="100%"
+                      height="100%"
+                      display="flex"
+                      justifyContent={"center"}
+                      alignItems={"center"}
+                      border="1px solid #79747E"
+                      sx={{
+                        fontSize: "14px",
+                        fontWeight: 500,
+                        borderTopRightRadius: "100px",
+                        borderBottomRightRadius: "100px",
+                      }}
+                      onClick={() => {
+                        if (itemImage?.name) {
+                          setSelectedImage(itemImage?.img);
+                          setOpenPreviewModal(true);
+                        }
+                      }}
+                    >
+                      {itemImage?.name ? itemImage?.name : "No file chosen"}
+                    </Box>
                   </Box>
-                )}
-                <TextField
-                  required
-                  id="product-name"
-                  sx={{ fontSize: "16px", color: "#1C1B1F" }}
-                  type="text"
-                  label="Product Name"
-                  value={productName}
-                  onChange={(e) => setProductName(e.target.value)}
-                  fullWidth
-                  InputProps={{
-                    sx: {
-                      borderRadius: "20px", // Apply border radius to the input element
-                      height: "56px",
-                      borderColor: "#79747E",
-                      fontSize: "16px",
-                      color: "#1C1B1F",
-                    },
-                  }}
-                />
-              </Box>
-              <Grid container wrap="nowrap" gap="30px" mb="30px">
-                <Grid item xs={8}>
+                </Box>
+                <Box mb="30px">
                   <TextField
-                    required
-                    id="cost"
+                    id="product/item description"
                     sx={{ fontSize: "16px", color: "#1C1B1F" }}
                     type="text"
-                    value={originalCost}
-                    onChange={(e) => setOriginalCost(e.target.value)}
-                    label="Item Original Cost"
+                    label="Product/Item Description"
+                    value={productDescription}
+                    onChange={(e) => setProductDescription(e.target.value)}
                     fullWidth
+                    multiline
+                    rows={5}
+                    maxRows={5}
                     // placeholder="Select origin"
                     InputProps={{
-                      startAdornment: <DollarIcon />,
                       sx: {
                         // maxWidth: "540px",
                         borderRadius: "20px", // Apply border radius to the input element
-                        height: "56px",
+                        // height: "144px",
                         borderColor: "#79747E",
                         fontSize: "16px",
                         color: "#1C1B1F",
                       },
                     }}
                   />
-                </Grid>
-                <Grid item xs={4}>
-                  <TextField
-                    id="quantity"
-                    sx={{ fontSize: "16px", color: "#1C1B1F" }}
-                    type="number"
-                    label="Quantity"
-                    value={quantityValue}
-                    fullWidth
-                    // placeholder="Select origin"
-                    InputProps={{
-                      startAdornment: (
-                        <Box
-                          zIndex={2}
-                          sx={{ cursor: "pointer" }}
-                          onClick={() => {
-                            if (quantityValue > 1)
-                              setQuantityValue((prev) => prev - 1);
-                            // setQuantity(quantityValue);
-                          }}
-                        >
-                          <SubtractIcon />
-                        </Box>
-                      ),
-                      endAdornment: (
-                        <Box
-                          sx={{ cursor: "pointer" }}
-                          onClick={() => {
-                            setQuantityValue((prev) => prev + 1);
-                            // setQuantity(quantityValue);
-                          }}
-                        >
-                          <PlusIcon />
-                        </Box>
-                      ),
-                      sx: {
-                        borderRadius: "20px", // Apply border radius to the input element
-                        height: "56px",
-                        borderColor: "#79747E",
-                        fontSize: "16px",
-                        color: "#1C1B1F",
-                        input: {
-                          textAlign: "center",
-                        },
-                      },
-                    }}
-                  />
-                </Grid>
-              </Grid>
-              <Box mb="30px">
-                <Typography fontSize="12px" sx={{ pl: "10px" }} color="#49454F">
-                  Upload Product/Item Picture
-                </Typography>
-                <Box height="40px" display="flex">
-                  <Box width="100%">
-                    <input
-                      type="file"
-                      name="file"
-                      id="file"
-                      style={{ display: "none" }}
-                      onChange={handleFileChange}
-                    />
-                    <label
-                      htmlFor="file"
-                      style={{
-                        display: "inline-block",
-                        height: "100%",
-                        width: "100%",
-                      }}
-                    >
-                      <Box
-                        height="100%"
-                        width="100%"
-                        display="flex"
-                        gap="10px"
-                        justifyContent={"center"}
-                        alignItems={"center"}
-                        bgcolor="#E8DEF8"
-                        fontSize="14px"
-                        fontWeight={500}
-                        border="1px solid #79747E"
-                      >
-                        <UploadIcon />
-                        Choose file
-                      </Box>
-                    </label>
-                  </Box>
-                  <Box
-                    width="100%"
-                    height="100%"
-                    display="flex"
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    border="1px solid #79747E"
-                    sx={{
-                      fontSize: "14px",
-                      fontWeight: 500,
-                      borderTopRightRadius: "100px",
-                      borderBottomRightRadius: "100px",
-                    }}
-                  >
-                    {selectedFile ? selectedFile.name : "No file chosen"}
-                  </Box>
                 </Box>
-              </Box>
-              <Box mb="30px">
-                <TextField
-                  id="product/item description"
-                  sx={{ fontSize: "16px", color: "#1C1B1F" }}
-                  type="text"
-                  label="Product/Item Description"
-                  value={productDescription}
-                  onChange={(e) => setProductDescription(e.target.value)}
-                  fullWidth
-                  multiline
-                  rows={5}
-                  maxRows={5}
-                  // placeholder="Select origin"
-                  InputProps={{
-                    sx: {
-                      // maxWidth: "540px",
-                      borderRadius: "20px", // Apply border radius to the input element
-                      // height: "144px",
-                      borderColor: "#79747E",
-                      fontSize: "16px",
-                      color: "#1C1B1F",
-                    },
-                  }}
-                />
-              </Box>
-              {/* <Box>
+                {/* <Box>
                       <div className="flex items-center space-x-[10px] ">
                         <CircleRight />
                         <p className="font-roboto font-[500] text-[14px] text-t/100 text-brand/200 ">
@@ -741,9 +775,15 @@ const ItemBox = ({
                         </Box>
                       </Box>
                     </Box> */}
+              </Box>
             </Box>
+          </CardWrapper>
+          <Box
+            onClick={() => handleDeleteItem(itemNumber - 1)}
+          >
+            <DeletIcon />
           </Box>
-        </CardWrapper>
+        </Box>
         <Box mt="30px">
           <Button
             startIcon={<ArrowLeftPurple />}
@@ -777,6 +817,45 @@ const ItemBox = ({
             }}
           >
             Update
+          </Button>
+        </Box>
+      </UserModals>
+      <UserModals
+        open={openPreviewModal}
+        onClose={() => setOpenPreviewModal(false)}
+        title="Item Preview"
+        width="fit-content"
+        height="fit-content"
+      >
+        <Box
+          sx={{
+            width: "100%",
+            maxWidth: "518px",
+            height: "311px",
+            borderRadius: "20px",
+          }}
+        >
+          <img
+            src={selectedImage}
+            alt="car"
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
+        </Box>
+        <Box mt="30px" width="100%" display="flex" justifyContent="flex-end">
+          <Button
+            startIcon={<ArrowLeftPurple />}
+            variant="outlined"
+            sx={{
+              borderColor: "#79747E",
+              color: "#79747E",
+              height: "40px",
+              borderRadius: "100px",
+              textTransform: "none",
+              mr: "10px",
+            }}
+            onClick={() => setOpenPreviewModal(false)}
+          >
+            Back
           </Button>
         </Box>
       </UserModals>

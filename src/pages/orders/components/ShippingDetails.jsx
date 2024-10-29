@@ -30,13 +30,13 @@ const ShippingDetails = ({
     destination?.phoneNumber || "",
   );
   const [destinationCountry, setDestinationCountry] = useState(
-    destination?.country || "",
+    destination?.country || null,
   );
   const [destinationState, setDestinationState] = useState(
-    destination?.state || "",
+    destination?.state || null,
   );
   const [destinationCity, setDestinationCity] = useState(
-    destination?.city || "",
+    destination?.city || null,
   );
   const [receiverAddress, setReceiverAddress] = useState(
     destination?.address || "",
@@ -49,9 +49,10 @@ const ShippingDetails = ({
     setDestinationDetails({
       address: receiverAddress,
       firstName: receiverFirstName,
-      state: destinationState,
-      country: destinationCountry,
-      city: destinationCity,
+      lastName: receiverLastName,
+      state: destinationState?.name,
+      country: destinationCountry?.name,
+      city: destinationCity?.name,
       email: receiverEmail,
       zipPostalCode: receiverZipCode,
       countryCode: "",
@@ -87,7 +88,7 @@ const ShippingDetails = ({
                       Receiver's First Name:
                     </p>
                     <p className="font-roboto  text-[20px] text-brand/100">
-                      {destination?.firstName}
+                      {destinationDetails?.firstName}
                     </p>
                   </div>
                   <div className="">
@@ -95,7 +96,7 @@ const ShippingDetails = ({
                       Receiver's Last Name:
                     </p>
                     <p className="font-roboto  text-[20px] text-brand/100">
-                      {destination?.lastName}
+                      {destinationDetails?.lastName}
                     </p>
                   </div>
                   <div className="">
@@ -103,7 +104,7 @@ const ShippingDetails = ({
                       Receiver's Phone Number:
                     </p>
                     <p className="font-roboto  text-[20px] text-brand/100">
-                      {destination?.phoneNumber}
+                      {destinationDetails?.phoneNumber}
                     </p>
                   </div>
                   <div className="">
@@ -111,7 +112,7 @@ const ShippingDetails = ({
                       Receiver's Email:
                     </p>
                     <p className="font-roboto  text-[20px] text-brand/100">
-                      {destination?.email}
+                      {destinationDetails?.email}
                     </p>
                   </div>
                 </div>
@@ -120,7 +121,7 @@ const ShippingDetails = ({
                     Receiver's Address:
                   </p>
                   <p className="font-roboto  text-[20px] text-brand/100">
-                    {destination?.address}
+                    {destinationDetails?.address}
                   </p>
                 </div>
                 <div className="grid grid-cols-4 gap-[20px] mt-[30px] ">
@@ -129,7 +130,7 @@ const ShippingDetails = ({
                       Destination Country:
                     </p>
                     <p className="font-roboto  text-[20px] text-brand/100">
-                      {destination?.country}
+                      {destinationDetails?.country}
                     </p>
                   </div>
                   <div className="">
@@ -137,7 +138,7 @@ const ShippingDetails = ({
                       Destination State:
                     </p>
                     <p className="font-roboto  text-[20px] text-brand/100">
-                      {destination?.state}
+                      {destinationDetails?.state}
                     </p>
                   </div>
                   <div className="">
@@ -145,7 +146,7 @@ const ShippingDetails = ({
                       Destination City:
                     </p>
                     <p className="font-roboto  text-[20px] text-brand/100">
-                      {destination?.city}
+                      {destinationDetails?.city}
                     </p>
                   </div>
                   <div className="">
@@ -153,7 +154,7 @@ const ShippingDetails = ({
                       Zip/postal Code:
                     </p>
                     <p className="font-roboto  text-[20px] text-brand/100">
-                      {destination?.zipPostalCode}
+                      {destinationDetails?.zipPostalCode}
                     </p>
                   </div>
                 </div>
@@ -209,17 +210,21 @@ const ShippingDetails = ({
                 Back
               </Button>
               <Button
-                startIcon={<ArrowRightWhite />}
-                variant="contained"
-                sx={{
-                  bgcolor: "#6750A4",
-                  color: "#fff",
-                  width: "172px",
-                  height: "40px",
-                  borderRadius: "100px",
-                  textTransform: "none",
-                }}
-                onClick={handleUpdateShippingDetails}
+                  startIcon={<ArrowRightWhite />}
+                  variant="contained"
+                  sx={{
+                    bgcolor: "#6750A4",
+                    color: "#fff",
+                    width: "172px",
+                    height: "40px",
+                    borderRadius: "100px",
+                    textTransform: "none",
+                  }}
+                  onClick={() => {
+                    setOpen(false)
+                    handleUpdateShippingDetails()
+                  }
+                  }
               >
                 Update
               </Button>

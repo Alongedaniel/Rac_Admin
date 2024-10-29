@@ -41,7 +41,7 @@ const OrderInformation = ({
   const requestStatus =
     order?.request?.requestStatus === "responded"
       ? "Approved"
-      : (order?.request?.requestStatus === "Not Responded" ??
+      : (order?.request?.requestStatus === "Not Responded" ||
           order?.request?.requestStatus === "not responded")
         ? "Not Responded"
         : "Declined";
