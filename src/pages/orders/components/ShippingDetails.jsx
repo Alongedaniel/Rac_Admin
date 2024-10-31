@@ -18,47 +18,49 @@ const ShippingDetails = ({
   destinationDetails,
 }) => {
   const [open, setOpen] = useState(false);
-  const destination = order?.request?.destinationDetails;
   const [receiverFirstName, setReceiverFirstName] = useState(
-    destination?.firstName || "",
+    destinationDetails?.firstName || "",
   );
   const [receiverLastName, setReceiverLastName] = useState(
-    destination?.lastName || "",
+    destinationDetails?.lastName || "",
   );
-  const [receiverEmail, setReceiverEmail] = useState(destination?.email || "");
+  const [receiverEmail, setReceiverEmail] = useState(destinationDetails?.email || "");
   const [receiverPhoneNumber, setReceiverPhoneNumber] = useState(
-    destination?.phoneNumber || "",
+    destinationDetails?.phoneNumber || "",
   );
   const [destinationCountry, setDestinationCountry] = useState(
-    destination?.country || null,
+    destinationDetails?.country || null,
   );
   const [destinationState, setDestinationState] = useState(
-    destination?.state || null,
+    destinationDetails?.state || null,
   );
   const [destinationCity, setDestinationCity] = useState(
-    destination?.city || null,
+    destinationDetails?.city || null,
   );
   const [receiverAddress, setReceiverAddress] = useState(
-    destination?.address || "",
+    destinationDetails?.address || "",
   );
   const [receiverZipCode, setReceiverZipCode] = useState(
-    destination?.zipPostalCode || "",
+    destinationDetails?.zipPostalCode || "",
   );
 
   const handleUpdateShippingDetails = () => {
     setDestinationDetails({
+      ...destinationDetails,
       address: receiverAddress,
       firstName: receiverFirstName,
       lastName: receiverLastName,
-      state: destinationState?.name,
-      country: destinationCountry?.name,
-      city: destinationCity?.name,
+      state: destinationState?.name ?? destinationDetails.state,
+      country: destinationCountry?.name ?? destinationDetails.country,
+      city: destinationCity?.name ?? destinationDetails.city,
       email: receiverEmail,
       zipPostalCode: receiverZipCode,
       countryCode: "",
       phoneNumber: receiverPhoneNumber,
     });
   };
+
+  console.log(destinationDetails, "destinationDetails");
   return (
     <>
       {type === "request" ||

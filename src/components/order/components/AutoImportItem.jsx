@@ -37,7 +37,9 @@ const AutoImportItem = ({
   proceed,
   refetch = () => {},
   order,
-  requests, setrequests
+  requests,
+  setrequests,
+  activeStep,
 }) => {
   const { customPostRequest, loading, error, success, setSuccess, setError } =
     Requests();
@@ -48,58 +50,66 @@ const AutoImportItem = ({
   const [selectedImage, setSelectedImage] = useState("");
   const [carBrand, setCarBrand] = useState(item?.carBrand || "");
   const [carCondition, setCarCondition] = useState(item?.carCondition || "");
-  const [carImage, setCarImage] = useState({ img: "", name: "" });
-  const [carTitle, setCarTitle] = useState({ img: "", name: "" });
+  const [carImage, setCarImage] = useState({
+    img: item?.carImage ?? "",
+    name: item?.carImageName ?? item?.carImage ?? "",
+  });
+  const [carTitle, setCarTitle] = useState({
+    img: item?.carTitle ?? "",
+    name: item?.carTitleName ?? item?.carTitle ?? "",
+  });
   const [carValue, setCarValue] = useState(item?.carValue || 0);
   const [color, setColor] = useState(item?.color || "");
   const [link, setLink] = useState(item?.link || "");
   const [mileage, setMileage] = useState(item?.mileage || 0);
   const [model, setModel] = useState(item?.model || "");
   const [productionYear, setProductionYear] = useState(
-    item?.productionYear || "",
+    item?.productionYear || ""
   );
   const [vehicleIdNumber, setVehicleIdNumber] = useState(
-    item?.vehicleIdNumber || "",
+    item?.vehicleIdNumber || ""
   );
   const [additionalDescription, setAdditionalDescription] = useState(
-    item?.additionalDescription || "",
+    item?.additionalDescription || ""
   );
   const [address, setAddress] = useState(item?.pickupDetails?.address || "");
   const [city, setCity] = useState(item?.pickupDetails?.city || "");
   const [country, setCountry] = useState(item?.pickupDetails?.country || "");
   const [countryCode, setCountryCode] = useState(
-    item?.pickupDetails?.countryCode || "",
+    item?.pickupDetails?.countryCode || ""
   );
   const [email, setEmail] = useState(item?.pickupDetails?.email || "");
   const [firstName, setFirstName] = useState(
-    item?.pickupDetails?.firstName || "",
+    item?.pickupDetails?.firstName || ""
   );
   const [lastName, setLastName] = useState(item?.pickupDetails?.lastName || "");
   const [locationType, setLocationType] = useState(
-    item?.pickupDetails?.locationType || "",
+    item?.pickupDetails?.locationType || ""
   );
   const [phoneNumber, setPhoneNumber] = useState(
-    item?.pickupDetails?.phoneNumber || "",
+    item?.pickupDetails?.phoneNumber || ""
   );
   const [pickUpDate, setPickUpDate] = useState(
-    item?.pickupDetails?.pickUpDate || "",
+    item?.pickupDetails?.pickUpDate || ""
   );
   const [state, setState] = useState(item?.pickupDetails?.state || "");
   const [zipPostalCode, setZipPostalCode] = useState(
-    item?.pickupDetails?.zipPostalCode || "",
+    item?.pickupDetails?.zipPostalCode || ""
   );
   const [dropOff, setDropOff] = useState(firstName ? true : false);
   const [selectedCountry, setSelectedCountry] = useState(
     item?.pickupDetails?.country || null
   );
-  const [selectedState, setSelectedState] = useState(item?.pickupDetails?.state || null);
+  const [selectedState, setSelectedState] = useState(
+    item?.pickupDetails?.state || null
+  );
   const [countries, setCountries] = useState(Country.getAllCountries());
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   useEffect(() => {
     setStates(State.getStatesOfCountry(selectedCountry?.isoCode));
     setCities(
-      City.getCitiesOfState(selectedCountry?.isoCode, selectedState?.isoCode),
+      City.getCitiesOfState(selectedCountry?.isoCode, selectedState?.isoCode)
     );
   }, [selectedCountry, selectedState]);
 
@@ -188,15 +198,17 @@ const AutoImportItem = ({
   };
 
   const handleEditCar = (i) => {
-    const updated = requests.map((req, id) =>
+    const updated = requests?.map((req, id) =>
       id === i
         ? {
             ...req,
             carBrand: carBrand,
             carValue: Number(carValue),
-          carCondition: carCondition,
-          carImage: carImage.img,
+            carCondition: carCondition,
+            carImage: carImage.img,
             carTitle: carTitle.img,
+            carImageName: carImage.name ?? "",
+            carTitleName: carTitle.name ?? "",
             additionalDescription: additionalDescription,
             vehicleIdNumber: vehicleIdNumber,
             productionYear: productionYear,
@@ -223,7 +235,7 @@ const AutoImportItem = ({
     );
     setrequests(updated);
   };
-  
+
   return (
     <Box
       sx={{
@@ -320,7 +332,18 @@ const AutoImportItem = ({
             <p className="text-[14px] text-t/100 font-roboto text-brand/200 mt-[10px]">
               Car Picture:
             </p>
-            <Box width="280px" height="150px" borderRadius="10px">
+            <Box
+              width="280px"
+              height="150px"
+              borderRadius="10px"
+              onClick={() => {
+                if (item?.carImage) {
+                  setSelectedImage(item?.carImage);
+                  setOpenPreviewModal(true);
+                }
+              }}
+              sx={{ cursor: "pointer" }}
+            >
               <div>
                 <img
                   src={item?.carImage}
@@ -337,9 +360,15 @@ const AutoImportItem = ({
             </p>
             <img
               src={item?.carTitle}
+              onClick={() => {
+                if (item?.carTitle) {
+                  setSelectedImage(item?.carTitle);
+                  setOpenPreviewModal(true);
+                }
+              }}
               alt="car"
               className="w-[147px] h-[150px] mt-[10px] rounded-[10px]"
-              style={{ objectFit: "cover" }}
+              style={{ objectFit: "cover", cursor: "pointer" }}
             />
           </div>
           <div className="col-span-5">
@@ -462,7 +491,7 @@ const AutoImportItem = ({
           </div>
         </div>
       </CardWrapper>
-      {view && !proceed ? null : (
+      {view && !proceed && activeStep !== 4 ? null : (
         <Box onClick={() => setOpenModal(true)}>
           <EditIcon />
         </Box>
@@ -748,9 +777,20 @@ const AutoImportItem = ({
                           fontWeight: 500,
                           borderTopRightRadius: "100px",
                           borderBottomRightRadius: "100px",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => {
+                          if (carImage?.name) {
+                            setSelectedImage(carImage?.img);
+                            setOpenPreviewModal(true);
+                          }
                         }}
                       >
-                        {carImage.name ? carImage.name : "No file chosen"}
+                        {carImage.name
+                          ? carImage.name.length > 25
+                            ? carImage.name.slice(0, 25) + "..."
+                            : carImage.name
+                          : "No file chosen"}
                       </Box>
                     </Box>
                   </Box>
@@ -809,9 +849,20 @@ const AutoImportItem = ({
                           fontWeight: 500,
                           borderTopRightRadius: "100px",
                           borderBottomRightRadius: "100px",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => {
+                          if (carTitle?.name) {
+                            setSelectedImage(carTitle?.img);
+                            setOpenPreviewModal(true);
+                          }
                         }}
                       >
-                        {carTitle.name ? carTitle.name : "No file chosen"}
+                        {carTitle.name
+                          ? carTitle.name.length > 25
+                            ? carTitle.name.slice(0, 25) + "..."
+                            : carTitle.name
+                          : "No file chosen"}
                       </Box>
                     </Box>
                   </Box>
@@ -914,11 +965,11 @@ const AutoImportItem = ({
                       alignItems="center"
                     >
                       <Typography fontSize="22px" color="#1C1B1F">
-                        Drop Off
+                        Enable Pickup
                       </Typography>
                       <Box display="flex" gap="10px" alignItems="center">
                         <Box onClick={handleAddPickup}>
-                          <SwitchCopm />
+                          <SwitchCopm checked={dropOff} />
                         </Box>
                         <TooltipIcon />
                       </Box>
@@ -1249,6 +1300,7 @@ const AutoImportItem = ({
             }}
             onClick={() => {
               handleEditCar(itemNumber - 1);
+              console.log("object");
               setOpenModal(false);
             }}
           >
@@ -1259,20 +1311,19 @@ const AutoImportItem = ({
       <UserModals
         open={openPreviewModal}
         onClose={() => setOpenPreviewModal(false)}
-        title="Car Preview"
+        title="Car Picture"
+        width="fit-content"
+        height="fit-content"
       >
         <Box
           sx={{
-            idth: "100%",
-            maxWidth: "518px",
-            height: "411px",
             borderRadius: "20px",
           }}
         >
           <img
             src={selectedImage}
             alt="car"
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            style={{ width: "518px", height: "311px", objectFit: "cover" }}
           />
         </Box>
         <Box mt="30px" width="100%" display="flex" justifyContent="flex-end">

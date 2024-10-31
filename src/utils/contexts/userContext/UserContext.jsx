@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../hooks/api/axiosInstance";
 import { CronJob } from "cron";
 
-export const UserContext = createContext(null);
+const UserContext = createContext(null);
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({});
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -168,3 +168,5 @@ export const useAuth = () => {
     bearerToken,
   };
 };
+
+export { UserContext };

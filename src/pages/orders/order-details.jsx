@@ -64,7 +64,7 @@ import currencyFormatter from "../../components/CurrencyFormatter";
 export const toTitleCase = (str) => {
   const words = str?.match(/[A-Z][a-z]+|[a-z]+/g);
   const titleCasedWords = words?.map(
-    (word) => word.charAt(0).toUpperCase() + word.slice(1),
+    (word) => word.charAt(0).toUpperCase() + word.slice(1)
   );
   return titleCasedWords?.join(" ");
 };
@@ -90,24 +90,22 @@ function OrderDetails() {
   const [saveAsDraft, setSaveAsDraft] = useState(false);
   const [required, setRequired] = useState(false);
   const { data, refetch } = useCustomGetRequest(
-    `/admin/get-request-by-id/${requestid}`,
+    `/admin/get-request-by-id/${requestid}`
   );
   const shipmentMethods = ["Road", "Air", "Rail", "Sea"];
   const deliveryCompanies = ["DHL", "Gokada", "Glovo"];
-  const [origin, setOrigin] = useState(data?.request?.origin);
-  const [destinationDetails, setDestinationDetails] = useState({
-    address: "",
-    firstName: "",
-    lastName: "",
-    state: "",
-    country: "",
-    city: "",
-    email: "",
-    zipPostalCode: "",
-    countryCode: "",
-    phoneNumber: "",
-  });
+  const [origin, setOrigin] = useState("");
+  const destination = data?.request?.destinationDetails;
+  const billing = data?.request?.billingInformation;
+  const [destinationDetails, setDestinationDetails] = useState(destination);
+  const [billingInformation, setBillingInformation] = useState(billing);
 
+  useEffect(() => {
+    setDestinationDetails(destination);
+    setBillingInformation(billing);
+    setOrigin(data?.request?.origin);
+  }, [data]);
+  console.log(destinationDetails, "destination");
   useEffect(() => {
     refetch();
   }, [loading]);
@@ -191,6 +189,7 @@ function OrderDetails() {
       origin: origin,
     },
     destinationDetails: destinationDetails,
+    billingInformation: billingInformation,
     requestItems: requests,
     // shippingAndBillingInfo: data?.request?.shippingAndBillingInfo,
   };
@@ -368,7 +367,7 @@ function OrderDetails() {
     let total = data?.serviceType === "shopForMe" ? Number(warehouseCost) : 0;
     if (data?.serviceType === "shopForMe") {
       data?.request?.requestItems?.map(
-        (x) => (total += x.qty * x.originalCost),
+        (x) => (total += x.qty * x.originalCost)
       );
       return total > Number(discountValue)
         ? total - Number(discountValue)
@@ -450,7 +449,7 @@ function OrderDetails() {
       ) {
         customPutRequest(
           `/admin/admin/update-request-status/${data?.request?._id}`,
-          approveSfmRequestData,
+          approveSfmRequestData
         );
       } else {
         setOpenError(true);
@@ -469,7 +468,7 @@ function OrderDetails() {
       ) {
         customPutRequest(
           `/export/admin/update-order-status`,
-          approveExportRequestData,
+          approveExportRequestData
         );
       } else {
         setOpenError(true);
@@ -488,7 +487,7 @@ function OrderDetails() {
       ) {
         customPutRequest(
           `/import/admin/update-order-status`,
-          approveExportRequestData,
+          approveExportRequestData
         );
       } else {
         setOpenError(true);
@@ -499,7 +498,7 @@ function OrderDetails() {
       if (shipmentMethod && deliveryCompany && shippingCost && otherCharges) {
         customPutRequest(
           `/auto-import/admin/autoimport-status-update`,
-          approveAutoImportRequestData,
+          approveAutoImportRequestData
         );
       } else {
         setOpenError(true);
@@ -1160,10 +1159,11 @@ function OrderDetails() {
                   ) : activeStep === 3 ? (
                     data?.serviceType === "autoImport" ? (
                       <>
-                                <BillingDetails
-                                
-                          proceed={proceed}
+                        <BillingDetails
+                          billingInformation={billingInformation}
+                          setBillingInformation={setBillingInformation}
                           order={data}
+                          proceed={proceed}
                           type={type}
                           activeStep={activeStep}
                         />
@@ -1208,6 +1208,7 @@ function OrderDetails() {
                           refetch={refetch}
                           order={data}
                           origin={origin}
+                          setOrigin={setOrigin}
                           requestId={data?.request?.requestId}
                           service={data?.request?.serviceType}
                           isRequest={Boolean(requestid)}
@@ -1216,6 +1217,12 @@ function OrderDetails() {
                           requests={requests}
                           setrequests={setrequests}
                           confirm={true}
+                          dimensions={{
+                            width: width,
+                            weight: weight,
+                            height: height,
+                            length: length,
+                          }}
                         />
                         {data?.serviceType === "shopForMe" ? (
                           <>
@@ -1251,19 +1258,21 @@ function OrderDetails() {
                           activeStep={activeStep}
                           setActiveStep={setActiveStep}
                           requests={requests}
-                                    setrequests={setrequests}
-                                    confirm={true}
-                        />
-                        {/* <ShippingDetails
-                          order={data}
+                          setrequests={setrequests}
+                          confirm={true}
                           type={type}
-                          toggle={toggle}
-                          drop={drop}
-                        /> */}
+                          setOrigin={setOrigin}
+                        />
+                        <ShippingDetails
+                          order={data}
+                          destinationDetails={destinationDetails}
+                          setDestinationDetails={setDestinationDetails}
+                        />
                         <BillingDetails
                           activeStep={activeStep}
-                          order={data?.request}
-                          type={type}
+                          billingInformation={billingInformation}
+                          setBillingInformation={setBillingInformation}
+                          order={data}
                           totalCost={totalCost() + totalPickupCost}
                         />
                       </Box>
@@ -1640,7 +1649,10 @@ function OrderDetails() {
                               if (!finish) {
                                 handleNext();
                                 if (activeStep === 0) {
-                                  if (requests.length === 1) {
+                                  if (
+                                    requests[0].itemName === "" ||
+                                    requests[0].carBrand === ''
+                                  ) {
                                     setrequests([
                                       ...data?.request?.requestItems,
                                     ]);
@@ -1730,6 +1742,12 @@ function OrderDetails() {
                       <PackageDetails
                         refetch={refetch}
                         order={data}
+                        dimensions={{
+                          width: data?.request?.totalWidth,
+                          weight: data?.request?.totalWeight,
+                          height: data?.request?.totalHeight,
+                          length: data?.request?.totalLength,
+                        }}
                         isRequest={Boolean(requestid)}
                         type={type}
                         toggle={toggle}

@@ -34,7 +34,7 @@ const CarPickupBox = ({
   setrequests,
 }) => {
   const [pickupCosts, setPickupCosts] = useState(
-    Array(requestItems.length).fill(0),
+    Array(requestItems.length).fill(0)
   );
   const [open, setOpen] = useState("");
   const [openCar, setOpenCar] = useState("");
@@ -61,25 +61,25 @@ const CarPickupBox = ({
   const [city, setCity] = useState(car?.pickupDetails?.city || "");
   const [country, setCountry] = useState(car?.pickupDetails?.country || "");
   const [countryCode, setCountryCode] = useState(
-    car?.pickupDetails?.countryCode || "",
+    car?.pickupDetails?.countryCode || ""
   );
   const [email, setEmail] = useState(car?.pickupDetails?.email || "");
   const [firstName, setFirstName] = useState(
-    car?.pickupDetails?.firstName || "",
+    car?.pickupDetails?.firstName || ""
   );
   const [lastName, setLastName] = useState(car?.pickupDetails?.lastName || "");
   const [locationType, setLocationType] = useState(
-    car?.pickupDetails?.locationType || "",
+    car?.pickupDetails?.locationType || ""
   );
   const [phoneNumber, setPhoneNumber] = useState(
-    car?.pickupDetails?.phoneNumber || "",
+    car?.pickupDetails?.phoneNumber || ""
   );
   const [pickUpDate, setPickUpDate] = useState(
-    car?.pickupDetails?.pickUpDate || "",
+    car?.pickupDetails?.pickUpDate || ""
   );
   const [state, setState] = useState(car?.pickupDetails?.state || "");
   const [zipPostalCode, setZipPostalCode] = useState(
-    car?.pickupDetails?.zipPostalCode || "",
+    car?.pickupDetails?.zipPostalCode || ""
   );
   const [dropOff, setDropOff] = useState(firstName ? true : false);
   const [selectedCountry, setSelectedCountry] = useState();
@@ -109,30 +109,30 @@ const CarPickupBox = ({
     } else setDropOff(true);
   };
 
-    const updatePickup = (i) => {
-      const updated = requestItems.map((req, id) =>
-        id === i
-          ? {
-              ...req,
-              pickupDetails: {
-                address,
-                city: city.name,
-                country: country.name,
-                countryCode,
-                email,
-                firstName,
-                lastName: "",
-                locationType,
-                phoneNumber,
-                pickUpDate: date,
-                state: state.name,
-                zipPostalCode: zipPostalCode,
-              },
-            }
-          : req
-      );
-      setrequests(updated);
-    };
+  const updatePickup = (i) => {
+    const updated = requestItems.map((req, id) =>
+      id === i
+        ? {
+            ...req,
+            pickupDetails: {
+              address,
+              city: city.name,
+              country: country.name,
+              countryCode,
+              email,
+              firstName,
+              lastName: "",
+              locationType,
+              phoneNumber,
+              pickUpDate: date,
+              state: state.name,
+              zipPostalCode: zipPostalCode,
+            },
+          }
+        : req
+    );
+    setrequests(updated);
+  };
 
   // const  = () => {
   //   setrequests((prev) => [
@@ -244,53 +244,87 @@ const CarPickupBox = ({
           </Grid>
         </Grid>
       ) : (
-        <Box width="100%" mt="32px">
-          <TextField
-            required
-            id="pickup-cost"
-            sx={{
-              fontSize: "16px",
-              color: "#1C1B1F",
-              "& .MuiInputLabel-root": {
-                color: required && !pickupCosts ? "#B3261E" : "#1C1B1F",
-              },
-              "& .MuiInputLabel-root.Mui-focused": {
-                color: required && !pickupCosts ? "#B3261E" : "#79747E",
-              },
-              "& .MuiOutlinedInput-root": {
-                "&.Mui-focused fieldset": {
-                  borderColor: required && !pickupCosts ? "#B3261E" : "#79747E", // Border color when focused
-                },
-              },
-            }}
-            type="number"
-            label="Pick Up Cost"
-            fullWidth
-            value={pickupCosts[index]}
-            onChange={(e) => {
-              handleInputChange(index, e.target.value);
-            }}
-            // placeholder="Select origin"
-            InputProps={{
-              startAdornment: <DollarIcon />,
-              sx: {
-                // maxWidth: "540px",
-                borderRadius: "20px", // Apply border radius to the input element
-                height: "56px",
-                borderColor: "#79747E",
+        <Grid
+          container
+          wrap="nowrap"
+          display="flex"
+          alignItems="center"
+          gap="8px"
+          width="100%"
+          mt="32px"
+        >
+          <Grid item xs={7} width="100%">
+            <TextField
+              required
+              id="pickup-cost"
+              sx={{
                 fontSize: "16px",
                 color: "#1C1B1F",
-              },
-            }}
-          />
-        </Box>
+                "& .MuiInputLabel-root": {
+                  color: required && !pickupCosts ? "#B3261E" : "#1C1B1F",
+                },
+                "& .MuiInputLabel-root.Mui-focused": {
+                  color: required && !pickupCosts ? "#B3261E" : "#79747E",
+                },
+                "& .MuiOutlinedInput-root": {
+                  "&.Mui-focused fieldset": {
+                    borderColor:
+                      required && !pickupCosts ? "#B3261E" : "#79747E", // Border color when focused
+                  },
+                },
+              }}
+              type="number"
+              label="Pick Up Cost"
+              fullWidth
+              value={pickupCosts[index]}
+              onChange={(e) => {
+                handleInputChange(index, e.target.value);
+              }}
+              // placeholder="Select origin"
+              InputProps={{
+                startAdornment: <DollarIcon />,
+                sx: {
+                  // maxWidth: "540px",
+                  borderRadius: "20px", // Apply border radius to the input element
+                  height: "56px",
+                  borderColor: "#79747E",
+                  fontSize: "16px",
+                  color: "#1C1B1F",
+                },
+              }}
+            />
+          </Grid>
+          <Grid item xs={5}>
+            <Button
+              onClick={() => setOpen(true)}
+              variant="text"
+              startIcon={<AddIcon color="#6750A4" />}
+              sx={{
+                width: "100%",
+                height: "40px",
+                textTransform: "none",
+                fontSize: "14px",
+                color: "#6750A4",
+                fotWeight: 500,
+              }}
+            >
+              Disable pickup
+            </Button>
+          </Grid>
+        </Grid>
       )}
       <UserModals
         open={openCar}
         onClose={() => setOpenCar(false)}
         title="Car Details"
       >
-        <AutoImportItem item={car} isRequest={isRequest} itemNumber={index} />
+        <AutoImportItem
+          item={car}
+          isRequest={isRequest}
+          itemNumber={index}
+          requests={requestItems}
+          setrequests={setrequests}
+        />
       </UserModals>
       <UserModals
         open={open}
@@ -312,11 +346,11 @@ const CarPickupBox = ({
             ></Box>
             <Box mb="30px" display="flex" gap="60px" alignItems="center">
               <Typography fontSize="22px" color="#1C1B1F">
-                Drop Off
+                Enable Pickup
               </Typography>
               <Box display="flex" gap="10px" alignItems="center">
                 <Box onClick={handleAddPickup}>
-                  <SwitchCopm />
+                  <SwitchCopm checked={dropOff} />
                 </Box>
                 <TooltipIcon />
               </Box>

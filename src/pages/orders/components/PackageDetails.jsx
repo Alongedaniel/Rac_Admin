@@ -47,12 +47,15 @@ const PackageDetails = ({
   setOrigin,
   requests,
   setrequests,
+  dimensions,
 }) => {
   const [open, setOpen] = useState(false);
+  const [openPreviewModal, setOpenPreviewModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
   const [carBrand, setCarBrand] = useState("");
   const [carCondition, setCarCondition] = useState("");
-  const [carImage, setCarImage] = useState({img: '', name: ''});
-  const [carTitle, setCarTitle] = useState({img: '', name: ''});
+  const [carImage, setCarImage] = useState({ img: "", name: "" });
+  const [carTitle, setCarTitle] = useState({ img: "", name: "" });
   const [carValue, setCarValue] = useState(0);
   const [color, setColor] = useState("");
   const [link, setLink] = useState("");
@@ -69,7 +72,7 @@ const PackageDetails = ({
   const [itemUrl, setItemUrl] = useState("");
   const [urgentPurchase, setUrgentPurchase] = useState(false);
   const [quantityValue, setQuantityValue] = useState(0);
-  const [itemImage, setItemImage] = useState({img: '', name: ''});
+  const [itemImage, setItemImage] = useState({ img: "", name: "" });
   const today = dayjs();
   const [date, setDate] = useState(today);
 
@@ -140,8 +143,6 @@ const PackageDetails = ({
           "US Warehouse (Richmond Texas)",
         ]
   );
-
-
 
   const handleUploadImage = (e, setImage) => {
     const file = e.target.files[0];
@@ -326,8 +327,7 @@ const PackageDetails = ({
             </>
           )}
         </CardWrapper>
-        {(type === "request" || isRequest) && !proceed && (activeStep !== 3 &&
-        activeStep !== 4) ? null : (
+        {!activeStep && !proceed ? null : (
           <Box onClick={() => setOpenEditOrigin(true)}>
             <EditIcon />
           </Box>
@@ -344,6 +344,7 @@ const PackageDetails = ({
                 refetch={refetch}
                 order={order}
                 requests={requests}
+                activeStep={activeStep}
                 setrequests={setrequests}
               />
             ) : (
@@ -392,6 +393,52 @@ const PackageDetails = ({
                 setrequests={setrequests}
               />
             ))}
+      {(toTitleCase(order?.serviceType) === "Import" ||
+        toTitleCase(order?.serviceType) === "Export") && (
+        <Box mt="20px" display="flex" alignItems="center" gap="30px">
+          <CardWrapper title="Package Dimension">
+            <div className="grid grid-cols-6 mt-[20px]">
+              <div className="">
+                <p className="text-[14px] text-t/100 font-roboto text-brand/200">
+                  Weight:
+                </p>
+                <p className="font-roboto  text-[20px] text-brand/100">
+                  {dimensions?.weight} kg
+                </p>
+              </div>
+              <div className="">
+                <p className="text-[14px] text-t/100 font-roboto text-brand/200">
+                  Height:
+                </p>
+                <p className="font-roboto  text-[20px] text-brand/100">
+                  {dimensions?.height} inches
+                </p>
+              </div>
+              <div className="">
+                <p className="text-[14px] text-t/100 font-roboto text-brand/200">
+                  Length:
+                </p>
+                <p className="font-roboto  text-[20px] text-brand/100">
+                  {dimensions?.length} inches
+                </p>
+              </div>
+              <div className="">
+                <p className="text-[14px] text-t/100 font-roboto text-brand/200">
+                  Width:
+                </p>
+                <p className="font-roboto  text-[20px] text-brand/100">
+                  {dimensions?.width} inches
+                </p>
+              </div>
+            </div>
+          </CardWrapper>
+          {!proceed && !activeStep ? null : (
+            <Box onClick={() => setActiveStep(1)}>
+              <EditIcon />
+            </Box>
+          )}
+        </Box>
+      )}
       {(type === "request" || isRequest) && proceed && (
         <Button
           startIcon={<AddIcon color="#E6E1E5" />}
@@ -453,7 +500,14 @@ const PackageDetails = ({
                 // placeholder="Enter your country"
               >
                 {origins.map((x) => (
-                  <MenuItem key={x} value={x} onClick={() => setOrigin(x)}>
+                  <MenuItem
+                    key={x}
+                    value={x}
+                    onClick={() => {
+                      setOrigin(x);
+                      setOpenEditOrigin(false);
+                    }}
+                  >
                     {x}
                   </MenuItem>
                 ))}
@@ -477,7 +531,7 @@ const PackageDetails = ({
             >
               Back
             </Button>
-            <Button
+            {/* <Button
               startIcon={<ArrowRightWhite />}
               variant="contained"
               sx={{
@@ -493,7 +547,7 @@ const PackageDetails = ({
               }}
             >
               Update
-            </Button>
+            </Button> */}
           </Box>
         </Box>
       </UserModals>
@@ -813,9 +867,20 @@ const PackageDetails = ({
                             fontWeight: 500,
                             borderTopRightRadius: "100px",
                             borderBottomRightRadius: "100px",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => {
+                            if (carImage?.name) {
+                              setSelectedImage(carImage?.img);
+                              setOpenPreviewModal(true);
+                            }
                           }}
                         >
-                          {carImage.name ? carImage.name : "No file chosen"}
+                          {carImage.name
+                            ? carImage.name.length > 25
+                              ? carImage.name.slice(0, 25) + "..."
+                              : carImage.name
+                            : "No file chosen"}
                         </Box>
                       </Box>
                     </Box>
@@ -874,9 +939,20 @@ const PackageDetails = ({
                             fontWeight: 500,
                             borderTopRightRadius: "100px",
                             borderBottomRightRadius: "100px",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => {
+                            if (carTitle?.name) {
+                              setSelectedImage(carTitle?.img);
+                              setOpenPreviewModal(true);
+                            }
                           }}
                         >
-                          {carTitle.name ? carTitle.name : "No file chosen"}
+                          {carTitle.name
+                            ? carTitle.name.length > 25
+                              ? carTitle.name.slice(0, 25) + "..."
+                              : carTitle.name
+                            : "No file chosen"}
                         </Box>
                       </Box>
                     </Box>
@@ -998,11 +1074,11 @@ const PackageDetails = ({
                         alignItems="center"
                       >
                         <Typography fontSize="22px" color="#1C1B1F">
-                          Drop Off
+                          Enable Pickup
                         </Typography>
                         <Box display="flex" gap="10px" alignItems="center">
                           <Box onClick={() => setDropOff(!dropOff)}>
-                            <SwitchCopm />
+                            <SwitchCopm checked={dropOff} />
                           </Box>
                           <TooltipIcon />
                         </Box>
@@ -1563,9 +1639,20 @@ const PackageDetails = ({
                           fontWeight: 500,
                           borderTopRightRadius: "100px",
                           borderBottomRightRadius: "100px",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => {
+                          if (itemImage?.name) {
+                            setSelectedImage(itemImage?.img);
+                            setOpenPreviewModal(true);
+                          }
                         }}
                       >
-                        {itemImage?.name ? itemImage?.name : "No file chosen"}
+                        {itemImage.name
+                          ? itemImage.name.length > 25
+                            ? itemImage.name.slice(0, 25) + "..."
+                            : itemImage.name
+                          : "No file chosen"}
                       </Box>
                     </Box>
                   </Box>
@@ -1684,6 +1771,46 @@ const PackageDetails = ({
             }}
           >
             Update
+          </Button>
+        </Box>
+      </UserModals>
+      <UserModals
+        open={openPreviewModal}
+        onClose={() => setOpenPreviewModal(false)}
+        title={
+          toTitleCase(order?.serviceType) === "Auto Import"
+            ? "Car Picture"
+            : "Item Picture"
+        }
+        width="fit-content"
+        height="fit-content"
+      >
+        <Box
+          sx={{
+            borderRadius: "20px",
+          }}
+        >
+          <img
+            src={selectedImage}
+            alt="car"
+            style={{ width: "518px", height: "311px", objectFit: "cover" }}
+          />
+        </Box>
+        <Box mt="30px" width="100%" display="flex" justifyContent="flex-end">
+          <Button
+            startIcon={<ArrowLeftPurple />}
+            variant="outlined"
+            sx={{
+              borderColor: "#79747E",
+              color: "#79747E",
+              height: "40px",
+              borderRadius: "100px",
+              textTransform: "none",
+              mr: "10px",
+            }}
+            onClick={() => setOpenPreviewModal(false)}
+          >
+            Back
           </Button>
         </Box>
       </UserModals>

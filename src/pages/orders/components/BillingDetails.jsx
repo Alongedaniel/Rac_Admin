@@ -19,6 +19,8 @@ const BillingDetails = ({
   totalCost,
   activeStep,
   setActiveStep = () => {},
+  billingInformation,
+  setBillingInformation = () => {},
 }) => {
   console.log(totalCost);
   const [open, setOpen] = useState(false);
@@ -39,9 +41,53 @@ const BillingDetails = ({
           order?.vat +
           order?.storageCharges +
           order?.paymentMethodSurcharge +
-          totalCost;
+        totalCost;
+  
+    const [firstName, setFirstName] = useState(
+      billingInformation?.firstName || ""
+    );
+    const [lastName, setLastName] = useState(
+      billingInformation?.lastName || ""
+    );
+    const [email, setEmail] = useState(
+      billingInformation?.email || ""
+    );
+    const [phoneNumber, setPhoneNumber] = useState(
+      billingInformation?.phoneNumber || ""
+    );
+    const [country, setCountry] = useState(
+      billingInformation?.country || null
+    );
+    const [state, setState] = useState(
+      billingInformation?.state || null
+    );
+    const [city, setCity] = useState(
+      billingInformation?.city || null
+    );
+    const [address, setAddress] = useState(
+      billingInformation?.address || ""
+    );
+    const [zipCode, setZipCode] = useState(
+      billingInformation?.zipPostalCode || ""
+    );
 
-  const billingDetails = order?.request?.billingInformation;
+    const handleUpdateBillingDetails = () => {
+      setBillingInformation({
+        ...billingInformation,
+        address: address,
+        firstName: firstName,
+        lastName: lastName,
+        state: state?.name ?? billingInformation?.state,
+        country: country?.name ?? billingInformation?.country,
+        city: city?.name ?? billingInformation?.city,
+        email: email,
+        zipPostalCode: zipCode,
+        countryCode: "",
+        phoneNumber: phoneNumber,
+      });
+  };
+  
+
   return (
     <>
       {(type === "request" || isRequest) &&
@@ -73,7 +119,7 @@ const BillingDetails = ({
                         Receiver's First Name:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        {billingDetails?.firstName}
+                        {billingInformation?.firstName}
                       </p>
                     </div>
                     <div className="">
@@ -81,7 +127,7 @@ const BillingDetails = ({
                         Receiver's Last Name:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        {billingDetails?.lastName}
+                        {billingInformation?.lastName}
                       </p>
                     </div>
                     <div className="">
@@ -89,7 +135,7 @@ const BillingDetails = ({
                         Receiver's Phone Number:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        {billingDetails?.phoneNumber}
+                        {billingInformation?.phoneNumber}
                       </p>
                     </div>
                     <div className="">
@@ -97,7 +143,7 @@ const BillingDetails = ({
                         Receiver's Email:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        {billingDetails?.email}
+                        {billingInformation?.email}
                       </p>
                     </div>
                   </div>
@@ -106,7 +152,7 @@ const BillingDetails = ({
                       Receiver's Address:
                     </p>
                     <p className="font-roboto  text-[20px] text-brand/100">
-                      {billingDetails?.address}
+                      {billingInformation?.address}
                     </p>
                   </div>
                   <div className="grid grid-cols-4 gap-[20px] mt-[30px] ">
@@ -115,7 +161,7 @@ const BillingDetails = ({
                         Country:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        {billingDetails?.country}
+                        {billingInformation?.country}
                       </p>
                     </div>
                     <div className="">
@@ -123,7 +169,7 @@ const BillingDetails = ({
                         State:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        {billingDetails?.state}
+                        {billingInformation?.state}
                       </p>
                     </div>
                     <div className="">
@@ -131,7 +177,7 @@ const BillingDetails = ({
                         City:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        {billingDetails?.city}
+                        {billingInformation?.city}
                       </p>
                     </div>
                     <div className="">
@@ -139,13 +185,12 @@ const BillingDetails = ({
                         Zip/postal Code:
                       </p>
                       <p className="font-roboto  text-[20px] text-brand/100">
-                        {billingDetails?.zipPostalCode}
+                        {billingInformation?.zipPostalCode}
                       </p>
                     </div>
                   </div>
                 </CardWrapper>
-                {((type === "request" || isRequest) && !proceed) ||
-                proceed ? null : (
+                {(type === "request" || isRequest) && !proceed ? null : (
                   <Box onClick={() => setOpen(true)}>
                     <EditIcon />
                   </Box>
@@ -267,7 +312,28 @@ const BillingDetails = ({
             onClose={() => setOpen(false)}
             title="Edit Billing Details"
           >
-            <BillingDetailsForm />
+            <BillingDetailsForm
+              setZipCode={setZipCode}
+              zipCode={zipCode}
+              setAddress={setAddress}
+              address={address}
+              setCity={setCity}
+              city={city}
+              setState={setState}
+              state={state}
+              setCountry={setCountry}
+              country={country}
+              setPhoneNumber={setPhoneNumber}
+              phoneNumber={phoneNumber}
+              setEmail={setEmail}
+              email={email}
+              setLastName={setLastName}
+              lastName={lastName}
+              setFirstName={setFirstName}
+              firstName={firstName}
+              billingInformation={billingInformation}
+              setBillingInformation={setBillingInformation}
+            />
             <Box mt="30px">
               <Button
                 startIcon={<ArrowLeftPurple />}
@@ -285,16 +351,20 @@ const BillingDetails = ({
                 Back
               </Button>
               <Button
-                startIcon={<ArrowRightWhite />}
-                variant="contained"
-                sx={{
-                  bgcolor: "#6750A4",
-                  color: "#fff",
-                  width: "172px",
-                  height: "40px",
-                  borderRadius: "100px",
-                  textTransform: "none",
-                }}
+                  startIcon={<ArrowRightWhite />}
+                  variant="contained"
+                  sx={{
+                    bgcolor: "#6750A4",
+                    color: "#fff",
+                    width: "172px",
+                    height: "40px",
+                    borderRadius: "100px",
+                    textTransform: "none",
+                  }}
+                  onClick={() => {
+                    setOpen(false)
+                    handleUpdateBillingDetails()
+                  }}
               >
                 Update
               </Button>
