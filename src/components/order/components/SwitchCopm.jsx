@@ -1,10 +1,11 @@
 import { Switch, useTheme } from "@mui/material";
 import React from "react";
 
-const SwitchCopm = () => {
+const SwitchCopm = ({ checked }) => {
   const theme = useTheme();
   return (
     <Switch
+      checked={checked}
       sx={{
         root: {
           width: 50,

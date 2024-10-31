@@ -53,7 +53,10 @@ const ItemBox = ({
     item?.itemOriginalCost ?? item?.originalCost ?? 0
   );
   const [store, setStore] = useState(item?.store);
-  const [itemImage, setItemImage] = useState(item?.itemImage ?? {img: '', name: ''});
+  const [itemImage, setItemImage] = useState({
+    img: item?.itemImage ?? "",
+    name: item?.itemImageName ?? item?.itemImage ?? "",
+  });
   const [itemUrl, setItemUrl] = useState(item?.itemUrl);
   const [urgentPurchase, setUrgentPurchase] = useState(item?.urgentPurchase);
   const [quantityValue, setQuantityValue] = useState(
@@ -263,7 +266,16 @@ const ItemBox = ({
               <div>
                 <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                   Product/Item Picture:
-                  <div className="w-[220px] h-[150px] mt-[10px] rounded-[10px] border">
+                  <div
+                    className="w-[220px] h-[150px] mt-[10px] rounded-[10px] border"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => {
+                      if (item?.itemImage) {
+                        setSelectedImage(item?.itemImage);
+                        setOpenPreviewModal(true);
+                      }
+                    }}
+                  >
                     <img
                       src={item?.itemImage ?? ""}
                       alt="product"
@@ -436,7 +448,7 @@ const ItemBox = ({
         onClose={() => setOpen(false)}
         title="Edit Package Details"
       >
-        <Box display='flex' alignItems='center' gap='30px'>
+        <Box display="flex" alignItems="center" gap="30px">
           <CardWrapper title={`Item - #${itemNumber}`}>
             <Box>
               <Box mt="10px" pt="30px">
@@ -685,6 +697,7 @@ const ItemBox = ({
                         fontWeight: 500,
                         borderTopRightRadius: "100px",
                         borderBottomRightRadius: "100px",
+                        cursor: "pointer",
                       }}
                       onClick={() => {
                         if (itemImage?.name) {
@@ -693,7 +706,11 @@ const ItemBox = ({
                         }
                       }}
                     >
-                      {itemImage?.name ? itemImage?.name : "No file chosen"}
+                      {itemImage.name
+                        ? itemImage.name.length > 25
+                          ? itemImage.name.slice(0, 25) + "..."
+                          : itemImage.name
+                        : "No file chosen"}
                     </Box>
                   </Box>
                 </Box>
@@ -778,9 +795,7 @@ const ItemBox = ({
               </Box>
             </Box>
           </CardWrapper>
-          <Box
-            onClick={() => handleDeleteItem(itemNumber - 1)}
-          >
+          <Box onClick={() => handleDeleteItem(itemNumber - 1)}>
             <DeletIcon />
           </Box>
         </Box>
@@ -823,22 +838,19 @@ const ItemBox = ({
       <UserModals
         open={openPreviewModal}
         onClose={() => setOpenPreviewModal(false)}
-        title="Item Preview"
+        title="Item Picture"
         width="fit-content"
         height="fit-content"
       >
         <Box
           sx={{
-            width: "100%",
-            maxWidth: "518px",
-            height: "311px",
             borderRadius: "20px",
           }}
         >
           <img
             src={selectedImage}
             alt="car"
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            style={{ width: "518px", height: "311px", objectFit: "cover" }}
           />
         </Box>
         <Box mt="30px" width="100%" display="flex" justifyContent="flex-end">

@@ -54,7 +54,7 @@ const ShippingDetailsForm = ({
     { name: "Australia", code: "+61" },
   ];
   const [code, setCode] = useState("");
-  const [number, setNumber] = useState("");
+  const [number, setNumber] = useState(receiverPhoneNumber);
   useEffect(() => {
     setReceiverPhoneNumber(code + number);
   }, [code, number]);

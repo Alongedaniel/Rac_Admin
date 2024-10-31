@@ -72,7 +72,7 @@ function Step2() {
             description: "",
           },
         ],
-      }),
+      })
     );
   }
 
@@ -209,7 +209,7 @@ function Step2() {
                               handleItemChange(
                                 index,
                                 "description",
-                                e.target.value,
+                                e.target.value
                               )
                             }
                             label="Product/Item Description"
@@ -231,7 +231,7 @@ function Step2() {
                                   handleItemChange(
                                     index,
                                     "color",
-                                    e.target.value,
+                                    e.target.value
                                   )
                                 }
                                 label="Item Color"
@@ -350,7 +350,7 @@ function Step2() {
                               handleItemChange(
                                 index,
                                 "description",
-                                e.target.value,
+                                e.target.value
                               )
                             }
                             label="Product/Item Description"
@@ -372,7 +372,7 @@ function Step2() {
                                   handleItemChange(
                                     index,
                                     "color",
-                                    e.target.value,
+                                    e.target.value
                                   )
                                 }
                                 label="Item Color"
@@ -454,7 +454,7 @@ function Step2() {
                               handleCarItemChange(
                                 index,
                                 "brand",
-                                e.target.value,
+                                e.target.value
                               )
                             }
                             options={
@@ -479,7 +479,7 @@ function Step2() {
                               handleCarItemChange(
                                 index,
                                 "model",
-                                e.target.value,
+                                e.target.value
                               )
                             }
                             options={
@@ -501,7 +501,7 @@ function Step2() {
                               handleCarItemChange(
                                 index,
                                 "prodYear",
-                                e.target.value,
+                                e.target.value
                               )
                             }
                             options={
@@ -527,7 +527,7 @@ function Step2() {
                                 handleCarItemChange(
                                   index,
                                   "value",
-                                  e.target.value,
+                                  e.target.value
                                 )
                               }
                             />
@@ -540,7 +540,7 @@ function Step2() {
                               handleCarItemChange(
                                 index,
                                 "condition",
-                                e.target.value,
+                                e.target.value
                               )
                             }
                             options={
@@ -560,7 +560,7 @@ function Step2() {
                               handleCarItemChange(
                                 index,
                                 "color",
-                                e.target.value,
+                                e.target.value
                               )
                             }
                             label="Car Color"
@@ -573,7 +573,7 @@ function Step2() {
                               handleCarItemChange(
                                 index,
                                 "millage",
-                                e.target.value,
+                                e.target.value
                               )
                             }
                             label="Millage"
@@ -591,7 +591,7 @@ function Step2() {
                               handleCarItemChange(
                                 index,
                                 "weblink",
-                                e.target.value,
+                                e.target.value
                               )
                             }
                             label="Direct URL/Website Link to the Car"
@@ -617,7 +617,7 @@ function Step2() {
                               handleCarItemChange(
                                 index,
                                 "description",
-                                e.target.value,
+                                e.target.value
                               )
                             }
                             label="Additional Car Description"
@@ -639,7 +639,7 @@ function Step2() {
                                   handleCarItemChange(
                                     index,
                                     "color",
-                                    e.target.value,
+                                    e.target.value
                                   )
                                 }
                                 label="Item Color"
@@ -667,7 +667,9 @@ function Step2() {
                             </p>
                           </div>
                           <div className="mt-[25px] grid gap-[30px]">
-                            <p className="text-[22px] font-roboto">Drop Off</p>
+                            <p className="text-[22px] font-roboto">
+                              Enable Pickup
+                            </p>
                             <div className="grid grid-cols-3 gap-[30px] ">
                               <div>
                                 <TextInput
@@ -676,7 +678,7 @@ function Step2() {
                                     handleCarItemChange(
                                       index,
                                       "contactName",
-                                      e.target.value,
+                                      e.target.value
                                     )
                                   }
                                   label="Pick up Contact Name *"
@@ -689,7 +691,7 @@ function Step2() {
                                     handleCarItemChange(
                                       index,
                                       "contactPhone",
-                                      e.target.value,
+                                      e.target.value
                                     )
                                   }
                                   label="Contact Phone number *"
@@ -704,7 +706,7 @@ function Step2() {
                                   handleCarItemChange(
                                     index,
                                     "contactEmail",
-                                    e.target.value,
+                                    e.target.value
                                   )
                                 }
                                 label="Pick up Contact Email Address"
@@ -717,7 +719,7 @@ function Step2() {
                                   handleCarItemChange(
                                     index,
                                     "contactAddress",
-                                    e.target.value,
+                                    e.target.value
                                   )
                                 }
                                 label="Pick up Address *"
@@ -732,7 +734,7 @@ function Step2() {
                                   handleCarItemChange(
                                     index,
                                     "carCountry",
-                                    e.target.value,
+                                    e.target.value
                                   )
                                 }
                                 options={
@@ -754,7 +756,7 @@ function Step2() {
                                   handleCarItemChange(
                                     index,
                                     "carState",
-                                    e.target.value,
+                                    e.target.value
                                   )
                                 }
                                 options={
@@ -776,7 +778,7 @@ function Step2() {
                                   handleCarItemChange(
                                     index,
                                     "carCity",
-                                    e.target.value,
+                                    e.target.value
                                   )
                                 }
                                 options={
@@ -806,7 +808,7 @@ function Step2() {
                                   handleCarItemChange(
                                     index,
                                     "pickupDate",
-                                    e.target.value,
+                                    e.target.value
                                   )
                                 }
                               />
@@ -818,7 +820,7 @@ function Step2() {
                                   handleCarItemChange(
                                     index,
                                     "locationType",
-                                    e.target.value,
+                                    e.target.value
                                   )
                                 }
                                 options={
@@ -898,7 +900,7 @@ function Step2() {
                                 handleShopItemChange(
                                   index,
                                   "store",
-                                  e.target.value,
+                                  e.target.value
                                 )
                               }
                               options={
@@ -922,7 +924,7 @@ function Step2() {
                                 handleShopItemChange(
                                   index,
                                   "urgentPurchase",
-                                  e.target.value,
+                                  e.target.value
                                 )
                               }
                               options={
@@ -949,7 +951,7 @@ function Step2() {
                               handleShopItemChange(
                                 index,
                                 "itemUrl",
-                                e.target.value,
+                                e.target.value
                               )
                             }
                             label="Item URL *"
@@ -960,7 +962,7 @@ function Step2() {
                               handleShopItemChange(
                                 index,
                                 "itemName",
-                                e.target.value,
+                                e.target.value
                               )
                             }
                             label="Item Name *"
@@ -976,7 +978,7 @@ function Step2() {
                                 handleShopItemChange(
                                   index,
                                   "originalPrice",
-                                  e.target.value,
+                                  e.target.value
                                 )
                               }
                             />
@@ -1000,7 +1002,7 @@ function Step2() {
                               handleShopItemChange(
                                 index,
                                 "shippingCost",
-                                e.target.value,
+                                e.target.value
                               )
                             }
                           />
@@ -1015,7 +1017,7 @@ function Step2() {
                               handleShopItemChange(
                                 index,
                                 "description",
-                                e.target.value,
+                                e.target.value
                               )
                             }
                             label="Additional Product/Item Description"
@@ -1037,7 +1039,7 @@ function Step2() {
                                   handleShopItemChange(
                                     index,
                                     "color",
-                                    e.target.value,
+                                    e.target.value
                                   )
                                 }
                                 label="Item Color"

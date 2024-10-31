@@ -69,17 +69,17 @@ const AutoImportPackageDetails = ({
     setrequests([...requests, newOrder]);
   };
 
-const handleInputChange = (id, field, value) => {
-  const updatedrequests = requests.map((order, i) =>
-    i === id
-      ? {
-          ...order,
-          ...(typeof field === "string" ? { [field]: value } : field),
-        }
-      : order
-  );
-  setrequests(updatedrequests);
-};
+  const handleInputChange = (id, field, value) => {
+    const updatedrequests = requests.map((order, i) =>
+      i === id
+        ? {
+            ...order,
+            ...(typeof field === "string" ? { [field]: value } : field),
+          }
+        : order
+    );
+    setrequests(updatedrequests);
+  };
 
   const handleDeleteItem = (id) => {
     const filteredOrder = requests.filter((order, i) => i !== id);
@@ -223,7 +223,7 @@ const handleInputChange = (id, field, value) => {
                             handleInputChange(
                               i,
                               "productionYear",
-                              e.target.value,
+                              e.target.value
                             )
                           }
                           fullWidth
@@ -367,7 +367,7 @@ const handleInputChange = (id, field, value) => {
                             handleInputChange(
                               i,
                               "vehicleIdNumber",
-                              e.target.value,
+                              e.target.value
                             )
                           }
                           fullWidth
@@ -431,7 +431,7 @@ const handleInputChange = (id, field, value) => {
                               handleInputChange(
                                 i,
                                 "carImage",
-                                e.target.files[0],
+                                e.target.files[0]
                               )
                             }
                           />
@@ -500,7 +500,7 @@ const handleInputChange = (id, field, value) => {
                               handleInputChange(
                                 i,
                                 "carTitle",
-                                e.target.files[0],
+                                e.target.files[0]
                               )
                             }
                           />
@@ -581,7 +581,7 @@ const handleInputChange = (id, field, value) => {
                         handleInputChange(
                           i,
                           "additionalDescription",
-                          e.target.value,
+                          e.target.value
                         )
                       }
                       fullWidth
@@ -673,7 +673,7 @@ const handleInputChange = (id, field, value) => {
                         alignItems="center"
                       >
                         <Typography fontSize="22px" color="#1C1B1F">
-                          Drop Off
+                          Enable Pickup
                         </Typography>
                         <Box display="flex" gap="10px" alignItems="center">
                           <SwitchCopm />
