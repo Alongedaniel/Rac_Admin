@@ -3,6 +3,7 @@ import {
   Button,
   Grid,
   MenuItem,
+  Snackbar,
   TextField,
   Typography,
 } from "@mui/material";
@@ -31,6 +32,8 @@ const AutoImportPackageDetails = ({
   const today = dayjs();
   const [date, setDate] = useState(today);
   const [open, setOpen] = useState(false);
+    const [imageError, setImageError] = useState("");
+    const MAX_FILE_SIZE = 2 * 1024 * 1024;
   const [origins, setOrigins] = useState([
     "UK Warehouse (London)",
     "Dubai Warehouse",
@@ -70,6 +73,14 @@ const AutoImportPackageDetails = ({
   };
 
   const handleInputChange = (id, field, value) => {
+     if (field === "productImage" && value) {
+       if (value.size > MAX_FILE_SIZE) {
+         setImageError(
+           "File size exceeds the 2 MB limit. Please upload a smaller file."
+         );
+         return;
+       }
+     }
     const updatedrequests = requests.map((order, i) =>
       i === id
         ? {
@@ -957,6 +968,19 @@ const AutoImportPackageDetails = ({
         </Button>
       </Box>
       <AddPropertyModal open={open} onClose={() => setOpen(false)} />
+      <Snackbar
+        open={imageError.length}
+        message={imageError}
+        onClose={() => setImageError("")}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        sx={{
+          "& .MuiSnackbarContent-root": {
+            borderRadius: "30px",
+            width: "fit-content",
+          },
+        }}
+      />
     </Box>
   );
 };

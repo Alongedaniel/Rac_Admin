@@ -7,6 +7,7 @@ import {
   Button,
   Grid,
   MenuItem,
+  Snackbar,
   TextField,
   Typography,
 } from "@mui/material";
@@ -144,8 +145,17 @@ const PackageDetails = ({
         ]
   );
 
+    const [imageError, setImageError] = useState("");
+    const MAX_FILE_SIZE = 2 * 1024 * 1024;
+
   const handleUploadImage = (e, setImage) => {
     const file = e.target.files[0];
+    if (file.size > MAX_FILE_SIZE) {
+      setImageError(
+        "File size exceeds the 2 MB limit. Please upload a smaller file."
+      );
+      return;
+    }
     if (file && file.type.startsWith("image/")) {
       const reader = new FileReader();
       reader.onload = () => {
@@ -393,52 +403,53 @@ const PackageDetails = ({
                 setrequests={setrequests}
               />
             ))}
-      {((toTitleCase(order?.serviceType) === "Import" ||
-        toTitleCase(order?.serviceType) === "Export") && order?.request?.requestStatus === 'responded') && (
-        <Box mt="20px" display="flex" alignItems="center" gap="30px">
-          <CardWrapper title="Package Dimension">
-            <div className="grid grid-cols-6 mt-[20px]">
-              <div className="">
-                <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                  Weight:
-                </p>
-                <p className="font-roboto  text-[20px] text-brand/100">
-                  {dimensions?.weight} kg
-                </p>
+      {(toTitleCase(order?.serviceType) === "Import" ||
+        toTitleCase(order?.serviceType) === "Export") &&
+        order?.request?.requestStatus === "responded" && (
+          <Box mt="20px" display="flex" alignItems="center" gap="30px">
+            <CardWrapper title="Package Dimension">
+              <div className="grid grid-cols-6 mt-[20px]">
+                <div className="">
+                  <p className="text-[14px] text-t/100 font-roboto text-brand/200">
+                    Weight:
+                  </p>
+                  <p className="font-roboto  text-[20px] text-brand/100">
+                    {dimensions?.weight} kg
+                  </p>
+                </div>
+                <div className="">
+                  <p className="text-[14px] text-t/100 font-roboto text-brand/200">
+                    Height:
+                  </p>
+                  <p className="font-roboto  text-[20px] text-brand/100">
+                    {dimensions?.height} inches
+                  </p>
+                </div>
+                <div className="">
+                  <p className="text-[14px] text-t/100 font-roboto text-brand/200">
+                    Length:
+                  </p>
+                  <p className="font-roboto  text-[20px] text-brand/100">
+                    {dimensions?.length} inches
+                  </p>
+                </div>
+                <div className="">
+                  <p className="text-[14px] text-t/100 font-roboto text-brand/200">
+                    Width:
+                  </p>
+                  <p className="font-roboto  text-[20px] text-brand/100">
+                    {dimensions?.width} inches
+                  </p>
+                </div>
               </div>
-              <div className="">
-                <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                  Height:
-                </p>
-                <p className="font-roboto  text-[20px] text-brand/100">
-                  {dimensions?.height} inches
-                </p>
-              </div>
-              <div className="">
-                <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                  Length:
-                </p>
-                <p className="font-roboto  text-[20px] text-brand/100">
-                  {dimensions?.length} inches
-                </p>
-              </div>
-              <div className="">
-                <p className="text-[14px] text-t/100 font-roboto text-brand/200">
-                  Width:
-                </p>
-                <p className="font-roboto  text-[20px] text-brand/100">
-                  {dimensions?.width} inches
-                </p>
-              </div>
-            </div>
-          </CardWrapper>
-          {!proceed && !activeStep ? null : (
-            <Box onClick={() => setActiveStep(1)}>
-              <EditIcon />
-            </Box>
-          )}
-        </Box>
-      )}
+            </CardWrapper>
+            {!proceed && !activeStep ? null : (
+              <Box onClick={() => setActiveStep(1)}>
+                <EditIcon />
+              </Box>
+            )}
+          </Box>
+        )}
       {(type === "request" || isRequest) && proceed && (
         <Button
           startIcon={<AddIcon color="#E6E1E5" />}
@@ -1814,6 +1825,19 @@ const PackageDetails = ({
           </Button>
         </Box>
       </UserModals>
+      <Snackbar
+        open={imageError.length}
+        message={imageError}
+        onClose={() => setImageError("")}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        sx={{
+          "& .MuiSnackbarContent-root": {
+            borderRadius: "30px",
+            width: "fit-content",
+          },
+        }}
+      />
     </div>
   );
 };
