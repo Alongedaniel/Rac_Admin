@@ -222,6 +222,7 @@ function OrderDetails() {
   const [otherCharges, setOtherCharges] = useState("");
   const [totalPickupCost, setTotalPickupCost] = useState(0);
   const [shippingCost, setShippingCost] = useState("");
+  const [totalCalculatedCost, setTotalCalculatedCost] = useState(0);
 
   console.log(data);
 
@@ -373,13 +374,17 @@ function OrderDetails() {
         ? total - Number(discountValue)
         : Number(discountValue) - total;
     }
-    if (data?.serviceType === "autoImport") {
-      let cost = Number(shippingCost) + Number(otherCharges);
-      total += cost;
-      return total > Number(discountValue)
-        ? total - Number(discountValue)
-        : Number(discountValue) - total;
-    }
+    // if (data?.serviceType === "autoImport") {
+    //   let cost = Number(shippingCost) + Number(otherCharges) + data?.request?.insurance +
+    // data?.request?.paymentMethodSurcharge +
+    // data?.request?.vat +
+    // data?.request?.storageCharges +
+    // (Number(totalPickupCost) ?? 0)
+    //   total += cost;
+    //   return total > Number(discountValue)
+    //     ? total - Number(discountValue)
+    //     : Number(discountValue) - total;
+    // }
   };
 
   const customer =
@@ -897,6 +902,7 @@ function OrderDetails() {
                         warehouseCost={warehouseCost}
                         setWarehouseCost={setWarehouseCost}
                         required={required}
+                        setTotalCalculatedCost={setTotalCalculatedCost}
                       />
                     ) : (
                       <Box>
@@ -1186,6 +1192,7 @@ function OrderDetails() {
                             shippingCost={shippingCost}
                             setShippingCost={setShippingCost}
                             isRequest={Boolean(requestid)}
+                            setTotalCalculatedCost={setTotalCalculatedCost}
                           />
                         </Box>
                       </>
@@ -1229,8 +1236,9 @@ function OrderDetails() {
                             <BillingDetails
                               order={data?.request}
                               type={type}
-                              totalCost={totalCost()}
+                              // totalCost={totalCost()}
                               setActiveStep={setActiveStep}
+                              totalCalculatedCost={totalCalculatedCost}
                             />
                           </>
                         ) : null}
@@ -1273,7 +1281,8 @@ function OrderDetails() {
                           billingInformation={billingInformation}
                           setBillingInformation={setBillingInformation}
                           order={data}
-                          totalCost={totalCost() + totalPickupCost}
+                          // totalCost={totalCost()}
+                          totalCalculatedCost={totalCalculatedCost}
                         />
                       </Box>
                     ) : (
@@ -1651,7 +1660,7 @@ function OrderDetails() {
                                 if (activeStep === 0) {
                                   if (
                                     requests[0].itemName === "" ||
-                                    requests[0].carBrand === ''
+                                    requests[0].carBrand === ""
                                   ) {
                                     setrequests([
                                       ...data?.request?.requestItems,
@@ -1741,6 +1750,7 @@ function OrderDetails() {
                       )}
                       <PackageDetails
                         refetch={refetch}
+                        origin={origin}
                         order={data}
                         dimensions={{
                           width: data?.request?.totalWidth,

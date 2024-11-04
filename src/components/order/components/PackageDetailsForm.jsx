@@ -3,6 +3,7 @@ import {
   Button,
   Grid,
   MenuItem,
+  Snackbar,
   TextField,
   Typography,
 } from "@mui/material";
@@ -57,12 +58,14 @@ const PackageDetailsForm = ({
           "Dubai Warehouse",
           "China Warehouse (Guangzhou city)",
           "US Warehouse (Richmond Texas)",
-        ],
+        ]
   );
   const [quantityValue, setQuantityValue] = useState(1);
   const [openPreviewModal, setOpenPreviewModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [open, setOpen] = useState(false);
+  const [imageError, setImageError] = useState("");
+  const MAX_FILE_SIZE = 2 * 1024 * 1024;
   // const [requests, setrequests] = useState([
   //   {
   //     productName: "",
@@ -106,13 +109,19 @@ const PackageDetailsForm = ({
   };
 
   const handleInputChange = (id, field, value) => {
+     if (field === "productImage" && value) {
+       if (value.size > MAX_FILE_SIZE) {
+         setImageError(
+           "File size exceeds the 2 MB limit. Please upload a smaller file."
+         );
+         return; 
+       }
+     }
     const updatedrequests = requests.map((order, i) =>
       i === id
         ? {
             ...order,
-            ...(typeof field === "string"
-              ? { [field]: value }
-              : field),
+            ...(typeof field === "string" ? { [field]: value } : field),
           }
         : order
     );
@@ -479,6 +488,12 @@ const PackageDetailsForm = ({
                                 // onChange={handleFileChange}
                                 onChange={(e) => {
                                   const file = e.target.files[0];
+                                  if (file.size > MAX_FILE_SIZE) {
+                                    setImageError(
+                                      "File size exceeds the 2 MB limit. Please upload a smaller file."
+                                    );
+                                    return;
+                                  }
                                   if (file && file.type.startsWith("image/")) {
                                     const reader = new FileReader();
                                     reader.onload = () => {
@@ -1287,6 +1302,19 @@ const PackageDetailsForm = ({
           </Button>
         </Box>
       </UserModals>
+      <Snackbar
+        open={imageError.length}
+        message={imageError}
+        onClose={() => setImageError("")}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        sx={{
+          "& .MuiSnackbarContent-root": {
+            borderRadius: "30px",
+            width: "fit-content",
+          },
+        }}
+      />
     </Box>
   );
 };

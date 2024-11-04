@@ -35,6 +35,7 @@ const OrderPricing = ({
   setClearingCost = () => {},
   setDutyFee = () => {},
   setrequests = () => {},
+  setTotalCalculatedCost = () => {},
   service = "",
   shopForMe = false,
   requestItems = [],
@@ -124,6 +125,7 @@ const OrderPricing = ({
       else newValue = overallAutoImportCost;
       console.log("object");
     }
+    setTotalCalculatedCost(newValue);
     return newValue;
   };
   // const shopForMeItems = [
@@ -1309,7 +1311,7 @@ const OrderPricing = ({
                   <Switch
                     checked={checked || discountValue?.length}
                     onClick={() => {
-                      setChecked(true);
+                      setChecked(!checked);
                       if (checked) {
                         setDiscoutType("");
                         setDiscountValue(0);

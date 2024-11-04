@@ -66,9 +66,17 @@ const ItemBox = ({
     item?.itemDescription ?? item?.additionalDescription
   );
   // const [selectedFile, setSelectedFile] = useState(null);
+    const [imageError, setImageError] = useState("");
+    const MAX_FILE_SIZE = 2 * 1024 * 1024;
 
     const handleUploadImage = (e, setImage) => {
       const file = e.target.files[0];
+      if (file.size > MAX_FILE_SIZE) {
+        setImageError(
+          "File size exceeds the 2 MB limit. Please upload a smaller file."
+        );
+        return;
+      }
       if (file && file.type.startsWith("image/")) {
         const reader = new FileReader();
         reader.onload = () => {
@@ -84,6 +92,12 @@ const ItemBox = ({
   //   const file = event.target.files[0];
   //   setSelectedFile(file);
   // };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setImageError("");
+    }, 6000)
+  }, [])
 
   useEffect(() => {
     refetch();
@@ -888,6 +902,19 @@ const ItemBox = ({
             <CloseIcon />
           </Box>
         }
+      />
+      <Snackbar
+        open={imageError.length}
+        message={imageError}
+        onClose={() => setImageError("")}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        sx={{
+          "& .MuiSnackbarContent-root": {
+            borderRadius: "30px",
+            width: "fit-content",
+          },
+        }}
       />
       <Backdrop sx={{ color: "#fff", zIndex: 999 }} open={loading}>
         <CircularProgress color="inherit" />
