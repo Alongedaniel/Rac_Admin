@@ -276,9 +276,9 @@ const CarPickupBox = ({
               type="number"
               label="Pick Up Cost"
               fullWidth
-              value={pickupCosts[index]}
+              value={pickupCosts[index - 1]}
               onChange={(e) => {
-                handleInputChange(index, e.target.value);
+                handleInputChange(index - 1, e.target.value);
               }}
               // placeholder="Select origin"
               InputProps={{

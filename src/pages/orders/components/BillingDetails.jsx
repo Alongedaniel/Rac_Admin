@@ -21,8 +21,9 @@ const BillingDetails = ({
   setActiveStep = () => {},
   billingInformation,
   setBillingInformation = () => {},
+  totalCalculatedCost,
 }) => {
-  console.log(totalCost);
+  console.log(totalCalculatedCost);
   const [open, setOpen] = useState(false);
   const serviceType = toTitleCase(order?.serviceType);
   const overallCost =
@@ -41,52 +42,39 @@ const BillingDetails = ({
           order?.vat +
           order?.storageCharges +
           order?.paymentMethodSurcharge +
-        totalCost;
-  
-    const [firstName, setFirstName] = useState(
-      billingInformation?.firstName || ""
-    );
-    const [lastName, setLastName] = useState(
-      billingInformation?.lastName || ""
-    );
-    const [email, setEmail] = useState(
-      billingInformation?.email || ""
-    );
-    const [phoneNumber, setPhoneNumber] = useState(
-      billingInformation?.phoneNumber || ""
-    );
-    const [country, setCountry] = useState(
-      billingInformation?.country || null
-    );
-    const [state, setState] = useState(
-      billingInformation?.state || null
-    );
-    const [city, setCity] = useState(
-      billingInformation?.city || null
-    );
-    const [address, setAddress] = useState(
-      billingInformation?.address || ""
-    );
-    const [zipCode, setZipCode] = useState(
-      billingInformation?.zipPostalCode || ""
-    );
+          totalCost;
 
-    const handleUpdateBillingDetails = () => {
-      setBillingInformation({
-        ...billingInformation,
-        address: address,
-        firstName: firstName,
-        lastName: lastName,
-        state: state?.name ?? billingInformation?.state,
-        country: country?.name ?? billingInformation?.country,
-        city: city?.name ?? billingInformation?.city,
-        email: email,
-        zipPostalCode: zipCode,
-        countryCode: "",
-        phoneNumber: phoneNumber,
-      });
+  const [firstName, setFirstName] = useState(
+    billingInformation?.firstName || ""
+  );
+  const [lastName, setLastName] = useState(billingInformation?.lastName || "");
+  const [email, setEmail] = useState(billingInformation?.email || "");
+  const [phoneNumber, setPhoneNumber] = useState(
+    billingInformation?.phoneNumber || ""
+  );
+  const [country, setCountry] = useState(billingInformation?.country || null);
+  const [state, setState] = useState(billingInformation?.state || null);
+  const [city, setCity] = useState(billingInformation?.city || null);
+  const [address, setAddress] = useState(billingInformation?.address || "");
+  const [zipCode, setZipCode] = useState(
+    billingInformation?.zipPostalCode || ""
+  );
+
+  const handleUpdateBillingDetails = () => {
+    setBillingInformation({
+      ...billingInformation,
+      address: address,
+      firstName: firstName,
+      lastName: lastName,
+      state: state?.name ?? billingInformation?.state,
+      country: country?.name ?? billingInformation?.country,
+      city: city?.name ?? billingInformation?.city,
+      email: email,
+      zipPostalCode: zipCode,
+      countryCode: "",
+      phoneNumber: phoneNumber,
+    });
   };
-  
 
   return (
     <>
@@ -217,7 +205,7 @@ const BillingDetails = ({
                             Total Procurement Cost:
                           </p>
                           <p className="font-roboto  text-[20px] text-brand/100">
-                            {currencyFormatter.format(overallCost) ??
+                            {currencyFormatter.format(totalCalculatedCost) ??
                               "$234,000.00"}
                           </p>
                         </div>
@@ -240,7 +228,7 @@ const BillingDetails = ({
                             Total Shipment Cost:
                           </p>
                           <p className="font-roboto  text-[20px] text-brand/100">
-                            {currencyFormatter.format(overallCost) ??
+                            {currencyFormatter.format(totalCalculatedCost) ??
                               "$234,000.00"}
                           </p>
                         </div>
@@ -351,20 +339,20 @@ const BillingDetails = ({
                 Back
               </Button>
               <Button
-                  startIcon={<ArrowRightWhite />}
-                  variant="contained"
-                  sx={{
-                    bgcolor: "#6750A4",
-                    color: "#fff",
-                    width: "172px",
-                    height: "40px",
-                    borderRadius: "100px",
-                    textTransform: "none",
-                  }}
-                  onClick={() => {
-                    setOpen(false)
-                    handleUpdateBillingDetails()
-                  }}
+                startIcon={<ArrowRightWhite />}
+                variant="contained"
+                sx={{
+                  bgcolor: "#6750A4",
+                  color: "#fff",
+                  width: "172px",
+                  height: "40px",
+                  borderRadius: "100px",
+                  textTransform: "none",
+                }}
+                onClick={() => {
+                  setOpen(false);
+                  handleUpdateBillingDetails();
+                }}
               >
                 Update
               </Button>

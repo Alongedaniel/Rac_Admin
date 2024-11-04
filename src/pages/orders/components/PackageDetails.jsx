@@ -393,8 +393,8 @@ const PackageDetails = ({
                 setrequests={setrequests}
               />
             ))}
-      {(toTitleCase(order?.serviceType) === "Import" ||
-        toTitleCase(order?.serviceType) === "Export") && (
+      {((toTitleCase(order?.serviceType) === "Import" ||
+        toTitleCase(order?.serviceType) === "Export") && order?.request?.requestStatus === 'responded') && (
         <Box mt="20px" display="flex" alignItems="center" gap="30px">
           <CardWrapper title="Package Dimension">
             <div className="grid grid-cols-6 mt-[20px]">
@@ -1648,10 +1648,10 @@ const PackageDetails = ({
                           }
                         }}
                       >
-                        {itemImage.name
-                          ? itemImage.name.length > 25
-                            ? itemImage.name.slice(0, 25) + "..."
-                            : itemImage.name
+                        {itemImage?.name
+                          ? itemImage?.name?.length > 25
+                            ? itemImage?.name?.slice(0, 25) + "..."
+                            : itemImage?.name
                           : "No file chosen"}
                       </Box>
                     </Box>
