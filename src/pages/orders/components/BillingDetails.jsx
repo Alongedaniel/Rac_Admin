@@ -42,39 +42,52 @@ const BillingDetails = ({
           order?.vat +
           order?.storageCharges +
           order?.paymentMethodSurcharge +
-          totalCost;
+        totalCost;
+  
+    const [firstName, setFirstName] = useState(
+      billingInformation?.firstName || ""
+    );
+    const [lastName, setLastName] = useState(
+      billingInformation?.lastName || ""
+    );
+    const [email, setEmail] = useState(
+      billingInformation?.email || ""
+    );
+    const [phoneNumber, setPhoneNumber] = useState(
+      billingInformation?.phoneNumber || ""
+    );
+    const [country, setCountry] = useState(
+      billingInformation?.country || null
+    );
+    const [state, setState] = useState(
+      billingInformation?.state || null
+    );
+    const [city, setCity] = useState(
+      billingInformation?.city || null
+    );
+    const [address, setAddress] = useState(
+      billingInformation?.address || ""
+    );
+    const [zipCode, setZipCode] = useState(
+      billingInformation?.zipPostalCode || ""
+    );
 
-  const [firstName, setFirstName] = useState(
-    billingInformation?.firstName || ""
-  );
-  const [lastName, setLastName] = useState(billingInformation?.lastName || "");
-  const [email, setEmail] = useState(billingInformation?.email || "");
-  const [phoneNumber, setPhoneNumber] = useState(
-    billingInformation?.phoneNumber || ""
-  );
-  const [country, setCountry] = useState(billingInformation?.country || null);
-  const [state, setState] = useState(billingInformation?.state || null);
-  const [city, setCity] = useState(billingInformation?.city || null);
-  const [address, setAddress] = useState(billingInformation?.address || "");
-  const [zipCode, setZipCode] = useState(
-    billingInformation?.zipPostalCode || ""
-  );
-
-  const handleUpdateBillingDetails = () => {
-    setBillingInformation({
-      ...billingInformation,
-      address: address,
-      firstName: firstName,
-      lastName: lastName,
-      state: state?.name ?? billingInformation?.state,
-      country: country?.name ?? billingInformation?.country,
-      city: city?.name ?? billingInformation?.city,
-      email: email,
-      zipPostalCode: zipCode,
-      countryCode: "",
-      phoneNumber: phoneNumber,
-    });
+    const handleUpdateBillingDetails = () => {
+      setBillingInformation({
+        ...billingInformation,
+        address: address,
+        firstName: firstName,
+        lastName: lastName,
+        state: state?.name ?? billingInformation?.state,
+        country: country?.name ?? billingInformation?.country,
+        city: city?.name ?? billingInformation?.city,
+        email: email,
+        zipPostalCode: zipCode,
+        countryCode: "",
+        phoneNumber: phoneNumber,
+      });
   };
+  
 
   return (
     <>
