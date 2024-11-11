@@ -83,6 +83,7 @@ function App() {
       <>
         <QueryClientProvider client={queryClient}>
           <Routes>
+            <Route path="*" element={<Navigate to="/" />} />
             <Route
               path="/"
               element={
