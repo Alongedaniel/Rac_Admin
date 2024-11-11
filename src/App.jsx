@@ -581,7 +581,7 @@ function App() {
               }
             />
             <Route
-              path="orders/:orderid"
+              path="orders/:id"
               element={
                 <MainLayout
                   showFullBar={showFullBar}
@@ -609,7 +609,7 @@ function App() {
               }
             />
             <Route
-              path="order-requests/:requestid"
+              path="order-requests/:id"
               element={
                 <MainLayout
                   showFullBar={showFullBar}
