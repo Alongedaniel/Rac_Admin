@@ -82,7 +82,8 @@ function OrderDetails() {
     success,
   } = Requests();
   // const requestId = location.state?.requestId;
-  const { requestid } = useParams();
+  const { id } = useParams();
+  const isRequest = location.pathname.includes("order-requests");
   // const order = location?.state?.order;
   const type = location?.state?.type;
   const theme = useTheme();
@@ -90,7 +91,7 @@ function OrderDetails() {
   const [saveAsDraft, setSaveAsDraft] = useState(false);
   const [required, setRequired] = useState(false);
   const { data, refetch } = useCustomGetRequest(
-    `/admin/get-request-by-id/${requestid}`
+    `/admin/get-request-by-id/${id}`
   );
   const shipmentMethods = ["Road", "Air", "Rail", "Sea"];
   const deliveryCompanies = ["DHL", "Gokada", "Glovo"];
@@ -663,7 +664,7 @@ function OrderDetails() {
                               </p>
                             </div>
                             <div></div>
-                            {type === "request" || requestid ? null : (
+                            {type === "request" || isRequest ? null : (
                               <>
                                 <div>
                                   <p className="text-[14px] text-t/100 font-roboto">
@@ -843,7 +844,7 @@ function OrderDetails() {
                       <PackageDetails
                         refetch={refetch}
                         proceed={proceed}
-                        isRequest={Boolean(requestid)}
+                        isRequest={isRequest}
                         order={data}
                         type={type}
                         requests={requests}
@@ -1191,7 +1192,7 @@ function OrderDetails() {
                             setOtherCharges={setOtherCharges}
                             shippingCost={shippingCost}
                             setShippingCost={setShippingCost}
-                            isRequest={Boolean(requestid)}
+                            isRequest={isRequest}
                             setTotalCalculatedCost={setTotalCalculatedCost}
                           />
                         </Box>
@@ -1205,7 +1206,7 @@ function OrderDetails() {
                           activeStep={activeStep}
                           order={data}
                           type={type}
-                          isRequest={requestid}
+                          isRequest={isRequest}
                           deliveryCompany={deliveryCompany}
                           shipmentMethod={shipmentMethod}
                           setActiveStep={setActiveStep}
@@ -1218,7 +1219,7 @@ function OrderDetails() {
                           setOrigin={setOrigin}
                           requestId={data?.request?.requestId}
                           service={data?.request?.serviceType}
-                          isRequest={Boolean(requestid)}
+                          isRequest={isRequest}
                           activeStep={activeStep}
                           setActiveStep={setActiveStep}
                           requests={requests}
@@ -1251,7 +1252,7 @@ function OrderDetails() {
                           activeStep={activeStep}
                           order={data}
                           type={type}
-                          isRequest={requestid}
+                          isRequest={isRequest}
                           deliveryCompany={deliveryCompany}
                           shipmentMethod={shipmentMethod}
                         />
@@ -1262,7 +1263,7 @@ function OrderDetails() {
                           origin={origin}
                           requestId={data?.request?.requestId}
                           service={data?.request?.serviceType}
-                          isRequest={Boolean(requestid)}
+                          isRequest={isRequest}
                           activeStep={activeStep}
                           setActiveStep={setActiveStep}
                           requests={requests}
@@ -1718,13 +1719,17 @@ function OrderDetails() {
 
                 <p className="font-roboto text-[24px]">
                   <span>
-                    {type === "request" || requestid
+                    {type === "request" || isRequest
                       ? "Request ID: "
                       : "Order ID:"}
                   </span>{" "}
                   <span className="font-[700]">
-                    {data?.request?.requestId ? (
-                      data?.request?.requestId
+                    {data?.request?.requestId || data?.request?.orderId ? (
+                      type === "request" || isRequest ? (
+                        data?.request?.requestId && data?.request?.requestId
+                      ) : (
+                        data?.request?.orderId && data?.request?.orderId
+                      )
                     ) : (
                       <CircularProgress size={20} />
                     )}
@@ -1735,13 +1740,13 @@ function OrderDetails() {
                   <OrderInformation
                     order={data}
                     type={type}
-                    isRequest={requestid}
+                    isRequest={isRequest}
                   />
-                  {type === "request" || requestid ? (
+                  {type === "request" || isRequest ? (
                     <>
                       {data?.service === "Auto Import" ? null : (
                         <ShippingDetails
-                          isRequest={requestid}
+                          isRequest={isRequest}
                           order={data}
                           type={type}
                           toggle={toggle}
@@ -1758,7 +1763,7 @@ function OrderDetails() {
                           height: data?.request?.totalHeight,
                           length: data?.request?.totalLength,
                         }}
-                        isRequest={Boolean(requestid)}
+                        isRequest={isRequest}
                         type={type}
                         toggle={toggle}
                         drop={drop}
@@ -1768,7 +1773,7 @@ function OrderDetails() {
                       <BillingDetails
                         order={data}
                         type={type}
-                        isRequest={requestid}
+                        isRequest={isRequest}
                         toggle={toggle}
                         drop={drop}
                       />
@@ -1794,7 +1799,7 @@ function OrderDetails() {
                     </>
                   )}
 
-                  {type === "request" || requestid ? (
+                  {type === "request" || isRequest ? (
                     <Box display="flex" alignItems="center" gap="10px">
                       <Button
                         startIcon={<ArrowLeftPurple />}

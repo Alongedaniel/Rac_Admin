@@ -16,6 +16,8 @@ import {
   useMediaQuery,
   useTheme,
   IconButton,
+  Snackbar,
+  CircularProgress,
 } from "@mui/material";
 import NewOrderIcon from "../../assets/icons/NewOrderIcon";
 import ActionButton from "../ActionButton";
@@ -35,14 +37,19 @@ import { useGetProducts } from "../../utils/hooks/api/useGetProducts";
 import axios from "axios";
 import useCustomGetRequest from "../../utils/hooks/api/useCustomGetRequest";
 import { useAuth } from "../../utils/contexts/userContext/UserContext";
+import CloseIcon from "../../assets/icons/CloseIcon";
+import { toTitleCase } from "../../pages/orders/order-details";
+import { GetCustomerName } from "./order-request";
+import moment from "moment";
+import currencyFormatter from "../CurrencyFormatter";
 
 function OrderHome({ all = false }) {
   const confirmedOrders = ["Confirmed", "Delivered"];
-  const { user } = useAuth();
+  const { user, setError, error } = useAuth();
   const location = useLocation();
   const userId = location?.state?.id;
-  const { data } = useCustomGetRequest(
-    all ? "" : `admin/user-orders/${userId}`,
+  const { data, loading } = useCustomGetRequest(
+    all ? "/cross-service/all-orders" : `/admin/user-orders/${userId}`
   );
   console.log(data);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -92,6 +99,33 @@ function OrderHome({ all = false }) {
     }
   };
   const navigate = useNavigate();
+
+    const handleClose = (event, reason) => {
+      if (reason === "clickaway") {
+        return;
+      }
+
+      setOpenError(false);
+      setError("");
+    };
+
+  const [openError, setOpenError] = useState(false);
+    const [rows, setRows] = useState([]);
+    useEffect(() => {
+      if (error) {
+        setOpenError(true);
+      } else setOpenError(false);
+      setRows(
+        data?.requests[0]?.allData?.map((row) => ({
+          ...row,
+          id: row.orderId,
+          status: toTitleCase(row.orderStatus),
+          service: toTitleCase(row.serviceType),
+          packaging: row.shippingStatus === 'Cleared' ? 'Packaging Completed' : row.shippingStatus
+        }))
+      );
+    }, [loading]);
+
   const columns = [
     {
       flex: desktop ? 1 : undefined,
@@ -101,7 +135,7 @@ function OrderHome({ all = false }) {
       renderCell: (params) => (
         <Typography
           onClick={() =>
-            navigate(`order-id_${params.row.id}`, {
+            navigate(`${params.row._id}`, {
               state: {
                 order: params.row,
                 type: "confirmed",
@@ -125,7 +159,7 @@ function OrderHome({ all = false }) {
     },
     {
       flex: desktop ? 1 : undefined,
-      field: "shipId",
+      field: "trackingId",
       headerName: <HeaderName header="Shipment ID" />,
       width: 115,
     },
@@ -142,8 +176,8 @@ function OrderHome({ all = false }) {
           color="#21005D"
           sx={{ display: "flex", alignItems: "center", gap: "5px" }}
         >
-          <UserTag />
-          {params.row.customer}
+          {<GetCustomerName id={params.row.user} /> && <UserTag />}
+          <GetCustomerName id={params.row.user} />
         </Typography>
       ),
     },
@@ -170,7 +204,7 @@ function OrderHome({ all = false }) {
             fontWeight={500}
             color="#000"
           >
-            {params.row.location}
+            {params.row.location || "N/A"}
           </Typography>
         </Tooltip>
       ),
@@ -193,6 +227,14 @@ function OrderHome({ all = false }) {
       field: "date",
       headerName: <HeaderName header="Processed Date" />,
       // type: "number",
+      renderCell: (params) =>
+        params.row.requestApprovedAt ? (
+          <Typography>
+            {moment(params.row.requestApprovedAt).format("DD-MM-YYYY HH:mm")}
+          </Typography>
+        ) : (
+          "N/A"
+        ),
       width: 150,
     },
     {
@@ -230,9 +272,12 @@ function OrderHome({ all = false }) {
             <Tooltip
               title={<Tip text1="Shipping cost: To be paid upon clearing" />}
             >
-              <div>
+              <Box display="flex" alignItems="center" gap="8px">
                 <CheckMoreIcon />
-              </div>
+                <Typography fontSize="14px" fontWeight={400} color="#000">
+                  {currencyFormatter.format(params.row.totalProcessingFee)}
+                </Typography>
+              </Box>
             </Tooltip>
           )}
           {params.row.cost}
@@ -244,6 +289,7 @@ function OrderHome({ all = false }) {
       field: "type",
       headerName: <HeaderName header="Type" />,
       // type: "number",
+      renderCell: (params) => "Shipment",
       width: 120,
     },
     {
@@ -251,6 +297,7 @@ function OrderHome({ all = false }) {
       field: "staff",
       headerName: <HeaderName header="Staff In Charge" />,
       // type: "number",
+      renderCell: (params) => "N/A",
       width: 150,
     },
     {
@@ -266,12 +313,14 @@ function OrderHome({ all = false }) {
           fontWeight={500}
           color="#fff"
           sx={{
-            bgcolor: getPackagingBgColor(params.row.packaging),
+            bgcolor: getPackagingBgColor(
+              toTitleCase(params.row.packaging)
+            ),
             p: "5px 10px",
             borderRadius: "10px",
           }}
         >
-          {params.row.packaging}
+          {toTitleCase(params.row.packaging)}
         </Typography>
       ),
     },
@@ -338,31 +387,31 @@ function OrderHome({ all = false }) {
     // },
   ];
 
-  const exports = (data?.data?.exportRequests ?? [])?.map((request) => ({
-    ...request,
-    service: "Export",
-  }));
-  const imports = (data?.data?.importRequests ?? [])?.map((request) => ({
-    ...request,
-    service: "Import",
-  }));
-  const autoImports = (data?.data?.autoImportRequests ?? [])?.map(
-    (request) => ({
-      ...request,
-      service: "Auto Import",
-    }),
-  );
-  const shopForMe = (data?.data?.sfmRequests ?? [])?.map((request) => ({
-    ...request,
-    service: "Shop For Me",
-  }));
+  // const exports = (data?.data?.exportRequests ?? [])?.map((request) => ({
+  //   ...request,
+  //   service: "Export",
+  // }));
+  // const imports = (data?.data?.importRequests ?? [])?.map((request) => ({
+  //   ...request,
+  //   service: "Import",
+  // }));
+  // const autoImports = (data?.data?.autoImportRequests ?? [])?.map(
+  //   (request) => ({
+  //     ...request,
+  //     service: "Auto Import",
+  //   }),
+  // );
+  // const shopForMe = (data?.data?.sfmRequests ?? [])?.map((request) => ({
+  //   ...request,
+  //   service: "Shop For Me",
+  // }));
 
-  const rows = [...imports, ...exports, ...autoImports, ...shopForMe].map(
-    (row) => ({
-      ...row,
-      id: row.requestId,
-    }),
-  );
+  // const rows = [...imports, ...exports, ...autoImports, ...shopForMe].map(
+  //   (row) => ({
+  //     ...row,
+  //     id: row.requestId,
+  //   }),
+  // );
 
   // const rows = [
   //   {
@@ -789,47 +838,55 @@ function OrderHome({ all = false }) {
   return (
     <>
       <Box>
-        {rows.length > 0 ? (
+        <Box
+          display="flex"
+          alignItems="center"
+          gap="10px"
+          sx={{ justifyContent: "space-between" }}
+          width="100%"
+          mb="16px"
+        >
+          <Box display="flex" alignItems="center" gap="20px">
+            <ActionButton title="Filter view" icon={<FilterIcons />} />
+            <TextField
+              id="search"
+              type="text"
+              placeholder="Search for orders with any related keyword"
+              InputProps={{
+                sx: {
+                  border: "1px solid #79747E",
+                  height: "50px",
+                  minWidth: "458px",
+                  p: "4px 16px",
+                  borderRadius: "16px",
+                  input: {
+                    ml: "12px",
+                  },
+                },
+                startAdornment: <SearchIcon />,
+              }}
+            />
+            <ActionButton title="Bulk Actions" icon={<BulkIcon />} />
+          </Box>
+          <ActionButton
+            action={() => navigate("/orders/create-new-order")}
+            title="Create new request"
+            icon={<NewOrderIcon />}
+          />
+        </Box>
+        {loading ? (
+          <Box
+            width="100%"
+            height="80vh"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <CircularProgress />
+          </Box>
+        ) : rows?.length > 0 ? (
           <Box>
-            <Box
-              display="flex"
-              alignItems="center"
-              gap="10px"
-              sx={{ justifyContent: "space-between" }}
-              width="100%"
-              mb="16px"
-            >
-              <Box display="flex" alignItems="center" gap="20px">
-                <ActionButton title="Filter view" icon={<FilterIcons />} />
-                <TextField
-                  id="search"
-                  type="text"
-                  placeholder="Search for orders with any related keyword"
-                  InputProps={{
-                    sx: {
-                      border: "1px solid #79747E",
-                      height: "50px",
-                      minWidth: "458px",
-                      p: "4px 16px",
-                      borderRadius: "16px",
-                      input: {
-                        ml: "12px",
-                      },
-                    },
-                    startAdornment: <SearchIcon />,
-                  }}
-                />
-                <ActionButton title="Bulk Actions" icon={<BulkIcon />} />
-              </Box>
-              <ActionButton
-                action={() => navigate("/orders/create-new-order")}
-                title="Create new request"
-                icon={<NewOrderIcon />}
-              />
-            </Box>
-            <Box>
-              <OrderTable columns={columns} rows={rows} />
-            </Box>
+            <OrderTable columns={columns} rows={rows} />
           </Box>
         ) : (
           <Box
@@ -874,6 +931,24 @@ function OrderHome({ all = false }) {
           </Box>
         )}
       </Box>
+      <Snackbar
+        open={openError}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        sx={{
+          "& .MuiSnackbarContent-root": {
+            borderRadius: "30px",
+            width: "fit-content",
+          },
+        }}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message={error}
+        action={
+          <Box onClick={handleClose}>
+            <CloseIcon />
+          </Box>
+        }
+      />
     </>
     // <div className="h-full">
     //   {order ? (
