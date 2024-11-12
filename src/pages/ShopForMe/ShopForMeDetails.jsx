@@ -19,11 +19,15 @@ import EyeIconRed from "../../assets/icons/EyeIconRed";
 import UserModals from "../Users/components/UserModals";
 import PackageDetailsInfo from "../../components/order/components/PackageDetailsInfo";
 import AddShipmentDetails from "./AddShipmentDetails";
+import { toTitleCase } from "../orders/order-details";
+import ItemBox from "../orders/components/ItemBox";
+import currencyFormatter from "../../components/CurrencyFormatter";
+import moment from "moment";
 
-const ShopForMeDetails = () => {
+const ShopForMeDetails = ({order, refetch}) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const order = location?.state?.order;
+  // const order = location?.state?.order;
 
   const [selectedRadioValue, setSelectedRadioValue] = useState(null);
   const [addShipment, setAddShipment] = useState(false);
@@ -43,7 +47,7 @@ const ShopForMeDetails = () => {
               display="inline"
               fontWeight={700}
             >
-              {order.id}
+              {order?.request?.orderId}
             </Typography>
           </Typography>
         </Box>
@@ -71,7 +75,8 @@ const ShopForMeDetails = () => {
                           fontSize="22px"
                           color="#21005D"
                         >
-                          Rex Offorex
+                          {order?.customerData?.firstName}{" "}
+                          {order?.customerData?.lastName}
                         </Typography>
                       </Box>
                     </Grid>
@@ -107,23 +112,31 @@ const ShopForMeDetails = () => {
                         Service:
                       </Typography>
                       <Typography fontSize="22px" color="#1C1B1F">
-                        Shop For Me
+                        {toTitleCase(order?.serviceType)}
                       </Typography>
                     </Grid>
                     <Grid item xs={2.4}>
                       <Typography fontSize="14px" color="#49454F">
                         Shipment Method:
                       </Typography>
-                      <Typography fontSize="22px" color="#1C1B1F">
-                        Air
+                      <Typography
+                        fontSize="22px"
+                        color="#1C1B1F"
+                        textTransform="capitalize"
+                      >
+                        {order?.request?.shipmentMethod}
                       </Typography>
                     </Grid>
                     <Grid item xs={2.4}>
                       <Typography fontSize="14px" color="#49454F">
                         Delivery Company:
                       </Typography>
-                      <Typography fontSize="22px" color="#1C1B1F">
-                        DHL
+                      <Typography
+                        fontSize="22px"
+                        color="#1C1B1F"
+                        textTransform="capitalize"
+                      >
+                        {order?.request?.deliveryCompany}
                       </Typography>
                     </Grid>
                     <Grid item xs={2.4}>
@@ -131,7 +144,7 @@ const ShopForMeDetails = () => {
                         Order Creation Date:
                       </Typography>
                       <Typography fontSize="22px" color="#1C1B1F">
-                        12/02/2023
+                        {moment(order?.request?.createdAt).format("DD/MM/YYYY")}
                       </Typography>
                     </Grid>
 
@@ -140,7 +153,7 @@ const ShopForMeDetails = () => {
                         Order Creation Time:
                       </Typography>
                       <Typography fontSize="22px" color="#1C1B1F">
-                        9:48am
+                        {moment(order?.request?.createdAt).format("HH:MM")}
                       </Typography>
                     </Grid>
                   </Grid>
@@ -150,7 +163,7 @@ const ShopForMeDetails = () => {
                 <Line />
               </Box>
             </Box>
-            <EditIcon />
+            {/* <EditIcon /> */}
           </Box>
 
           <Box mt="10px" display="flex" gap="30px" alignItems="center">
@@ -161,8 +174,8 @@ const ShopForMeDetails = () => {
                     <Typography fontSize="14px" color="#49454F">
                       Shipping/Tracking ID:
                     </Typography>
-                    <Typography fontSize="22px" color="#1C1B1F">
-                      SH78667
+                    <Typography fontSize="22px" color="#21005D">
+                      {order?.request?.trackingId}
                     </Typography>
                   </Grid>
                   <Grid item xs={9.8}>
@@ -170,7 +183,9 @@ const ShopForMeDetails = () => {
                       Status:
                     </p>
                     <div className="flex items-center space-x-[10px]">
-                      <p className="font-roboto  text-[20px]">Not Started</p>
+                      <p className="font-roboto  text-[20px] capitalize">
+                        {order?.request?.shippingStatus}
+                      </p>
                       <Button
                         startIcon={<StartIcon />}
                         variant="outlined"
@@ -199,7 +214,7 @@ const ShopForMeDetails = () => {
                 </Grid>
               </Box>
             </CardWrapper>
-            <EyeIconRed />
+            {/* <EyeIconRed /> */}
           </Box>
         </Box>
 
@@ -225,7 +240,7 @@ const ShopForMeDetails = () => {
                         fontSize="22px"
                         color="#21005D"
                       >
-                        UK (London - warehouse)
+                        {order?.request?.origin}
                       </Typography>
                     </Grid>
                   </Grid>
@@ -235,162 +250,109 @@ const ShopForMeDetails = () => {
                 <Line />
               </Box>
             </Box>
-            <Box onClick={() => setActiveStep(1)}>
+            {/* <Box onClick={() => setActiveStep(1)}>
               <EditIcon />
-            </Box>
+            </Box> */}
           </Box>
           <Box mt="10px" display="flex" gap="30px" alignItems="center">
             <Box width="100%" display="flex" flexDirection={"column"} gap="8px">
-              <CardWrapper title="Item - #PR08756" bottomRadius></CardWrapper>
-              <CardWrapper
-                removeArrows
-                fullByDefault
-                title="Item Procurement Status"
-                topRadius
-              >
-                <Box>
-                  <Typography fontSize="16px" color="#79747E">
-                    Choose the status that shows the procurement status of this
-                    item
-                  </Typography>
-                  <Box mt="16px" display="flex" gap="16px">
-                    <Box
-                      pr="15px"
-                      border="1px solid #CAC4D0"
-                      width="fit-content"
-                      borderRadius="100px"
-                      display="flex"
-                      alignItems="center"
-                      gap="0px"
-                    >
-                      <Radio
-                        value="Purchase Not Started"
-                        checked={selectedRadioValue === "Purchase Not Started"}
-                        onChange={handleRadioChange}
-                      />
-                      <Typography fontSize="14px" color="#49454F">
-                        Purchase Not Started
+              {/* <CardWrapper title="Item - #PR08756" bottomRadius></CardWrapper> */}
+              {order?.request?.requestItems.map((item, itemNumber) => (
+                <>
+                  <ItemBox
+                    order={order}
+                    item={item}
+                    itemNumber={itemNumber + 1}
+                    refetch={refetch}
+                    isRequest={true}
+                    bottomRadius={true}
+                  />
+                  <CardWrapper
+                    removeArrows
+                    fullByDefault
+                    title="Item Procurement Status"
+                    topRadius
+                    bgcolor="#FFFBFE"
+                  >
+                    <Box>
+                      <Typography fontSize="16px" color="#79747E">
+                        Choose the status that shows the procurement status of
+                        this item
                       </Typography>
+                      <Box mt="16px" display="flex" gap="16px">
+                        <Box
+                          pr="15px"
+                          border="1px solid #CAC4D0"
+                          width="fit-content"
+                          borderRadius="100px"
+                          display="flex"
+                          alignItems="center"
+                          gap="0px"
+                          bgcolor="#fff"
+                        >
+                          <Radio
+                            value="Purchase Not Started"
+                            checked={
+                              selectedRadioValue === "Purchase Not Started"
+                            }
+                            onChange={handleRadioChange}
+                          />
+                          <Typography fontSize="14px" color="#49454F">
+                            Purchase Not Started
+                          </Typography>
+                        </Box>
+                        <Box
+                          pr="15px"
+                          border="1px solid #CAC4D0"
+                          width="fit-content"
+                          borderRadius="100px"
+                          display="flex"
+                          alignItems="center"
+                          gap="0px"
+                          bgcolor="#fff"
+                        >
+                          <Radio
+                            value="Purchase in Progress"
+                            checked={
+                              selectedRadioValue === "Purchase in Progress"
+                            }
+                            onChange={handleRadioChange}
+                          />
+                          <Typography fontSize="14px" color="#49454F">
+                            Purchase in Progress
+                          </Typography>
+                        </Box>
+                        <Box
+                          pr="15px"
+                          border="1px solid #CAC4D0"
+                          width="fit-content"
+                          borderRadius="100px"
+                          display="flex"
+                          alignItems="center"
+                          gap="0px"
+                          bgcolor="#fff"
+                        >
+                          <Radio
+                            value="Purchase Completed"
+                            checked={
+                              selectedRadioValue === "Purchase Completed"
+                            }
+                            onChange={handleRadioChange}
+                          />
+                          <Typography fontSize="14px" color="#49454F">
+                            Purchase Completed
+                          </Typography>
+                        </Box>
+                      </Box>
                     </Box>
-                    <Box
-                      pr="15px"
-                      border="1px solid #CAC4D0"
-                      width="fit-content"
-                      borderRadius="100px"
-                      display="flex"
-                      alignItems="center"
-                      gap="0px"
-                    >
-                      <Radio
-                        value="Purchase in Progress"
-                        checked={selectedRadioValue === "Purchase in Progress"}
-                        onChange={handleRadioChange}
-                      />
-                      <Typography fontSize="14px" color="#49454F">
-                        Purchase in Progress
-                      </Typography>
-                    </Box>
-                    <Box
-                      pr="15px"
-                      border="1px solid #CAC4D0"
-                      width="fit-content"
-                      borderRadius="100px"
-                      display="flex"
-                      alignItems="center"
-                      gap="0px"
-                    >
-                      <Radio
-                        value="Purchase Completed"
-                        checked={selectedRadioValue === "Purchase Completed"}
-                        onChange={handleRadioChange}
-                      />
-                      <Typography fontSize="14px" color="#49454F">
-                        Purchase Completed
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Box>
-              </CardWrapper>
+                  </CardWrapper>
+                </>
+              ))}
             </Box>
 
-            <Box onClick={() => setActiveStep(1)}>
+            {/* <Box onClick={() => setActiveStep(1)}>
               <EditIcon />
-            </Box>
-          </Box>
-          <Box mt="16px" display="flex" gap="30px" alignItems="center">
-            <Box width="100%" display="flex" flexDirection={"column"} gap="8px">
-              <CardWrapper title="Item - #PR08766" bottomRadius></CardWrapper>
-              <CardWrapper
-                removeArrows
-                fullByDefault
-                title="Item Procurement Status"
-                topRadius
-              >
-                <Box>
-                  <Typography fontSize="16px" color="#79747E">
-                    Choose the status that shows the procurement status of this
-                    item
-                  </Typography>
-                  <Box mt="16px" display="flex" gap="16px">
-                    <Box
-                      pr="15px"
-                      border="1px solid #CAC4D0"
-                      width="fit-content"
-                      borderRadius="100px"
-                      display="flex"
-                      alignItems="center"
-                    >
-                      <Radio
-                        value="Purchase Not Started"
-                        checked={selectedRadioValue === "Purchase Not Started"}
-                        onChange={handleRadioChange}
-                      />
-                      <Typography fontSize="14px" color="#49454F">
-                        Purchase Not Started
-                      </Typography>
-                    </Box>
-                    <Box
-                      pr="15px"
-                      border="1px solid #CAC4D0"
-                      width="fit-content"
-                      borderRadius="100px"
-                      display="flex"
-                      alignItems="center"
-                    >
-                      <Radio
-                        value="Purchase in Progress"
-                        checked={selectedRadioValue === "Purchase in Progress"}
-                        onChange={handleRadioChange}
-                      />
-                      <Typography fontSize="14px" color="#49454F">
-                        Purchase in Progress
-                      </Typography>
-                    </Box>
-                    <Box
-                      pr="15px"
-                      border="1px solid #CAC4D0"
-                      width="fit-content"
-                      borderRadius="100px"
-                      display="flex"
-                      alignItems="center"
-                    >
-                      <Radio
-                        value="Purchase Completed"
-                        checked={selectedRadioValue === "Purchase Completed"}
-                        onChange={handleRadioChange}
-                      />
-                      <Typography fontSize="14px" color="#49454F">
-                        Purchase Completed
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Box>
-              </CardWrapper>
-            </Box>
-
-            <Box onClick={() => setActiveStep(1)}>
-              <EditIcon />
-            </Box>
+            </Box> */}
           </Box>
         </Box>
 
@@ -418,9 +380,9 @@ const ShopForMeDetails = () => {
                 </Grid>
               </Box>
             </CardWrapper>
-            <Box onClick={() => setActiveStep(1)}>
+            {/* <Box onClick={() => setActiveStep(1)}>
               <EditIcon />
-            </Box>
+            </Box> */}
           </Box>
         </Box>
         <Box mb="30px">
@@ -506,9 +468,9 @@ const ShopForMeDetails = () => {
                 </div>
               </Box>
             </CardWrapper>
-            <Box onClick={() => setActiveStep(1)}>
+            {/* <Box onClick={() => setActiveStep(1)}>
               <EditIcon />
-            </Box>
+            </Box> */}
           </Box>
           <Box mt="10px" display="flex" gap="30px" alignItems="center">
             <CardWrapper title="Payments Information">
@@ -518,15 +480,17 @@ const ShopForMeDetails = () => {
                     Total Procurement Cost:
                   </p>
                   <p className="font-roboto  text-[20px] text-brand/100">
-                    $234,000.00
+                    {currencyFormatter.format(
+                      order?.request?.totalProcessingFee
+                    )}
                   </p>
                 </div>
                 <div className="">
                   <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                     Payment Status:
                   </p>
-                  <p className="font-roboto  text-[20px] text-brand/100">
-                    Processing
+                  <p className="font-roboto  text-[20px] text-brand/100 capitalize">
+                    {order?.request?.shopForMeFeeStatus}
                   </p>
                 </div>
                 <div></div>
@@ -552,13 +516,15 @@ const ShopForMeDetails = () => {
                   <p className="text-[14px] text-t/100 font-roboto text-brand/200">
                     Payment Status:
                   </p>
-                  <p className="font-roboto  text-[20px] text-brand/100">N/A</p>
+                  <p className="font-roboto  text-[20px] text-brand/100 capitalize">
+                    {order?.request?.shippingFeeStatus}
+                  </p>
                 </div>
               </div>
             </CardWrapper>
-            <Box onClick={() => setActiveStep(1)}>
+            {/* <Box onClick={() => setActiveStep(1)}>
               <EditIcon />
-            </Box>
+            </Box> */}
           </Box>
         </Box>
 

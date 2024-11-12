@@ -8,7 +8,7 @@ import { Box } from "@mui/material";
 import OrderItem from "./OrderItem";
 import AutoImportItem from "./AutoImportItem";
 
-const PackageDetailsInfo = ({ order, view, service }) => {
+const PackageDetailsInfo = ({ order, view, service, refetch }) => {
   return (
     <div className="">
       <div className="flex items-center space-x-[10px] ">
@@ -36,17 +36,27 @@ const PackageDetailsInfo = ({ order, view, service }) => {
                 Origin warehouse:
               </p>
               <p className="font-roboto  text-[20px] text-brand/100">
-                Nigeria(lagos - warehouse)
+                {order?.origin}
               </p>
             </div>
           </div>
         </CardWrapper>
         {view ? null : <EditIcon />}
       </Box>
-      {(order?.orderInformation?.service ?? service === "Auto Import") ? (
-        <AutoImportItem view={view} />
-      ) : (
-        <OrderItem order={order} service={service} view={view} />
+      {order?.requestItems.map((item, itemNumber) =>
+        service === "Auto Import" ? (
+          <AutoImportItem view={view} />
+        ) : (
+          <ItemBox
+            order={order}
+            item={item}
+            isRequest={true}
+            refetch={refetch}
+              itemNumber={itemNumber + 1}
+              proceed={true}
+              type='confirmed'
+          />
+        )
       )}
     </div>
   );
