@@ -430,7 +430,9 @@ const OrderInformation = ({
                         fontSize="22px"
                         color="#21005D"
                       >
-                        Rex Offorex
+                        {order?.customerData?.firstName +
+                          " " +
+                          order?.customerData?.lastName}
                       </Typography>
                     </Box>
                   </Grid>
@@ -448,7 +450,7 @@ const OrderInformation = ({
                       Order Status:
                     </Typography>
                     <Typography fontSize="22px" color="#1C1B1F">
-                      Under Process
+                      {toTitleCase(order?.request?.orderStatus)}
                     </Typography>
                   </Grid>
                   <Grid item xs={2.4}>
@@ -466,23 +468,31 @@ const OrderInformation = ({
                       Service:
                     </Typography>
                     <Typography fontSize="22px" color="#1C1B1F">
-                      Shop For Me
+                      {toTitleCase(order?.serviceType)}
                     </Typography>
                   </Grid>
                   <Grid item xs={2.4}>
                     <Typography fontSize="14px" color="#49454F">
                       Shipment Method:
                     </Typography>
-                    <Typography fontSize="22px" color="#1C1B1F">
-                      Air
+                    <Typography
+                      fontSize="22px"
+                      color="#1C1B1F"
+                      textTransform="capitalize"
+                    >
+                      {order?.request?.shipmentMethod}
                     </Typography>
                   </Grid>
                   <Grid item xs={2.4}>
-                    <Typography fontSize="14px" color="#49454F">
+                    <Typography
+                      fontSize="14px"
+                      color="#49454F"
+                      textTransform="capitalize"
+                    >
                       Delivery Company:
                     </Typography>
                     <Typography fontSize="22px" color="#1C1B1F">
-                      DHL
+                      {order?.request?.deliveryCompany}
                     </Typography>
                   </Grid>
                   <Grid item xs={2.4}>
@@ -490,7 +500,7 @@ const OrderInformation = ({
                       Order Creation Date:
                     </Typography>
                     <Typography fontSize="22px" color="#1C1B1F">
-                      12/02/2023
+                      {moment(order?.request?.createdAt).format("DD/MM/YYYY")}
                     </Typography>
                   </Grid>
 
@@ -499,7 +509,7 @@ const OrderInformation = ({
                       Order Creation Time:
                     </Typography>
                     <Typography fontSize="22px" color="#1C1B1F">
-                      9:48am
+                      {moment(order?.request?.createdAt).format("HH:MM")}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -522,13 +532,15 @@ const OrderInformation = ({
                     Shipping/Tracking ID:
                   </Typography>
                   <Typography fontSize="22px" color="#1C1B1F">
-                    SH78667
+                    {order?.request?.trackingId}
                   </Typography>
                 </Grid>
                 <Grid item xs={9.8}>
                   <p className="text-[14px] text-t/100 font-roboto">Status:</p>
                   <div className="flex items-center space-x-[10px]">
-                    <p className="font-roboto  text-[20px]">Not Started</p>
+                    <p className="font-roboto  text-[20px] capitalize">
+                      {order?.request?.shippingStatus}
+                    </p>
                     <Button
                       startIcon={<StartIcon />}
                       variant="outlined"
@@ -550,8 +562,12 @@ const OrderInformation = ({
                   <Typography fontSize="14px" color="#49454F">
                     Packaging Status:
                   </Typography>
-                  <Typography fontSize="22px" color="#1C1B1F">
-                    Not Started
+                  <Typography
+                    fontSize="22px"
+                    color="#1C1B1F"
+                    textTransform="capitalize"
+                  >
+                    {order?.request?.shippingStatus}
                   </Typography>
                 </Grid>
               </Grid>

@@ -41,12 +41,13 @@ const ItemBox = ({
   setActiveStep,
   requests,
   setrequests,
+  bottomRadius = false,
 }) => {
   const { customPostRequest, loading, error, success, setSuccess, setError } =
     Requests();
   const [open, setOpen] = useState(false);
   const [openPreviewModal, setOpenPreviewModal] = useState(false);
-  const [selectedImage, setSelectedImage] = useState('');
+  const [selectedImage, setSelectedImage] = useState("");
   const service = toTitleCase(order?.serviceType);
   const [productName, setProductName] = useState(item?.itemName);
   const [originalCost, setOriginalCost] = useState(
@@ -66,28 +67,28 @@ const ItemBox = ({
     item?.itemDescription ?? item?.additionalDescription
   );
   // const [selectedFile, setSelectedFile] = useState(null);
-    const [imageError, setImageError] = useState("");
-    const MAX_FILE_SIZE = 2 * 1024 * 1024;
+  const [imageError, setImageError] = useState("");
+  const MAX_FILE_SIZE = 2 * 1024 * 1024;
 
-    const handleUploadImage = (e, setImage) => {
-      const file = e.target.files[0];
-      if (file.size > MAX_FILE_SIZE) {
-        setImageError(
-          "File size exceeds the 2 MB limit. Please upload a smaller file."
-        );
-        return;
-      }
-      if (file && file.type.startsWith("image/")) {
-        const reader = new FileReader();
-        reader.onload = () => {
-          setImage({
-            img: reader.result,
-            name: file.name,
-          });
-        };
-        reader.readAsDataURL(file); // Converts file to a base64 string
-      }
-    };
+  const handleUploadImage = (e, setImage) => {
+    const file = e.target.files[0];
+    if (file.size > MAX_FILE_SIZE) {
+      setImageError(
+        "File size exceeds the 2 MB limit. Please upload a smaller file."
+      );
+      return;
+    }
+    if (file && file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImage({
+          img: reader.result,
+          name: file.name,
+        });
+      };
+      reader.readAsDataURL(file); // Converts file to a base64 string
+    }
+  };
   // const handleFileChange = (event) => {
   //   const file = event.target.files[0];
   //   setSelectedFile(file);
@@ -96,8 +97,8 @@ const ItemBox = ({
   useEffect(() => {
     setTimeout(() => {
       setImageError("");
-    }, 6000)
-  }, [])
+    }, 6000);
+  }, []);
 
   useEffect(() => {
     refetch();
@@ -144,7 +145,7 @@ const ItemBox = ({
   };
 
   const handleEditItem = (i) => {
-    const updated = requests.map((req, id) => 
+    const updated = requests.map((req, id) =>
       id === i
         ? {
             ...req,
@@ -153,7 +154,7 @@ const ItemBox = ({
             additionalDescription: productDescription,
             qty: quantityValue,
             store: store,
-          itemUrl: itemUrl,
+            itemUrl: itemUrl,
             itemImage: itemImage?.img,
             urgentPurchase: urgentPurchase,
           }
@@ -178,7 +179,7 @@ const ItemBox = ({
         marginTop: "20px",
       }}
     >
-      <CardWrapper title={` Item - #${itemNumber}`}>
+      <CardWrapper bottomRadius={bottomRadius} title={` Item - #${itemNumber}`}>
         {isRequest ? (
           <>
             <div className="grid grid-cols-4 mt-[30px] gap-[20px]">
@@ -841,7 +842,8 @@ const ItemBox = ({
               textTransform: "none",
             }}
             onClick={() => {
-              handleEditItem(itemNumber - 1);
+              if (type === "confirmed") handleUpdateItem();
+              else handleEditItem(itemNumber - 1);
               setOpen(false);
             }}
           >

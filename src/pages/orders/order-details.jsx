@@ -60,6 +60,9 @@ import OrderPricing from "../../components/order/components/OrderPricing";
 import Requests from "../../utils/hooks/api/requests";
 import CloseIcon from "../../assets/icons/CloseIcon";
 import currencyFormatter from "../../components/CurrencyFormatter";
+import ShippingDetailsInfo from "../../components/order/components/ShippingDetailsInfo";
+import PackageDetailsInfo from "../../components/order/components/PackageDetailsInfo";
+import BillingDetailsInfo from "../../components/order/components/BillingDetailsInfo";
 
 export const toTitleCase = (str) => {
   const words = str?.match(/[A-Z][a-z]+|[a-z]+/g);
@@ -519,9 +522,10 @@ function OrderDetails() {
 
   return (
     <>
-      {(data?.service === "Shop For Me" || type === "shop for me") &&
+      {(toTitleCase(data?.serviceType) === "Shop For Me" ||
+        type === "shop for me") &&
       type !== "request" ? (
-        <ShopForMeDetails />
+        <ShopForMeDetails order={data} refetch={refetch} />
       ) : (
         <div
           className="px-[40px] py-[30px] font-roboto h-full"
@@ -1781,21 +1785,22 @@ function OrderDetails() {
                     </>
                   ) : (
                     <>
-                      {/* <PackageDetailsInfo
-                      order={data}
-                      service={data?.service}
-                      type={type}
-                    />
-                    <ShippingDetailsInfo
-                      order={data}
-                      service={data?.service}
-                      type={type}
-                    />
-                    <BillingDetailsInfo
-                      order={data}
-                      service={data?.service}
-                      type={type}
-                    /> */}
+                      <PackageDetailsInfo
+                        order={data?.request}
+                        service={toTitleCase(data?.serviceType)}
+                        refetch={refetch}
+                        type={type}
+                      />
+                      <ShippingDetailsInfo
+                        order={data?.request}
+                        service={toTitleCase(data?.serviceType)}
+                        type={type}
+                      />
+                      <BillingDetailsInfo
+                        order={data}
+                        service={toTitleCase(data?.serviceType)}
+                        type={type}
+                      />
                     </>
                   )}
 
