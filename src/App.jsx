@@ -54,8 +54,11 @@ import OrderRequestComp from "./components/order/order-request";
 
 function App() {
   const location = useLocation();
+  const [title, setTitle] = useState('')
   useEffect(() => {
     window.scroll(0, 0);
+    const pageTitle = localStorage.getItem('title')
+    if (pageTitle) setTitle(JSON.parse(pageTitle));
   });
   const themeOptions = {
     palette: {
@@ -589,7 +592,7 @@ function App() {
                   title={
                     location?.state?.type === "shop for me"
                       ? "Shop For Me Order Details"
-                      : "Order Details"
+                      : `${title} Order Details`
                   }
                 >
                   <OrderDetails />
@@ -614,7 +617,7 @@ function App() {
                 <MainLayout
                   showFullBar={showFullBar}
                   setShowFullBar={setShowFullBar}
-                  title="Request Details"
+                  title={`${title} Request Details`}
                 >
                   <OrderDetails />
                 </MainLayout>

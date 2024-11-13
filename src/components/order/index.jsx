@@ -134,13 +134,18 @@ function OrderHome({ all = false }) {
       width: 90,
       renderCell: (params) => (
         <Typography
-          onClick={() =>
+          onClick={() => {
             navigate(`${params.row._id}`, {
               state: {
                 order: params.row,
                 type: "confirmed",
               },
             })
+            localStorage.setItem(
+              "title",
+              JSON.stringify(toTitleCase(params.row.serviceType))
+            );
+          }
           }
           sx={{ cursor: "pointer" }}
           fontSize="14px"

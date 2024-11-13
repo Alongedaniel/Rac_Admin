@@ -524,7 +524,7 @@ function OrderDetails() {
     <>
       {(toTitleCase(data?.serviceType) === "Shop For Me" ||
         type === "shop for me") &&
-      type !== "request" ? (
+      type !== "request" && !isRequest ? (
         <ShopForMeDetails order={data} refetch={refetch} />
       ) : (
         <div
