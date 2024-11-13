@@ -153,7 +153,13 @@ function OrderRequestComp({ home = false, all = false }) {
       width: 105,
       renderCell: (params) => (
         <Typography
-          onClick={() => navigate(`/order-requests/${params.row._id}`)}
+          onClick={() => {
+            navigate(`/order-requests/${params.row._id}`)
+            localStorage.setItem(
+              "title",
+              JSON.stringify(toTitleCase(params.row.serviceType))
+            );
+          }}
           sx={{ cursor: "pointer", display: "flex", alignItems: "center" }}
           fontSize="14px"
           fontWeight={500}
